@@ -1,32 +1,34 @@
-package org.firstinspires.ftc.teamcode.Season_Robots.TelyOp.Modular_Drivetrains;
-
-import android.graphics.Path;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
-
+@TeleOp(name = "Modular_Mechanum_Drive", group= "Modular_Drivetrains")
 public class Modular_Mechanum_Drive extends OpMode {
 
-   public DcMotor motorFrontRight;
-   public DcMotor motorFrontLeft;
-   public DcMotor motorBackRight;
-   public DcMotor motorBackLeft;
-
-
+    public DcMotor motorFrontRight;
+    public DcMotor motorFrontLeft;
+    public DcMotor motorBackRight;
+    public DcMotor motorBackLeft;
+    double Speed = 1;
+    double Frontleft;
+    double Frontright;
+    double Backleft;
+    double Backright;
 
     public void init() {
 
-
         /*
-         * Use the hardwareMap to get the dc motors and servos by name. Note
-         * that the names of the devices must match the names used when you
-         * configured your robot and created the configuration file.
-         */
 
+         * Use the hardwareMap to get the dc motors and servos by name. Note
+
+         * that the names of the devices must match the names used when you
+
+         * configured your robot and created the configuration file.
+
+         */
 
         motorFrontRight = hardwareMap.dcMotor.get("FR");
         motorFrontLeft = hardwareMap.dcMotor.get("FL");
@@ -34,11 +36,11 @@ public class Modular_Mechanum_Drive extends OpMode {
         motorBackRight = hardwareMap.dcMotor.get("BR");
         //These work without reversing (Tetrix motors).
         //AndyMark motors may be opposite, in which case uncomment these lines:
-        motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
-        motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
-        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
-        motorBackRight.setDirection(DcMotor.Direction.FORWARD);
 
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
     }
 
     @Override
@@ -47,8 +49,8 @@ public class Modular_Mechanum_Drive extends OpMode {
         // left stick controls direction
         // right stick X controls rotation
 
-        float gamepad1LeftY = -gamepad1.left_stick_y;
-        float gamepad1LeftX = gamepad1.left_stick_x;
+        float gamepad1LeftY = gamepad1.left_stick_y;
+        float gamepad1LeftX = -gamepad1.left_stick_x;
         float gamepad1RightX = gamepad1.right_stick_x;
 
         // Mechanum formulas
@@ -61,26 +63,45 @@ public class Modular_Mechanum_Drive extends OpMode {
         // clip the right/left values so that the values never exceed +/- 1
 
         // write the values to the motors
-        motorFrontRight.setPower(FrontRight);
-        motorFrontLeft.setPower(FrontLeft);
-        motorBackLeft.setPower(BackLeft);
-        motorBackRight.setPower(BackRight);
+        motorFrontRight.setPower(Frontright);
+        motorFrontLeft.setPower(Frontleft);
+        motorBackLeft.setPower(Backleft);
+        motorBackRight.setPower(Backright);
 
+        // sets speed
+        Frontright = Range.clip(Math.pow(FrontRight, 3), -Speed, Speed);
+        Frontleft = Range.clip(Math.pow(FrontLeft, 3), -Speed, Speed);
+        Backright = Range.clip(Math.pow(BackRight, 3), -Speed, Speed);
+        Backleft = Range.clip(Math.pow(BackLeft, 3), -Speed, Speed);
 
+        if (gamepad1.a){
+            Speed = 1;
+        }
+
+        if (gamepad1.b){
+            Speed = .75;
+        }
+
+        if (gamepad1.x){
+            Speed = .50;
+        }
+
+        if (gamepad1.y){
+            Speed = .25;
+        }
 
         /*
          * Telemetry for debugging
          */
         telemetry.addData("Text", "*** Robot Data***");
+        telemetry.addData("Speed", Speed);
         telemetry.addData("Joy XL YL XR", gamepad1LeftX +" " + gamepad1LeftY +" "+ gamepad1RightX);
         telemetry.addData("Front Left Power", FrontLeft );
         telemetry.addData("Front Right Power", FrontRight );
         telemetry.addData("Back Left Power", BackLeft );
         telemetry.addData("Back Right Power", BackRight );
         telemetry.update();
-
     }
-
 
     public void stop() {
 
@@ -119,5 +140,4 @@ public class Modular_Mechanum_Drive extends OpMode {
         // return scaled value.
         return dScale;
     }
-
 }
