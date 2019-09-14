@@ -5,14 +5,16 @@
     2. Click on the green checkmark in the "Git" portion of the toolbar.
     3. Type a commit message saying what you did with the code.
     4. Type your name in the "Author" section.
-    5. Click the dropdown next to commit.
-    6. Click "Commit and Push"
+    5. Check the "Sign-off commit" box.
+    6. Click the dropdown next to commit.
+    7. Click "Commit and Push".
+    8. Click "Push".
 
     NOTES:
 
     ADDING BRANCHES:
     
-    1. When adding an experimental part of the code, go to the bottom right corner of the screen, and click on "Git: master".
+    1. When adding an experimental part of the code21222, go to the bottom right corner of the screen, and click on "Git: master".
     2. Click "New Branch".
     3. Add Name and click "Ok".
     4. You will then be working on that branch.
