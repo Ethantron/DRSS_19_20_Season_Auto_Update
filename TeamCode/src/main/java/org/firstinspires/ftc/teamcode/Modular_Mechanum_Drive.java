@@ -21,13 +21,9 @@ public class Modular_Mechanum_Drive extends OpMode {
     public void init() {
 
         /*
-
          * Use the hardwareMap to get the dc motors and servos by name. Note
-
          * that the names of the devices must match the names used when you
-
          * configured your robot and created the configuration file.
-
          */
 
         motorFrontRight = hardwareMap.dcMotor.get("FR");
