@@ -26,3 +26,5 @@ build/
 
 *ASUS_PC_01*
 
+# other files to ignore
+dir_to_ignore/Other Files (Ignored)
