@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import android.content.Context;
+
+import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,9 +20,17 @@ public class Stone_Test extends LinearOpMode {
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
     double step = 0;
+    double minstep = 0;
+    boolean Skystone = false;
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
+
+    String  sounds[] =  {"ss_alarm", "ss_bb8_down", "ss_bb8_up", "ss_darth_vader", "ss_fly_by",
+            "ss_mf_fail", "ss_laser", "ss_laser_burst", "ss_light_saber", "ss_light_saber_long", "ss_light_saber_short",
+            "ss_light_speed", "ss_mine", "ss_power_up", "ss_r2d2_up", "ss_roger_roger", "ss_siren", "ss_wookie" };
+    boolean soundPlaying = false;
+
 
     private static final String VUFORIA_KEY =
             "ASHBoLr/////AAABmbIUXlLiiEgrjVbqu8Iavlg6iPFigYso/+BCZ9uMzyAZFoo9CIzpV818SAqrjzuygz3hCeLW/ImK3xMH7DalGMwavqetwXS9Jw4I+rff2naxgV7n+EtYFvdCkUJDHfHVq1A4mhxDHgrjWZEqnLmZk25ppnIizQ0Ozcq4h6UmrWndEVEz8eKcCgn+IuglCEoEswvNBRAaKm/TAlpxLRNC6jQkZdJUh/TGYT05g9YCZo4+1ugmx01jrPCyHQVPVoeXm6VebLIuP7sNPw7njYzmVi2ffV5bYc4vf5kc5l5JwhBdPqnxuMfDLnHWaCkAO1UlVWqy2eY7/4b6iUYI2yN16ZKswSzLMmMNtPBu7e9HhKxA";
@@ -38,17 +49,27 @@ public class Stone_Test extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        int     soundIndex      = 5;
+        int     soundID         = -1;
+
+        SoundPlayer.PlaySoundParams params = new SoundPlayer.PlaySoundParams();
+        params.loopControl = 0;
+        params.waitForNonLoopingSoundsToFinish = true;
+
+        Context myApp = hardwareMap.appContext;
+
         motorFrontRight = hardwareMap.dcMotor.get("FR");
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
 
         motorFrontLeft = hardwareMap.dcMotor.get("FL");
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
 
         motorBackLeft = hardwareMap.dcMotor.get("BL");
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
 
         motorBackRight = hardwareMap.dcMotor.get("BR");
-        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackRight.setDirection(DcMotor.Direction.FORWARD);
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
@@ -78,7 +99,7 @@ public class Stone_Test extends LinearOpMode {
             motorFrontLeft.setPower(.6);
             motorBackLeft.setPower(.6);
             motorBackRight.setPower(-.6);
-            sleep(1000);
+            sleep(175);
             step++;
         }
 
@@ -91,7 +112,7 @@ public class Stone_Test extends LinearOpMode {
             step++;
         }
 
-        if (step == 3) {
+        if (step == 2) {
             if (tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
@@ -107,16 +128,45 @@ public class Stone_Test extends LinearOpMode {
                                 recognition.getLeft(), recognition.getTop());
                         telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                 recognition.getRight(), recognition.getBottom());
+                        if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
+                            Skystone = true;
+                        }
                     }
                     telemetry.update();
                 }
             }
-            sleep(10000);
+            sleep(2000);
             step++;
         }
 
-        if (step == 4){
-            sleep(100000000);
+        if (step == 3){
+            sleep(1500);
+            if (Skystone == true){
+                motorFrontRight.setPower(.6);
+                motorFrontLeft.setPower(.6);
+                motorBackLeft.setPower(.6);
+                motorBackRight.setPower(.6);
+            }
+            else {
+                if (minstep == 0) {
+                    motorFrontRight.setPower(.6);
+                    motorFrontLeft.setPower(-.6);
+                    motorBackLeft.setPower(-.6);
+                    motorBackRight.setPower(.6);
+                    sleep(100);
+                    minstep++;
+                }
+                if (minstep == 1){
+                    motorFrontRight.setPower(0);
+                    motorFrontLeft.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+                    soundIndex = 5;
+
+                }
+            }
+            sleep(100000);
+
         }
 
     }
@@ -146,4 +196,6 @@ public class Stone_Test extends LinearOpMode {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
+
+
 }

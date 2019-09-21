@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
  */
 
 @TeleOp(name="SKYSTONE Sounds", group="Concept")
-@Disabled
+//@Disabled
 public class ConceptSoundsSKYSTONE extends LinearOpMode {
 
     // List of available sound resources
@@ -93,10 +93,10 @@ public class ConceptSoundsSKYSTONE extends LinearOpMode {
             if (gamepad1.right_bumper && !soundPlaying) {
 
                 // Determine Resource IDs for the sounds you want to play, and make sure it's valid.
-                if ((soundID = myApp.getResources().getIdentifier(sounds[soundIndex], "raw", myApp.getPackageName())) != 0){
+                // Signal that the sound is now playing.
+                    if ((soundID = myApp.getResources().getIdentifier(sounds[soundIndex], "raw", myApp.getPackageName())) != 0){
 
-                    // Signal that the sound is now playing.
-                    soundPlaying = true;
+                        soundPlaying = true;
 
                     // Start playing, and also Create a callback that will clear the playing flag when the sound is complete.
                     SoundPlayer.getInstance().startPlaying(myApp, soundID, params, null,
