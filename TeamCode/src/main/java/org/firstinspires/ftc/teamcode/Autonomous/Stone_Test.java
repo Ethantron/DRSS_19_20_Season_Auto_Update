@@ -21,7 +21,9 @@ public class Stone_Test extends LinearOpMode {
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
     double step = 0;
-    double minstep = 0;
+    double goodstep = 0;
+    double badstep = 0;
+    double count = 0;
     boolean Skystone = false;
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
@@ -86,9 +88,6 @@ public class Stone_Test extends LinearOpMode {
          * Activate TensorFlow Object Detection before we wait for the start command.
          * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
          **/
-        if (tfod != null) {
-            tfod.activate();
-        }
 
         /* Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
@@ -114,28 +113,7 @@ public class Stone_Test extends LinearOpMode {
         }
 
         if (step == 2) {
-            if (tfod != null) {
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-
-                    // step through the list of recognitions and display boundary info.
-                    int i = 0;
-                    for (Recognition recognition : updatedRecognitions) {
-                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                recognition.getLeft(), recognition.getTop());
-                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                recognition.getRight(), recognition.getBottom());
-                        if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
-                            Skystone = true;
-                        }
-                    }
-                    telemetry.update();
-                }
-            }
+            scan();
             sleep(2000);
             step++;
         }
@@ -143,33 +121,34 @@ public class Stone_Test extends LinearOpMode {
         if (step == 3){
             sleep(1500);
             if (Skystone == true){
-                motorFrontRight.setPower(.6);
-                motorFrontLeft.setPower(.6);
-                motorBackLeft.setPower(.6);
-                motorBackRight.setPower(.6);
+                soundIndex = 14;
+                if ((soundID = myApp.getResources().getIdentifier(sounds[soundIndex], "raw", myApp.getPackageName())) != 0){
+                    soundPlaying = true;
+                    // Start playing, and also Create a callback that will clear the playing flag when the sound is complete.
+                    SoundPlayer.getInstance().startPlaying(myApp, soundID, params, null,
+                            new Runnable() {
+                                public void run() {
+                                    soundPlaying = false;
+                                }} );
+                }
+                rungoodstep();
             }
             else {
-                if (minstep == 0) {
-                    motorFrontRight.setPower(.6);
-                    motorFrontLeft.setPower(-.6);
-                    motorBackLeft.setPower(-.6);
-                    motorBackRight.setPower(.6);
-                    sleep(100);
-                    minstep++;
+                badstep = 0;
+                soundIndex = 5;
+                if ((soundID = myApp.getResources().getIdentifier(sounds[soundIndex], "raw", myApp.getPackageName())) != 0){
+                    soundPlaying = true;
+                    // Start playing, and also Create a callback that will clear the playing flag when the sound is complete.
+                    SoundPlayer.getInstance().startPlaying(myApp, soundID, params, null,
+                            new Runnable() {
+                                public void run() {
+                                    soundPlaying = false;
+                                }} );
                 }
-                if (minstep == 1){
-                    motorFrontRight.setPower(0);
-                    motorFrontLeft.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
-                    soundIndex = 5;
-
-                }
+                runbadstep();
             }
             sleep(100000);
-
         }
-
     }
     private void initVuforia () {
         /*
@@ -198,5 +177,79 @@ public class Stone_Test extends LinearOpMode {
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
+    private void scan (){
+        if (tfod != null) {
+            tfod.activate();
+        }
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
+
+                // step through the list of recognitions and display boundary info.
+                int i = 0;
+                for (Recognition recognition : updatedRecognitions) {
+                    telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                    telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                            recognition.getLeft(), recognition.getTop());
+                    telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                            recognition.getRight(), recognition.getBottom());
+                    if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
+                        Skystone = true;
+                    }
+                }
+                telemetry.update();
+            }
+        }
+        sleep(1500);
+        if (tfod != null) {
+            tfod.shutdown();
+        }
+    }
+
+    private void rungoodstep(){
+        if (goodstep == 0) {
+            motorFrontRight.setPower(-.6);
+            motorFrontLeft.setPower(.6);
+            motorBackLeft.setPower(.6);
+            motorBackRight.setPower(-.6);
+            sleep(200);
+            goodstep++;
+        }
+
+        if (goodstep == 1){
+            motorFrontRight.setPower(0);
+            motorFrontLeft.setPower(0);
+            motorBackLeft.setPower(0);
+            motorBackRight.setPower(0);
+        }
+
+    }
+
+    private void runbadstep(){
+        if (count > 2) {
+            if (badstep == 0) {
+                motorFrontRight.setPower(-.7);
+                motorFrontLeft.setPower(-.4);
+                motorBackLeft.setPower(.7);
+                motorBackRight.setPower(.4);
+                sleep(100);
+                badstep++;
+            }
+            if (badstep == 1) {
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                step = 2;
+                count++;
+            }
+        } else if (count == 2) {
+            rungoodstep();
+        }
+
+    }
 
 }
