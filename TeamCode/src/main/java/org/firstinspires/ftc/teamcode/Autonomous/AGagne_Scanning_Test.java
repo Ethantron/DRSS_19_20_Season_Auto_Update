@@ -6,7 +6,6 @@ import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -40,13 +39,13 @@ public class AGagne_Scanning_Test extends LinearOpMode {
     private static final String VUFORIA_KEY =
             "ASHBoLr/////AAABmbIUXlLiiEgrjVbqu8Iavlg6iPFigYso/+BCZ9uMzyAZFoo9CIzpV818SAqrjzuygz3hCeLW/ImK3xMH7DalGMwavqetwXS9Jw4I+rff2naxgV7n+EtYFvdCkUJDHfHVq1A4mhxDHgrjWZEqnLmZk25ppnIizQ0Ozcq4h6UmrWndEVEz8eKcCgn+IuglCEoEswvNBRAaKm/TAlpxLRNC6jQkZdJUh/TGYT05g9YCZo4+1ugmx01jrPCyHQVPVoeXm6VebLIuP7sNPw7njYzmVi2ffV5bYc4vf5kc5l5JwhBdPqnxuMfDLnHWaCkAO1UlVWqy2eY7/4b6iUYI2yN16ZKswSzLMmMNtPBu7e9HhKxA";
 
-    /**
+    /*
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
     private VuforiaLocalizer vuforia;
 
-    /**
+    /*
      * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
      * Detection engine.
      */
@@ -164,19 +163,19 @@ public class AGagne_Scanning_Test extends LinearOpMode {
 
         if (step == 4){
 
-            if (Skystone == true) { //If skystone is seen
+            if (Skystone) { //If skystone is seen
                 skypos = checkpos; //Set skystone position to that of position we just checked
 
-                if (skypos == 1) { //Go to Position 1 routine
+                if(skypos == 1) { //Go to Position 1 routine
                     //pos1();
                 }
 
-                if (skypos == 2) { //Go to Position 2 routine
+                if(skypos == 2) { //Go to Position 2 routine
                     //pos2();
                 }
             }
 
-            if (Skystone == false) {
+            if (!Skystone) {
 
                 //Strafe Right to next block
                 motorFrontRight.setPower(-.3);
