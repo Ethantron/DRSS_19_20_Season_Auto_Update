@@ -63,7 +63,7 @@ public class Stone_Test extends LinearOpMode {
         Context myApp = hardwareMap.appContext;
 
         motorFrontRight = hardwareMap.dcMotor.get("FR");
-        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
 
         motorFrontLeft = hardwareMap.dcMotor.get("FL");
         motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -72,7 +72,7 @@ public class Stone_Test extends LinearOpMode {
         motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
 
         motorBackRight = hardwareMap.dcMotor.get("BR");
-        motorBackRight.setDirection(DcMotor.Direction.FORWARD);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
@@ -95,10 +95,10 @@ public class Stone_Test extends LinearOpMode {
         waitForStart();
 
         if (step == 0) {
-            motorFrontRight.setPower(-.6);
+            motorFrontRight.setPower(.6);
             motorFrontLeft.setPower(.6);
             motorBackLeft.setPower(.6);
-            motorBackRight.setPower(-.6);
+            motorBackRight.setPower(.6);
             sleep(175);
             step++;
         }
@@ -211,10 +211,10 @@ public class Stone_Test extends LinearOpMode {
 
     private void rungoodstep(){
         if (goodstep == 0) {
-            motorFrontRight.setPower(-.6);
+            motorFrontRight.setPower(.6);
             motorFrontLeft.setPower(.6);
             motorBackLeft.setPower(.6);
-            motorBackRight.setPower(-.6);
+            motorBackRight.setPower(.6);
             sleep(200);
             goodstep++;
         }
@@ -231,10 +231,10 @@ public class Stone_Test extends LinearOpMode {
     private void runbadstep(){
         if (count < 2) {
             if (badstep == 0) {
-                motorFrontRight.setPower(-.7);
+                motorFrontRight.setPower(.7);
                 motorFrontLeft.setPower(-.4);
                 motorBackLeft.setPower(.7);
-                motorBackRight.setPower(.4);
+                motorBackRight.setPower(-.4);
                 sleep(100);
                 badstep++;
             }
