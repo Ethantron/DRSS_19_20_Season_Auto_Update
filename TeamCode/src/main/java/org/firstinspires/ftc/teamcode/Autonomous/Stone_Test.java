@@ -225,7 +225,6 @@ public class Stone_Test extends LinearOpMode {
             motorBackLeft.setPower(0);
             motorBackRight.setPower(0);
         }
-
     }
 
     private void runbadstep(){
@@ -249,7 +248,5 @@ public class Stone_Test extends LinearOpMode {
         } else if (count > 2) {
             rungoodstep();
         }
-
     }
-
 }
