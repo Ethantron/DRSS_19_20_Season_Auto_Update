@@ -132,7 +132,7 @@ public class AGagne_Scanning_Test extends LinearOpMode {
         if (step == 3) {
             checkpos++;
 
-            if (checkpos > 6) { //If no blocks are scanned, then go to position 6
+            if (checkpos > 2) { //If no blocks are scanned, then go to position 3
                 step = 5;
             }
             if (tfod != null) {
@@ -174,23 +174,6 @@ public class AGagne_Scanning_Test extends LinearOpMode {
                 if (skypos == 2) { //Go to Position 2 routine
                     //pos2();
                 }
-
-                if (skypos == 3) { //Go to Position 3 routine
-                    //pos3();
-                }
-
-                if (skypos == 4) { //Go to Position 4 routine
-                    //pos4();
-                }
-
-                if (skypos == 5) { //Go to Position 5 routine
-                    //pos5();
-                }
-
-                if (skypos == 6) { //Go to Position 6 routine
-                    //pos6();
-                }
-
             }
 
             if (Skystone == false) {
@@ -208,14 +191,14 @@ public class AGagne_Scanning_Test extends LinearOpMode {
 
         if (step == 5) {
 
-            //Strafe Left to return to position 6
+            //Strafe Left to return to position 3
             motorFrontRight.setPower(.3);
             motorFrontLeft.setPower(-.3);
             motorBackLeft.setPower(.3);
             motorBackRight.setPower(-.3);
             sleep(100);
 
-            //pos6();
+            //pos3();
         }
 
     }
