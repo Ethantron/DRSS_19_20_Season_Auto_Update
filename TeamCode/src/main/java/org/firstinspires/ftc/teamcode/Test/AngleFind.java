@@ -27,9 +27,9 @@ public class AngleFind extends LinearOpMode {
 
     double centered = 0; //Senses whether or not robot is centered
     double Power = .2; //Sets Motor Power
-    double Range = 12; //Change this to change the range of degrees (Tolerance)
+    double Range = 8; //Change this to change the range of degrees (Tolerance)
     double RangeDiv = Range / 2; //Evenly splits the range
-    double WantedAngle = 90; //Wanted Angle
+    double WantedAngle = 0; //Wanted Angle
     double RangePlus = WantedAngle + RangeDiv; //adds tolerance to Wanted Angle
     double RangeMinus = WantedAngle - RangeDiv; //subtracts tolerance from Wanted Angle
 
