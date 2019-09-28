@@ -118,12 +118,12 @@ public class AGagne_Scanning_Test extends LinearOpMode {
 
         if (step == 2) {
 
-            //Strafe Left to go to position 1
+            /*Strafe Left to go to position 1
             motorFrontRight.setPower(.3);
             motorFrontLeft.setPower(-.3);
             motorBackLeft.setPower(.3);
             motorBackRight.setPower(-.3);
-            sleep(1000);
+            sleep(1000);*/
 
             step++;
         }
@@ -178,10 +178,10 @@ public class AGagne_Scanning_Test extends LinearOpMode {
             if (!Skystone) {
 
                 //Strafe Right to next block
-                motorFrontRight.setPower(-.3);
-                motorFrontLeft.setPower(.3);
-                motorBackLeft.setPower(-.3);
-                motorBackRight.setPower(.3);
+                motorFrontRight.setPower(.4);
+                motorFrontLeft.setPower(-.7);
+                motorBackLeft.setPower(.7);
+                motorBackRight.setPower(-.4);
                 sleep(100);
 
                 step--;
