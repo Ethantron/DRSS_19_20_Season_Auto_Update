@@ -7,40 +7,40 @@ Stop:
         motorBackRight.setPower(0);
 
 Forward:
-        motorFrontRight.setPower(-.6);
+        motorFrontRight.setPower(.6);
         motorFrontLeft.setPower(.6);
         motorBackLeft.setPower(.6);
-        motorBackRight.setPower(-.6);
+        motorBackRight.setPower(.6);
 
 Reverse:
-        motorFrontRight.setPower(.6);
+        motorFrontRight.setPower(-.6);
         motorFrontLeft.setPower(-.6);
         motorBackLeft.setPower(-.6);
-        motorBackRight.setPower(.6);
+        motorBackRight.setPower(-.6);
 
 Turn Left:
         motorFrontRight.setPower(.6);
-        motorFrontLeft.setPower(.6);
-        motorBackLeft.setPower(.6);
+        motorFrontLeft.setPower(-.6);
+        motorBackLeft.setPower(-.6);
         motorBackRight.setPower(.6);
 
 Turn Right:
         motorFrontRight.setPower(-.6);
-        motorFrontLeft.setPower(-.6);
-        motorBackLeft.setPower(-.6);
+        motorFrontLeft.setPower(.6);
+        motorBackLeft.setPower(.6);
         motorBackRight.setPower(-.6);
 
 Strafe Left:
-        motorFrontRight.setPower(-.7);
+        motorFrontRight.setPower(.7);
         motorFrontLeft.setPower(-.4);
         motorBackLeft.setPower(.7);
-        motorBackRight.setPower(.4);
+        motorBackRight.setPower(-.4);
 
 Strafe Right:
-        motorFrontRight.setPower(.7);
+        motorFrontRight.setPower(-.7);
         motorFrontLeft.setPower(.4);
         motorBackLeft.setPower(-.7);
-        motorBackRight.setPower(-.4);
+        motorBackRight.setPower(.4);
 
 Timing Reference:
         ResetTime.reset();
@@ -76,13 +76,3 @@ Lift:
 
     Down:
         LiftArm.setPower(-1);
-
-Robert
-     Full Speed 90* Turn
-        Left.setPower(1);
-        Right.setPower(-1);
-        ResetTime.reset();
-                while (opModeIsActive() && (ResetTime.seconds() < .4)) {
-                    telemetry.addData("Where", "Step 2: %2.5f S Elapsed", ResetTime.seconds());
-                    telemetry.update();
-        }
