@@ -59,7 +59,7 @@ public class SensorREVColorDistance extends LinearOpMode {
     /**
      * Note that the REV Robotics Color-Distance incorporates two sensors into one device.
      * It has an IR proximity sensor which is used to calculate distance and an RGB color sensor.
-     * 
+     *
      * There will be some variation in the values measured depending on whether you are using a
      * V3 color sensor versus the older V2 and V1 sensors, as the V3 is based around a different chip.
      *
