@@ -94,9 +94,9 @@ public class ConceptSoundsSKYSTONE extends LinearOpMode {
 
                 // Determine Resource IDs for the sounds you want to play, and make sure it's valid.
                 // Signal that the sound is now playing.
-                    if ((soundID = myApp.getResources().getIdentifier(sounds[soundIndex], "raw", myApp.getPackageName())) != 0){
+                if ((soundID = myApp.getResources().getIdentifier(sounds[soundIndex], "raw", myApp.getPackageName())) != 0){
 
-                        soundPlaying = true;
+                    soundPlaying = true;
 
                     // Start playing, and also Create a callback that will clear the playing flag when the sound is complete.
                     SoundPlayer.getInstance().startPlaying(myApp, soundID, params, null,
