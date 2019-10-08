@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.Test.Pseudo_Code;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+@Disabled
 @Autonomous(name = "Parking", group= "Pseudo_Code")
 public class Parking extends LinearOpMode {
 

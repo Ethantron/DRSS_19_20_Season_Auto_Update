@@ -20,8 +20,6 @@ public class Modular_Mechanum_Drive extends OpMode {
     public DcMotor motorFrontLeft;
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
-    ColorSensor sensorColor;
-    DistanceSensor sensorDistance;
     double Speed = 1;
     double Frontleft;
     double Frontright;
@@ -48,8 +46,6 @@ public class Modular_Mechanum_Drive extends OpMode {
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 
-        sensorColor = hardwareMap.get(ColorSensor.class, "color_sensor");
-        sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
     }
 
     @Override
@@ -99,45 +95,6 @@ public class Modular_Mechanum_Drive extends OpMode {
             Speed = .25;
         }
 
-        //Color Sensor Code
-
-            //Color Sensor Values
-            // hsvValues is an array that will hold the hue, saturation, and value information.
-            float hsvValues[] = {0F, 0F, 0F};
-
-            // values is a reference to the hsvValues array.
-            final float values[] = hsvValues;
-
-            // sometimes it helps to multiply the raw RGB values with a scale factor
-            // to amplify/attentuate the measured values.
-            final double SCALE_FACTOR = 255;
-
-        // convert the RGB values to HSV values.
-            // multiply by the SCALE_FACTOR.
-            // then cast it back to int (SCALE_FACTOR is a double)
-            Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
-                    (int) (sensorColor.green() * SCALE_FACTOR),
-                    (int) (sensorColor.blue() * SCALE_FACTOR),
-                    hsvValues);
-
-            // send the info back to driver station using telemetry function.
-            telemetry.addData("Alpha", sensorColor.alpha());
-            telemetry.addData("Red  ", sensorColor.red());
-            telemetry.addData("Green", sensorColor.green());
-            telemetry.addData("Blue ", sensorColor.blue());
-            telemetry.addData("Hue", hsvValues[0]);
-
-        /*
-         * Telemetry for debugging
-         */
-        telemetry.addData("Text", "*** Robot Data***");
-        telemetry.addData("Speed", Speed);
-        telemetry.addData("Joy XL YL XR", gamepad1LeftX +" " + gamepad1LeftY +" "+ gamepad1RightX);
-        telemetry.addData("Front Left Power", FrontLeft );
-        telemetry.addData("Front Right Power", FrontRight );
-        telemetry.addData("Back Left Power", BackLeft );
-        telemetry.addData("Back Right Power", BackRight );
-        telemetry.update();
     }
 
     public void stop() {
