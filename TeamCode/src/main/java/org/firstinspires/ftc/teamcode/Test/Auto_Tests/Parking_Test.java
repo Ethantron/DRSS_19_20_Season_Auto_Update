@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name = "Parking_Test", group= "Auto_Tests")
-public class Parking_Test extends LinearOpMode {
+public class Parking_Test extends LinearOpMode{
 
     public DcMotor motorFrontRight;
     public DcMotor motorFrontLeft;
@@ -21,7 +21,7 @@ public class Parking_Test extends LinearOpMode {
     double step = 0;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode(){
 
         motorFrontRight = hardwareMap.dcMotor.get("FR");
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -51,7 +51,7 @@ public class Parking_Test extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        while (opModeIsActive()){
             //Color Sensor Code
 
             // convert the RGB values to HSV values.
@@ -72,13 +72,13 @@ public class Parking_Test extends LinearOpMode {
             telemetry.update();
 
             //Orient the Robot (Gyro Code)
-            if (step == 0) {
+            if (step == 0){
                 //Turn using Gyro
                 step++;
             }
 
             //Move forward
-            if (step == 1) {
+            if (step == 1){
                 motorFrontRight.setPower(.3);
                 motorFrontLeft.setPower(.3);
                 motorBackLeft.setPower(.3);
@@ -86,8 +86,8 @@ public class Parking_Test extends LinearOpMode {
             }
 
             //Does it see the line?
-            while (step == 1) {
-                if (opModeIsActive()) {
+            while (step == 1){
+                if (opModeIsActive()){
                         // convert the RGB values to HSV values.
                         // multiply by the SCALE_FACTOR.
                         // then cast it back to int (SCALE_FACTOR is a double)
@@ -106,12 +106,12 @@ public class Parking_Test extends LinearOpMode {
                         telemetry.update();
 
                 }
-                if (hsvValues[0] > 100 || sensorColor.blue() > 100) { //Checks if it is red or blue
+                if (hsvValues[0] > 100 || sensorColor.blue() > 100){ //Checks if it is red or blue
                     step++;
                 }
             }
 
-            if (step == 2) {
+            if (step == 2){
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
