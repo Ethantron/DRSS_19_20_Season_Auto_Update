@@ -1,78 +1,114 @@
+TelyOp reference sheet.
+
+    Important:
+    Put this at the end of every Init.
+        
+                telemetry.addData(">", "Press Play to start op mode");
+                telemetry.update();
+
+    TelyOp:
+        @TeleOp(name = "", group= "")
+
+    Mechanum definitions:
+
+        public DcMotor motorFrontRight;
+        public DcMotor motorFrontLeft;
+        public DcMotor motorBackRight;
+        public DcMotor motorBackLeft;
+        double Speed = 1;
+        double Frontleft;
+        double Frontright;
+        double Backleft;
+        double Backright;
+
+    Mecanum Init:
+        motorFrontRight = hardwareMap.dcMotor.get("FR");
+        motorFrontLeft = hardwareMap.dcMotor.get("FL");
+        motorBackLeft = hardwareMap.dcMotor.get("BL");
+        motorBackRight = hardwareMap.dcMotor.get("BR");
+
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+
 Autonomous directions reference sheet.
 
-Stop:
+    Stop:
         motorFrontRight.setPower(0);
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
         motorBackRight.setPower(0);
 
-Forward:
+    Forward:
         motorFrontRight.setPower(.6);
         motorFrontLeft.setPower(.6);
         motorBackLeft.setPower(.6);
         motorBackRight.setPower(.6);
 
-Reverse:
+    Reverse:
         motorFrontRight.setPower(-.6);
         motorFrontLeft.setPower(-.6);
         motorBackLeft.setPower(-.6);
         motorBackRight.setPower(-.6);
 
-Turn Left:
+    Turn Left:
         motorFrontRight.setPower(.6);
         motorFrontLeft.setPower(-.6);
         motorBackLeft.setPower(-.6);
         motorBackRight.setPower(.6);
 
-Turn Right:
+    Turn Right:
         motorFrontRight.setPower(-.6);
         motorFrontLeft.setPower(.6);
         motorBackLeft.setPower(.6);
         motorBackRight.setPower(-.6);
 
-Strafe Left:
+    Strafe Left:
         motorFrontRight.setPower(.7);
         motorFrontLeft.setPower(-.4);
         motorBackLeft.setPower(.7);
         motorBackRight.setPower(-.4);
 
-Strafe Right:
+    Strafe Right:
         motorFrontRight.setPower(-.7);
         motorFrontLeft.setPower(.4);
         motorBackLeft.setPower(-.7);
         motorBackRight.setPower(.4);
 
-Timing Reference:
+    Timing Reference:
         ResetTime.reset();
-        while (opModeIsActive() && (ResetTime.seconds() < 1)) {
-            telemetry.addData("Where", "Step : 1 %2.5f S Elapsed", ResetTime.seconds());
-            telemetry.update();
+        while (opModeIsActive() && (ResetTime.seconds() < 1)){
+        telemetry.addData("Where", "Step : 1 %2.5f S Elapsed", ResetTime.seconds());
+        telemetry.update();
         }
 
-Reset Time:
-    ElapsedTime ResetTime = new ElapsedTime();
+    Reset Time:
 
-Spinner:
-    Out:
-        spinner.setPower(1);
+        ElapsedTime ResetTime = new ElapsedTime();
 
-    In:
-        spinner.setPower(-1);
+    Spinner:
 
-Arm:
+        Out:
+            spinner.setPower(1);
 
-    Up:
-        shoulder.setPower(-.75);
-        elbow.setPower(-.75);
+        In:
+            spinner.setPower(-1);
 
-    Down:
-        shoulder.setPower(.75);
-        elbow.setPower(.75);
+    Arm:
 
-Lift:
+        Up:
+            shoulder.setPower(-.75);
+            elbow.setPower(-.75);
 
-    Up:
-        LiftArm.setPower(1);
+        Down:
+            shoulder.setPower(.75);
+            elbow.setPower(.75);
 
-    Down:
-        LiftArm.setPower(-1);
+    Lift:
+
+        Up:
+            LiftArm.setPower(1);
+
+        Down:
+            LiftArm.setPower(-1);
