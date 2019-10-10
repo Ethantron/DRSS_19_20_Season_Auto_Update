@@ -106,7 +106,7 @@ public class Parking_Test extends LinearOpMode{
                 }
             }
 
-            if (step == 2){
+            if (step == 1){
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
