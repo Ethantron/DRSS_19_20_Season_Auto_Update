@@ -50,6 +50,7 @@ public class Bob_the_Test_Bot extends LinearOpMode{
         grabR = hardwareMap.servo.get("GR");
         grabStone = hardwareMap.servo.get("GS");
 
+        telemetry.addData("Status: ", "Initialized");
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
