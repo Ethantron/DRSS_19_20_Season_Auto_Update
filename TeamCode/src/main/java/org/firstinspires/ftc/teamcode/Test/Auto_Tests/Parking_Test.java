@@ -78,28 +78,28 @@ public class Parking_Test extends LinearOpMode{
 
             // Move forward
             if (step == 0){
-                motorFrontRight.setPower(.3);
-                motorFrontLeft.setPower(.3);
-                motorBackLeft.setPower(.3);
-                motorBackRight.setPower(.3);
+                motorFrontRight.setPower(.2);
+                motorFrontLeft.setPower(.2);
+                motorBackLeft.setPower(.2);
+                motorBackRight.setPower(.2);
             }
 
             // Does it see the line?
             while (step == 0){
                 if (opModeIsActive()){
-                        Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
-                                (int) (sensorColor.green() * SCALE_FACTOR),
-                                (int) (sensorColor.blue() * SCALE_FACTOR),
-                                hsvValues);
+                    Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
+                            (int) (sensorColor.green() * SCALE_FACTOR),
+                            (int) (sensorColor.blue() * SCALE_FACTOR),
+                            hsvValues);
 
-                        // Send the info back to driver station using telemetry function.
-                        telemetry.addData("Step: ", step);
-                        telemetry.addData("Alpha", sensorColor.alpha());
-                        telemetry.addData("Red  ", sensorColor.red());
-                        telemetry.addData("Green", sensorColor.green());
-                        telemetry.addData("Blue ", sensorColor.blue());
-                        telemetry.addData("Hue", hsvValues[0]);
-                        telemetry.update();
+                    // Send the info back to driver station using telemetry function.
+                    telemetry.addData("Step: ", step);
+                    telemetry.addData("Alpha", sensorColor.alpha());
+                    telemetry.addData("Red  ", sensorColor.red());
+                    telemetry.addData("Green", sensorColor.green());
+                    telemetry.addData("Blue ", sensorColor.blue());
+                    telemetry.addData("Hue", hsvValues[0]);
+                    telemetry.update();
                 }
                 if (hsvValues[0] > 100 || sensorColor.blue() > 100){ // Checks if it is red or blue
                     step++;
@@ -111,8 +111,24 @@ public class Parking_Test extends LinearOpMode{
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
+                step++;
+            }
+
+            if (step == 2){
+                motorFrontRight.setPower(-1);
+                motorFrontLeft.setPower(-1);
+                motorBackLeft.setPower(-1);
+                motorBackRight.setPower(-1);
+                sleep(200);
+                step++;
+            }
+
+            if (step == 3){
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
             }
         }
     }
 }
-

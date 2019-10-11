@@ -159,15 +159,17 @@ public class Bob_the_Test_Bot extends LinearOpMode{
                 upcount--;
             }
 
-            // Moves the lift up
+            // Moves the lift down
             if (gamepad2.left_trigger > 0.1){
+                lift.setPower(-0.3);
+            }
+
+            // Moves the lift up
+            if (gamepad2.right_trigger > 0.1){
                 lift.setPower(0.5);
             }
 
-            // Moves the lift down
-            if (gamepad2.right_trigger > 0.1){
-                lift.setPower(-0.3);
-            }
+
 
             // If neither triggers are being pressed, keep the lift still
             if (!(gamepad2.left_trigger > 0.1 && gamepad2.right_trigger > 0.1)){
