@@ -84,6 +84,9 @@ public class Gyro_Turning extends LinearOpMode {
         // Wait until we're told to go
         waitForStart();
 
+        telemetry.clear();
+        telemetry.addData("Status: ", "Running");
+
         // Start the logging of measured acceleration
         imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
 
@@ -93,6 +96,8 @@ public class Gyro_Turning extends LinearOpMode {
 
             if (step==0) {
                 WantedAngle=90; //Set Wanted Angle to 90 Degrees
+                telemetry.addData("step", step);
+                telemetry.addData("Wanted Angle:", WantedAngle);
 
                 //Gyro Turning Code
                 if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
