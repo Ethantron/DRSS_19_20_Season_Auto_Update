@@ -77,6 +77,10 @@ public class Encoder_Gyro_Moving extends LinearOpMode {
         // Set up our telemetry dashboard
         composeTelemetry();
 
+        telemetry.addData("Status: ", "Initialized");
+        telemetry.addData(">", "Press Play to start op mode");
+        telemetry.update();
+
         // Wait until we're told to go
         waitForStart();
 
@@ -87,33 +91,48 @@ public class Encoder_Gyro_Moving extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.update();
 
-            if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
+            if (step==0) {
+                WantedAngle=90; //Set Wanted Angle to 90 Degrees
+
+                //Gyro Turning Code
+                if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
+                    centered = 1;
+                    telemetry.addData("Robot is", "Centered! :)");
+                    step++;
+                }
+
+                else { //allows robot to adjust if not centered
+                    centered = 0;
+                    telemetry.addData("Robot is", "Not Centered! :(");
+                    telemetry.addData("Adjusting","Robot");
+                }
+
+                if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
+                    motorFrontRight.setPower(-Power);
+                    motorFrontLeft.setPower(Power);
+                    motorBackRight.setPower(-Power);
+                    motorBackLeft.setPower(Power);
+                }
+
+                if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
+                    motorFrontRight.setPower(Power);
+                    motorFrontLeft.setPower(-Power);
+                    motorBackRight.setPower(Power);
+                    motorBackLeft.setPower(-Power);
+                }
+            }
+
+            if (step==1) {
+                motorFrontRight.setPower(.5);
+                motorFrontLeft.setPower(.5);
+                motorBackRight.setPower(.5);
+                motorBackLeft.setPower(.5);
+                sleep(100);
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
                 motorBackRight.setPower(0);
                 motorBackLeft.setPower(0);
-                centered = 1;
-                telemetry.addData("Robot is", "Centered! :)");
-            }
-
-            else { //allows robot to adjust if not centered
-                centered = 0;
-                telemetry.addData("Robot is", "Not Centered! :(");
-                telemetry.addData("Adjusting","Robot");
-            }
-
-            if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
-                motorFrontRight.setPower(-Power);
-                motorFrontLeft.setPower(Power);
-                motorBackRight.setPower(-Power);
-                motorBackLeft.setPower(Power);
-            }
-
-            if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
-                motorFrontRight.setPower(Power);
-                motorFrontLeft.setPower(-Power);
-                motorBackRight.setPower(Power);
-                motorBackLeft.setPower(-Power);
+                telemetry.addData("Autonomous: ", "Done");
             }
         }
     }
