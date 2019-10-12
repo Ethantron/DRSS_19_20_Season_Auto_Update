@@ -17,7 +17,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.util.Locale;
 
-
 @Autonomous (name = "Encoder_Gyro_Moving", group = "Auto_Test")
 public class Encoder_Gyro_Moving extends LinearOpMode {
 
