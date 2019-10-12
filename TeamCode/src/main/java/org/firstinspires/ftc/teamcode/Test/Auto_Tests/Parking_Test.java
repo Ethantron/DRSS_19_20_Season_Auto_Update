@@ -19,6 +19,7 @@ public class Parking_Test extends LinearOpMode{
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
     ColorSensor sensorColor;
+    ColorSensor color2;
     DistanceSensor sensorDistance;
     double step = 0;
 
@@ -38,6 +39,7 @@ public class Parking_Test extends LinearOpMode{
 
         // Color sensor initialization
         sensorColor = hardwareMap.get(ColorSensor.class, "color_sensor");
+        color2 = hardwareMap.get(ColorSensor.class, "color2");
         sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
 
         // Color Sensor Values
@@ -62,6 +64,10 @@ public class Parking_Test extends LinearOpMode{
             // Convert the RGB values to HSV values.
             // Multiply by the SCALE_FACTOR.
             // Cast it back to int (SCALE_FACTOR is a double)
+            Color.RGBToHSV((int) (color2.red() * SCALE_FACTOR),
+                    (int) (color2.green() * SCALE_FACTOR),
+                    (int) (color2.blue() * SCALE_FACTOR),
+                    hsvValues);
             Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
                     (int) (sensorColor.green() * SCALE_FACTOR),
                     (int) (sensorColor.blue() * SCALE_FACTOR),
@@ -69,10 +75,6 @@ public class Parking_Test extends LinearOpMode{
 
             // Send the info back to driver station using telemetry function.
             telemetry.addData("Step: ", step);
-            telemetry.addData("Alpha", sensorColor.alpha());
-            telemetry.addData("Red  ", sensorColor.red());
-            telemetry.addData("Green", sensorColor.green());
-            telemetry.addData("Blue ", sensorColor.blue());
             telemetry.addData("Hue", hsvValues[0]);
             telemetry.update();
 
@@ -91,13 +93,13 @@ public class Parking_Test extends LinearOpMode{
                             (int) (sensorColor.green() * SCALE_FACTOR),
                             (int) (sensorColor.blue() * SCALE_FACTOR),
                             hsvValues);
+                    Color.RGBToHSV((int) (color2.red() * SCALE_FACTOR),
+                            (int) (color2.green() * SCALE_FACTOR),
+                            (int) (color2.blue() * SCALE_FACTOR),
+                            hsvValues);
 
                     // Send the info back to driver station using telemetry function.
                     telemetry.addData("Step: ", step);
-                    telemetry.addData("Alpha", sensorColor.alpha());
-                    telemetry.addData("Red  ", sensorColor.red());
-                    telemetry.addData("Green", sensorColor.green());
-                    telemetry.addData("Blue ", sensorColor.blue());
                     telemetry.addData("Hue", hsvValues[0]);
                     telemetry.update();
                 }
