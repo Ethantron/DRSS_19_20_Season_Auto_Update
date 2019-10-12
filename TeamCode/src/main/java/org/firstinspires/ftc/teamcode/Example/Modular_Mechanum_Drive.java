@@ -87,6 +87,7 @@ public class Modular_Mechanum_Drive extends OpMode{
             Speed = .25;
         }
 
+        telemetry.addData("speed", Speed);
     }
 
 
