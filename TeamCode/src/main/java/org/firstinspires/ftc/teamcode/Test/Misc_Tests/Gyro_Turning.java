@@ -84,14 +84,13 @@ public class Gyro_Turning extends LinearOpMode {
         // Wait until we're told to go
         waitForStart();
 
-        telemetry.clear();
-        telemetry.addData("Status: ", "Running");
-
         // Start the logging of measured acceleration
         imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
 
         // Loop and update the dashboard
         while (opModeIsActive())
+            telemetry.clear();
+            telemetry.addData("Status: ", "Running");
             telemetry.update();
 
             if (step==0) {
