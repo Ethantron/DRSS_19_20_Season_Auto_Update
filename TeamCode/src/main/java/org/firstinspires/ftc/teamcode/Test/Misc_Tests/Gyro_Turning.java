@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
+package org.firstinspires.ftc.teamcode.Test.Misc_Tests;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -18,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import java.util.Locale;
 
 @Autonomous (name = "Encoder_Gyro_Moving", group = "Auto_Test")
-public class Encoder_Gyro_Moving extends LinearOpMode {
+public class Gyro_Turning extends LinearOpMode {
 
     //Motor Initialization
     public DcMotor motorFrontRight;
@@ -89,56 +89,52 @@ public class Encoder_Gyro_Moving extends LinearOpMode {
 
         // Loop and update the dashboard
         while (opModeIsActive())
-
             telemetry.update();
 
-        if (step==0) {
-            WantedAngle=90; //Set Wanted Angle to 90 Degrees
+            if (step==0) {
+                WantedAngle=90; //Set Wanted Angle to 90 Degrees
 
-            //Gyro Turning Code
-            if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
-                centered = 1;
-                telemetry.addData("Robot is", "Centered! :)");
-                step++;
+                //Gyro Turning Code
+                if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
+                    centered = 1;
+                    telemetry.addData("Robot is", "Centered! :)");
+                    step++;
+                }
+
+                else { //allows robot to adjust if not centered
+                    centered = 0;
+                    telemetry.addData("Robot is", "Not Centered! :(");
+                    telemetry.addData("Adjusting","Robot");
+                }
+
+                if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
+                    motorFrontRight.setPower(-Power);
+                    motorFrontLeft.setPower(Power);
+                    motorBackRight.setPower(-Power);
+                    motorBackLeft.setPower(Power);
+                }
+
+                if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
+                    motorFrontRight.setPower(Power);
+                    motorFrontLeft.setPower(-Power);
+                    motorBackRight.setPower(Power);
+                    motorBackLeft.setPower(-Power);
+                }
             }
 
-            else { //allows robot to adjust if not centered
-                centered = 0;
-                telemetry.addData("Robot is", "Not Centered! :(");
-                telemetry.addData("Adjusting","Robot");
-            }
-
-            if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
-                motorFrontRight.setPower(-Power);
-                motorFrontLeft.setPower(Power);
-                motorBackRight.setPower(-Power);
-                motorBackLeft.setPower(Power);
-            }
-
-            if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
-                motorFrontRight.setPower(Power);
-                motorFrontLeft.setPower(-Power);
-                motorBackRight.setPower(Power);
-                motorBackLeft.setPower(-Power);
+            if (step==1) {
+                motorFrontRight.setPower(.5);
+                motorFrontLeft.setPower(.5);
+                motorBackRight.setPower(.5);
+                motorBackLeft.setPower(.5);
+                sleep(100);
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackRight.setPower(0);
+                motorBackLeft.setPower(0);
+                telemetry.addData("Autonomous: ", "Done");
             }
         }
-
-        if (step==1) {
-            motorFrontRight.setPower(.5);
-            motorFrontLeft.setPower(.5);
-            motorBackRight.setPower(.5);
-            motorBackLeft.setPower(.5);
-
-            sleep(100);
-
-            motorFrontRight.setPower(0);
-            motorFrontLeft.setPower(0);
-            motorBackRight.setPower(0);
-            motorBackLeft.setPower(0);
-
-            telemetry.addData("Autonomous: ", "Done");
-        }
-    }
 
     void composeTelemetry() {
 
@@ -153,7 +149,6 @@ public class Encoder_Gyro_Moving extends LinearOpMode {
             gravity  = imu.getGravity();
         }
         });
-
         telemetry.addLine()
                 .addData("heading", new Func<String>() {
                     @Override public String value() {
