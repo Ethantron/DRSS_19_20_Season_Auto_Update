@@ -88,7 +88,6 @@ public class Gyro_Turning extends LinearOpMode {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
 
         // Loop and update the dashboard
-        while (opModeIsActive())
             telemetry.clear();
             telemetry.addData("Status: ", "Running");
             telemetry.update();
