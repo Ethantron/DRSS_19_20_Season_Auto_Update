@@ -29,25 +29,10 @@ public class Stone_Test extends LinearOpMode {
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
 
-    String  sounds[] =  {"ss_alarm", "ss_bb8_down", "ss_bb8_up", "ss_darth_vader", "ss_fly_by",
-            "ss_mf_fail", "ss_laser", "ss_laser_burst", "ss_light_saber", "ss_light_saber_long", "ss_light_saber_short",
-            "ss_light_speed", "ss_mine", "ss_power_up", "ss_r2d2_up", "ss_roger_roger", "ss_siren", "ss_wookie" };
-    boolean soundPlaying = false;
-
-
     private static final String VUFORIA_KEY =
             "ASHBoLr/////AAABmbIUXlLiiEgrjVbqu8Iavlg6iPFigYso/+BCZ9uMzyAZFoo9CIzpV818SAqrjzuygz3hCeLW/ImK3xMH7DalGMwavqetwXS9Jw4I+rff2naxgV7n+EtYFvdCkUJDHfHVq1A4mhxDHgrjWZEqnLmZk25ppnIizQ0Ozcq4h6UmrWndEVEz8eKcCgn+IuglCEoEswvNBRAaKm/TAlpxLRNC6jQkZdJUh/TGYT05g9YCZo4+1ugmx01jrPCyHQVPVoeXm6VebLIuP7sNPw7njYzmVi2ffV5bYc4vf5kc5l5JwhBdPqnxuMfDLnHWaCkAO1UlVWqy2eY7/4b6iUYI2yN16ZKswSzLMmMNtPBu7e9HhKxA";
 
-    /*
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
-     */
     private VuforiaLocalizer vuforia;
-
-    /*
-     * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
-     * Detection engine.
-     */
     private TFObjectDetector tfod;
 
     @Override
@@ -120,31 +105,11 @@ public class Stone_Test extends LinearOpMode {
 
         if (step == 3){
             sleep(1500);
-            if (Skystone == true){
-                soundIndex = 14;
-                if ((soundID = myApp.getResources().getIdentifier(sounds[soundIndex], "raw", myApp.getPackageName())) != 0){
-                    soundPlaying = true;
-                    // Start playing, and also Create a callback that will clear the playing flag when the sound is complete.
-                    SoundPlayer.getInstance().startPlaying(myApp, soundID, params, null,
-                            new Runnable() {
-                                public void run() {
-                                    soundPlaying = false;
-                                }} );
-                }
+            if (Skystone){
                 rungoodstep();
             }
             else {
                 badstep = 0;
-                soundIndex = 5;
-                if ((soundID = myApp.getResources().getIdentifier(sounds[soundIndex], "raw", myApp.getPackageName())) != 0){
-                    soundPlaying = true;
-                    // Start playing, and also Create a callback that will clear the playing flag when the sound is complete.
-                    SoundPlayer.getInstance().startPlaying(myApp, soundID, params, null,
-                            new Runnable() {
-                                public void run() {
-                                    soundPlaying = false;
-                                }} );
-                }
                 runbadstep();
             }
             sleep(100000);
