@@ -184,15 +184,15 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
 
 
-        robot.motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        robot.motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
 
-        robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
@@ -200,9 +200,9 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
         telemetry.addData("Path0",  "Starting at %7d :%7d",
 
-                robot.motorFrontLeft.getCurrentPosition(),
+                robot.leftDrive.getCurrentPosition(),
 
-                robot.motorFrontRight.getCurrentPosition());
+                robot.rightDrive.getCurrentPosition());
 
         telemetry.update();
 
@@ -275,21 +275,21 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
             // Determine new target position, and pass to motor controller
 
-            newLeftTarget = robot.motorFrontLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newLeftTarget = robot.leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
 
-            newRightTarget = robot.motorFrontRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newRightTarget = robot.rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
 
-            robot.motorFrontLeft.setTargetPosition(newLeftTarget);
+            robot.leftDrive.setTargetPosition(newLeftTarget);
 
-            robot.motorFrontRight.setTargetPosition(newRightTarget);
+            robot.rightDrive.setTargetPosition(newRightTarget);
 
 
 
             // Turn On RUN_TO_POSITION
 
-            robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -297,9 +297,9 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
             runtime.reset();
 
-            robot.motorFrontLeft.setPower(Math.abs(speed));
+            robot.leftDrive.setPower(Math.abs(speed));
 
-            robot.motorFrontRight.setPower(Math.abs(speed));
+            robot.rightDrive.setPower(Math.abs(speed));
 
 
 
@@ -319,7 +319,7 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
                     (runtime.seconds() < timeoutS) &&
 
-                    (robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy())) {
+                    (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())) {
 
 
 
@@ -329,9 +329,9 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
                 telemetry.addData("Path2",  "Running at %7d :%7d",
 
-                        robot.motorFrontLeft.getCurrentPosition(),
+                        robot.leftDrive.getCurrentPosition(),
 
-                        robot.motorFrontRight.getCurrentPosition());
+                        robot.rightDrive.getCurrentPosition());
 
                 telemetry.update();
 
@@ -341,17 +341,17 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
             // Stop all motion;
 
-            robot.motorFrontLeft.setPower(0);
+            robot.leftDrive.setPower(0);
 
-            robot.motorFrontRight.setPower(0);
+            robot.rightDrive.setPower(0);
 
 
 
             // Turn off RUN_TO_POSITION
 
-            robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 

@@ -109,9 +109,9 @@ public class HardwarePushbot
 
     /* Public OpMode members. */
 
-    public DcMotor  motorFrontLeft   = null;
+    public DcMotor  leftDrive   = null;
 
-    public DcMotor  motorFrontRight  = null;
+    public DcMotor  rightDrive  = null;
 
     public DcMotor  leftArm     = null;
 
@@ -159,23 +159,23 @@ public class HardwarePushbot
 
         // Define and Initialize Motors
 
-        motorFrontLeft  = hwMap.get(DcMotor.class, "left_drive");
+        leftDrive  = hwMap.get(DcMotor.class, "left_drive");
 
-        motorFrontRight = hwMap.get(DcMotor.class, "right_drive");
+        rightDrive = hwMap.get(DcMotor.class, "right_drive");
 
         leftArm    = hwMap.get(DcMotor.class, "left_arm");
 
-        motorFrontLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
 
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
 
 
         // Set all motors to zero power
 
-        motorFrontLeft.setPower(0);
+        leftDrive.setPower(0);
 
-        motorFrontRight.setPower(0);
+        rightDrive.setPower(0);
 
         leftArm.setPower(0);
 
@@ -185,9 +185,9 @@ public class HardwarePushbot
 
         // May want to use RUN_USING_ENCODERS if encoders are installed.
 
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
