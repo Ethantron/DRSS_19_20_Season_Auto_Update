@@ -98,10 +98,10 @@ public class DriveByEncoder extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            motorFrontLeft.setPower(.2);
-            motorFrontRight.setPower(.2);
-            motorBackLeft.setPower(.2);
-            motorBackRight.setPower(.2);
+            motorFrontLeft.setPower(.1);
+            motorFrontRight.setPower(.1);
+            motorBackLeft.setPower(.1);
+            motorBackRight.setPower(.1);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -115,10 +115,13 @@ public class DriveByEncoder extends LinearOpMode {
 
                 // Display it for the driver.
                 telemetry.addData("Path2",  "Running at %7d :%7d", //Tells us where we are
-                        motorFrontLeft.getCurrentPosition(),
-                        motorFrontRight.getCurrentPosition(),
-                        motorBackLeft.getCurrentPosition(),
-                        motorBackRight.getCurrentPosition());
+                        motorFrontLeft.getCurrentPosition()); //Front Left Position
+                telemetry.addData("Path2",  "Running at %7d :%7d", //Tells us where we are
+                        motorFrontRight.getCurrentPosition()); //Front Right Position
+                telemetry.addData("Path2",  "Running at %7d :%7d", //Tells us where we are
+                        motorBackLeft.getCurrentPosition()); //Back Left Position
+                telemetry.addData("Path2",  "Running at %7d :%7d", //Tells us where we are
+                        motorBackRight.getCurrentPosition()); //Back Right Position
                 telemetry.update();
             }
 
