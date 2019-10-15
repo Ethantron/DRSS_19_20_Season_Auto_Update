@@ -117,17 +117,11 @@ public class Parking_Test extends LinearOpMode{
             }
 
             if (step == 2){
-
                 motorFrontRight.setPower(-.2);
-
                 motorFrontLeft.setPower(-.2);
-
                 motorBackLeft.setPower(-.2);
-
                 motorBackRight.setPower(-.2);
-
                 sleep(400);
-
                 step++;
             }
 
