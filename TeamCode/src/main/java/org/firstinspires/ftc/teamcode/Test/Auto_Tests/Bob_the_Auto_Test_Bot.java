@@ -217,11 +217,11 @@ public class Bob_the_Auto_Test_Bot extends LinearOpMode {
             sleep(300);
             AllStop();
             WantedAngle = 90;
+            sleep(100);
             step++;
         }
 
         if (step == 5){
-            sleep(100);
             AllAhead();
             sleep(500);
             step++;
@@ -230,6 +230,7 @@ public class Bob_the_Auto_Test_Bot extends LinearOpMode {
         if (step == 6){
             AllStop();
             WantedAngle = 65;
+            sleep (100);
             step++;
         }
 
@@ -263,6 +264,7 @@ public class Bob_the_Auto_Test_Bot extends LinearOpMode {
                 sleep(100);
                 AllRight();
                 sleep(500);
+                AllStop();
                 grabR.setPosition(90);
             }
             step++;
