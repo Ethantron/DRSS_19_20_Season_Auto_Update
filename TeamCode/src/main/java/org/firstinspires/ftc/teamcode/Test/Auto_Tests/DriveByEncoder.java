@@ -59,14 +59,14 @@ public class DriveByEncoder extends LinearOpMode {
 
         waitForStart(); //Waits for the Driver to Press Start
 
-        encoderDrive(0.2,  48,  48, 5.0);  // S1: Forward 48 Inches with 5 Sec timeout
+        encoderDrive(0.2,  48,  29);  // S1: Forward 48 Inches with 29 Sec timeout
 
         //Tell us that we are done
         telemetry.addData("Done!", "The robot has moved 48 Inches :)");
         telemetry.update();
     }
 
-    public void encoderDrive(double speed, double leftInches, double rightInches, double timeoutS) {
+    public void encoderDrive(double speed, double Inches, double timeoutS) {
 
         //Create our target variables
         int newFrontLeftTarget;
@@ -78,10 +78,10 @@ public class DriveByEncoder extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Math to calculate each target position for the motors
-            newFrontLeftTarget = motorFrontLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newFrontRightTarget = motorFrontRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            newBackLeftTarget = motorBackLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newBackRightTarget = motorBackRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newFrontLeftTarget = motorFrontLeft.getCurrentPosition() + (int)(Inches * COUNTS_PER_INCH);
+            newFrontRightTarget = motorFrontRight.getCurrentPosition() + (int)(Inches * COUNTS_PER_INCH);
+            newBackLeftTarget = motorBackLeft.getCurrentPosition() + (int)(Inches * COUNTS_PER_INCH);
+            newBackRightTarget = motorBackRight.getCurrentPosition() + (int)(Inches * COUNTS_PER_INCH);
 
             //Set Target Positions to respective motors
             motorFrontLeft.setTargetPosition(newFrontLeftTarget);
@@ -97,10 +97,10 @@ public class DriveByEncoder extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            motorFrontLeft.setPower(Math.abs(speed));
-            motorFrontRight.setPower(Math.abs(speed));
-            motorBackLeft.setPower(Math.abs(speed));
-            motorBackRight.setPower(Math.abs(speed));
+            motorFrontLeft.setPower((speed));
+            motorFrontRight.setPower((speed));
+            motorBackLeft.setPower((speed));
+            motorBackRight.setPower((speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
