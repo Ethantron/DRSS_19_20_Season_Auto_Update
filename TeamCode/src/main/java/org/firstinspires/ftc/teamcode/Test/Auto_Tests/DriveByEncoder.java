@@ -62,7 +62,7 @@ public class DriveByEncoder extends LinearOpMode {
         encoderDrive(0.2,  48,  48, 5.0);  // S1: Forward 48 Inches with 5 Sec timeout
 
         //Tell us that we are done
-        telemetry.addData("Done!", "The robot has moved 48 Inches");
+        telemetry.addData("Done!", "The robot has moved 48 Inches :)");
         telemetry.update();
     }
 
