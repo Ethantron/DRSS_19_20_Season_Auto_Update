@@ -98,10 +98,10 @@ public class DriveByEncoder extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            motorFrontLeft.setPower((speed));
-            motorFrontRight.setPower((speed));
-            motorBackLeft.setPower((speed));
-            motorBackRight.setPower((speed));
+            motorFrontLeft.setPower(.2);
+            motorFrontRight.setPower(.2);
+            motorBackLeft.setPower(.2);
+            motorBackRight.setPower(.2);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
