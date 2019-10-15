@@ -88,8 +88,7 @@ public class Parking_Test extends LinearOpMode{
             }
 
             // Does it see the line?
-            while (step == 0){
-                if (opModeIsActive()){
+            while (step == 0 && opModeIsActive()){
                     Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
                             (int) (sensorColor.green() * SCALE_FACTOR),
                             (int) (sensorColor.blue() * SCALE_FACTOR),
@@ -103,8 +102,7 @@ public class Parking_Test extends LinearOpMode{
                     telemetry.addData("Step: ", step);
                     telemetry.addData("Hue", hsvValues[0]);
                     telemetry.update();
-                }
-                //
+
                 if (hsvValues[0] > 150 ){ // Checks if it is red or blue
                     step++;
                 }
@@ -119,11 +117,11 @@ public class Parking_Test extends LinearOpMode{
             }
 
             if (step == 2){
-                motorFrontRight.setPower(-.5);
-                motorFrontLeft.setPower(-.5);
-                motorBackLeft.setPower(-.5);
-                motorBackRight.setPower(-.5);
-                sleep(200);
+                motorFrontRight.setPower(-.2);
+                motorFrontLeft.setPower(-.2);
+                motorBackLeft.setPower(-.2);
+                motorBackRight.setPower(-.2);
+                sleep(400);
                 step++;
             }
 
