@@ -59,6 +59,7 @@ public class DriveByEncoder extends LinearOpMode {
 
         waitForStart(); //Waits for the Driver to Press Start
 
+
         encoderDrive(0.2,  48,  29);  // S1: Forward 48 Inches with 29 Sec timeout
 
         //Tell us that we are done
