@@ -26,7 +26,7 @@ public class DriveByEncoder extends LinearOpMode {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode(){
 
         // Drive train initialization
         motorFrontRight = hardwareMap.dcMotor.get("FR");
@@ -114,13 +114,13 @@ public class DriveByEncoder extends LinearOpMode {
                     (motorFrontLeft.isBusy() && motorFrontRight.isBusy() && motorBackLeft.isBusy() && motorBackRight.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path2",  "Running at %7d :%7d", //Tells us where we are
+                telemetry.addData("FLM: Path2",  "Running at %7d", //Tells us where we are
                         motorFrontLeft.getCurrentPosition()); //Front Left Position
-                telemetry.addData("Path2",  "Running at %7d :%7d", //Tells us where we are
+                telemetry.addData("FRM: Path2",  "Running at %7d", //Tells us where we are
                         motorFrontRight.getCurrentPosition()); //Front Right Position
-                telemetry.addData("Path2",  "Running at %7d :%7d", //Tells us where we are
+                telemetry.addData("BLM: Path2",  "Running at %7d", //Tells us where we are
                         motorBackLeft.getCurrentPosition()); //Back Left Position
-                telemetry.addData("Path2",  "Running at %7d :%7d", //Tells us where we are
+                telemetry.addData("BRM: Path2",  "Running at %7d", //Tells us where we are
                         motorBackRight.getCurrentPosition()); //Back Right Position
                 telemetry.update();
             }
