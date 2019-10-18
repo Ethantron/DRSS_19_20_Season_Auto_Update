@@ -65,6 +65,7 @@ public class DriveByEncoder extends LinearOpMode {
         //Tell us that we are done
         telemetry.addData("Done!", "The robot has moved 48 Inches :)");
         telemetry.update();
+        sleep(1000);
     }
 
     public void encoderDrive(double speed, double Inches, double timeoutS) {
