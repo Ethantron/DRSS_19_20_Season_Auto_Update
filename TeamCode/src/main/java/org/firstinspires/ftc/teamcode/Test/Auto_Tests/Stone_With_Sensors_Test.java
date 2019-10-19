@@ -113,14 +113,14 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
         composeTelemetry();
-
+/*
         // Skystone detection initialization
         initVuforia();
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-        }
+        }*/
 
         // Color sensor initialization
         sensorColor = hardwareMap.get(ColorSensor.class, "color_sensor");
@@ -175,7 +175,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
 
         // Has robot move forward 20 inches to line up to scan
         if (step == 0) {
-            encoderDrive(0.6, 0.6, 0.6, 0.6, -20, -20, -20, -20,  5); //Move forward 20" for 5 sec
+            encoderDrive(0.4, -20,  5); //Move forward 20" for 5 sec
             step++;
         }
 
@@ -190,16 +190,25 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         // If not, it will run "badstep"
         if (step == 2){
             if (Skystone){
-                rungoodstep();
+                encoderDrive(0.4, -5,  .2);
+                step++;
             }
             else {
-                runbadstep();
+                if (stonecount < 2) {
+                    encoderStrafe(0.4, 0.7, 0.7, 0.4, 15, -15, -15, 15,  2);
+                    stonecount++;
+                    scan();
+                    step = 1;
+
+                } else if (stonecount >= 2) {
+                    Skystone = true;
+                }
             }
         }
 
         // Has the robot move backwards 10 inches
         if (step == 3){
-            encoderDrive(0.6, 0.6, 0.6, 0.6, 10, 10, 10, 10,  10);
+            encoderDrive(0.4, 10, 10 );
             step++;
         }
 
@@ -287,7 +296,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
 
             // Moves the robot backwards to stay on the line
             if (step == 7){
-                encoderDrive(0.2, 0.2, 0.2, 0.2, -1, -1, -1, -1,  .1);
+                encoderDrive(0.2,  -1,  .1);
             }
         }
     }
@@ -315,7 +324,13 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
     }
 
     // Private void that uses TensorFlow to look for both stones and skystones
-    private void scan (){
+    public void scan (){
+        initVuforia();
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            initTfod();
+        } else {
+            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+        }
         if (tfod != null) {
             tfod.activate();
         }
@@ -349,7 +364,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
 
     // Moves forwards 5 inches
     private void rungoodstep(){
-            encoderDrive(0.6, 0.6, 0.6, 0.6, 5, 5, 5, 5,  .2);
+            encoderDrive(0.4, -5, 0.2);
             step++;
     }
 
@@ -357,16 +372,92 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
     // If stone count is greater than 2, it will automatically run "goodstep" instead of "badstep"
     private void runbadstep(){
         if (stonecount < 2) {
-                encoderDrive(0.4, 0.7, 0.7, 0.4, 5, -5, -5, 5,  0.5);
+                encoderStrafe(0.4, 0.7, 0.7, 0.4, 15, -15, -15, 15,  2);
                 step = 1;
                 stonecount++;
-        } else if (stonecount > 2) {
+        } else if (stonecount >= 2) {
             rungoodstep();
         }
     }
 
+
+    public void encoderDrive(double speed, double Inches, double timeoutS) {
+
+        //Create our target variables
+        int newFrontLeftTarget;
+        int newFrontRightTarget;
+        int newBackLeftTarget;
+        int newBackRightTarget;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Math to calculate each target position for the motors
+            newFrontLeftTarget = motorFrontLeft.getCurrentPosition() + (int)(Inches * COUNTS_PER_INCH);
+            newFrontRightTarget = motorFrontRight.getCurrentPosition() + (int)(Inches * COUNTS_PER_INCH);
+            newBackLeftTarget = motorBackLeft.getCurrentPosition() + (int)(Inches * COUNTS_PER_INCH);
+            newBackRightTarget = motorBackRight.getCurrentPosition() + (int)(Inches * COUNTS_PER_INCH);
+
+            //Set Target Positions to respective motors
+            motorFrontLeft.setTargetPosition(newFrontLeftTarget);
+            motorFrontRight.setTargetPosition(newFrontRightTarget);
+            motorBackLeft.setTargetPosition(newBackLeftTarget);
+            motorBackRight.setTargetPosition(newBackRightTarget);
+
+            // Turn On RUN_TO_POSITION
+            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            motorFrontLeft.setPower(.1);
+            motorFrontRight.setPower(.1);
+            motorBackLeft.setPower(.1);
+            motorBackRight.setPower(.1);
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (motorFrontLeft.isBusy() && motorFrontRight.isBusy() && motorBackLeft.isBusy() && motorBackRight.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("FLM: Path2",  "Running at %7d", //Tells us where we are
+                        motorFrontLeft.getCurrentPosition()); //Front Left Position
+                telemetry.addData("FRM: Path2",  "Running at %7d", //Tells us where we are
+                        motorFrontRight.getCurrentPosition()); //Front Right Position
+                telemetry.addData("BLM: Path2",  "Running at %7d", //Tells us where we are
+                        motorBackLeft.getCurrentPosition()); //Back Left Position
+                telemetry.addData("BRM: Path2",  "Running at %7d", //Tells us where we are
+                        motorBackRight.getCurrentPosition()); //Back Right Position
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            motorFrontLeft.setPower(0);
+            motorFrontRight.setPower(0);
+            motorBackLeft.setPower(0);
+            motorBackRight.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            //  sleep(250);   // optional pause after each move
+        }
+    }
+
+
     // Does all of the calculations to have the motors run off of encoders
-    public void encoderDrive(double FLspeed, double FRspeed, double BLspeed, double BRspeed,
+    public void encoderStrafe(double FLspeed, double FRspeed, double BLspeed, double BRspeed,
                              double FL, double FR, double BL, double BR, double timeoutS) {
 
         //Create our target variables
