@@ -25,8 +25,7 @@ public class Scanner_Tests_Test extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
-    private static final String VUFORIA_KEY =
-            "ASHBoLr/////AAABmbIUXlLiiEgrjVbqu8Iavlg6iPFigYso/+BCZ9uMzyAZFoo9CIzpV818SAqrjzuygz3hCeLW/ImK3xMH7DalGMwavqetwXS9Jw4I+rff2naxgV7n+EtYFvdCkUJDHfHVq1A4mhxDHgrjWZEqnLmZk25ppnIizQ0Ozcq4h6UmrWndEVEz8eKcCgn+IuglCEoEswvNBRAaKm/TAlpxLRNC6jQkZdJUh/TGYT05g9YCZo4+1ugmx01jrPCyHQVPVoeXm6VebLIuP7sNPw7njYzmVi2ffV5bYc4vf5kc5l5JwhBdPqnxuMfDLnHWaCkAO1UlVWqy2eY7/4b6iUYI2yN16ZKswSzLMmMNtPBu7e9HhKxA";
+    private static final String VUFORIA_KEY = "ASHBoLr/////AAABmbIUXlLiiEgrjVbqu8Iavlg6iPFigYso/+BCZ9uMzyAZFoo9CIzpV818SAqrjzuygz3hCeLW/ImK3xMH7DalGMwavqetwXS9Jw4I+rff2naxgV7n+EtYFvdCkUJDHfHVq1A4mhxDHgrjWZEqnLmZk25ppnIizQ0Ozcq4h6UmrWndEVEz8eKcCgn+IuglCEoEswvNBRAaKm/TAlpxLRNC6jQkZdJUh/TGYT05g9YCZo4+1ugmx01jrPCyHQVPVoeXm6VebLIuP7sNPw7njYzmVi2ffV5bYc4vf5kc5l5JwhBdPqnxuMfDLnHWaCkAO1UlVWqy2eY7/4b6iUYI2yN16ZKswSzLMmMNtPBu7e9HhKxA";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
 
@@ -51,6 +50,9 @@ public class Scanner_Tests_Test extends LinearOpMode {
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
+        if (tfod != null) {
+            tfod.activate();
+        }
 
         // Wait for the game to begin
         telemetry.addData("Status: ", "Initialized");
@@ -59,21 +61,42 @@ public class Scanner_Tests_Test extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()){
-            scan();
-            if (Skystone){
-                motorFrontRight.setPower(.6);
-                motorFrontLeft.setPower(-.6);
-                motorBackLeft.setPower(-.6);
-                motorBackRight.setPower(.6);
-                sleep(300000);
+            if (step == 0) {
+                motorFrontRight.setPower(.1);
+                motorFrontLeft.setPower(.1);
+                motorBackLeft.setPower(.1);
+                motorBackRight.setPower(.1);
+                sleep(3000);
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                step++;
+            }
+            if (step == 1) {
+                scan();
+                if (Skystone) {
+                    motorFrontRight.setPower(.6);
+                    motorFrontLeft.setPower(-.6);
+                    motorBackLeft.setPower(-.6);
+                    motorBackRight.setPower(.6);
+                    sleep(300000);
+                } else {
+                    motorFrontRight.setPower(.4);
+                    motorFrontLeft.setPower(-.4);
+                    motorBackLeft.setPower(.4);
+                    motorBackRight.setPower(-.4);
+                    sleep(500);
+                    motorFrontRight.setPower(0);
+                    motorFrontLeft.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+                }
             }
         }
     }
 
     public void scan (){
-        if (tfod != null) {
-            tfod.activate();
-        }
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -96,7 +119,7 @@ public class Scanner_Tests_Test extends LinearOpMode {
                 telemetry.update();
             }
         }
-        sleep(5000);
+        sleep(4000);
         if (tfod != null) {
             tfod.shutdown();
         }
