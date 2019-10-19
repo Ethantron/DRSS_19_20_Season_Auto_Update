@@ -95,12 +95,12 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-/*
+
         //Tells Robots to Reset Encoders
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Gyroscope initialization
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -175,7 +175,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
 
         // Has robot move forward 20 inches to line up to scan
         if (step == 0) {
-            encoderDrive(0.6, 0.6, 0.6, 0.6, 20, 20, 20, 20,  5); //Move forward 20" for 5 sec
+            encoderDrive(0.6, 0.6, 0.6, 0.6, -20, -20, -20, -20,  5); //Move forward 20" for 5 sec
             step++;
         }
 
@@ -189,7 +189,6 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         // If it sees a skystone it will run the private void "goodstep"
         // If not, it will run "badstep"
         if (step == 2){
-            sleep(1500);
             if (Skystone){
                 rungoodstep();
             }
@@ -200,7 +199,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
 
         // Has the robot move backwards 10 inches
         if (step == 3){
-            encoderDrive(0.6, 0.6, 0.6, 0.6, -10, -10, -10, -10,  10);
+            encoderDrive(0.6, 0.6, 0.6, 0.6, 10, 10, 10, 10,  10);
             step++;
         }
 
@@ -358,7 +357,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
     // If stone count is greater than 2, it will automatically run "goodstep" instead of "badstep"
     private void runbadstep(){
         if (stonecount < 2) {
-                encoderDrive(0.4, 0.7, 0.7, 0.4, 5, -5, -5, 5,  0.1);
+                encoderDrive(0.4, 0.7, 0.7, 0.4, 5, -5, -5, 5,  0.5);
                 step = 1;
                 stonecount++;
         } else if (stonecount > 2) {
