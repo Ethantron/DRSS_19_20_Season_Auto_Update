@@ -32,6 +32,7 @@ public class Auto_Scanning extends LinearOpMode {
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
     double step = 0;
+    double scanstep = 0;
     double pos = 0;
 
     // Skystone detection definitions
@@ -145,6 +146,38 @@ public class Auto_Scanning extends LinearOpMode {
             step++;
         }
 
+        if (step == 2){
+            runscanstep();
+            step++;
+        }
+
+        if (step == 3 && !Skystone){
+            runscanstep();
+            step++;
+        }
+
+        if (step == 4 && !Skystone){
+            runscanstep();
+            step++;
+        }
+
+        if ((step == 3 && Skystone) || (step == 4 && Skystone)){
+            encoderDrive(0.2,  -30,  10);
+            step = 5;
+        }
+
+        if (step == 5) {
+            motorFrontRight.setPower(-.6);
+            motorFrontLeft.setPower(.6);
+            motorBackLeft.setPower(.6);
+            motorBackRight.setPower(-.6);
+            sleep(600);
+            motorFrontRight.setPower(0);
+            motorFrontLeft.setPower(0);
+            motorBackLeft.setPower(0);
+            motorBackRight.setPower(0);
+        }
+/*
         if (step == 2) { //Scans for the Skystone
             pos++; //Sets the position of the skystone
             scan(); //Scans for skystone
@@ -180,27 +213,76 @@ public class Auto_Scanning extends LinearOpMode {
                     motorFrontRight.setPower(.4);
                     motorBackLeft.setPower(.4);
                     motorBackRight.setPower(-.4);
-                    sleep(500);
+                    sleep(600);
                     motorFrontLeft.setPower(0);
                     motorFrontRight.setPower(0);
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
-                    step = 1;
+                    step--;
+                }
+            }
+        }
+        */
+
+    }
+
+
+    //Skystone Position Voids
+
+    private void runscanstep(){
+        if (scanstep == 0) { //Scans for the Skystone
+            pos++; //Sets the position of the skystone
+            scan(); //Scans for skystone
+            sleep(2000);
+            scanstep++;
+        }
+
+        if (scanstep == 1){
+            if (Skystone){
+
+                telemetry.addData("Skystone", "found!");
+                telemetry.update();
+
+                if (pos==1) { //If the skystone is found in position 1
+                    pos1(); //Run position 1 void
+                }
+
+                if (pos==2) { //If the skystone is found in position 2
+                    pos2(); //Run position 2 void
+                }
+            }
+            if (!Skystone){ //If skystone is not sensed
+
+                telemetry.addData("Skystone", " not found :(");
+                telemetry.update();
+
+                if (pos >= 2) { //If it has been false for the first 2 scans, it must be pos 3
+                    pos3();
+                }
+
+                if (pos < 2) { //If it has been scanned and came back false
+                    motorFrontLeft.setPower(-.4);
+                    motorFrontRight.setPower(.4);
+                    motorBackLeft.setPower(.4);
+                    motorBackRight.setPower(-.4);
+                    sleep(600);
+                    motorFrontLeft.setPower(0);
+                    motorFrontRight.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+                    scanstep--;
                 }
             }
         }
     }
 
 
-    //Skystone Position Voids
-
-
     private void pos1() {
-        encoderDrive(0.2,  5,  10);  // Forward 5 Inches with 10 Sec timeout
+        encoderDrive(0.2,  20,  10);  // Forward 5 Inches with 10 Sec timeout
     }
 
     private void pos2() {
-        encoderDrive(0.2,  5,  10);  // Forward 5 Inches with 10 Sec timeout
+        encoderDrive(0.2,  20,  10);  // Forward 5 Inches with 10 Sec timeout
     }
 
     private void pos3() {
@@ -214,7 +296,7 @@ public class Auto_Scanning extends LinearOpMode {
         motorBackLeft.setPower(0);
         motorBackRight.setPower(0);
 
-        encoderDrive(0.2,  5,  10);  // Forward 5 Inches with 10 Sec timeout
+        encoderDrive(0.2,  20,  10);  // Forward 5 Inches with 10 Sec timeout
     }
 
 
@@ -319,9 +401,9 @@ public class Auto_Scanning extends LinearOpMode {
                 }
             }
             sleep(4000);
-            if (tfod != null) {
-                tfod.shutdown();
-            }
+//            if (tfod != null) {
+//                tfod.shutdown();
+//            }
     }
 
 
