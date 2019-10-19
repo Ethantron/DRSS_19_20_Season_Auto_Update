@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -76,10 +77,10 @@ public class Auto_Scanning extends LinearOpMode {
         motorBackLeft = hardwareMap.dcMotor.get("BL");
         motorBackRight = hardwareMap.dcMotor.get("BR");
 
-        motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
-        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackRight.setDirection(DcMotor.Direction.FORWARD);
 
         // Encoder initialization
         telemetry.addData("Status", "Resetting Encoders");
@@ -284,7 +285,6 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
     public void scan (){
-        initVuforia();
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {
