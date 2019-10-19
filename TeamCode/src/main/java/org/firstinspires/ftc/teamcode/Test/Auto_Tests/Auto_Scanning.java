@@ -145,7 +145,6 @@ public class Auto_Scanning extends LinearOpMode {
         if (step == 2) { //Scans for the Skystone
             pos++; //Sets the position of the skystone
             scan(); //Scans for skystone
-            sleep(2000);
             step++;
         }
 
@@ -323,7 +322,7 @@ public class Auto_Scanning extends LinearOpMode {
                 telemetry.update();
             }
         }
-        sleep(1500);
+        sleep(3500);
         if (tfod != null) {
             tfod.shutdown();
         }
