@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -205,7 +204,7 @@ public class Auto_Scanning extends LinearOpMode {
         motorFrontRight.setPower(.4);
         motorBackLeft.setPower(.4);
         motorBackRight.setPower(-.4);
-        sleep(500);
+        sleep(750);
         motorFrontLeft.setPower(0);
         motorFrontRight.setPower(0);
         motorBackLeft.setPower(0);
@@ -293,11 +292,6 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
     public void scan (){
-        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod();
-        } else {
-            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-        }
         if (tfod != null) {
             tfod.activate();
         }
@@ -323,7 +317,7 @@ public class Auto_Scanning extends LinearOpMode {
                 telemetry.update();
             }
         }
-        sleep(3500);
+        sleep(5000);
         if (tfod != null) {
             tfod.shutdown();
         }
