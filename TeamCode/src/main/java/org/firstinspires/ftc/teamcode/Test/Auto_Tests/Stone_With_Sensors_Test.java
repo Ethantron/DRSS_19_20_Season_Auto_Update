@@ -140,7 +140,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
 
         // Makes sure that the robot is always centered
-        while (opModeIsActive()) {
+        /*while (opModeIsActive()) {
             telemetry.update();
 
             if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
@@ -171,11 +171,11 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
                 motorBackRight.setPower(Power);
                 motorBackLeft.setPower(-Power);
             }
-        }
+        }*/
 
         // Has robot move forward 20 inches to line up to scan
         if (step == 0) {
-            encoderDrive(0.6, 0.6, 0.6, 0.6, 20, 20, 20, 20,  5);
+            encoderDrive(0.6, 0.6, 0.6, 0.6, 20, 20, 20, 20,  5); //Move forward 20" for 5 sec
             step++;
         }
 
@@ -207,8 +207,30 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         // Turns the robot 90 degrees to the right
         if (step == 4){
             WantedAngle = 90;
-            sleep(1000);
-            step++;
+
+            if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackRight.setPower(0);
+                motorBackLeft.setPower(0);
+                centered = 1;
+                telemetry.addData("Robot is", "Centered! :)");
+                step++;
+            }
+
+            if (angles.firstAngle < WantedAngle) { //adjust robots by turning right
+                motorFrontRight.setPower(-Power);
+                motorFrontLeft.setPower(Power);
+                motorBackRight.setPower(-Power);
+                motorBackLeft.setPower(Power);
+            }
+
+            if (angles.firstAngle > WantedAngle) { //adjust robots by turning left
+                motorFrontRight.setPower(Power);
+                motorFrontLeft.setPower(-Power);
+                motorBackRight.setPower(Power);
+                motorBackLeft.setPower(-Power);
+            }
         }
 
         while (opModeIsActive()){
@@ -266,7 +288,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
 
             // Moves the robot backwards to stay on the line
             if (step == 7){
-                encoderDrive(0.2, 0.2, 0.2, 0.2, 1, 1, 1, 1,  .1);
+                encoderDrive(0.2, 0.2, 0.2, 0.2, -1, -1, -1, -1,  .1);
             }
         }
     }
