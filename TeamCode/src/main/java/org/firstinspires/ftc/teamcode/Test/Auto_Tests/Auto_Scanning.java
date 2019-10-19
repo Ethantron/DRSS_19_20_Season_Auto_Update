@@ -145,6 +145,7 @@ public class Auto_Scanning extends LinearOpMode {
         if (step == 2) { //Scans for the Skystone
             pos++; //Sets the position of the skystone
             scan(); //Scans for skystone
+            sleep(2000);
             step++;
         }
 
@@ -162,7 +163,7 @@ public class Auto_Scanning extends LinearOpMode {
                     pos2(); //Run position 2 void
                 }
             }
-            else { //If skystone is not sensed
+            if (!Skystone){ //If skystone is not sensed
 
                 telemetry.addData("Skystone", " not found :(");
                 telemetry.update();
