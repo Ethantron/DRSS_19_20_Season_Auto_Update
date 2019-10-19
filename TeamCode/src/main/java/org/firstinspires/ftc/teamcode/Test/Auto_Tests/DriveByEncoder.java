@@ -57,6 +57,9 @@ public class DriveByEncoder extends LinearOpMode {
 
         telemetry.clear();
 
+        telemetry.addData("Status: ", "Initialized");
+        telemetry.addData(">", "Press Play to start op mode");
+        telemetry.update();
         waitForStart(); //Waits for the Driver to Press Start
 
 

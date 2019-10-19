@@ -89,44 +89,44 @@ public class Gyro_Turning extends LinearOpMode {
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
-            telemetry.clear();
-            telemetry.addData("Status: ", "Running");
-            telemetry.addData("step", step);
-            telemetry.addData("Wanted Angle:", WantedAngle);
-            telemetry.update();
+                telemetry.clear();
+                telemetry.addData("Status: ", "Running");
+                telemetry.addData("step", step);
+                telemetry.addData("Wanted Angle:", WantedAngle);
+                telemetry.update();
 
-            if (step == 0) {
-                WantedAngle = 90; //Set Wanted Angle to 90 Degrees
-                sleep(100);
-                step++;
-            }
-
-            if (step==1) {
-                //Gyro Turning Code
-                if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
-                    centered = 1;
-                    telemetry.addData("Robot is", "Centered! :)");
+                if (step == 0) {
+                    WantedAngle = 90; //Set Wanted Angle to 90 Degrees
+                    sleep(100);
                     step++;
-                } else { //allows robot to adjust if not centered
-                    centered = 0;
-                    telemetry.addData("Robot is", "Not Centered! :(");
-                    telemetry.addData("Adjusting", "Robot");
                 }
 
-                if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
-                    motorFrontRight.setPower(-Power);
-                    motorFrontLeft.setPower(Power);
-                    motorBackRight.setPower(-Power);
-                    motorBackLeft.setPower(Power);
-                }
+                if (step==1) {
+                    //Gyro Turning Code
+                    if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
+                        centered = 1;
+                        telemetry.addData("Robot is", "Centered! :)");
+                        step++;
+                    } else { //allows robot to adjust if not centered
+                        centered = 0;
+                        telemetry.addData("Robot is", "Not Centered! :(");
+                        telemetry.addData("Adjusting", "Robot");
+                    }
 
-                if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
-                    motorFrontRight.setPower(Power);
-                    motorFrontLeft.setPower(-Power);
-                    motorBackRight.setPower(Power);
-                    motorBackLeft.setPower(-Power);
+                    if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
+                        motorFrontRight.setPower(-Power);
+                        motorFrontLeft.setPower(Power);
+                        motorBackRight.setPower(-Power);
+                        motorBackLeft.setPower(Power);
+                    }
+
+                    if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
+                        motorFrontRight.setPower(Power);
+                        motorFrontLeft.setPower(-Power);
+                        motorBackRight.setPower(Power);
+                        motorBackLeft.setPower(-Power);
+                    }
                 }
-            }
 
             if (step == 2) {
                 motorFrontRight.setPower(.5);
