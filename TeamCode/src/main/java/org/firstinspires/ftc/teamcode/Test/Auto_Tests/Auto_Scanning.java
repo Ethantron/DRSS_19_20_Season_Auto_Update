@@ -151,6 +151,10 @@ public class Auto_Scanning extends LinearOpMode {
 
         if (step == 3){
             if (Skystone){
+
+                telemetry.addData("Skystone", "found!");
+                telemetry.update();
+
                 if (pos==1) { //If the skystone is found in position 1
                     pos1(); //Run position 1 void
                 }
@@ -160,6 +164,10 @@ public class Auto_Scanning extends LinearOpMode {
                 }
             }
             else { //If skystone is not sensed
+
+                telemetry.addData("Skystone", " not found :(");
+                telemetry.update();
+
                 if (pos >= 2) { //If it has been false for the first 2 scans, it must be pos 3
                     pos3();
                 }
