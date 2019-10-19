@@ -1,5 +1,7 @@
+// Defines where the code is in the project
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
+// Imports for the code
 import android.graphics.Color;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -25,8 +27,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
+// Defines the codes name
 @Autonomous(name = "Stone_With_Sensors_Test", group= "Autonomous")
 public class Stone_With_Sensors_Test extends LinearOpMode {
+
+    // Robot definitions
     public DcMotor motorFrontRight;
     public DcMotor motorFrontLeft;
     public DcMotor motorBackRight;
@@ -34,21 +39,23 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
     double step = 0;
     double stonecount = 0;
 
+    // Skystone detection definitions
     boolean Skystone = false;
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
-
-    private ElapsedTime runtime = new ElapsedTime();
-    static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
-
     private static final String VUFORIA_KEY =
             "ASHBoLr/////AAABmbIUXlLiiEgrjVbqu8Iavlg6iPFigYso/+BCZ9uMzyAZFoo9CIzpV818SAqrjzuygz3hCeLW/ImK3xMH7DalGMwavqetwXS9Jw4I+rff2naxgV7n+EtYFvdCkUJDHfHVq1A4mhxDHgrjWZEqnLmZk25ppnIizQ0Ozcq4h6UmrWndEVEz8eKcCgn+IuglCEoEswvNBRAaKm/TAlpxLRNC6jQkZdJUh/TGYT05g9YCZo4+1ugmx01jrPCyHQVPVoeXm6VebLIuP7sNPw7njYzmVi2ffV5bYc4vf5kc5l5JwhBdPqnxuMfDLnHWaCkAO1UlVWqy2eY7/4b6iUYI2yN16ZKswSzLMmMNtPBu7e9HhKxA";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
 
+    // Encoder definitions
+    private ElapsedTime runtime = new ElapsedTime();
+    static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: TETRIX Motor Encoder
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    // Gyroscope definitions
     double centered = 0; //Senses whether or not robot is centered
     double Power = .2; //Sets Motor Power
     double Range = 8; //Change this to change the range of degrees (Tolerance)
@@ -60,12 +67,15 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
     Orientation angles;
     Acceleration gravity;
 
+    // Color sensor definitions
     ColorSensor sensorColor;
     ColorSensor color2;
     DistanceSensor sensorDistance;
 
     @Override
     public void runOpMode() {
+
+        // Drivetrain initialization
         motorFrontLeft = hardwareMap.dcMotor.get("FL");
         motorFrontRight = hardwareMap.dcMotor.get("FR");
         motorBackLeft = hardwareMap.dcMotor.get("BL");
@@ -76,6 +86,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 
+        // Encoder initialization
         telemetry.addData("Status", "Resetting Encoders");
         telemetry.update();
 
@@ -91,6 +102,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
 
+        // Gyroscope initialization
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -102,8 +114,8 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         imu.initialize(parameters);
         composeTelemetry();
 
+        // Skystone detection initialization
         initVuforia();
-
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {
@@ -118,14 +130,16 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         final float values[] = hsvValues;
         final double SCALE_FACTOR = 255;
 
-        /* Wait for the game to begin */
+        // Wait for the game to begin
         telemetry.addData("Status: ", "Initialized");
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
 
+        // Starts Gyro logging
         imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
 
+        // Makes sure that the robot is always centered
         while (opModeIsActive()) {
             telemetry.update();
 
@@ -159,17 +173,21 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
             }
         }
 
+        // Has robot move forward 20 inches to line up to scan
         if (step == 0) {
             encoderDrive(0.6, 0.6, 0.6, 0.6, 20, 20, 20, 20,  5);
             step++;
         }
 
+        // Scans
         if (step == 1) {
             scan();
             sleep(2000);
             step++;
         }
 
+        // If it sees a skystone it will run the private void "goodstep"
+        // If not, it will run "badstep"
         if (step == 2){
             sleep(1500);
             if (Skystone){
@@ -180,12 +198,20 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
             }
         }
 
-        while (opModeIsActive()){
-            // Color Sensor Code
+        // Has the robot move backwards 10 inches
+        if (step == 3){
+            encoderDrive(0.6, 0.6, 0.6, 0.6, -10, -10, -10, -10,  10);
+            step++;
+        }
 
-            // Convert the RGB values to HSV values.
-            // Multiply by the SCALE_FACTOR.
-            // Cast it back to int (SCALE_FACTOR is a double)
+        // Turns the robot 90 degrees to the right
+        if (step == 4){
+            WantedAngle = 90;
+            sleep(1000);
+            step++;
+        }
+
+        while (opModeIsActive()){
             Color.RGBToHSV((int) (color2.red() * SCALE_FACTOR),
                     (int) (color2.green() * SCALE_FACTOR),
                     (int) (color2.blue() * SCALE_FACTOR),
@@ -201,15 +227,15 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
             telemetry.update();
 
             // Move forward
-            if (step == 3){
+            if (step == 5){
                 motorFrontRight.setPower(.2);
                 motorFrontLeft.setPower(.2);
                 motorBackLeft.setPower(.2);
                 motorBackRight.setPower(.2);
             }
 
-            // Does it see the line?
-            while (step == 3 && opModeIsActive()){
+            // Starts scanning with the color sensor
+            while (step == 5 && opModeIsActive()){
                 Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
                         (int) (sensorColor.green() * SCALE_FACTOR),
                         (int) (sensorColor.blue() * SCALE_FACTOR),
@@ -220,55 +246,44 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
                         hsvValues);
 
                 // Send the info back to driver station using telemetry function.
-                telemetry.addData("Step: ", step);
                 telemetry.addData("Hue", hsvValues[0]);
                 telemetry.update();
 
-                if (hsvValues[0] > 150 ){ // Checks if it is red or blue
+                // Checks for a light value over 150
+                if (hsvValues[0] > 150 ){
                     step++;
                 }
             }
 
-            if (step == 4){
-                motorFrontRight.setPower(0);
-                motorFrontLeft.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
-                step++;
-            }
-
-            if (step == 5){
-                motorFrontRight.setPower(-.2);
-                motorFrontLeft.setPower(-.2);
-                motorBackLeft.setPower(-.2);
-                motorBackRight.setPower(-.2);
-                sleep(100);
-                step++;
-            }
-
+            // Stops the robot
             if (step == 6){
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
+                step++;
+            }
+
+            // Moves the robot backwards to stay on the line
+            if (step == 7){
+                encoderDrive(0.2, 0.2, 0.2, 0.2, 1, 1, 1, 1,  .1);
             }
         }
     }
+
+    // Skystone detection configuration
     private void initVuforia () {
-        // Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+        // Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraDirection = CameraDirection.BACK;
 
-        //  Instantiate the Vuforia engine
+        // Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
     }
 
-    /*
-     * Initialize the TensorFlow Object Detection engine.
-     */
+    // Initialize the TensorFlow Object Detection engine
     private void initTfod () {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -278,6 +293,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
+    // Private void that uses TensorFlow to look for both stones and skystones
     private void scan (){
         if (tfod != null) {
             tfod.activate();
@@ -310,11 +326,14 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         }
     }
 
+    // Moves forwards 5 inches
     private void rungoodstep(){
             encoderDrive(0.6, 0.6, 0.6, 0.6, 5, 5, 5, 5,  .2);
             step++;
     }
 
+    // Moves left, then adds 1 to "stonecount"
+    // If stone count is greater than 2, it will automatically run "goodstep" instead of "badstep"
     private void runbadstep(){
         if (stonecount < 2) {
                 encoderDrive(0.4, 0.7, 0.7, 0.4, 5, -5, -5, 5,  0.1);
@@ -325,6 +344,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         }
     }
 
+    // Does all of the calculations to have the motors run off of encoders
     public void encoderDrive(double FLspeed, double FRspeed, double BLspeed, double BRspeed,
                              double FL, double FR, double BL, double BR, double timeoutS) {
 
@@ -362,12 +382,6 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
             motorBackLeft.setPower(BLspeed);
             motorBackRight.setPower(BRspeed);
 
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (motorFrontLeft.isBusy() && motorFrontRight.isBusy() && motorBackLeft.isBusy() && motorBackRight.isBusy())) {
@@ -402,6 +416,7 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
         }
     }
 
+    // Creates the telemetry for the gyroscope
     void composeTelemetry() {
 
         // At the beginning of each telemetry update, grab a bunch of data
@@ -423,10 +438,12 @@ public class Stone_With_Sensors_Test extends LinearOpMode {
                 });
     }
 
+    // Defines what an angle is
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
+    // Defines what a degree is
     String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
