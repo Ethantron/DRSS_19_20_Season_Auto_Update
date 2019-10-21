@@ -69,7 +69,7 @@ public class Auto_Scanning extends LinearOpMode {
     DistanceSensor sensorDistance;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode(){
 
         // Drivetrain initialization
         motorFrontLeft = hardwareMap.dcMotor.get("FL");
