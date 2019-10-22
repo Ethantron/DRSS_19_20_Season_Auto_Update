@@ -146,7 +146,7 @@ public class Auto_Scanning extends LinearOpMode {
             step++;
         }
 
-        /*if (step == 3 && !Skystone){ //Scan Second Block
+        if (step == 3 && !Skystone){ //Scan Second Block
             Scanning();
             step++;
         }
@@ -162,16 +162,8 @@ public class Auto_Scanning extends LinearOpMode {
         }
 
         if (step == 5) {
-            motorFrontRight.setPower(-.6);
-            motorFrontLeft.setPower(.6);
-            motorBackLeft.setPower(.6);
-            motorBackRight.setPower(-.6);
-            sleep(600);
-            motorFrontRight.setPower(0);
-            motorFrontLeft.setPower(0);
-            motorBackLeft.setPower(0);
-            motorBackRight.setPower(0);
-        }*/
+            encoderDrive(0.5,-25,10);
+        }
 /*
         if (step == 2) { //Scans for the Skystone
             pos++; //Sets the position of the skystone
@@ -265,7 +257,6 @@ public class Auto_Scanning extends LinearOpMode {
                     motorFrontRight.setPower(0);
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
-                    scanstep = 0;
                 }
             }
         }
