@@ -137,7 +137,7 @@ public class Auto_Scanning extends LinearOpMode {
         waitForStart();
 
         if (step == 1) { //Move forward
-            encoderDrive(0.6,  17,  10);  // Forward 17 Inches with 10 Sec timeout
+            encoderDrive(0.4,  17,  10);  // Forward 17 Inches with 10 Sec timeout
             step++;
         }
 
@@ -162,7 +162,7 @@ public class Auto_Scanning extends LinearOpMode {
         }
 
         if (step == 5) {
-            encoderDrive(0.5,-25,10);
+            encoderDrive(0.5,-1,10);
         }
 /*
         if (step == 2) { //Scans for the Skystone
@@ -258,6 +258,7 @@ public class Auto_Scanning extends LinearOpMode {
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
                 }
+                scanstep--;
             }
         }
     }
@@ -320,10 +321,10 @@ public class Auto_Scanning extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            motorFrontLeft.setPower(.1);
-            motorFrontRight.setPower(.1);
-            motorBackLeft.setPower(.1);
-            motorBackRight.setPower(.1);
+            motorFrontLeft.setPower(speed);
+            motorFrontRight.setPower(speed);
+            motorBackLeft.setPower(speed);
+            motorBackRight.setPower(speed);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
