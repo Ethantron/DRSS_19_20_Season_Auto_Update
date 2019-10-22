@@ -252,7 +252,7 @@ public class Auto_Scanning extends LinearOpMode {
                     motorFrontRight.setPower(.4);
                     motorBackLeft.setPower(.4);
                     motorBackRight.setPower(-.4);
-                    sleep(800);
+                    sleep(700);
                     motorFrontLeft.setPower(0);
                     motorFrontRight.setPower(0);
                     motorBackLeft.setPower(0);
