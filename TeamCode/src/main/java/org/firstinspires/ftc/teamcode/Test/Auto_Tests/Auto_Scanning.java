@@ -137,7 +137,7 @@ public class Auto_Scanning extends LinearOpMode {
         waitForStart();
 
         if (step == 1) { //Move forward
-            encoderDrive(0.4,  17,  10);  // Forward 17 Inches with 10 Sec timeout
+            encoderDrive(0.6,  17,  10);  // Forward 17 Inches with 10 Sec timeout
             step++;
         }
 
@@ -260,12 +260,12 @@ public class Auto_Scanning extends LinearOpMode {
                     motorFrontRight.setPower(.4);
                     motorBackLeft.setPower(.4);
                     motorBackRight.setPower(-.4);
-                    sleep(600);
+                    sleep(800);
                     motorFrontLeft.setPower(0);
                     motorFrontRight.setPower(0);
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
-                    scanstep--;
+                    scanstep = 0;
                 }
             }
         }
