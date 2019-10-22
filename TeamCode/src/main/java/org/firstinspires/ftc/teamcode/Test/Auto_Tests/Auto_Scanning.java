@@ -31,7 +31,7 @@ public class Auto_Scanning extends LinearOpMode {
     public DcMotor motorFrontLeft;
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
-    double step = 0;
+    double step = 1;
     double scanstep = 0;
     double pos = 0;
 
@@ -136,33 +136,28 @@ public class Auto_Scanning extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        if (step == 0) { //Move forward
-            encoderDrive(0.2,  20,  10);  // Forward 20 Inches with 10 Sec timeout
+        if (step == 1) { //Move forward
+            encoderDrive(0.4,  17,  10);  // Forward 17 Inches with 10 Sec timeout
             step++;
         }
 
-        if (step == 1) {
-            sleep(1); //Sleeps 1 millisecond
+        if (step == 2){ //Scan first block
+            Scanning();
             step++;
         }
 
-        if (step == 2){
-            runscanstep();
+        /*if (step == 3 && !Skystone){ //Scan Second Block
+            Scanning();
             step++;
         }
 
-        if (step == 3 && !Skystone){
-            runscanstep();
-            step++;
-        }
-
-        if (step == 4 && !Skystone){
-            runscanstep();
+        if (step == 4 && !Skystone){ //Scan Third Block
+            Scanning();
             step++;
         }
 
         if ((step == 3 && Skystone) || (step == 4 && Skystone)){
-            encoderDrive(0.2,  -30,  10);
+            encoderDrive(0.5,  20,  10); //Move Forward 20 inches with 10 second timeout
             step = 5;
         }
 
@@ -176,7 +171,7 @@ public class Auto_Scanning extends LinearOpMode {
             motorFrontLeft.setPower(0);
             motorBackLeft.setPower(0);
             motorBackRight.setPower(0);
-        }
+        }*/
 /*
         if (step == 2) { //Scans for the Skystone
             pos++; //Sets the position of the skystone
@@ -229,7 +224,7 @@ public class Auto_Scanning extends LinearOpMode {
 
     //Skystone Position Voids
 
-    private void runscanstep(){
+    private void Scanning(){
         if (scanstep == 0) { //Scans for the Skystone
             pos++; //Sets the position of the skystone
             scan(); //Scans for skystone
