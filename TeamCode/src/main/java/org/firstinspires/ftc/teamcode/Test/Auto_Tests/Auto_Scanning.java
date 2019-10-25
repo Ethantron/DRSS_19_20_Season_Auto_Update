@@ -42,8 +42,10 @@ public class Auto_Scanning extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
+
     private static final String VUFORIA_KEY =
             "ASHBoLr/////AAABmbIUXlLiiEgrjVbqu8Iavlg6iPFigYso/+BCZ9uMzyAZFoo9CIzpV818SAqrjzuygz3hCeLW/ImK3xMH7DalGMwavqetwXS9Jw4I+rff2naxgV7n+EtYFvdCkUJDHfHVq1A4mhxDHgrjWZEqnLmZk25ppnIizQ0Ozcq4h6UmrWndEVEz8eKcCgn+IuglCEoEswvNBRAaKm/TAlpxLRNC6jQkZdJUh/TGYT05g9YCZo4+1ugmx01jrPCyHQVPVoeXm6VebLIuP7sNPw7njYzmVi2ffV5bYc4vf5kc5l5JwhBdPqnxuMfDLnHWaCkAO1UlVWqy2eY7/4b6iUYI2yN16ZKswSzLMmMNtPBu7e9HhKxA";
+
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
 
@@ -114,10 +116,15 @@ public class Auto_Scanning extends LinearOpMode {
 
         // Skystone detection initialization
         initVuforia();
+
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+        }
+
+        if (tfod != null) {
+            tfod.activate();
         }
 
         // Color sensor initialization
@@ -127,10 +134,6 @@ public class Auto_Scanning extends LinearOpMode {
         float hsvValues[] = {0F, 0F, 0F};
         final float values[] = hsvValues;
         final double SCALE_FACTOR = 255;
-
-        if (tfod != null) {
-            tfod.activate();
-        }
 
         // Wait for the game to begin
         telemetry.addData("Status: ", "Initialized");
@@ -366,10 +369,10 @@ public class Auto_Scanning extends LinearOpMode {
         }
     }
 
-    public void scan (){
+    public void scan () {
         runtime.reset();
         if (opModeIsActive()) {
-            while (opModeIsActive() && runtime.seconds()<4) {
+            while (opModeIsActive() && runtime.seconds() < 4) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -384,9 +387,6 @@ public class Auto_Scanning extends LinearOpMode {
                                     recognition.getLeft(), recognition.getTop());
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
-                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
-                                Skystone = true;
-                            }
                         }
                         telemetry.update();
                     }
@@ -401,14 +401,18 @@ public class Auto_Scanning extends LinearOpMode {
 
     // Skystone detection configuration
     private void initVuforia () {
-        // Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
-        // Instantiate the Vuforia engine
+        //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
     }
 
     // Initialize the TensorFlow Object Detection engine
