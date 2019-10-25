@@ -367,8 +367,9 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
     public void scan (){
+        runtime.reset();
         if (opModeIsActive()) {
-            while (opModeIsActive()) {
+            while (opModeIsActive() && runtime.seconds()<4) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -390,7 +391,6 @@ public class Auto_Scanning extends LinearOpMode {
                         telemetry.update();
                     }
                 }
-                sleep(4000);
             }
         }
     }
