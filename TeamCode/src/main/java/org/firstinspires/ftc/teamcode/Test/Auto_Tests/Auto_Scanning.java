@@ -113,6 +113,14 @@ public class Auto_Scanning extends LinearOpMode {
         imu.initialize(parameters);
         composeTelemetry();
 
+        // Color sensor initialization
+        sensorColor = hardwareMap.get(ColorSensor.class, "color_sensor");
+        color2 = hardwareMap.get(ColorSensor.class, "color2");
+        sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
+        float hsvValues[] = {0F, 0F, 0F};
+        final float values[] = hsvValues;
+        final double SCALE_FACTOR = 255;
+
         // Skystone detection initialization
         initVuforia();
 
@@ -125,14 +133,6 @@ public class Auto_Scanning extends LinearOpMode {
         if (tfod != null) {
             tfod.activate();
         }
-
-        // Color sensor initialization
-        sensorColor = hardwareMap.get(ColorSensor.class, "color_sensor");
-        color2 = hardwareMap.get(ColorSensor.class, "color2");
-        sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
-        float hsvValues[] = {0F, 0F, 0F};
-        final float values[] = hsvValues;
-        final double SCALE_FACTOR = 255;
 
         // Wait for the game to begin
         telemetry.addData("Status: ", "Initialized");
