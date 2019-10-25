@@ -40,7 +40,6 @@ public class Auto_Scanning extends LinearOpMode {
     // Skystone detection definitions
     boolean Skystone = false;
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
 
     private static final String VUFORIA_KEY =
@@ -142,7 +141,7 @@ public class Auto_Scanning extends LinearOpMode {
         waitForStart();
 
         if (step == 1) { //Move forward
-            encoderDrive(0.4,  10,  10);  // Forward 17 Inches with 10 Sec timeout
+            encoderDrive(0.4,  7.5,  10);  // Forward 17 Inches with 10 Sec timeout
             step++;
         }
 
@@ -430,7 +429,7 @@ public class Auto_Scanning extends LinearOpMode {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_SECOND_ELEMENT);
     }
 
     void composeTelemetry() {
