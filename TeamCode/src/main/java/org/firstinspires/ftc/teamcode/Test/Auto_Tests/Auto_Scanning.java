@@ -380,7 +380,6 @@ public class Auto_Scanning extends LinearOpMode {
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
                         telemetry.addData("# Object Detected", updatedRecognitions.size());
-                        Skystone = true;
 
                         if (Skystone) {
                             telemetry.addData("Skystone", "is Here!");
@@ -394,6 +393,7 @@ public class Auto_Scanning extends LinearOpMode {
                                     recognition.getLeft(), recognition.getTop());
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
+                            Skystone = true;
                         }
                         telemetry.update();
                     }
