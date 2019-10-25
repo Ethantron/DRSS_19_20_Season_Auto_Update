@@ -381,6 +381,12 @@ public class Auto_Scanning extends LinearOpMode {
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
                         telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        Skystone = true;
+
+                        if (Skystone) {
+                            telemetry.addData("Skystone", "is Here!");
+                        }
+
                         // step through the list of recognitions and display boundary info.
                         int i = 0;
                         for (Recognition recognition : updatedRecognitions) {
