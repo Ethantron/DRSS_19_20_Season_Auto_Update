@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -141,6 +140,7 @@ public class Auto_Scanning extends LinearOpMode {
         waitForStart();
 
         //Scanning
+
         if (opModeIsActive()) {
             while (opModeIsActive()) {
                 if (tfod != null) {
@@ -164,70 +164,72 @@ public class Auto_Scanning extends LinearOpMode {
                     }
                 }
             }
-        }
-        //End of Scanning
 
-        if (step == 1) { //Move forward
-            encoderDrive(0.4,  7.5,  10);  // Forward 17 Inches with 10 Sec timeout
-            pos++;
-            step++;
-        }
 
-        if (step == 2 && !Skystone){ //Scan first block
-            sleep(4000); //Wait 4 seconds to scan
-            pos++; //If we didn't see the skystone, move to next position
+                //End of Scanning
 
-            //Strafe Left to next block
-            motorFrontLeft.setPower(-.4);
-            motorFrontRight.setPower(.4);
-            motorBackLeft.setPower(.4);
-            motorBackRight.setPower(-.4);
-            sleep(650);
-            motorFrontLeft.setPower(0);
-            motorFrontRight.setPower(0);
-            motorBackLeft.setPower(0);
-            motorBackRight.setPower(0);
-
-            step++;
-        }
-
-        if (step == 3 && !Skystone){ //Scan Second Block
-            sleep(4000); //Wait 4 seconds to scan
-            pos++; //If we didn't see the skystone, move to next position
-
-            //Strafe Left to next block
-            motorFrontLeft.setPower(-.4);
-            motorFrontRight.setPower(.4);
-            motorBackLeft.setPower(.4);
-            motorBackRight.setPower(-.4);
-            sleep(650);
-            motorFrontLeft.setPower(0);
-            motorFrontRight.setPower(0);
-            motorBackLeft.setPower(0);
-            motorBackRight.setPower(0);
-
-            Skystone = true; //If position 1 and 2 are not skystone, then it must be position 3
-
-            step++;
-        }
-
-        if (step > 1 && Skystone){ //If skystone is true after intial move forward
-
-                telemetry.addData("Skystone", "found! :)");
-                telemetry.update();
-
-                if (pos==1) { //If the skystone is found in position 1
-                    pos1(); //Run position 1 void
+                if (step == 1) { //Move forward
+                    encoderDrive(0.4, 7.5, 10);  // Forward 17 Inches with 10 Sec timeout
+                    pos++;
+                    step++;
                 }
 
-                if (pos==2) { //If the skystone is found in position 2
-                    pos2(); //Run position 2 void
+                if (step == 2 && !Skystone) { //Scan first block
+                    sleep(4000); //Wait 4 seconds to scan
+                    pos++; //If we didn't see the skystone, move to next position
+
+                    //Strafe Left to next block
+                    motorFrontLeft.setPower(-.4);
+                    motorFrontRight.setPower(.4);
+                    motorBackLeft.setPower(.4);
+                    motorBackRight.setPower(-.4);
+                    sleep(650);
+                    motorFrontLeft.setPower(0);
+                    motorFrontRight.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+
+                    step++;
                 }
 
-                if (pos==3) { //If the skystone is found in position 3
-                    pos3(); //Run position 2 void
+                if (step == 3 && !Skystone) { //Scan Second Block
+                    sleep(4000); //Wait 4 seconds to scan
+                    pos++; //If we didn't see the skystone, move to next position
+
+                    //Strafe Left to next block
+                    motorFrontLeft.setPower(-.4);
+                    motorFrontRight.setPower(.4);
+                    motorBackLeft.setPower(.4);
+                    motorBackRight.setPower(-.4);
+                    sleep(650);
+                    motorFrontLeft.setPower(0);
+                    motorFrontRight.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+
+                    Skystone = true; //If position 1 and 2 are not skystone, then it must be position 3
+
+                    step++;
                 }
-        }
+
+                if (step > 1 && Skystone) { //If skystone is true after intial move forward
+
+                    telemetry.addData("Skystone", "found! :)");
+                    telemetry.update();
+
+                    if (pos == 1) { //If the skystone is found in position 1
+                        pos1(); //Run position 1 void
+                    }
+
+                    if (pos == 2) { //If the skystone is found in position 2
+                        pos2(); //Run position 2 void
+                    }
+
+                    if (pos == 3) { //If the skystone is found in position 3
+                        pos3(); //Run position 2 void
+                    }
+                }
+            }
 /*
         if (step == 2) { //Scans for the Skystone
             pos++; //Sets the position of the skystone
@@ -393,13 +395,10 @@ public class Auto_Scanning extends LinearOpMode {
                     (motorFrontLeft.isBusy() && motorFrontRight.isBusy() && motorBackLeft.isBusy() && motorBackRight.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("FLM: Path2",  "Running at %7d", //Tells us where we are
-                        motorFrontLeft.getCurrentPosition()); //Front Left Position
-                telemetry.addData("FRM: Path2",  "Running at %7d", //Tells us where we are
-                        motorFrontRight.getCurrentPosition()); //Front Right Position
-                telemetry.addData("BLM: Path2",  "Running at %7d", //Tells us where we are
-                        motorBackLeft.getCurrentPosition()); //Back Left Position
-                telemetry.addData("BRM: Path2",  "Running at %7d", //Tells us where we are
+                telemetry.addData("Motor Paths",  "Running at %7d : %7d : %7d : %7d", //Tells us where we are
+                        motorFrontLeft.getCurrentPosition(), //Front Left Position
+                        motorFrontRight.getCurrentPosition(), //Front Right Position
+                        motorBackLeft.getCurrentPosition(), //Back Left Position
                         motorBackRight.getCurrentPosition()); //Back Right Position
                 telemetry.update();
             }
@@ -465,6 +464,7 @@ public class Auto_Scanning extends LinearOpMode {
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+
     }
 
     // Initialize the TensorFlow Object Detection engine
