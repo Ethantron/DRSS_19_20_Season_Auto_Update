@@ -185,8 +185,7 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 if (step == 2 && !Skystone) { //Scan first block
-                    sleep(scanTime); //Wait 2 seconds to scan
-                    scan();
+                    telemetry.clear();
                     pos++; //If we didn't see the skystone, move to next position
 
                     //Strafe Left to next block
@@ -199,13 +198,13 @@ public class Auto_Scanning extends LinearOpMode {
                     motorFrontRight.setPower(0);
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
-
+                    sleep(scanTime); //Wait 2 seconds to scan
+                    scan();
                     step++;
                 }
 
                 if (step == 3 && !Skystone) { //Scan Second Block
-                    sleep(scanTime); //Wait 2 seconds to scan
-                    scan();
+                    telemetry.clear();
                     pos++; //If we didn't see the skystone, move to next position
 
                     //Strafe Left to next block
