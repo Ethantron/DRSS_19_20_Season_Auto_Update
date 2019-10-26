@@ -144,7 +144,7 @@ public class Auto_Scanning extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-
+        telemetry.clear();
         //Scanning
 
 
@@ -176,7 +176,7 @@ public class Auto_Scanning extends LinearOpMode {
                 //End of Scanning
 
                 if (step == 1) { //Move forward
-                    encoderDrive(0.4, 7.5, 10);  // Forward 17 Inches with 10 Sec timeout
+                    encoderDrive(0.4, 8, 10);  // Forward 17 Inches with 10 Sec timeout
 
                     pos++; //Tells code that it is checking position 1
                     sleep(scanTime);
