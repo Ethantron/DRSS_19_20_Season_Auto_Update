@@ -179,6 +179,8 @@ public class Auto_Scanning extends LinearOpMode {
                     encoderDrive(0.4, 7.5, 10);  // Forward 17 Inches with 10 Sec timeout
 
                     pos++; //Tells code that it is checking position 1
+                    sleep(scanTime);
+                    scan();
                     step++;
                 }
 
