@@ -176,9 +176,6 @@ public class Auto_Scanning extends LinearOpMode {
                 if (step == 1) { //Move forward
                     encoderDrive(0.4, 7.5, 10);  // Forward 17 Inches with 10 Sec timeout
 
-                    telemetry.addData("Skystone is ", Skystone);
-                    telemetry.update();
-
                     pos++; //Tells code that it is checking position 1
                     step++;
                 }
@@ -261,53 +258,6 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
             }
-/*
-        if (step == 2) { //Scans for the Skystone
-            pos++; //Sets the position of the skystone
-            scan(); //Scans for skystone
-            sleep(2000);
-            step++;
-        }
-
-        if (step == 3){
-            if (Skystone){
-
-                telemetry.addData("Skystone", "found!");
-                telemetry.update();
-
-                if (pos==1) { //If the skystone is found in position 1
-                    pos1(); //Run position 1 void
-                }
-
-                if (pos==2) { //If the skystone is found in position 2
-                    pos2(); //Run position 2 void
-                }
-            }
-            if (!Skystone){ //If skystone is not sensed
-
-                telemetry.addData("Skystone", " not found :(");
-                telemetry.update();
-
-                if (pos >= 2) { //If it has been false for the first 2 scans, it must be pos 3
-                    pos3();
-                }
-
-                if (pos < 2) { //If it has been scanned and came back false
-                    motorFrontLeft.setPower(-.4);
-                    motorFrontRight.setPower(.4);
-                    motorBackLeft.setPower(.4);
-                    motorBackRight.setPower(-.4);
-                    sleep(600);
-                    motorFrontLeft.setPower(0);
-                    motorFrontRight.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
-                    step--;
-                }
-            }
-        }
-        */
-
     }
 
 
@@ -470,33 +420,6 @@ public class Auto_Scanning extends LinearOpMode {
             //  sleep(250);   // optional pause after each move
         }
     }
-
-    /*public void scan () {
-        runtime.reset();
-        if (opModeIsActive()) {
-            while (opModeIsActive() && runtime.seconds() < 4) {
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
-
-                        // step through the list of recognitions and display boundary info.
-                        int i = 0;
-                        for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                    recognition.getLeft(), recognition.getTop());
-                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                    recognition.getRight(), recognition.getBottom());
-                        }
-                        telemetry.update();
-                    }
-                }
-            }
-        }
-    }*/
 
 
     //Initialization Voids
