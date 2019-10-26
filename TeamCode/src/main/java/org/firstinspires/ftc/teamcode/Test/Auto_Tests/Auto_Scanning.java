@@ -6,7 +6,6 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -144,7 +143,7 @@ public class Auto_Scanning extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        telemetry.clear();
+        
         //Scanning
 
 
@@ -185,7 +184,6 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 if (step == 2 && !Skystone) { //Scan first block
-                    telemetry.clear();
                     pos++; //If we didn't see the skystone, move to next position
 
                     //Strafe Left to next block
@@ -204,7 +202,7 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 if (step == 3 && !Skystone) { //Scan Second Block
-                    telemetry.clear();
+                    
                     pos++; //If we didn't see the skystone, move to next position
 
                     //Strafe Left to next block
