@@ -230,6 +230,18 @@ public class Auto_Scanning extends LinearOpMode {
                         pos3(); //Run position 2 void
                     }
                 }
+
+                if (step == 5){
+                    motorFrontRight.setPower(-.6);
+                    motorFrontLeft.setPower(.6);
+                    motorBackLeft.setPower(.6);
+                    motorBackRight.setPower(-.6);
+                    sleep(500);
+                    motorFrontRight.setPower(0);
+                    motorFrontLeft.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+                }
             }
 /*
         if (step == 2) { //Scans for the Skystone
