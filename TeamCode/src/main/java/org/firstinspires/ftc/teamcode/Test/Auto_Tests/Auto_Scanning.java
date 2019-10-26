@@ -373,22 +373,22 @@ public class Auto_Scanning extends LinearOpMode {
 
 
     private void pos1() {
-        encoderDrive(0.2,  20,  10);  // Forward 20 Inches with 10 Sec timeout
-        encoderDrive(0.2,  -20,  10);  // Back 20 Inches with 10 Sec timeout
+        encoderDrive(0.2,  18,  10);  // Forward 20 Inches with 10 Sec timeout
+        encoderDrive(0.2,  -18,  10);  // Back 20 Inches with 10 Sec timeout
 
         step = 5;
     }
 
     private void pos2() {
-        encoderDrive(0.2,  20,  10);  // Forward 20 Inches with 10 Sec timeout
-        encoderDrive(0.2,  -20,  10);  // Back 20 Inches with 10 Sec timeout
+        encoderDrive(0.2,  18,  10);  // Forward 20 Inches with 10 Sec timeout
+        encoderDrive(0.2,  -18,  10);  // Back 20 Inches with 10 Sec timeout
 
         step = 5;
     }
 
     private void pos3() {
-        encoderDrive(0.2,  20,  10);  // Forward 20 Inches with 10 Sec timeout
-        encoderDrive(0.2,  -20,  10);  // Back 20 Inches with 10 Sec timeout
+        encoderDrive(0.2,  18,  10);  // Forward 20 Inches with 10 Sec timeout
+        encoderDrive(0.2,  -18,  10);  // Back 20 Inches with 10 Sec timeout
 
         step = 5;
     }
