@@ -175,7 +175,7 @@ public class Auto_Scanning extends LinearOpMode {
                 //End of Scanning
 
                 if (step == 1) { //Move forward
-                    encoderDrive(0.4, 8, 10);  // Forward 17 Inches with 10 Sec timeout
+                    encoderDrive(0.4, 9, 10);  // Forward 9 Inches with 10 Sec timeout
 
                     pos++; //Tells code that it is checking position 1
                     sleep(scanTime);
