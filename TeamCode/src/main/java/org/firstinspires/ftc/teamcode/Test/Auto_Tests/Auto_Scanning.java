@@ -146,6 +146,10 @@ public class Auto_Scanning extends LinearOpMode {
 
 
             while (opModeIsActive()) {
+
+                telemetry.addData("Skystone is ", Skystone);
+                telemetry.update();
+
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -218,7 +222,7 @@ public class Auto_Scanning extends LinearOpMode {
 
                 if (step > 1 && step < 5 && Skystone) { //If skystone is true after intial move forward, and stops after moving
 
-                    telemetry.addData("Skystone", "found! :)");
+                    telemetry.addData("Skystone found in position ", pos);
                     telemetry.update();
 
                     if (pos == 1) { //If the skystone is found in position 1
