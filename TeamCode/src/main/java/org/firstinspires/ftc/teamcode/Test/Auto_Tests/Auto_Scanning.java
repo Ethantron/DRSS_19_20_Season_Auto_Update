@@ -140,33 +140,93 @@ public class Auto_Scanning extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        //Scanning
+        if (opModeIsActive()) {
+            while (opModeIsActive()) {
+                if (tfod != null) {
+                    // getUpdatedRecognitions() will return null if no new information is available since
+                    // the last time that call was made.
+                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                    if (updatedRecognitions != null) {
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+
+                        // step through the list of recognitions and display boundary info.
+                        int i = 0;
+                        for (Recognition recognition : updatedRecognitions) {
+                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                    recognition.getLeft(), recognition.getTop());
+                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                    recognition.getRight(), recognition.getBottom());
+                            Skystone = true;
+                        }
+                        telemetry.update();
+                    }
+                }
+            }
+        }
+        //End of Scanning
+
         if (step == 1) { //Move forward
             encoderDrive(0.4,  7.5,  10);  // Forward 17 Inches with 10 Sec timeout
+            pos++;
             step++;
         }
 
-        if (step == 2){ //Scan first block
-            Scanning();
+        if (step == 2 && !Skystone){ //Scan first block
+            sleep(4000); //Wait 4 seconds to scan
+            pos++; //If we didn't see the skystone, move to next position
+
+            //Strafe Left to next block
+            motorFrontLeft.setPower(-.4);
+            motorFrontRight.setPower(.4);
+            motorBackLeft.setPower(.4);
+            motorBackRight.setPower(-.4);
+            sleep(650);
+            motorFrontLeft.setPower(0);
+            motorFrontRight.setPower(0);
+            motorBackLeft.setPower(0);
+            motorBackRight.setPower(0);
+
             step++;
         }
 
         if (step == 3 && !Skystone){ //Scan Second Block
-            Scanning();
+            sleep(4000); //Wait 4 seconds to scan
+            pos++; //If we didn't see the skystone, move to next position
+
+            //Strafe Left to next block
+            motorFrontLeft.setPower(-.4);
+            motorFrontRight.setPower(.4);
+            motorBackLeft.setPower(.4);
+            motorBackRight.setPower(-.4);
+            sleep(650);
+            motorFrontLeft.setPower(0);
+            motorFrontRight.setPower(0);
+            motorBackLeft.setPower(0);
+            motorBackRight.setPower(0);
+
+            Skystone = true; //If position 1 and 2 are not skystone, then it must be position 3
+
             step++;
         }
 
-        if (step == 4 && !Skystone){ //Scan Third Block
-            Scanning();
-            step++;
-        }
+        if (step > 1 && Skystone){ //If skystone is true after intial move forward
 
-        if ((step == 3 && Skystone) || (step == 4 && Skystone)){
-            encoderDrive(0.5,  20,  10); //Move Forward 20 inches with 10 second timeout
-            step = 5;
-        }
+                telemetry.addData("Skystone", "found! :)");
+                telemetry.update();
 
-        if (step == 5) {
-            encoderDrive(0.5,-1,10);
+                if (pos==1) { //If the skystone is found in position 1
+                    pos1(); //Run position 1 void
+                }
+
+                if (pos==2) { //If the skystone is found in position 2
+                    pos2(); //Run position 2 void
+                }
+
+                if (pos==3) { //If the skystone is found in position 3
+                    pos3(); //Run position 2 void
+                }
         }
 /*
         if (step == 2) { //Scans for the Skystone
@@ -220,7 +280,7 @@ public class Auto_Scanning extends LinearOpMode {
 
     //Skystone Position Voids
 
-    private void Scanning(){
+    /*private void Scanning(){
         if (scanstep == 0) { //Scans for the Skystone
             pos++; //Sets the position of the skystone
             scan(); //Scans for skystone
@@ -231,7 +291,7 @@ public class Auto_Scanning extends LinearOpMode {
         if (scanstep == 1){
             if (Skystone){
 
-                telemetry.addData("Skystone", "found!");
+                telemetry.addData("Skystone", "found! :)");
                 telemetry.update();
 
                 if (pos==1) { //If the skystone is found in position 1
@@ -267,29 +327,19 @@ public class Auto_Scanning extends LinearOpMode {
                 scanstep--;
             }
         }
-    }
+    }*/
 
 
     private void pos1() {
-        encoderDrive(0.2,  20,  10);  // Forward 5 Inches with 10 Sec timeout
+        encoderDrive(0.2,  20,  10);  // Forward 20 Inches with 10 Sec timeout
     }
 
     private void pos2() {
-        encoderDrive(0.2,  20,  10);  // Forward 5 Inches with 10 Sec timeout
+        encoderDrive(0.2,  20,  10);  // Forward 20 Inches with 10 Sec timeout
     }
 
     private void pos3() {
-        motorFrontLeft.setPower(-.4);
-        motorFrontRight.setPower(.4);
-        motorBackLeft.setPower(.4);
-        motorBackRight.setPower(-.4);
-        sleep(750);
-        motorFrontLeft.setPower(0);
-        motorFrontRight.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
-
-        encoderDrive(0.2,  20,  10);  // Forward 5 Inches with 10 Sec timeout
+        encoderDrive(0.2,  20,  10);  // Forward 20 Inches with 10 Sec timeout
     }
 
 
@@ -370,7 +420,7 @@ public class Auto_Scanning extends LinearOpMode {
         }
     }
 
-    public void scan () {
+    /*public void scan () {
         runtime.reset();
         if (opModeIsActive()) {
             while (opModeIsActive() && runtime.seconds() < 4) {
@@ -395,7 +445,7 @@ public class Auto_Scanning extends LinearOpMode {
                 }
             }
         }
-    }
+    }*/
 
 
     //Initialization Voids
