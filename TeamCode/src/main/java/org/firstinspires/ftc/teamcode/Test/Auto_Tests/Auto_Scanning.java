@@ -184,8 +184,8 @@ public class Auto_Scanning extends LinearOpMode {
                     sleep(scanTime); //Wait 2 seconds to scan
                     pos++; //If we didn't see the skystone, move to next position
 
-                    telemetry.addData("Skystone is ", Skystone);
-                    telemetry.update();
+                    //telemetry.addData("Skystone is ", Skystone);
+                    //telemetry.update();
 
                     //Strafe Left to next block
                     motorFrontLeft.setPower(-.4);
@@ -198,8 +198,8 @@ public class Auto_Scanning extends LinearOpMode {
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
 
-                    telemetry.addData("Skystone is ", Skystone);
-                    telemetry.update();
+                    //telemetry.addData("Skystone is ", Skystone);
+                    //telemetry.update();
 
                     step++;
                 }
@@ -208,8 +208,8 @@ public class Auto_Scanning extends LinearOpMode {
                     sleep(scanTime); //Wait 2 seconds to scan
                     pos++; //If we didn't see the skystone, move to next position
 
-                    telemetry.addData("Skystone is ", Skystone);
-                    telemetry.update();
+                    //telemetry.addData("Skystone is ", Skystone);
+                    //telemetry.update();
 
                     //Strafe Left to next block
                     motorFrontLeft.setPower(-.4);
@@ -229,8 +229,8 @@ public class Auto_Scanning extends LinearOpMode {
 
                 if (step > 1 && step < 5 && Skystone) { //If skystone is true after intial move forward, and stops after moving
 
-                    telemetry.addData("Skystone found in position ", pos);
-                    telemetry.update();
+                    //telemetry.addData("Skystone found in position ", pos);
+                    //telemetry.update();
 
                     if (pos == 1) { //If the skystone is found in position 1
                         pos1(); //Run position 1 void
@@ -316,10 +316,6 @@ public class Auto_Scanning extends LinearOpMode {
     private void pos1() {
         encoderDrive(0.2,  20,  10);  // Forward 20 Inches with 10 Sec timeout
         encoderDrive(0.2,  -20,  10);  // Back 20 Inches with 10 Sec timeout
-        motorFrontRight.setPower(0);
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
 
         step = 5;
     }
@@ -327,10 +323,6 @@ public class Auto_Scanning extends LinearOpMode {
     private void pos2() {
         encoderDrive(0.2,  20,  10);  // Forward 20 Inches with 10 Sec timeout
         encoderDrive(0.2,  -20,  10);  // Back 20 Inches with 10 Sec timeout
-        motorFrontRight.setPower(0);
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
 
         step = 5;
     }
@@ -338,10 +330,6 @@ public class Auto_Scanning extends LinearOpMode {
     private void pos3() {
         encoderDrive(0.2,  20,  10);  // Forward 20 Inches with 10 Sec timeout
         encoderDrive(0.2,  -20,  10);  // Back 20 Inches with 10 Sec timeout
-        motorFrontRight.setPower(0);
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
 
         step = 5;
     }
@@ -397,12 +385,12 @@ public class Auto_Scanning extends LinearOpMode {
                     (motorFrontLeft.isBusy() && motorFrontRight.isBusy() && motorBackLeft.isBusy() && motorBackRight.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Motor Paths",  "Running at %7d : %7d : %7d : %7d", //Tells us where we are
+                /*telemetry.addData("Motor Paths",  "Running at %7d : %7d : %7d : %7d", //Tells us where we are
                         motorFrontLeft.getCurrentPosition(), //Front Left Position
                         motorFrontRight.getCurrentPosition(), //Front Right Position
                         motorBackLeft.getCurrentPosition(), //Back Left Position
                         motorBackRight.getCurrentPosition()); //Back Right Position
-                telemetry.update();
+                telemetry.update();*/
             }
 
             // Stop all motion;
