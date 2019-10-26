@@ -35,6 +35,7 @@ public class Auto_Scanning extends LinearOpMode {
     double step = 1;
     double scanstep = 0;
     double pos = 0;
+    boolean stopScanning = false;
 
     // Skystone detection definitions
     boolean Skystone = false;
@@ -212,7 +213,7 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step > 1 && Skystone) { //If skystone is true after intial move forward
+                if (step > 1 && step < 5 && Skystone) { //If skystone is true after intial move forward, and stops after moving
 
                     telemetry.addData("Skystone", "found! :)");
                     telemetry.update();
@@ -339,6 +340,8 @@ public class Auto_Scanning extends LinearOpMode {
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
         motorBackRight.setPower(0);
+
+        step = 5;
     }
 
     private void pos2() {
@@ -348,6 +351,8 @@ public class Auto_Scanning extends LinearOpMode {
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
         motorBackRight.setPower(0);
+
+        step = 5;
     }
 
     private void pos3() {
@@ -357,6 +362,8 @@ public class Auto_Scanning extends LinearOpMode {
         motorFrontLeft.setPower(0);
         motorBackLeft.setPower(0);
         motorBackRight.setPower(0);
+
+        step = 5;
     }
 
 
