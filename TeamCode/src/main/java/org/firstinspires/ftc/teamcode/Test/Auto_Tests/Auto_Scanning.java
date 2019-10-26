@@ -381,7 +381,7 @@ public class Auto_Scanning extends LinearOpMode {
         }
     }*/
 
-    private void scan() {
+    public void scan() {
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
