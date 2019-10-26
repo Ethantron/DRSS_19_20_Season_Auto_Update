@@ -302,6 +302,7 @@ public class Auto_Scanning extends LinearOpMode {
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
 
+                    step++;
                 }
                 //All positions should be in the same place now
 
