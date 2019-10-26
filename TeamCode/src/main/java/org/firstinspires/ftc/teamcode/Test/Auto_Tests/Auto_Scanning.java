@@ -311,7 +311,7 @@ public class Auto_Scanning extends LinearOpMode {
                     motorFrontLeft.setPower(-.6);
                     motorBackLeft.setPower(-.6);
                     motorBackRight.setPower(.6);
-                    sleep(300);
+                    sleep(250);
                     step++;
                 }
 
@@ -392,8 +392,8 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
     private void pos3() {
-        encoderDrive(0.2,  18,  10);  // Forward 20 Inches with 10 Sec timeout
-        encoderDrive(0.2,  -18,  10);  // Back 20 Inches with 10 Sec timeout
+        encoderDrive(0.2,  16,  10);  // Forward 16 Inches with 10 Sec timeout
+        encoderDrive(0.2,  -16,  10);  // Back 16 Inches with 10 Sec timeout
 
         step = 5;
     }
