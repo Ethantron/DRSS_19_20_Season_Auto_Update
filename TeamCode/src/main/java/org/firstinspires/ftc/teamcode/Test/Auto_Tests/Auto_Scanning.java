@@ -147,9 +147,6 @@ public class Auto_Scanning extends LinearOpMode {
 
             while (opModeIsActive()) {
 
-                telemetry.addData("Skystone is ", Skystone);
-                telemetry.update();
-
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -178,13 +175,20 @@ public class Auto_Scanning extends LinearOpMode {
 
                 if (step == 1) { //Move forward
                     encoderDrive(0.4, 7.5, 10);  // Forward 17 Inches with 10 Sec timeout
-                    pos++;
+
+                    telemetry.addData("Skystone is ", Skystone);
+                    telemetry.update();
+
+                    pos++; //Tells code that it is checking position 1
                     step++;
                 }
 
                 if (step == 2 && !Skystone) { //Scan first block
                     sleep(scanTime); //Wait 2 seconds to scan
                     pos++; //If we didn't see the skystone, move to next position
+
+                    telemetry.addData("Skystone is ", Skystone);
+                    telemetry.update();
 
                     //Strafe Left to next block
                     motorFrontLeft.setPower(-.4);
@@ -197,12 +201,18 @@ public class Auto_Scanning extends LinearOpMode {
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
 
+                    telemetry.addData("Skystone is ", Skystone);
+                    telemetry.update();
+
                     step++;
                 }
 
                 if (step == 3 && !Skystone) { //Scan Second Block
                     sleep(scanTime); //Wait 2 seconds to scan
                     pos++; //If we didn't see the skystone, move to next position
+
+                    telemetry.addData("Skystone is ", Skystone);
+                    telemetry.update();
 
                     //Strafe Left to next block
                     motorFrontLeft.setPower(-.4);
@@ -243,7 +253,7 @@ public class Auto_Scanning extends LinearOpMode {
                     motorFrontLeft.setPower(.6);
                     motorBackLeft.setPower(.6);
                     motorBackRight.setPower(-.6);
-                    sleep(600);
+                    sleep(675);
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
