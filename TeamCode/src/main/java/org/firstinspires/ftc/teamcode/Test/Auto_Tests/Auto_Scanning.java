@@ -35,6 +35,7 @@ public class Auto_Scanning extends LinearOpMode {
     double step = 1;
     double scanstep = 0;
     double pos = 0;
+    int scanTime = 2000;
     boolean stopScanning = false;
 
     // Skystone detection definitions
@@ -160,7 +161,9 @@ public class Auto_Scanning extends LinearOpMode {
                                     recognition.getLeft(), recognition.getTop());
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
-                            Skystone = true;
+                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
+                                Skystone = true;
+                            }
                         }
                         telemetry.update();
                     }
@@ -176,7 +179,7 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 if (step == 2 && !Skystone) { //Scan first block
-                    sleep(4000); //Wait 4 seconds to scan
+                    sleep(scanTime); //Wait 2 seconds to scan
                     pos++; //If we didn't see the skystone, move to next position
 
                     //Strafe Left to next block
@@ -194,7 +197,7 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 if (step == 3 && !Skystone) { //Scan Second Block
-                    sleep(4000); //Wait 4 seconds to scan
+                    sleep(scanTime); //Wait 2 seconds to scan
                     pos++; //If we didn't see the skystone, move to next position
 
                     //Strafe Left to next block
