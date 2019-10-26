@@ -147,29 +147,30 @@ public class Auto_Scanning extends LinearOpMode {
 
             while (opModeIsActive()) {
 
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                while (step == 3) {
+                    if (tfod != null) {
+                        // getUpdatedRecognitions() will return null if no new information is available since
+                        // the last time that call was made.
+                        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                        if (updatedRecognitions != null) {
+                            telemetry.addData("# Object Detected", updatedRecognitions.size());
 
-                        // step through the list of recognitions and display boundary info.
-                        int i = 0;
-                        for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                    recognition.getLeft(), recognition.getTop());
-                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                    recognition.getRight(), recognition.getBottom());
-                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
-                                Skystone = true;
+                            // step through the list of recognitions and display boundary info.
+                            int i = 0;
+                            for (Recognition recognition : updatedRecognitions) {
+                                telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                                telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                        recognition.getLeft(), recognition.getTop());
+                                telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                        recognition.getRight(), recognition.getBottom());
+                                if (recognition.getLabel() == LABEL_SECOND_ELEMENT) {
+                                    Skystone = true;
+                                }
                             }
+                            telemetry.update();
                         }
-                        telemetry.update();
                     }
                 }
-
 
                 //End of Scanning
 
@@ -250,7 +251,7 @@ public class Auto_Scanning extends LinearOpMode {
                     motorFrontLeft.setPower(.6);
                     motorBackLeft.setPower(.6);
                     motorBackRight.setPower(-.6);
-                    sleep(675);
+                    sleep(650);
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
