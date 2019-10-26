@@ -143,7 +143,12 @@ public class Auto_Scanning extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        
+
+        while (opModeIsActive()){
+            telemetry.addData("Current step: ", step);
+            telemetry.update();
+        }
+
         //Scanning
 
 
