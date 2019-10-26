@@ -6,6 +6,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -149,7 +150,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             while (opModeIsActive()) {
 
-                    if (tfod != null) {
+                    /*if (tfod != null) {
                         // getUpdatedRecognitions() will return null if no new information is available since
                         // the last time that call was made.
                         List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
@@ -170,7 +171,7 @@ public class Auto_Scanning extends LinearOpMode {
                             }
                             telemetry.update();
                         }
-                    }
+                    }*/
 
                 //End of Scanning
 
@@ -183,6 +184,7 @@ public class Auto_Scanning extends LinearOpMode {
 
                 if (step == 2 && !Skystone) { //Scan first block
                     sleep(scanTime); //Wait 2 seconds to scan
+                    scan();
                     pos++; //If we didn't see the skystone, move to next position
 
                     //Strafe Left to next block
@@ -201,6 +203,7 @@ public class Auto_Scanning extends LinearOpMode {
 
                 if (step == 3 && !Skystone) { //Scan Second Block
                     sleep(scanTime); //Wait 2 seconds to scan
+                    scan();
                     pos++; //If we didn't see the skystone, move to next position
 
                     //Strafe Left to next block
@@ -376,6 +379,30 @@ public class Auto_Scanning extends LinearOpMode {
         }
     }*/
 
+    private void scan() {
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
+
+                // step through the list of recognitions and display boundary info.
+                int i = 0;
+                for (Recognition recognition : updatedRecognitions) {
+                    telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                    telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                            recognition.getLeft(), recognition.getTop());
+                    telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                            recognition.getRight(), recognition.getBottom());
+                    if (recognition.getLabel() == LABEL_SECOND_ELEMENT) {
+                        Skystone = true;
+                    }
+                }
+                telemetry.update();
+            }
+        }
+    }
 
     private void pos1() {
         encoderDrive(0.2,  18,  10);  // Forward 20 Inches with 10 Sec timeout
@@ -392,8 +419,8 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
     private void pos3() {
-        encoderDrive(0.2,  16,  10);  // Forward 16 Inches with 10 Sec timeout
-        encoderDrive(0.2,  -16,  10);  // Back 16 Inches with 10 Sec timeout
+        encoderDrive(0.2,  18,  10);  // Forward 16 Inches with 10 Sec timeout
+        encoderDrive(0.2,  -18,  10);  // Back 16 Inches with 10 Sec timeout
 
         step = 5;
     }
