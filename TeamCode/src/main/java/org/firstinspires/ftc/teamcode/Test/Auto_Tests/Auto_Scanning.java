@@ -160,7 +160,9 @@ public class Auto_Scanning extends LinearOpMode {
                                     recognition.getLeft(), recognition.getTop());
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
-                            Skystone = true;
+                            if (recognition.getLabel() == LABEL_SECOND_ELEMENT){
+                                Skystone = true;
+                            }
                         }
                         telemetry.update();
                     }
