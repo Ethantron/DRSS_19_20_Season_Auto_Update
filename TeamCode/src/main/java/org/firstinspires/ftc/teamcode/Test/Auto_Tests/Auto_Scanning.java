@@ -402,7 +402,6 @@ public class Auto_Scanning extends LinearOpMode {
                     }
                 }
                 telemetry.update();
-                tfod.shutdown();
             }
         }
     }
