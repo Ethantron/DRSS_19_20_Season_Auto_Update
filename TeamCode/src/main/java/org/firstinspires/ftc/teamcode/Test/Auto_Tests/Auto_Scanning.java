@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
+import android.graphics.Color;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -147,7 +149,6 @@ public class Auto_Scanning extends LinearOpMode {
 
             while (opModeIsActive()) {
 
-                while (step == 3) {
                     if (tfod != null) {
                         // getUpdatedRecognitions() will return null if no new information is available since
                         // the last time that call was made.
@@ -170,7 +171,6 @@ public class Auto_Scanning extends LinearOpMode {
                             telemetry.update();
                         }
                     }
-                }
 
                 //End of Scanning
 
@@ -185,9 +185,6 @@ public class Auto_Scanning extends LinearOpMode {
                     sleep(scanTime); //Wait 2 seconds to scan
                     pos++; //If we didn't see the skystone, move to next position
 
-                    //telemetry.addData("Skystone is ", Skystone);
-                    //telemetry.update();
-
                     //Strafe Left to next block
                     motorFrontLeft.setPower(-.4);
                     motorFrontRight.setPower(.4);
@@ -199,18 +196,12 @@ public class Auto_Scanning extends LinearOpMode {
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
 
-                    //telemetry.addData("Skystone is ", Skystone);
-                    //telemetry.update();
-
                     step++;
                 }
 
                 if (step == 3 && !Skystone) { //Scan Second Block
                     sleep(scanTime); //Wait 2 seconds to scan
                     pos++; //If we didn't see the skystone, move to next position
-
-                    //telemetry.addData("Skystone is ", Skystone);
-                    //telemetry.update();
 
                     //Strafe Left to next block
                     motorFrontLeft.setPower(-.4);
@@ -246,7 +237,7 @@ public class Auto_Scanning extends LinearOpMode {
                     }
                 }
 
-                if (step == 5){
+                if (step == 5){ //Turn
                     motorFrontRight.setPower(-.6);
                     motorFrontLeft.setPower(.6);
                     motorBackLeft.setPower(.6);
@@ -258,6 +249,61 @@ public class Auto_Scanning extends LinearOpMode {
                     motorBackRight.setPower(0);
                     step++;
                 }
+
+                //Parking color sensor
+                if (step == 6){
+                    motorFrontRight.setPower(.2);
+                    motorFrontLeft.setPower(.2);
+                    motorBackLeft.setPower(.2);
+                    motorBackRight.setPower(.2);
+                }
+
+                // Does it see the line?
+                while (step == 6 && opModeIsActive()){
+                    Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
+                            (int) (sensorColor.green() * SCALE_FACTOR),
+                            (int) (sensorColor.blue() * SCALE_FACTOR),
+                            hsvValues);
+                    Color.RGBToHSV((int) (color2.red() * SCALE_FACTOR),
+                            (int) (color2.green() * SCALE_FACTOR),
+                            (int) (color2.blue() * SCALE_FACTOR),
+                            hsvValues);
+
+                    // Send the info back to driver station using telemetry function.
+                    telemetry.addData("Step: ", step);
+                    telemetry.addData("Hue", hsvValues[0]);
+                    telemetry.update();
+
+                    if (hsvValues[0] > 150 ){ // Checks if it is red or blue
+                        step++;
+                    }
+                }
+
+                if (step == 7){
+                    motorFrontRight.setPower(0);
+                    motorFrontLeft.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+                    step++;
+                }
+
+                if (step == 8){
+                    motorFrontRight.setPower(-.2);
+                    motorFrontLeft.setPower(-.2);
+                    motorBackLeft.setPower(-.2);
+                    motorBackRight.setPower(-.2);
+                    sleep(100);
+                    step++;
+                }
+
+                if (step == 9){
+                    motorFrontRight.setPower(0);
+                    motorFrontLeft.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+
+                }
+                //All positions should be in the same place now
             }
     }
 
