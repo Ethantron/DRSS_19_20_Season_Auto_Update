@@ -237,12 +237,12 @@ public class Auto_Scanning extends LinearOpMode {
                     }
                 }
 
-                if (step == 5){ //Turn
+                if (step == 5){ //Turn 90 degrees
                     motorFrontRight.setPower(-.6);
                     motorFrontLeft.setPower(.6);
                     motorBackLeft.setPower(.6);
                     motorBackRight.setPower(-.6);
-                    sleep(650);
+                    sleep(700);
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
@@ -304,6 +304,18 @@ public class Auto_Scanning extends LinearOpMode {
 
                 }
                 //All positions should be in the same place now
+
+                if (step == 10) { //Turn 45 degrees
+                    motorFrontRight.setPower(.6);
+                    motorFrontLeft.setPower(-.6);
+                    motorBackLeft.setPower(-.6);
+                    motorBackRight.setPower(.6);
+                    sleep(300);
+                    motorFrontRight.setPower(0);
+                    motorFrontLeft.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+                }
             }
     }
 
