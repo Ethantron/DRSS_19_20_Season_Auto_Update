@@ -252,10 +252,10 @@ public class Auto_Scanning extends LinearOpMode {
 
                 //Parking color sensor
                 if (step == 6){
-                    motorFrontRight.setPower(.2);
-                    motorFrontLeft.setPower(.2);
-                    motorBackLeft.setPower(.2);
-                    motorBackRight.setPower(.2);
+                    motorFrontRight.setPower(.4);
+                    motorFrontLeft.setPower(.4);
+                    motorBackLeft.setPower(.4);
+                    motorBackRight.setPower(.4);
                 }
 
                 // Does it see the line?
@@ -311,7 +311,7 @@ public class Auto_Scanning extends LinearOpMode {
                     motorFrontLeft.setPower(-.6);
                     motorBackLeft.setPower(-.6);
                     motorBackRight.setPower(.6);
-                    sleep(250);
+                    sleep(200);
                     step++;
                 }
 
