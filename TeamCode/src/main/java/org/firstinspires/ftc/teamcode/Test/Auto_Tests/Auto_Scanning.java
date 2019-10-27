@@ -255,20 +255,36 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 if (step == 5){ //Turn 90 degrees
+                    telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
+                    if (sensorRange.getDistance(DistanceUnit.INCH) <= 2) {
+                        motorFrontLeft.setPower(0);
+                        motorFrontRight.setPower(0);
+                        motorBackLeft.setPower(0);
+                        motorBackRight.setPower(0);
+                        step++;
+                    }
+                }
+
+                if (step == 6) {
+                    encoderDrive(.4,-20,10); //Move backwards 20 inches
+                }
+
+                if (step == 7) {
                     motorFrontRight.setPower(-.6);
                     motorFrontLeft.setPower(.6);
                     motorBackLeft.setPower(.6);
                     motorBackRight.setPower(-.6);
-                    sleep(700);
+                    sleep(650);
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
+
                     step++;
                 }
 
                 //Parking color sensor
-                if (step == 6){
+                if (step == 8){ //Start moving
                     motorFrontRight.setPower(.4);
                     motorFrontLeft.setPower(.4);
                     motorBackLeft.setPower(.4);
@@ -276,7 +292,7 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 // Does it see the line?
-                while (step == 6 && opModeIsActive()){
+                while (step == 8 && opModeIsActive()){
                     Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
                             (int) (sensorColor.green() * SCALE_FACTOR),
                             (int) (sensorColor.blue() * SCALE_FACTOR),
@@ -296,7 +312,7 @@ public class Auto_Scanning extends LinearOpMode {
                     }
                 }
 
-                if (step == 7){
+                if (step == 9){ //Stop Motors
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
@@ -304,7 +320,7 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step == 8){
+                if (step == 10){ //Move back a tiny bit
                     motorFrontRight.setPower(-.2);
                     motorFrontLeft.setPower(-.2);
                     motorBackLeft.setPower(-.2);
@@ -313,7 +329,7 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step == 9){
+                if (step == 11){ //Stop Motors
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
@@ -323,7 +339,7 @@ public class Auto_Scanning extends LinearOpMode {
                 }
                 //All positions should be in the same place now
 
-                if (step == 10) { //Turn 45 degrees
+                if (step == 12) { //Turn 45 degrees
                     motorFrontRight.setPower(.6);
                     motorFrontLeft.setPower(-.6);
                     motorBackLeft.setPower(-.6);
@@ -332,7 +348,7 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step == 11) {
+                if (step == 13) { //Stop Turning
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
@@ -419,8 +435,10 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
     private void pos1() {
-        encoderDrive(0.2,  18,  10);  // Forward 20 Inches with 10 Sec timeout
-        encoderDrive(0.2,  -18,  10);  // Back 20 Inches with 10 Sec timeout
+        motorFrontLeft.setPower(.4);
+        motorFrontRight.setPower(.4);
+        motorBackLeft.setPower(.4);
+        motorBackRight.setPower(.4);
 
         step = 5;
     }
@@ -433,8 +451,10 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
     private void pos3() {
-        encoderDrive(0.2,  18,  10);  // Forward 16 Inches with 10 Sec timeout
-        encoderDrive(0.2,  -18,  10);  // Back 16 Inches with 10 Sec timeout
+        motorFrontLeft.setPower(.4);
+        motorFrontRight.setPower(.4);
+        motorBackLeft.setPower(.4);
+        motorBackRight.setPower(.4);
 
         step = 5;
     }
