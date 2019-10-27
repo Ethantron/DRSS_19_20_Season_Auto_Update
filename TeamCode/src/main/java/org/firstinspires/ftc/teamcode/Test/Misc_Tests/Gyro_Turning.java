@@ -113,14 +113,14 @@ public class Gyro_Turning extends LinearOpMode {
     public void gyroTurn(double angle) {
         WantedAngle = angles.firstAngle + angle; //Turns specified angle from current angle
 
-        if (angles.firstAngle < WantedAngle) { //adjust robots by turning right
+        if (angles.firstAngle < RangeMinus) { //adjust robots by turning right
             motorFrontRight.setPower(-Power);
             motorFrontLeft.setPower(Power);
             motorBackRight.setPower(-Power);
             motorBackLeft.setPower(Power);
         }
 
-        if (angles.firstAngle > WantedAngle) { //adjust robots by turning left
+        if (angles.firstAngle > RangePlus) { //adjust robots by turning left
             motorFrontRight.setPower(Power);
             motorFrontLeft.setPower(-Power);
             motorBackRight.setPower(Power);
@@ -130,15 +130,16 @@ public class Gyro_Turning extends LinearOpMode {
         while (opModeIsActive() && (angles.firstAngle < RangeMinus && angles.firstAngle > RangePlus)) { //While the robot is not centered
             telemetry.addData("Turning to: ", WantedAngle); //Displays the angle we are trying to turn to
             telemetry.update();
-            sleep(5000);
         }
         //Moves on once the robot is centered
 
-        //Stop Turning
-        motorFrontRight.setPower(0);
-        motorFrontLeft.setPower(0);
-        motorBackRight.setPower(0);
-        motorBackLeft.setPower(0);
+        while (opModeIsActive() && (angles.firstAngle >= RangeMinus && angles.firstAngle <= RangePlus)) {
+            //Stop Turning
+            motorFrontRight.setPower(0);
+            motorFrontLeft.setPower(0);
+            motorBackRight.setPower(0);
+            motorBackLeft.setPower(0);
+        }
     }
 
     void composeTelemetry() {
