@@ -258,13 +258,15 @@ public class Auto_Scanning extends LinearOpMode {
                     telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
                     telemetry.update();
 
-                    encoderDrive(.4 ,sensorRange.getDistance(DistanceUnit.INCH), 10); //Moves forward to the block
+                    encoderDrive(.4 ,sensorRange.getDistance(DistanceUnit.INCH)*2, 10); //Moves forward to the block
 
                     step++;
                 }
 
                 if (step == 6) {
-                    encoderDrive(.4,-1,10); //Move backwards 15 inches
+                    encoderDrive(.4,-15,10); //Move backwards 15 inches
+
+                    step++;
                 }
 
                 if (step == 7) { //Turn 90 degrees
