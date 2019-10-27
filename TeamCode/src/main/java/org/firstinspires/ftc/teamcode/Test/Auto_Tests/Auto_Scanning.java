@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -75,6 +77,9 @@ public class Auto_Scanning extends LinearOpMode {
     ColorSensor color2;
     DistanceSensor sensorDistance;
 
+    //Distance Sensor Definitions
+    DistanceSensor sensorRange;
+
     @Override
     public void runOpMode(){
 
@@ -125,6 +130,10 @@ public class Auto_Scanning extends LinearOpMode {
         final float values[] = hsvValues;
         final double SCALE_FACTOR = 255;
 
+        //2M Distance Sensor Initialization
+        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
+
         // Skystone detection initialization
         initVuforia();
 
@@ -146,6 +155,7 @@ public class Auto_Scanning extends LinearOpMode {
 
         while (opModeIsActive()){
             telemetry.addData("Current step: ", step);
+            telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
             telemetry.update();
         }
 
