@@ -34,7 +34,7 @@ public class Gyro_Turning extends LinearOpMode {
     double RangePlus = WantedAngle + RangeDiv; //adds tolerance to Wanted Angle
     double RangeMinus = WantedAngle - RangeDiv; //subtracts tolerance from Wanted Angle
 
-    double step = 0;
+    double step = 1;
 
     // The IMU sensor object
     BNO055IMU imu;
