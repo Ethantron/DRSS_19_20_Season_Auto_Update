@@ -153,11 +153,11 @@ public class Auto_Scanning extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        while (opModeIsActive()){
+        /*while (opModeIsActive()){
             telemetry.addData("Current step: ", step);
             telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
             telemetry.update();
-        }
+        }*/
 
         //Scanning
 
