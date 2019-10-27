@@ -256,17 +256,18 @@ public class Auto_Scanning extends LinearOpMode {
 
                 if (step == 5){ //Turn 90 degrees
                     telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
+                    telemetry.update();
+
                     if (sensorRange.getDistance(DistanceUnit.INCH) <= 2) {
                         motorFrontLeft.setPower(0);
                         motorFrontRight.setPower(0);
                         motorBackLeft.setPower(0);
                         motorBackRight.setPower(0);
-                        step++;
                     }
                 }
 
                 if (step == 6) {
-                    encoderDrive(.4,-20,10); //Move backwards 20 inches
+                    encoderDrive(.4,-15,10); //Move backwards 15 inches
                 }
 
                 if (step == 7) {
@@ -444,8 +445,10 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
     private void pos2() {
-        encoderDrive(0.2,  18,  10);  // Forward 20 Inches with 10 Sec timeout
-        encoderDrive(0.2,  -18,  10);  // Back 20 Inches with 10 Sec timeout
+        motorFrontLeft.setPower(.4);
+        motorFrontRight.setPower(.4);
+        motorBackLeft.setPower(.4);
+        motorBackRight.setPower(.4);
 
         step = 5;
     }
