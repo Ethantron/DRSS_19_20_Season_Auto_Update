@@ -46,18 +46,16 @@ public class Gyro_Turning extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        //Set Up Motors
-        motorFrontRight = hardwareMap.dcMotor.get("FR");
+        // Drivetrain initialization
         motorFrontLeft = hardwareMap.dcMotor.get("FL");
+        motorFrontRight = hardwareMap.dcMotor.get("FR");
         motorBackLeft = hardwareMap.dcMotor.get("BL");
         motorBackRight = hardwareMap.dcMotor.get("BR");
 
-        //These work without reversing (Tetrix motors).
-        //AndyMark motors may be opposite, in which case uncomment these lines:
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
-        motorBackRight.setDirection(DcMotor.Direction.FORWARD);
+        motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 
         //Set up IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -89,62 +87,58 @@ public class Gyro_Turning extends LinearOpMode {
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
-                telemetry.clear();
-                telemetry.addData("Status: ", "Running");
-                telemetry.addData("step", step);
-                telemetry.addData("Wanted Angle:", WantedAngle);
-                telemetry.update();
 
-                if (step == 0) {
-                    WantedAngle = 90; //Set Wanted Angle to 90 Degrees
-                    sleep(100);
+                if (step==1) { //Turn 90 degrees
+                    gyroTurn(90);
                     step++;
                 }
 
-                if (step==1) {
-                    //Gyro Turning Code
-                    if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
-                        centered = 1;
-                        telemetry.addData("Robot is", "Centered! :)");
-                        step++;
-                    } else { //allows robot to adjust if not centered
-                        centered = 0;
-                        telemetry.addData("Robot is", "Not Centered! :(");
-                        telemetry.addData("Adjusting", "Robot");
-                    }
-
-                    if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
-                        motorFrontRight.setPower(-Power);
-                        motorFrontLeft.setPower(Power);
-                        motorBackRight.setPower(-Power);
-                        motorBackLeft.setPower(Power);
-                    }
-
-                    if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
-                        motorFrontRight.setPower(Power);
-                        motorFrontLeft.setPower(-Power);
-                        motorBackRight.setPower(Power);
-                        motorBackLeft.setPower(-Power);
-                    }
+                if (step==2) { //Move forward for 1 second
+                    motorFrontRight.setPower(Power);
+                    motorFrontLeft.setPower(Power);
+                    motorBackRight.setPower(Power);
+                    motorBackLeft.setPower(Power);
+                    sleep(1000);
+                    step++;
                 }
 
-            if (step == 2) {
-                motorFrontRight.setPower(.5);
-                motorFrontLeft.setPower(.5);
-                motorBackRight.setPower(.5);
-                motorBackLeft.setPower(.5);
-                sleep(100);
-                step++;
-            }
-
-            if (step == 3) {
-                motorFrontRight.setPower(0);
-                motorFrontLeft.setPower(0);
-                motorBackRight.setPower(0);
-                motorBackLeft.setPower(0);
-                telemetry.addData("Autonomous: ", "Done");
-            }
+                if (step==3) { //Stop Motors
+                    motorFrontRight.setPower(0);
+                    motorFrontLeft.setPower(0);
+                    motorBackRight.setPower(0);
+                    motorBackLeft.setPower(0);
+                }
         }
+    }
+
+    public void gyroTurn(double angle) {
+        WantedAngle = angles.firstAngle + angle; //Turns specified angle from current angle
+
+        if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
+            motorFrontRight.setPower(-Power);
+            motorFrontLeft.setPower(Power);
+            motorBackRight.setPower(-Power);
+            motorBackLeft.setPower(Power);
+        }
+
+        if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
+            motorFrontRight.setPower(Power);
+            motorFrontLeft.setPower(-Power);
+            motorBackRight.setPower(Power);
+            motorBackLeft.setPower(-Power);
+        }
+
+        while (opModeIsActive() && (angles.firstAngle < RangeMinus && angles.firstAngle > RangePlus)) { //While the robot is not centered
+            telemetry.addData("Turning to: ", WantedAngle); //Displays the angle we are trying to turn to
+            telemetry.update();
+        }
+        //Moves on once the robot is centered
+
+        //Stop Turning
+        motorFrontRight.setPower(0);
+        motorFrontLeft.setPower(0);
+        motorBackRight.setPower(0);
+        motorBackLeft.setPower(0);
     }
 
     void composeTelemetry() {
