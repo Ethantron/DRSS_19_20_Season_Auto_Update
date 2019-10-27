@@ -258,7 +258,7 @@ public class Auto_Scanning extends LinearOpMode {
                     telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
                     telemetry.update();
 
-                    if (sensorRange.getDistance(DistanceUnit.INCH) <= 2) {
+                    if (sensorRange.getDistance(DistanceUnit.INCH) < 6) {
                         motorFrontLeft.setPower(0);
                         motorFrontRight.setPower(0);
                         motorBackLeft.setPower(0);
