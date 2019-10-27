@@ -26,7 +26,6 @@ public class Gyro_Turning extends LinearOpMode {
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
 
-    double centered = 0; //Senses whether or not robot is centered
     double Power = .2; //Sets Motor Power
     double Range = 8; //Change this to change the range of degrees (Tolerance)
     double RangeDiv = Range / 2; //Evenly splits the range
@@ -88,12 +87,12 @@ public class Gyro_Turning extends LinearOpMode {
         // Loop and update the dashboard
         while (opModeIsActive()) {
 
-                if (step==1) { //Turn 90 degrees
+                if (step == 1) { //Turn 90 degrees
                     gyroTurn(90);
                     step++;
                 }
 
-                if (step==2) { //Move forward for 1 second
+                if (step == 2) { //Move forward for 1 second
                     motorFrontRight.setPower(Power);
                     motorFrontLeft.setPower(Power);
                     motorBackRight.setPower(Power);
@@ -102,7 +101,7 @@ public class Gyro_Turning extends LinearOpMode {
                     step++;
                 }
 
-                if (step==3) { //Stop Motors
+                if (step == 3) { //Stop Motors
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackRight.setPower(0);
@@ -114,14 +113,14 @@ public class Gyro_Turning extends LinearOpMode {
     public void gyroTurn(double angle) {
         WantedAngle = angles.firstAngle + angle; //Turns specified angle from current angle
 
-        if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
+        if (angles.firstAngle < WantedAngle) { //adjust robots by turning right
             motorFrontRight.setPower(-Power);
             motorFrontLeft.setPower(Power);
             motorBackRight.setPower(-Power);
             motorBackLeft.setPower(Power);
         }
 
-        if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
+        if (angles.firstAngle > WantedAngle) { //adjust robots by turning left
             motorFrontRight.setPower(Power);
             motorFrontLeft.setPower(-Power);
             motorBackRight.setPower(Power);
@@ -131,6 +130,7 @@ public class Gyro_Turning extends LinearOpMode {
         while (opModeIsActive() && (angles.firstAngle < RangeMinus && angles.firstAngle > RangePlus)) { //While the robot is not centered
             telemetry.addData("Turning to: ", WantedAngle); //Displays the angle we are trying to turn to
             telemetry.update();
+            sleep(5000);
         }
         //Moves on once the robot is centered
 
