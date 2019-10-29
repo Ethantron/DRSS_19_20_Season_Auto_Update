@@ -153,16 +153,14 @@ public class Auto_Scanning extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        /*while (opModeIsActive()){
-            telemetry.addData("Current step: ", step);
-            telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
-            telemetry.update();
-        }*/
+
 
         //Scanning
 
 
             while (opModeIsActive()) {
+
+
 
                     /*if (tfod != null) {
                         // getUpdatedRecognitions() will return null if no new information is available since
@@ -190,7 +188,8 @@ public class Auto_Scanning extends LinearOpMode {
                 //End of Scanning
 
                 if (step == 1) { //Move forward
-                    encoderDrive(0.4, 9, 10);  // Forward 9 Inches with 10 Sec timeout
+                    step();
+                    encoderDrive(0.4, 12, 10);  // Forward 9 Inches with 10 Sec timeout
 
                     pos++; //Tells code that it is checking position 1
                     sleep(scanTime);
@@ -199,6 +198,7 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 if (step == 2 && !Skystone) { //Scan first block
+                    step();
                     pos++; //If we didn't see the skystone, move to next position
 
                     //Strafe Left to next block
@@ -217,7 +217,7 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 if (step == 3 && !Skystone) { //Scan Second Block
-                    
+                    step();
                     pos++; //If we didn't see the skystone, move to next position
 
                     //Strafe Left to next block
@@ -233,43 +233,31 @@ public class Auto_Scanning extends LinearOpMode {
 
                     Skystone = true; //If position 1 and 2 are not skystone, then it must be position 3
 
-                    step++;
                 }
 
-                if (step > 1 && step < 5 && Skystone) { //If skystone is true after intial move forward, and stops after moving
-
-                    //telemetry.addData("Skystone found in position ", pos);
-                    //telemetry.update();
-
-                    if (pos == 1) { //If the skystone is found in position 1
-                        pos1(); //Run position 1 void
-                    }
-
-                    if (pos == 2) { //If the skystone is found in position 2
-                        pos2(); //Run position 2 void
-                    }
-
-                    if (pos == 3) { //If the skystone is found in position 3
-                        pos3(); //Run position 2 void
-                    }
+                if (step > 1 && step < 4 && Skystone) { //If skystone is true after intial move forward, and stops after moving
+                        step = 4;
                 }
 
-                if (step == 5){ //Turn 90 degrees
+                if (step == 4){ //Turn 90 degrees
+                    step();
                     telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
                     telemetry.update();
 
-                    encoderDrive(.4 ,sensorRange.getDistance(DistanceUnit.INCH)*1.5, 10); //Moves forward to the block
+                    encoderDrive(.4 ,8, 10); //Moves forward to the block
 
                     step++;
                 }
 
-                if (step == 6) {
+                if (step == 5) {
+                    step();
                     encoderDrive(.4,-15,10); //Move backwards 15 inches
 
                     step++;
                 }
 
-                if (step == 7) { //Turn 90 degrees
+                if (step == 6) { //Turn 90 degrees
+                    step();
                     motorFrontRight.setPower(-.6);
                     motorFrontLeft.setPower(.6);
                     motorBackLeft.setPower(.6);
@@ -284,7 +272,8 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 //Parking color sensor
-                if (step == 8){ //Start moving
+                if (step == 7){ //Start moving
+                    step();
                     motorFrontRight.setPower(.4);
                     motorFrontLeft.setPower(.4);
                     motorBackLeft.setPower(.4);
@@ -292,7 +281,7 @@ public class Auto_Scanning extends LinearOpMode {
                 }
 
                 // Does it see the line?
-                while (step == 8 && opModeIsActive()){
+                while (step == 7 && opModeIsActive()){
                     Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
                             (int) (sensorColor.green() * SCALE_FACTOR),
                             (int) (sensorColor.blue() * SCALE_FACTOR),
@@ -312,7 +301,8 @@ public class Auto_Scanning extends LinearOpMode {
                     }
                 }
 
-                if (step == 9){ //Stop Motors
+                if (step == 8){ //Stop Motors
+                    step();
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
@@ -320,7 +310,8 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step == 10){ //Move back a tiny bit
+                if (step == 9){ //Move back a tiny bit
+                    step();
                     motorFrontRight.setPower(-.2);
                     motorFrontLeft.setPower(-.2);
                     motorBackLeft.setPower(-.2);
@@ -329,7 +320,8 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step == 11){ //Stop Motors
+                if (step == 10){ //Stop Motors
+                    step();
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
@@ -339,7 +331,8 @@ public class Auto_Scanning extends LinearOpMode {
                 }
                 //All positions should be in the same place now
 
-                if (step == 12) { //Turn 45 degrees
+                if (step == 11) { //Turn 45 degrees
+                    step();
                     motorFrontRight.setPower(.6);
                     motorFrontLeft.setPower(-.6);
                     motorBackLeft.setPower(-.6);
@@ -348,7 +341,8 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step == 13) { //Stop Turning
+                if (step == 12) { //Stop Turning
+                    step();
                     motorFrontRight.setPower(0);
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
@@ -357,6 +351,11 @@ public class Auto_Scanning extends LinearOpMode {
             }
     }
 
+    private void step(){
+            telemetry.addData("Current step: ", step);
+            telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
+            telemetry.update();
+    }
 
     //Skystone Position Voids
 
@@ -435,15 +434,15 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
     private void pos1() {
-        step = 5;
+        step = 4;
     }
 
     private void pos2() {
-        step = 5;
+        step = 4;
     }
 
     private void pos3() {
-        step = 5;
+        step = 4;
     }
 
 
