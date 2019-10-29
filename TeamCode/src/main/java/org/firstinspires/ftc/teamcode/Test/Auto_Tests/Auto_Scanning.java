@@ -41,6 +41,7 @@ public class Auto_Scanning extends LinearOpMode {
     double pos = 0;
     int scanTime = 2000;
     boolean stopScanning = false;
+    boolean left = false;
 
     // Skystone detection definitions
     boolean Skystone = false;
@@ -347,6 +348,64 @@ public class Auto_Scanning extends LinearOpMode {
                     motorFrontLeft.setPower(0);
                     motorBackLeft.setPower(0);
                     motorBackRight.setPower(0);
+                    step++;
+                }
+
+                if (step == 13){
+                    step();
+                    if (sensorRange.getDistance(DistanceUnit.INCH) < 41) {
+                        left = true;
+                    }
+                    motorFrontRight.setPower(-.6);
+                    motorFrontLeft.setPower(.6);
+                    motorBackLeft.setPower(.6);
+                    motorBackRight.setPower(-.6);
+                    sleep(250);
+                    motorFrontLeft.setPower(0);
+                    motorFrontRight.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+                    step++;
+                }
+
+                if (step == 14){
+                    step();
+                    encoderDrive(.6,25,10); //Move forwards 25 inches
+                    step++;
+                }
+
+                if (step == 15 && left){
+                    step();
+                    motorFrontLeft.setPower(-.4);
+                    motorFrontRight.setPower(.4);
+                    motorBackLeft.setPower(.4);
+                    motorBackRight.setPower(-.4);
+                    sleep(1000);
+                    motorFrontLeft.setPower(0);
+                    motorFrontRight.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+                    step++;
+                }
+
+                if (step == 15 && !left){
+                    step();
+                    motorFrontLeft.setPower(.4);
+                    motorFrontRight.setPower(-.4);
+                    motorBackLeft.setPower(-.4);
+                    motorBackRight.setPower(.4);
+                    sleep(1000);
+                    motorFrontLeft.setPower(0);
+                    motorFrontRight.setPower(0);
+                    motorBackLeft.setPower(0);
+                    motorBackRight.setPower(0);
+                    step++;
+                }
+
+                if (step == 16){
+                    step();
+                    encoderDrive(.4,8.5,10); //Move forwards 8.5 inches
+                    step++;
                 }
             }
     }
