@@ -330,9 +330,9 @@ public class Auto_Scanning extends LinearOpMode {
 
                     step++;
                 }
-                //All positions should be in the same place now
+                //All positions should be in the same place now, and the robot moves to locate the the foundation
 
-                if (step == 11) { //Turn 45 degrees
+                if (step == 11) { //Turn 45 degrees, pointing at where the foundation is if it hasn't been moved. Needs to be reversed for other side
                     step();
                     motorFrontRight.setPower(.6);
                     motorFrontLeft.setPower(-.6);
@@ -351,11 +351,14 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step == 13){
+                if (step == 13){ //Checks to see if there is an obstruction(ie the foundation) within 41 inches (increase for higher range of error?), then turns back to position itself for next steps
                     step();
                     if (sensorRange.getDistance(DistanceUnit.INCH) < 41) {
                         left = true;
+                        telemetry.addData("Left?", left);
+                        telemetry.update();
                     }
+                    sleep(500);
                     motorFrontRight.setPower(-.6);
                     motorFrontLeft.setPower(.6);
                     motorBackLeft.setPower(.6);
@@ -368,13 +371,13 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step == 14){
+                if (step == 14){ // Moves forward into position
                     step();
                     encoderDrive(.6,25,10); //Move forwards 25 inches
                     step++;
                 }
 
-                if (step == 15 && left){
+                if (step == 15 && left){ //If there was an obstruction detected in step 13, strafes left to line up with the foundation
                     step();
                     motorFrontLeft.setPower(-.4);
                     motorFrontRight.setPower(.4);
@@ -388,7 +391,7 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step == 15 && !left){
+                if (step == 15 && !left){ //If no obstruction was detected in step 13, strafes right into position to place stone in foundation
                     step();
                     motorFrontLeft.setPower(.4);
                     motorFrontRight.setPower(-.4);
@@ -402,7 +405,7 @@ public class Auto_Scanning extends LinearOpMode {
                     step++;
                 }
 
-                if (step == 16){
+                if (step == 16){ //Moves forward to the foundation
                     step();
                     encoderDrive(.4,8.5,10); //Move forwards 8.5 inches
                     step++;
