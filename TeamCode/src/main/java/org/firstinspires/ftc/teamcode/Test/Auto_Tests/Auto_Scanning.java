@@ -159,7 +159,7 @@ public class Auto_Scanning extends LinearOpMode {
         //Scanning
 
 
-            while (opModeIsActive()) {
+        while (opModeIsActive()) {
 
 
 
@@ -186,237 +186,237 @@ public class Auto_Scanning extends LinearOpMode {
                         }
                     }*/
 
-                //End of Scanning
+            //End of Scanning
 
-                if (step == 1) { //Move forward
-                    step();
-                    encoderDrive(0.4, 12, 10);  // Forward 9 Inches with 10 Sec timeout
+            if (step == 1) { //Move forward
+                step();
+                encoderDrive(0.4, 12, 10);  // Forward 9 Inches with 10 Sec timeout
 
-                    pos++; //Tells code that it is checking position 1
-                    sleep(scanTime);
-                    scan();
-                    step++;
-                }
+                pos++; //Tells code that it is checking position 1
+                sleep(scanTime);
+                scan();
+                step++;
+            }
 
-                if (step == 2 && !Skystone) { //Scan first block
-                    step();
-                    pos++; //If we didn't see the skystone, move to next position
+            if (step == 2 && !Skystone) { //Scan first block
+                step();
+                pos++; //If we didn't see the skystone, move to next position
 
-                    //Strafe Left to next block
-                    motorFrontLeft.setPower(-.4);
-                    motorFrontRight.setPower(.4);
-                    motorBackLeft.setPower(.4);
-                    motorBackRight.setPower(-.4);
-                    sleep(600);
-                    motorFrontLeft.setPower(0);
-                    motorFrontRight.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
-                    sleep(scanTime); //Wait 2 seconds to scan
-                    scan();
-                    step++;
-                }
+                //Strafe Left to next block
+                motorFrontLeft.setPower(-.4);
+                motorFrontRight.setPower(.4);
+                motorBackLeft.setPower(.4);
+                motorBackRight.setPower(-.4);
+                sleep(600);
+                motorFrontLeft.setPower(0);
+                motorFrontRight.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                sleep(scanTime); //Wait 2 seconds to scan
+                scan();
+                step++;
+            }
 
-                if (step == 3 && !Skystone) { //Scan Second Block
-                    step();
-                    pos++; //If we didn't see the skystone, move to next position
+            if (step == 3 && !Skystone) { //Scan Second Block
+                step();
+                pos++; //If we didn't see the skystone, move to next position
 
-                    //Strafe Left to next block
-                    motorFrontLeft.setPower(-.4);
-                    motorFrontRight.setPower(.4);
-                    motorBackLeft.setPower(.4);
-                    motorBackRight.setPower(-.4);
-                    sleep(600);
-                    motorFrontLeft.setPower(0);
-                    motorFrontRight.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
+                //Strafe Left to next block
+                motorFrontLeft.setPower(-.4);
+                motorFrontRight.setPower(.4);
+                motorBackLeft.setPower(.4);
+                motorBackRight.setPower(-.4);
+                sleep(600);
+                motorFrontLeft.setPower(0);
+                motorFrontRight.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
 
-                    Skystone = true; //If position 1 and 2 are not skystone, then it must be position 3
+                Skystone = true; //If position 1 and 2 are not skystone, then it must be position 3
 
-                }
+            }
 
-                if (step > 1 && step < 4 && Skystone) { //If skystone is true after intial move forward, and stops after moving
-                        step = 4;
-                }
+            if (step > 1 && step < 4 && Skystone) { //If skystone is true after intial move forward, and stops after moving
+                step = 4;
+            }
 
-                if (step == 4){ //Turn 90 degrees
-                    step();
-                    telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
-                    telemetry.update();
+            if (step == 4){ //Turn 90 degrees
+                step();
+                telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
+                telemetry.update();
 
-                    encoderDrive(.4 ,15, 10); //Moves forward to the block
+                encoderDrive(.4 ,15, 10); //Moves forward to the block
 
-                    step++;
-                }
+                step++;
+            }
 
-                if (step == 5) {
-                    step();
-                    encoderDrive(.4,-15,10); //Move backwards 15 inches
+            if (step == 5) {
+                step();
+                encoderDrive(.4,-15,10); //Move backwards 15 inches
 
-                    step++;
-                }
+                step++;
+            }
 
-                if (step == 6) { //Turn 90 degrees
-                    step();
-                    motorFrontRight.setPower(-.6);
-                    motorFrontLeft.setPower(.6);
-                    motorBackLeft.setPower(.6);
-                    motorBackRight.setPower(-.6);
-                    sleep(650);
-                    motorFrontRight.setPower(0);
-                    motorFrontLeft.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
+            if (step == 6) { //Turn 90 degrees
+                step();
+                motorFrontRight.setPower(-.6);
+                motorFrontLeft.setPower(.6);
+                motorBackLeft.setPower(.6);
+                motorBackRight.setPower(-.6);
+                sleep(650);
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
 
-                    step++;
-                }
+                step++;
+            }
 
-                //Parking color sensor
-                if (step == 7){ //Start moving
-                    step();
-                    motorFrontRight.setPower(.4);
-                    motorFrontLeft.setPower(.4);
-                    motorBackLeft.setPower(.4);
-                    motorBackRight.setPower(.4);
-                }
+            //Parking color sensor
+            if (step == 7){ //Start moving
+                step();
+                motorFrontRight.setPower(.4);
+                motorFrontLeft.setPower(.4);
+                motorBackLeft.setPower(.4);
+                motorBackRight.setPower(.4);
+            }
 
-                // Does it see the line?
-                while (step == 7 && opModeIsActive()){
-                    Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
-                            (int) (sensorColor.green() * SCALE_FACTOR),
-                            (int) (sensorColor.blue() * SCALE_FACTOR),
-                            hsvValues);
-                    Color.RGBToHSV((int) (color2.red() * SCALE_FACTOR),
-                            (int) (color2.green() * SCALE_FACTOR),
-                            (int) (color2.blue() * SCALE_FACTOR),
-                            hsvValues);
+            // Does it see the line?
+            while (step == 7 && opModeIsActive()){
+                Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
+                        (int) (sensorColor.green() * SCALE_FACTOR),
+                        (int) (sensorColor.blue() * SCALE_FACTOR),
+                        hsvValues);
+                Color.RGBToHSV((int) (color2.red() * SCALE_FACTOR),
+                        (int) (color2.green() * SCALE_FACTOR),
+                        (int) (color2.blue() * SCALE_FACTOR),
+                        hsvValues);
 
-                    // Send the info back to driver station using telemetry function.
-                    telemetry.addData("Step: ", step);
-                    telemetry.addData("Hue", hsvValues[0]);
-                    telemetry.update();
+                // Send the info back to driver station using telemetry function.
+                telemetry.addData("Step: ", step);
+                telemetry.addData("Hue", hsvValues[0]);
+                telemetry.update();
 
-                    if (hsvValues[0] > 150 ){ // Checks if it is red or blue
-                        step++;
-                    }
-                }
-
-                if (step == 8){ //Stop Motors
-                    step();
-                    motorFrontRight.setPower(0);
-                    motorFrontLeft.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
-                    step++;
-                }
-
-                if (step == 9){ //Move back a tiny bit
-                    step();
-                    motorFrontRight.setPower(-.2);
-                    motorFrontLeft.setPower(-.2);
-                    motorBackLeft.setPower(-.2);
-                    motorBackRight.setPower(-.2);
-                    sleep(100);
-                    step++;
-                }
-
-                if (step == 10){ //Stop Motors
-                    step();
-                    motorFrontRight.setPower(0);
-                    motorFrontLeft.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
-
-                    step++;
-                }
-                //All positions should be in the same place now, and the robot moves to locate the the foundation
-
-                if (step == 11) { //Turn 45 degrees, pointing at where the foundation is if it hasn't been moved. Needs to be reversed for other side
-                    step();
-                    motorFrontRight.setPower(.6);
-                    motorFrontLeft.setPower(-.6);
-                    motorBackLeft.setPower(-.6);
-                    motorBackRight.setPower(.6);
-                    sleep(250);
-                    step++;
-                }
-
-                if (step == 12) { //Stop Turning
-                    step();
-                    motorFrontRight.setPower(0);
-                    motorFrontLeft.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
-                    step++;
-                }
-
-                if (step == 13){ //Checks to see if there is an obstruction(ie the foundation) within 41 inches (increase for higher range of error?), then turns back to position itself for next steps
-                    step();
-                    if (sensorRange.getDistance(DistanceUnit.INCH) < 41) {
-                        left = true;
-                        telemetry.addData("Left?", left);
-                        telemetry.update();
-                    }
-                    sleep(500);
-                    motorFrontRight.setPower(-.6);
-                    motorFrontLeft.setPower(.6);
-                    motorBackLeft.setPower(.6);
-                    motorBackRight.setPower(-.6);
-                    sleep(250);
-                    motorFrontLeft.setPower(0);
-                    motorFrontRight.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
-                    step++;
-                }
-
-                if (step == 14){ // Moves forward into position
-                    step();
-                    encoderDrive(.6,25,10); //Move forwards 25 inches
-                    step++;
-                }
-
-                if (step == 15 && left){ //If there was an obstruction detected in step 13, strafes left to line up with the foundation
-                    step();
-                    motorFrontLeft.setPower(-.4);
-                    motorFrontRight.setPower(.4);
-                    motorBackLeft.setPower(.4);
-                    motorBackRight.setPower(-.4);
-                    sleep(1000);
-                    motorFrontLeft.setPower(0);
-                    motorFrontRight.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
-                    step++;
-                }
-
-                if (step == 15 && !left){ //If no obstruction was detected in step 13, strafes right into position to place stone in foundation
-                    step();
-                    motorFrontLeft.setPower(.4);
-                    motorFrontRight.setPower(-.4);
-                    motorBackLeft.setPower(-.4);
-                    motorBackRight.setPower(.4);
-                    sleep(1000);
-                    motorFrontLeft.setPower(0);
-                    motorFrontRight.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
-                    step++;
-                }
-
-                if (step == 16){ //Moves forward to the foundation
-                    step();
-                    encoderDrive(.4,8.5,10); //Move forwards 8.5 inches
+                if (hsvValues[0] > 150 ){ // Checks if it is red or blue
                     step++;
                 }
             }
+
+            if (step == 8){ //Stop Motors
+                step();
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                step++;
+            }
+
+            if (step == 9){ //Move back a tiny bit
+                step();
+                motorFrontRight.setPower(-.2);
+                motorFrontLeft.setPower(-.2);
+                motorBackLeft.setPower(-.2);
+                motorBackRight.setPower(-.2);
+                sleep(100);
+                step++;
+            }
+
+            if (step == 10){ //Stop Motors
+                step();
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+
+                step++;
+            }
+            //All positions should be in the same place now, and the robot moves to locate the the foundation
+
+            if (step == 11) { //Turn 45 degrees, pointing at where the foundation is if it hasn't been moved. Needs to be reversed for other side
+                step();
+                motorFrontRight.setPower(.6);
+                motorFrontLeft.setPower(-.6);
+                motorBackLeft.setPower(-.6);
+                motorBackRight.setPower(.6);
+                sleep(250);
+                step++;
+            }
+
+            if (step == 12) { //Stop Turning
+                step();
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                step++;
+            }
+
+            if (step == 13){ //Checks to see if there is an obstruction(ie the foundation) within 45 inches (increased for higher range of error?), then turns back to position itself for next steps
+                step();
+                if (sensorRange.getDistance(DistanceUnit.INCH) < 45) {
+                    left = true;
+                    telemetry.addData("Left?", left);
+                    telemetry.update();
+                }
+                sleep(500);
+                motorFrontRight.setPower(-.6);
+                motorFrontLeft.setPower(.6);
+                motorBackLeft.setPower(.6);
+                motorBackRight.setPower(-.6);
+                sleep(250);
+                motorFrontLeft.setPower(0);
+                motorFrontRight.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                step++;
+            }
+
+            if (step == 14){ // Moves forward into position
+                step();
+                encoderDrive(.6,25,10); //Move forwards 25 inches
+                step++;
+            }
+
+            if (step == 15 && left){ //If there was an obstruction detected in step 13, strafes left to line up with the foundation
+                step();
+                motorFrontLeft.setPower(-.4);
+                motorFrontRight.setPower(.4);
+                motorBackLeft.setPower(.4);
+                motorBackRight.setPower(-.4);
+                sleep(1000);
+                motorFrontLeft.setPower(0);
+                motorFrontRight.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                step++;
+            }
+
+            if (step == 15 && !left){ //If no obstruction was detected in step 13, strafes right into position to place stone in foundation
+                step();
+                motorFrontLeft.setPower(.4);
+                motorFrontRight.setPower(-.4);
+                motorBackLeft.setPower(-.4);
+                motorBackRight.setPower(.4);
+                sleep(1000);
+                motorFrontLeft.setPower(0);
+                motorFrontRight.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                step++;
+            }
+
+            if (step == 16){ //Moves forward to the foundation
+                step();
+                encoderDrive(.4,8.5,10); //Move forwards 8.5 inches
+                step++;
+            }
+        }
     }
 
     private void step(){
-            telemetry.addData("Current step: ", step);
-            telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
-            telemetry.update();
+        telemetry.addData("Current step: ", step);
+        telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
+        telemetry.update();
     }
 
     //Skystone Position Voids
