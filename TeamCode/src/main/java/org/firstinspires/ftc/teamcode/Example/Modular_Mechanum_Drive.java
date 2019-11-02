@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Example;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -55,7 +56,7 @@ public class Modular_Mechanum_Drive extends OpMode{
 
         float gamepad1LeftY = gamepad1.left_stick_y;
         float gamepad1LeftX = -gamepad1.left_stick_x;
-        float gamepad1RightX = gamepad1.right_stick_x;
+        float gamepad1RightX = -gamepad1.right_stick_x;
 
         // Mechanum formulas
 
@@ -98,14 +99,14 @@ public class Modular_Mechanum_Drive extends OpMode{
 
         // Lowers foundation movers
         if (gamepad1.dpad_down){
-            FoundationMoverL.setPosition(0);
-            FoundationMoverR.setPosition(0);
+            FoundationMoverL.setPosition(1);
+            FoundationMoverR.setPosition(1);
         }
 
         // Raises the foundation movers
         if (gamepad1.dpad_up){
-            FoundationMoverL.setPosition(1);
-            FoundationMoverR.setPosition(1);
+            FoundationMoverL.setPosition(0);
+            FoundationMoverR.setPosition(0);
         }
     }
 
