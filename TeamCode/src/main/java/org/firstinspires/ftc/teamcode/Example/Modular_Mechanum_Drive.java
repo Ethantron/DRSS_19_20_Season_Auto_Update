@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Example;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "Modular_Mechanum_Drive", group= "Modular_Drivetrains")
@@ -17,6 +18,9 @@ public class Modular_Mechanum_Drive extends OpMode{
     double Frontright;
     double Backleft;
     double Backright;
+
+    public Servo FoundationMoverL;
+    public Servo FoundationMoverR;
 
     public void init(){
 
@@ -37,6 +41,9 @@ public class Modular_Mechanum_Drive extends OpMode{
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+
+        FoundationMoverL = hardwareMap.servo.get("GL");
+        FoundationMoverR = hardwareMap.servo.get("GR");
 
     }
 
@@ -88,6 +95,18 @@ public class Modular_Mechanum_Drive extends OpMode{
         }
 
         telemetry.addData("speed", Speed);
+
+        // Lowers foundation movers
+        if (gamepad1.dpad_down){
+            FoundationMoverL.setPosition(0);
+            FoundationMoverR.setPosition(0);
+        }
+
+        // Raises the foundation movers
+        if (gamepad1.dpad_up){
+            FoundationMoverL.setPosition(1);
+            FoundationMoverR.setPosition(1);
+        }
     }
 
 

@@ -3,7 +3,7 @@
         Controller one:
             Left stick, Right stick x, DPad, a, b, x, y
         Controller two:
-            Left stick y, a, b, Bumpers, Triggers
+            Left stick y, a, b, x,h  Bumpers, Triggers
 */
 
 // Defines where the code is in the project
@@ -27,9 +27,10 @@ public class Bob_the_Test_Bot extends LinearOpMode{
     public DcMotor motorBackLeft;
     public DcMotor lift;
     public DcMotor slide;
-    public Servo grabL;
-    public Servo grabR;
+    public Servo FoundationMoverL;
+    public Servo FoundationMoverR;
     public Servo grabStone;
+    public Servo wrist;
     double Frontleft;
     double Frontright;
     double Backleft;
@@ -58,15 +59,20 @@ public class Bob_the_Test_Bot extends LinearOpMode{
         lift.setDirection(DcMotor.Direction.FORWARD);
         slide.setDirection(DcMotor.Direction.FORWARD);
 
-        grabL = hardwareMap.servo.get("GL");
-        grabR = hardwareMap.servo.get("GR");
+        FoundationMoverL = hardwareMap.servo.get("GL");
+        FoundationMoverR = hardwareMap.servo.get("GR");
         grabStone = hardwareMap.servo.get("GS");
+        wrist = hardwareMap.servo.get("W");
+
+        wrist.setPosition(0.5);
 
         telemetry.addData("Status: ", "Initialized");
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
 
+        telemetry.addData("Out of ", "Initialization");
+        telemetry.update();
 
         // Drivetrain Controls
 
@@ -114,28 +120,16 @@ public class Bob_the_Test_Bot extends LinearOpMode{
                 Speed = .25;
             }
 
-            // Sets the foundation movers for moving left
-            if (gamepad1.dpad_left){
-                grabL.setPosition(90);
-                grabR.setPosition(0);
-            }
-
-            // Sets the foundation movers for moving right
-            if (gamepad1.dpad_right){
-                grabR.setPosition(90);
-                grabL.setPosition(0);
-            }
-
             // Lowers foundation movers
             if (gamepad1.dpad_down){
-                grabL.setPosition(0);
-                grabR.setPosition(0);
+                FoundationMoverL.setPosition(0);
+                FoundationMoverR.setPosition(0);
             }
 
             // Raises the foundation movers
             if (gamepad1.dpad_up){
-                grabL.setPosition(90);
-                grabR.setPosition(90);
+                FoundationMoverL.setPosition(1);
+                FoundationMoverR.setPosition(1);
             }
 
         // Payload Controls
@@ -144,7 +138,7 @@ public class Bob_the_Test_Bot extends LinearOpMode{
             if (gamepad2.right_bumper && upcount <= 6){
                 lift.setPower(0.5);
                 sleep(500);
-                lift.setPower(0.1);
+                //lift.setPower(0.1);
                 upcount++;
             }
             else{
@@ -155,7 +149,7 @@ public class Bob_the_Test_Bot extends LinearOpMode{
             if (gamepad2.left_bumper && upcount >= 0){
                 lift.setPower(-0.3);
                 sleep(500);
-                lift.setPower(0.1);
+                //lift.setPower(0.1);
                 upcount--;
             }
 
@@ -171,18 +165,18 @@ public class Bob_the_Test_Bot extends LinearOpMode{
 
 
 
-            // If neither triggers are being pressed, keep the lift still
+            /* If neither triggers are being pressed, keep the lift still
             if (!(gamepad2.left_trigger > 0.1 && gamepad2.right_trigger > 0.1)){
                 lift.setPower(0.1);
             }
-
+            */
             // Moves the slide forward
-            if (gamepad2.left_stick_x > 0.1){
+            if (gamepad2.left_stick_y > 0.1){
                 slide.setPower(0.3);
             }
 
             // Moves the slide backwards
-            if (gamepad2.left_stick_x < 0.1){
+            if (gamepad2.left_stick_y < 0.1){
                 slide.setPower(-0.3);
             }
 
@@ -191,9 +185,22 @@ public class Bob_the_Test_Bot extends LinearOpMode{
                 slide.setPower(0);
             }
 
+
+            while (gamepad2.right_stick_x < 0.1){
+                wrist.setPosition(wrist.getPosition() + .1);
+            }
+
+            while (gamepad2.right_stick_x > -0.1){
+                wrist.setPosition(wrist.getPosition() + .1);
+            }
+
+            if (gamepad2.x){
+                wrist.setPosition(0.5);
+            }
+
             // Opens the stone grabber
             if (gamepad2.a){
-                grabStone.setPosition(90);
+                grabStone.setPosition(1);
             }
 
             // Closes the stone grabber
@@ -204,29 +211,33 @@ public class Bob_the_Test_Bot extends LinearOpMode{
         // Telemetry
         telemetry.addData("Current Speed: ", Speed);
 
+        telemetry.addData("Lift height", upcount);
+
         // Left grabber telemetry
-        if (grabL.getPosition() == 90){
+        if (FoundationMoverL.getPosition() == 1){
             telemetry.addData("Left Grabber: ", "Open");
         }
-        else if (grabL.getPosition() == 0){
+        else if (FoundationMoverL.getPosition() == 0){
             telemetry.addData("Left Grabber: ", "Closed");
         }
 
         // Right grabber telemetry
-        if (grabR.getPosition() == 90){
+        if (FoundationMoverR.getPosition() == 1){
             telemetry.addData("Right Grabber: ", "Open");
         }
-        else if (grabR.getPosition() == 0){
+        else if (FoundationMoverR.getPosition() == 0){
             telemetry.addData("Right Grabber: ", "Closed");
         }
 
         // Stone grabber telemetry
-        if (grabStone.getPosition() == 90){
+        if (grabStone.getPosition() == 1){
             telemetry.addData("Stone Grabber: ", "Open");
         }
         else if (grabStone.getPosition() == 0){
             telemetry.addData("Stone Grabber: ", "Closed");
         }
+
+        telemetry.addData("Wrist position", wrist.getPosition());
         telemetry.update();
     }
 
