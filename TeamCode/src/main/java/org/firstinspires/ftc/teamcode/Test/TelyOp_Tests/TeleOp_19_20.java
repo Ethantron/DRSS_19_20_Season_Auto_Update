@@ -202,11 +202,15 @@ public class TeleOp_19_20 extends OpMode {
         /** Hand System Controls **/
             // Wrist Controls
                 if (gamepad2.dpad_right) {
-                    wrist.setPosition(wrist.getPosition() - .05); //Move the wrist right
+                    wrist.setPosition(wrist.getPosition() - .025); //Move the wrist right
                 }
 
                 if (gamepad2.dpad_left) {
-                    wrist.setPosition(wrist.getPosition() + .05); //Move the wrist Left
+                    wrist.setPosition(wrist.getPosition() + .025); //Move the wrist Left
+                }
+
+                if (!gamepad2.dpad_left && !gamepad2.dpad_right) {
+                    wrist.setPosition(wrist.getPosition()); //Set the wrist to the current position
                 }
             // End of Wrist controls
 
