@@ -196,7 +196,29 @@ public class TeleOp_19_20 extends OpMode {
                 if (gamepad2.right_stick_y < -.25) {
                     slide.setPower(1); //Set power to the slide
                 }
-            //End of Moving the Slide Inward
+            // End of Moving the Slide Inward
         /** End of Slide System Controls **/
+
+        /** Hand System Controls **/
+            // Wrist Controls
+                if (gamepad2.dpad_right) {
+                    wrist.setPosition(wrist.getPosition() - .05); //Move the wrist right
+                }
+
+                if (gamepad2.dpad_left) {
+                    wrist.setPosition(wrist.getPosition() + .05); //Move the wrist Left
+                }
+            // End of Wrist controls
+
+            // Grabber Controls
+                if (gamepad2.a) {
+                    grabStone.setPosition(0); //Clamp down with the grabber
+                }
+
+                if (gamepad2.dpad_left) {
+                    grabStone.setPosition(1); //Release the grabber
+                }
+            // End of Grabber Controls
+        /** End of Hand System Control **/
     }
 }
