@@ -168,7 +168,7 @@ public class TeleOp_19_20 extends OpMode {
 
             // Zeroing the Lift
                 if (gamepad2.left_stick_y < .25 && gamepad2.left_stick_y > -.25) {
-                    lift.setPower(0); //Stops power to the slid
+                    lift.setPower(.0001); //Holds lift in place
                 }
             // End of Zeroing the lift
 
