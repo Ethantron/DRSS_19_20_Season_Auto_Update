@@ -87,8 +87,11 @@ public class Gyro_Turning extends LinearOpMode {
         // Loop and update the dashboard
         while (opModeIsActive()) {
 
+           // gyroTurn();
+
                 if (step == 1) { //Turn 90 degrees
-                    gyroTurn(90);
+                    WantedAngle = 90;
+                    gyroTurn();
                     step++;
                 }
 
@@ -110,8 +113,8 @@ public class Gyro_Turning extends LinearOpMode {
         }
     }
 
-    public void gyroTurn(double angle) {
-        WantedAngle = angles.firstAngle + angle; //Turns specified angle from current angle
+    public void gyroTurn(/*double angle*/) {
+       // WantedAngle = angles.firstAngle + angle; //Turns specified angle from current angle
 
         if (angles.firstAngle < RangeMinus) { //adjust robots by turning right
             motorFrontRight.setPower(-Power);
