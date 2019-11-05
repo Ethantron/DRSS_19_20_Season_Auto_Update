@@ -154,42 +154,10 @@ public class Auto_Scanning extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-
-
-        //Scanning
-
-
         while (opModeIsActive()) {
 
-
-
-                    /*if (tfod != null) {
-                        // getUpdatedRecognitions() will return null if no new information is available since
-                        // the last time that call was made.
-                        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                        if (updatedRecognitions != null) {
-                            telemetry.addData("# Object Detected", updatedRecognitions.size());
-
-                            // step through the list of recognitions and display boundary info.
-                            int i = 0;
-                            for (Recognition recognition : updatedRecognitions) {
-                                telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                                telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                        recognition.getLeft(), recognition.getTop());
-                                telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                        recognition.getRight(), recognition.getBottom());
-                                if (recognition.getLabel() == LABEL_SECOND_ELEMENT) {
-                                    Skystone = true;
-                                }
-                            }
-                            telemetry.update();
-                        }
-                    }*/
-
-            //End of Scanning
-
             if (step == 1) { //Move forward
-                step();
+                stepTelemetry();
                 encoderDrive(0.4, 12, 10);  // Forward 9 Inches with 10 Sec timeout
 
                 pos++; //Tells code that it is checking position 1
@@ -199,7 +167,7 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step == 2 && !Skystone) { //Scan first block
-                step();
+                stepTelemetry();
                 pos++; //If we didn't see the skystone, move to next position
 
                 //Strafe Left to next block
@@ -218,7 +186,7 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step == 3 && !Skystone) { //Scan Second Block
-                step();
+                stepTelemetry();
                 pos++; //If we didn't see the skystone, move to next position
 
                 //Strafe Left to next block
@@ -241,7 +209,7 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step == 4){ //Turn 90 degrees
-                step();
+                stepTelemetry();
                 telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
                 telemetry.update();
 
@@ -251,14 +219,14 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step == 5) {
-                step();
+                stepTelemetry();
                 encoderDrive(.4,-15,10); //Move backwards 15 inches
 
                 step++;
             }
 
             if (step == 6) { //Turn 90 degrees
-                step();
+                stepTelemetry();
                 motorFrontRight.setPower(-.6);
                 motorFrontLeft.setPower(.6);
                 motorBackLeft.setPower(.6);
@@ -274,7 +242,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             //Parking color sensor
             if (step == 7){ //Start moving
-                step();
+                stepTelemetry();
                 motorFrontRight.setPower(.4);
                 motorFrontLeft.setPower(.4);
                 motorBackLeft.setPower(.4);
@@ -303,7 +271,7 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step == 8){ //Stop Motors
-                step();
+                stepTelemetry();
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
@@ -312,7 +280,7 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step == 9){ //Move back a tiny bit
-                step();
+                stepTelemetry();
                 motorFrontRight.setPower(-.2);
                 motorFrontLeft.setPower(-.2);
                 motorBackLeft.setPower(-.2);
@@ -322,7 +290,7 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step == 10){ //Stop Motors
-                step();
+                stepTelemetry();
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
@@ -330,10 +298,11 @@ public class Auto_Scanning extends LinearOpMode {
 
                 step++;
             }
-            //All positions should be in the same place now, and the robot moves to locate the the foundation
+
+            /** All positions should be in the same place now, and the robot moves to locate the the foundation **/
 
             if (step == 11) { //Turn 45 degrees, pointing at where the foundation is if it hasn't been moved. Needs to be reversed for other side
-                step();
+                stepTelemetry();
                 motorFrontRight.setPower(.6);
                 motorFrontLeft.setPower(-.6);
                 motorBackLeft.setPower(-.6);
@@ -343,7 +312,7 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step == 12) { //Stop Turning
-                step();
+                stepTelemetry();
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
@@ -352,70 +321,13 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step == 13){ //Checks to see if there is an obstruction(ie the foundation) within 45 inches (increased for higher range of error?), then turns back to position itself for next steps
-                step();
-                if (sensorRange.getDistance(DistanceUnit.INCH) < 45) {
-                    left = true;
-                    telemetry.addData("Left?", left);
-                    telemetry.update();
-                }
-                sleep(500);
-                motorFrontRight.setPower(-.6);
-                motorFrontLeft.setPower(.6);
-                motorBackLeft.setPower(.6);
-                motorBackRight.setPower(-.6);
-                sleep(250);
-                motorFrontLeft.setPower(0);
-                motorFrontRight.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
-                step++;
-            }
-
-            if (step == 14){ // Moves forward into position
-                step();
-                encoderDrive(.6,25,10); //Move forwards 25 inches
-                step++;
-            }
-
-            if (step == 15 && left){ //If there was an obstruction detected in step 13, strafes left to line up with the foundation
-                step();
-                motorFrontLeft.setPower(-.4);
-                motorFrontRight.setPower(.4);
-                motorBackLeft.setPower(.4);
-                motorBackRight.setPower(-.4);
-                sleep(1000);
-                motorFrontLeft.setPower(0);
-                motorFrontRight.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
-                step++;
-            }
-
-            if (step == 15 && !left){ //If no obstruction was detected in step 13, strafes right into position to place stone in foundation
-                step();
-                motorFrontLeft.setPower(.4);
-                motorFrontRight.setPower(-.4);
-                motorBackLeft.setPower(-.4);
-                motorBackRight.setPower(.4);
-                sleep(1000);
-                motorFrontLeft.setPower(0);
-                motorFrontRight.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
-                step++;
-            }
-
-            if (step == 16){ //Moves forward to the foundation
-                step();
-                encoderDrive(.4,8.5,10); //Move forwards 8.5 inches
-                step++;
+                sleep(1);
             }
         }
     }
 
-    private void step(){
+    private void stepTelemetry(){
         telemetry.addData("Current step: ", step);
-        telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
         telemetry.update();
     }
 
