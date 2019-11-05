@@ -86,13 +86,53 @@ public class Ethan_Gyro_Turn extends LinearOpMode {
         // Loop and update the dashboard
 
 
+
+
         if (step == 0){
+            telemetry.addData("Step", "0");
+            telemetry.update();
             WantedAngle = 90;
-            turn();
+            tolerance();
             step++;
         }
 
-        if (step == 1 && centered == 1){
+        if (step == 1) {
+            telemetry.addData("Step", "1");
+            telemetry.update();
+
+            if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackRight.setPower(0);
+                motorBackLeft.setPower(0);
+                centered = 1;
+                telemetry.addData("Robot is", "Centered! :)");
+                step++;
+            } else while(!(angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus)){ //allows robot to adjust if not centered
+                centered = 0;
+                telemetry.addData("Robot is", "Not Centered! :(");
+                telemetry.addData("Adjusting", "Robot");
+
+                if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
+                    motorFrontRight.setPower(-Power);
+                    motorFrontLeft.setPower(Power);
+                    motorBackRight.setPower(-Power);
+                    motorBackLeft.setPower(Power);
+                }
+
+                if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
+                    motorFrontRight.setPower(Power);
+                    motorFrontLeft.setPower(-Power);
+                    motorBackRight.setPower(Power);
+                    motorBackLeft.setPower(-Power);
+                }
+            }
+        }
+
+
+        if (step == 2){
+            telemetry.addData("Step", "2");
+            telemetry.update();
             motorFrontRight.setPower(Power);
             motorFrontLeft.setPower(Power);
             motorBackRight.setPower(Power);
@@ -103,47 +143,14 @@ public class Ethan_Gyro_Turn extends LinearOpMode {
             motorBackRight.setPower(0);
             motorBackLeft.setPower(0);
             step++;
-        } else if (centered == 0){
-            sleep(500);
         }
-
 
 
     }
 
-    void turn(){
-        while (opModeIsActive()) {
-            telemetry.update();
-
-            if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
-                motorFrontRight.setPower(0);
-                motorFrontLeft.setPower(0);
-                motorBackRight.setPower(0);
-                motorBackLeft.setPower(0);
-                centered = 1;
-                telemetry.addData("Robot is", "Centered! :)");
-            }
-
-            else { //allows robot to adjust if not centered
-                centered = 0;
-                telemetry.addData("Robot is", "Not Centered! :(");
-                telemetry.addData("Adjusting","Robot");
-            }
-
-            if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
-                motorFrontRight.setPower(-Power);
-                motorFrontLeft.setPower(Power);
-                motorBackRight.setPower(-Power);
-                motorBackLeft.setPower(Power);
-            }
-
-            if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
-                motorFrontRight.setPower(Power);
-                motorFrontLeft.setPower(-Power);
-                motorBackRight.setPower(Power);
-                motorBackLeft.setPower(-Power);
-            }
-        }
+    void tolerance(){
+         RangePlus = WantedAngle + RangeDiv; //adds tolerance to Wanted Angle
+         RangeMinus = WantedAngle - RangeDiv; //subtracts tolerance from Wanted Angle
     }
 
     void composeTelemetry() {
