@@ -61,17 +61,20 @@ public class Auto_Scanning extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    // Gyroscope definitions
-    double centered = 0; //Senses whether or not robot is centered
-    double Power = .2; //Sets Motor Power
-    double Range = 8; //Change this to change the range of degrees (Tolerance)
-    double RangeDiv = Range / 2; //Evenly splits the range
-    double WantedAngle = 0; //Wanted Angle
-    double RangePlus = WantedAngle + RangeDiv; //adds tolerance to Wanted Angle
-    double RangeMinus = WantedAngle - RangeDiv; //subtracts tolerance from Wanted Angle
+    // Defines the gyro
     BNO055IMU imu;
+
+    // State used for updating telemetry
     Orientation angles;
     Acceleration gravity;
+
+    //Turning Variables
+    static final double     DRIVE_SPEED             = 0.7;     // Nominal speed for better accuracy.
+    static final double     TURN_SPEED              = 0.2;     // Nominal half speed for better accuracy.
+
+    static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
+    static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
 
     // Color sensor definitions
     ColorSensor sensorColor;
@@ -208,7 +211,7 @@ public class Auto_Scanning extends LinearOpMode {
                 step = 4;
             }
 
-            if (step == 4){ //Turn 90 degrees
+            if (step == 4){
                 stepTelemetry();
                 telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
                 telemetry.update();
@@ -227,16 +230,10 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 6) { //Turn 90 degrees
                 stepTelemetry();
-                motorFrontRight.setPower(-.6);
-                motorFrontLeft.setPower(.6);
-                motorBackLeft.setPower(.6);
-                motorBackRight.setPower(-.6);
-                sleep(650);
-                motorFrontRight.setPower(0);
-                motorFrontLeft.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
-
+                gyroTurn( TURN_SPEED, -90.0);         // Turn  CCW to -45 Degrees
+                gyroHold( TURN_SPEED, -90.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
+                telemetry.addData("Turning ", "Done :)!");
+                telemetry.update();
                 step++;
             }
 
@@ -303,11 +300,10 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 11) { //Turn 45 degrees, pointing at where the foundation is if it hasn't been moved. Needs to be reversed for other side
                 stepTelemetry();
-                motorFrontRight.setPower(.6);
-                motorFrontLeft.setPower(-.6);
-                motorBackLeft.setPower(-.6);
-                motorBackRight.setPower(.6);
-                sleep(250);
+                gyroTurn( TURN_SPEED, -45.0);         // Turn  CCW to -45 Degrees
+                gyroHold( TURN_SPEED, -45.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
+                telemetry.addData("Turning ", "Done :)!");
+                telemetry.update();
                 step++;
             }
 
@@ -525,6 +521,119 @@ public class Auto_Scanning extends LinearOpMode {
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
+
+    public void gyroTurn (  double speed, double angle) {
+
+        // keep looping while we are still active, and not on heading.
+        while (opModeIsActive() && !onHeading(speed, angle, P_TURN_COEFF)) {
+            // Update telemetry & Allow time for other processes to run.
+            telemetry.update();
+        }
+    }
+
+    /**
+     *  Method to obtain & hold a heading for a finite amount of time
+     *  Move will stop once the requested time has elapsed
+     *
+     * @param speed      Desired speed of turn.
+     * @param angle      Absolute Angle (in Degrees) relative to last gyro reset.
+     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                   If a relative angle is required, add/subtract from current heading.
+     * @param holdTime   Length of time (in seconds) to hold the specified heading.
+     */
+    public void gyroHold( double speed, double angle, double holdTime) {
+
+        ElapsedTime holdTimer = new ElapsedTime();
+
+        // keep looping while we have time remaining.
+        holdTimer.reset();
+        while (opModeIsActive() && (holdTimer.time() < holdTime)) {
+            // Update telemetry & Allow time for other processes to run.
+            onHeading(speed, angle, P_TURN_COEFF);
+            telemetry.update();
+        }
+
+        // Stop all motion;
+        motorFrontLeft.setPower(0);
+        motorBackLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorBackRight.setPower(0);
+    }
+
+    /**
+     * Perform one cycle of closed loop heading control.
+     *
+     * @param speed     Desired speed of turn.
+     * @param angle     Absolute Angle (in Degrees) relative to last gyro reset.
+     *                  0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                  If a relative angle is required, add/subtract from current heading.
+     * @param PCoeff    Proportional Gain coefficient
+     * @return
+     */
+    boolean onHeading(double speed, double angle, double PCoeff) {
+        double   error ;
+        double   steer ;
+        boolean  onTarget = false ;
+        double leftSpeed;
+        double rightSpeed;
+
+        // determine turn power based on +/- error
+        error = getError(angle);
+
+        if (Math.abs(error) <= HEADING_THRESHOLD) {
+            steer = 0.0;
+            leftSpeed  = 0.0;
+            rightSpeed = 0.0;
+            onTarget = true;
+        }
+        else {
+            steer = getSteer(error, PCoeff);
+            rightSpeed  = speed * steer;
+            leftSpeed   = -rightSpeed;
+        }
+
+        // Send desired speeds to motors.
+        motorFrontLeft.setPower(leftSpeed);
+        motorBackLeft.setPower(leftSpeed);
+        motorFrontRight.setPower(rightSpeed);
+        motorBackRight.setPower(rightSpeed);
+
+        // Display it for the driver.
+        telemetry.addData("Target", "%5.2f", angle);
+        telemetry.addData("Err/St", "%5.2f/%5.2f", error, steer);
+        telemetry.addData("Speed.", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+
+        return onTarget;
+    }
+
+    /**
+     * getError determines the error between the target angle and the robot's current heading
+     * @param   targetAngle  Desired angle (relative to global reference established at last Gyro Reset).
+     * @return  error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
+     *          +ve error means the robot should turn LEFT (CCW) to reduce error.
+     */
+    public double getError(double targetAngle) {
+
+        double robotError;
+
+        // calculate error in -179 to +180 range  (
+        robotError = targetAngle - angles.firstAngle;
+        while (robotError > 180)  robotError -= 360;
+        while (robotError <= -180) robotError += 360;
+        return robotError;
+    }
+
+    /**
+     * returns desired steering force.  +/- 1 range.  +ve = steer left
+     * @param error   Error angle in robot relative degrees
+     * @param PCoeff  Proportional Gain Coefficient
+     * @return
+     */
+    public double getSteer(double error, double PCoeff) {
+        return com.qualcomm.robotcore.util.Range.clip(error * PCoeff, -1, 1);
+    }
+
+
     void composeTelemetry() {
 
         // At the beginning of each telemetry update, grab a bunch of data
@@ -546,12 +655,10 @@ public class Auto_Scanning extends LinearOpMode {
                 });
     }
 
-    // Defines what an angle is
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
-    // Defines what a degree is
     String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
