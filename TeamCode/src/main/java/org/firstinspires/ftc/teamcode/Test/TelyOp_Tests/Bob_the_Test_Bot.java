@@ -37,6 +37,8 @@ public class Bob_the_Test_Bot extends LinearOpMode{
     double Speed = 1;
     double upstep = 0;
     double upcount = 0;
+    double weeew = 0;
+
 
     public void runOpMode(){
 
