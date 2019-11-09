@@ -230,7 +230,7 @@ public class TeleOp_19_20 extends OpMode {
                 }
 
                 if (gamepad2.b) {
-                    grabStone.setPosition(1); //Release the grabber
+                    grabStone.setPosition(.75); //Release the grabber
                 }
             // End of Grabber Controls
         /** End of Hand System Control **/
