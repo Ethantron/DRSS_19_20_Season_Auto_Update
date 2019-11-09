@@ -208,6 +208,12 @@ public class TeleOp_19_20 extends OpMode {
                 lift.setPower(1);
             }
         }
+
+        //Encoder Lift Testing
+        if (gamepad2.right_bumper) {
+            encoderLift(.5, 1); //Move up one revolution at .5 speed
+        }
+        //End of Encoder Lift Testing
         /** End of Lift System Controls **/
 
         /** Slide System Controls **/
