@@ -75,6 +75,9 @@ public class TeleOp_19_20 extends OpMode {
             //Lift Initialization
                 lift = hardwareMap.dcMotor.get("LT");
                 lift.setDirection(DcMotor.Direction.FORWARD);
+                //Lift Encoder Initialization
+                    lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Stop and reset the lift encoders
+                    lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Tell motor to run using encoders
 
             //Slide Initiailization
                 slide = hardwareMap.dcMotor.get("SL");
