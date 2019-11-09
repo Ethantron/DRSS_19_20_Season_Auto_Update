@@ -291,6 +291,11 @@ public class TeleOp_19_20 extends OpMode {
 
         if (step == 5) { //Set motors to run with encoders
             lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            step++;
+        }
+
+        if (step == 6) {
+            loop();
         }
     }
 }
