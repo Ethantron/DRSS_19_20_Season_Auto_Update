@@ -4,12 +4,15 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp (name = "19-20 TeleOp", group= "TeleOp")
 public class TeleOp_19_20 extends OpMode {
 
     // Robot definitions
+
+    ElapsedTime ResetTime = new ElapsedTime();
 
     // Motor Definitions
         public DcMotor motorFrontRight;
@@ -36,6 +39,8 @@ public class TeleOp_19_20 extends OpMode {
             double upcount = 0;
 
             double claw_status = 1;
+
+
 
     // End of Definitions
 
@@ -183,6 +188,20 @@ public class TeleOp_19_20 extends OpMode {
                     lift.setPower(1); //Set power to the slide
                 }
             //End of Moving the Lift Downward
+
+                if (gamepad2.left_bumper){
+                    ResetTime.reset();
+                    while (ResetTime.seconds() < 1){
+                        lift.setPower(-1);
+                    }
+                }
+
+        if (gamepad2.right_bumper){
+            ResetTime.reset();
+            while (ResetTime.seconds() < 1){
+                lift.setPower(1);
+            }
+        }
         /** End of Lift System Controls **/
 
         /** Slide System Controls **/
