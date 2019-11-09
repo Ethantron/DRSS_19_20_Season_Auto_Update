@@ -403,15 +403,15 @@ public class Auto_Scanning extends LinearOpMode {
         }
     }
 
-    private void pos1() {
+    private void pos1(){
         step = 4;
     }
 
-    private void pos2() {
+    private void pos2(){
         step = 4;
     }
 
-    private void pos3() {
+    private void pos3(){
         step = 4;
     }
 
@@ -419,7 +419,7 @@ public class Auto_Scanning extends LinearOpMode {
     //Repeated Voids
 
 
-    public void encoderDrive(double speed, double Inches, double timeoutS) {
+    public void encoderDrive(double speed, double Inches, double timeoutS){
 
         //Create our target variables
         int newFrontLeftTarget;
@@ -461,7 +461,7 @@ public class Auto_Scanning extends LinearOpMode {
             // always end the motion as soon as possible.
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (opModeIsActive() &&
+          /*  while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (motorFrontLeft.isBusy() && motorFrontRight.isBusy() && motorBackLeft.isBusy() && motorBackRight.isBusy())) {
 
@@ -472,7 +472,7 @@ public class Auto_Scanning extends LinearOpMode {
                         motorBackLeft.getCurrentPosition(), //Back Left Position
                         motorBackRight.getCurrentPosition()); //Back Right Position
                 telemetry.update();*/
-            }
+        //    }
 
             // Stop all motion;
             motorFrontLeft.setPower(0);

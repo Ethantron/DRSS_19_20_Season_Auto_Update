@@ -7,9 +7,10 @@
 */
 
 // Defines where the code is in the project
-package org.firstinspires.ftc.teamcode.Test.TelyOp_Tests;
+package org.firstinspires.ftc.teamcode.Unused_Codes.TelyOp;
 
 // Imports for the code
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,6 +18,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 // Defines the codes name
+@Disabled
 @TeleOp(name = "Bob_the_Test_Bot", group= "TelyOp_Tests")
 public class Bob_the_Test_Bot extends LinearOpMode{
 
