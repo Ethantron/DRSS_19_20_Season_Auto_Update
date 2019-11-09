@@ -37,9 +37,6 @@ public class TeleOp_19_20 extends OpMode {
         //Lift Positioning Definitions
             double upstep = 0;
             double upcount = 0;
-        //Lift Encoder Definitions
-        static final double     COUNTS_PER_MOTOR_REV    = 288 ;    // eg: REV Core Hex Motor Encoder
-        double step = 0;
 
             double claw_status = 1;
 
@@ -75,9 +72,6 @@ public class TeleOp_19_20 extends OpMode {
             //Lift Initialization
                 lift = hardwareMap.dcMotor.get("LT");
                 lift.setDirection(DcMotor.Direction.FORWARD);
-                //Lift Encoder Initialization
-                    lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Stop and reset the lift encoders
-                    lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Tell motor to run using encoders
 
             //Slide Initiailization
                 slide = hardwareMap.dcMotor.get("SL");
@@ -184,8 +178,8 @@ public class TeleOp_19_20 extends OpMode {
             // End of Moving the Lift Upward
 
             // Zeroing the Lift
-                if (gamepad2.left_trigger < .25 && gamepad2.right_trigger < .25) {
-                    lift.setPower(.0002); //Holds lift in place
+                if (gamepad2.left_trigger < .25 && gamepad2.right_trigger < .25 && !gamepad2.left_bumper && !gamepad2.right_bumper) {
+                    lift.setPower(.025); //Holds lift in place
                 }
             // End of Zeroing the lift
 
@@ -208,12 +202,6 @@ public class TeleOp_19_20 extends OpMode {
                 lift.setPower(1);
             }
         }
-
-        //Encoder Lift Testing
-        if (gamepad2.right_bumper) {
-            encoderLift(.5, 1); //Move up one revolution at .5 speed
-        }
-        //End of Encoder Lift Testing
         /** End of Lift System Controls **/
 
         /** Slide System Controls **/
@@ -265,53 +253,5 @@ public class TeleOp_19_20 extends OpMode {
                 }
             // End of Grabber Controls
         /** End of Hand System Control **/
-    }
-
-    public void encoderLift(double speed, double Revolutions) {
-
-        int newLiftTarget;
-        int moveCounts;
-
-        moveCounts = (int) (Revolutions * COUNTS_PER_MOTOR_REV);
-
-        if (step == 0) { //Define lift target positon
-            newLiftTarget = lift.getCurrentPosition() + moveCounts;
-            lift.setTargetPosition(newLiftTarget);
-            step++;
-        }
-
-        if (step == 1) { //Set lift to run to position
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            step++;
-        }
-
-        if (step == 2) { //Set power to lift
-            lift.setPower(speed);
-            step++;
-        }
-
-        if (step == 3) { //While the lift is running to position
-            if (lift.isBusy()) {
-                telemetry.addData("Current position", lift.getCurrentPosition());
-                telemetry.update();
-            }
-            else { //Once it reaches position
-                step++;
-            }
-        }
-
-        if (step == 4) { //Stop Lift motors
-            lift.setPower(0);
-            step++;
-        }
-
-        if (step == 5) { //Set motors to run with encoders
-            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            step++;
-        }
-
-        if (step == 6) {
-            loop();
-        }
     }
 }
