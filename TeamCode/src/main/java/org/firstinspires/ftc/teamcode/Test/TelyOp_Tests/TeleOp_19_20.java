@@ -34,6 +34,7 @@ public class TeleOp_19_20 extends OpMode {
         public Servo wrist;
         public Servo FoundationMoverL;
         public Servo FoundationMoverR;
+        double height = 0;                  //Tells what level the lift is on
         //Lift Positioning Definitions
             double upstep = 0;
             double upcount = 0;
@@ -179,7 +180,7 @@ public class TeleOp_19_20 extends OpMode {
 
             // Zeroing the Lift
                 if (gamepad2.left_trigger < .25 && gamepad2.right_trigger < .25 && !gamepad2.left_bumper && !gamepad2.right_bumper) {
-                    lift.setPower(.025); //Holds lift in place
+                    lift.setPower(.022); //Holds lift in place
                 }
             // End of Zeroing the lift
 
@@ -187,19 +188,21 @@ public class TeleOp_19_20 extends OpMode {
                 if (gamepad2.right_trigger > .25) {
                     lift.setPower(1); //Set power to the slide
                 }
-            //End of Moving the Lift Downward
 
                 if (gamepad2.left_bumper){
                     ResetTime.reset();
                     while (ResetTime.seconds() < 1){
                         lift.setPower(-1);
+                        height--;
                     }
                 }
+           //End of Moving the Lift Downward
 
         if (gamepad2.right_bumper){
             ResetTime.reset();
             while (ResetTime.seconds() < 1){
                 lift.setPower(1);
+                height++;
             }
         }
         /** End of Lift System Controls **/
