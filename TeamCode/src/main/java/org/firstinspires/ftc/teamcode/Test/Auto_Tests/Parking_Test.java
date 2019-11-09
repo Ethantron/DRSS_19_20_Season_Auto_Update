@@ -4,12 +4,14 @@ package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 // Imports for the code
 import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 // Defines the codes name
+@Disabled
 @Autonomous(name = "Parking_Test", group= "Auto_Tests")
 public class Parking_Test extends LinearOpMode{
 

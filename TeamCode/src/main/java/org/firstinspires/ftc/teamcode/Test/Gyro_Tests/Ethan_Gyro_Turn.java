@@ -1,10 +1,12 @@
-package org.firstinspires.ftc.teamcode.Test.Misc_Tests;
+package org.firstinspires.ftc.teamcode.Test.Gyro_Tests;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -16,8 +18,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.util.Locale;
 
-@Autonomous (name = "AngleFind", group = "Auto")
-public class AngleFind extends LinearOpMode {
+@Disabled
+@Autonomous(name = "Ethan_Gyro_Turn", group = "Auto_Test")
+public class Ethan_Gyro_Turn extends LinearOpMode {
 
     //Motor Initialization
     public DcMotor motorFrontRight;
@@ -25,11 +28,13 @@ public class AngleFind extends LinearOpMode {
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
 
+    double step = 0;
+
     double centered = 0; //Senses whether or not robot is centered
     double Power = .2; //Sets Motor Power
     double Range = 8; //Change this to change the range of degrees (Tolerance)
     double RangeDiv = Range / 2; //Evenly splits the range
-    double WantedAngle = 90; //Wanted Angle
+    double WantedAngle = 0; //Wanted Angle
     double RangePlus = WantedAngle + RangeDiv; //adds tolerance to Wanted Angle
     double RangeMinus = WantedAngle - RangeDiv; //subtracts tolerance from Wanted Angle
 
@@ -81,7 +86,20 @@ public class AngleFind extends LinearOpMode {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
 
         // Loop and update the dashboard
-        while (opModeIsActive()) {
+
+
+
+
+        if (step == 0){
+            telemetry.addData("Step", "0");
+            telemetry.update();
+            WantedAngle = 90;
+            tolerance();
+            step++;
+        }
+
+        if (step == 1) {
+            telemetry.addData("Step", "1");
             telemetry.update();
 
             if (angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus) { //Stops Robot if centered
@@ -91,28 +109,50 @@ public class AngleFind extends LinearOpMode {
                 motorBackLeft.setPower(0);
                 centered = 1;
                 telemetry.addData("Robot is", "Centered! :)");
-            }
-
-            else { //allows robot to adjust if not centered
+                step++;
+            } else while(!(angles.firstAngle > RangeMinus && angles.firstAngle < RangePlus)){ //allows robot to adjust if not centered
                 centered = 0;
                 telemetry.addData("Robot is", "Not Centered! :(");
-                telemetry.addData("Adjusting","Robot");
-            }
+                telemetry.addData("Adjusting", "Robot");
 
-            if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
-                motorFrontRight.setPower(-Power);
-                motorFrontLeft.setPower(Power);
-                motorBackRight.setPower(-Power);
-                motorBackLeft.setPower(Power);
-            }
+                if (angles.firstAngle < WantedAngle && centered == 0) { //adjust robots by turning right
+                    motorFrontRight.setPower(-Power);
+                    motorFrontLeft.setPower(Power);
+                    motorBackRight.setPower(-Power);
+                    motorBackLeft.setPower(Power);
+                }
 
-            if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
-                motorFrontRight.setPower(Power);
-                motorFrontLeft.setPower(-Power);
-                motorBackRight.setPower(Power);
-                motorBackLeft.setPower(-Power);
+                if (angles.firstAngle > WantedAngle && centered == 0) { //adjust robots by turning left
+                    motorFrontRight.setPower(Power);
+                    motorFrontLeft.setPower(-Power);
+                    motorBackRight.setPower(Power);
+                    motorBackLeft.setPower(-Power);
+                }
             }
         }
+
+
+        if (step == 2){
+            telemetry.addData("Step", "2");
+            telemetry.update();
+            motorFrontRight.setPower(Power);
+            motorFrontLeft.setPower(Power);
+            motorBackRight.setPower(Power);
+            motorBackLeft.setPower(Power);
+            sleep(1000);
+            motorFrontRight.setPower(0);
+            motorFrontLeft.setPower(0);
+            motorBackRight.setPower(0);
+            motorBackLeft.setPower(0);
+            step++;
+        }
+
+
+    }
+
+    void tolerance(){
+         RangePlus = WantedAngle + RangeDiv; //adds tolerance to Wanted Angle
+         RangeMinus = WantedAngle - RangeDiv; //subtracts tolerance from Wanted Angle
     }
 
     void composeTelemetry() {
@@ -136,6 +176,8 @@ public class AngleFind extends LinearOpMode {
                     }
                 });
     }
+
+
 
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));

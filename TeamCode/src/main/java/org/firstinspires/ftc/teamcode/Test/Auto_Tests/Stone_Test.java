@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
+@Disabled
 @Autonomous(name = "Stone_Test", group= "Autonomous")
 public class Stone_Test extends LinearOpMode {
     public DcMotor motorFrontRight;
@@ -102,7 +104,7 @@ public class Stone_Test extends LinearOpMode {
 
         if (step == 3){
             sleep(1500);
-            if (Skystone == true){
+            if (Skystone){
                 rungoodstep();
             }
             else {

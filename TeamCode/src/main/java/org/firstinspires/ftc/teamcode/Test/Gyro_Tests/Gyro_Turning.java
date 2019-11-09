@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode.Test.Misc_Tests;
+package org.firstinspires.ftc.teamcode.Test.Gyro_Tests;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.util.Locale;
 
+@Disabled
 @Autonomous (name = "Gyro_Turning", group = "Auto_Test")
 public class Gyro_Turning extends LinearOpMode {
 

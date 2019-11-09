@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
 
+@Disabled
 @Autonomous(name = "AGagne_Scanning_Test", group= "Autonomous")
 public class AGagne_Scanning_Test extends LinearOpMode {
     public DcMotor motorFrontRight;
