@@ -37,6 +37,9 @@ public class TeleOp_19_20 extends OpMode {
         //Lift Positioning Definitions
             double upstep = 0;
             double upcount = 0;
+        //Lift Encoder Definitions
+        static final double     COUNTS_PER_MOTOR_REV    = 288 ;    // eg: REV Core Hex Motor Encoder
+        double step = 0;
 
             double claw_status = 1;
 
