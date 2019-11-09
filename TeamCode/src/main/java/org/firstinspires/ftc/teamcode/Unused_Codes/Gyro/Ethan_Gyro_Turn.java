@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test.Gyro_Tests;
+package org.firstinspires.ftc.teamcode.Unused_Codes.Gyro;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;

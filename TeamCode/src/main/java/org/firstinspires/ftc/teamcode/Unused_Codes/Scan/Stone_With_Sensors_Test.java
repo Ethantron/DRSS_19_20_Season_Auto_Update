@@ -1,5 +1,5 @@
 // Defines where the code is in the project
-package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
+package org.firstinspires.ftc.teamcode.Unused_Codes.Scan;
 
 // Imports for the code
 import android.graphics.Color;
