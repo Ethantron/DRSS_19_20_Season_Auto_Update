@@ -157,9 +157,9 @@ public class Auto_Scanning extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            if (step == 1) { //Move forward
+            if (step == 1) { //Move forward and scan the first block
                 stepTelemetry();
-                encoderDrive(0.4, 12, 10);  // Forward 9 Inches with 10 Sec timeout
+                encoderDrive(0.6, 12, 10);  // Forward 9 Inches with 10 Sec timeout
 
                 pos++; //Tells code that it is checking position 1
                 sleep(scanTime);
@@ -167,7 +167,7 @@ public class Auto_Scanning extends LinearOpMode {
                 step++;
             }
 
-            if (step == 2 && !Skystone) { //Scan first block
+            if (step == 2 && !Skystone) { //If the first b;ock wasn't the skystone, move to the second block and scan it
                 stepTelemetry();
                 pos++; //If we didn't see the skystone, move to next position
 
@@ -186,7 +186,7 @@ public class Auto_Scanning extends LinearOpMode {
                 step++;
             }
 
-            if (step == 3 && !Skystone) { //Scan Second Block
+            if (step == 3 && !Skystone) { //If the first two blocks weren't the skystone, it must be the third. Move and graab it
                 stepTelemetry();
                 pos++; //If we didn't see the skystone, move to next position
 
@@ -214,14 +214,16 @@ public class Auto_Scanning extends LinearOpMode {
                 telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
                 telemetry.update();
 
-                encoderDrive(.4 ,15, 10); //Moves forward to the block
+                encoderDrive(.6 ,15, 10); //Moves forward to the block
 
                 step++;
             }
 
+            /**Add in the code to grab the skystone here**/
+
             if (step == 5) {
                 stepTelemetry();
-                encoderDrive(.4,-15,10); //Move backwards 15 inches
+                encoderDrive(.6,-15,10); //Move backwards 15 inches
 
                 step++;
             }
