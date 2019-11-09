@@ -35,6 +35,8 @@ public class TeleOp_19_20 extends OpMode {
             double upstep = 0;
             double upcount = 0;
 
+            double claw_status = 1;
+
     // End of Definitions
 
     @Override
@@ -165,19 +167,19 @@ public class TeleOp_19_20 extends OpMode {
 
         /** Lift System Controls **/
             // Moving The Lift Upward
-                if (gamepad2.left_stick_y > .25) {
+                if (gamepad2.left_trigger > .25) {
                     lift.setPower(-1); //Set power to the slide
                 }
             // End of Moving the Lift Upward
 
             // Zeroing the Lift
-                if (gamepad2.left_stick_y < .25 && gamepad2.left_stick_y > -.25) {
-                    lift.setPower(.0001); //Holds lift in place
+                if (gamepad2.left_trigger < .25 && gamepad2.right_trigger < .25) {
+                    lift.setPower(.0002); //Holds lift in place
                 }
             // End of Zeroing the lift
 
             // Moving the Lift Downward
-                if (gamepad2.left_stick_y < -.25) {
+                if (gamepad2.right_trigger > .25) {
                     lift.setPower(1); //Set power to the slide
                 }
             //End of Moving the Lift Downward
@@ -185,19 +187,19 @@ public class TeleOp_19_20 extends OpMode {
 
         /** Slide System Controls **/
             // Moving The Slide Outward
-                if (gamepad2.right_stick_y > .25) {
+                if (gamepad2.left_stick_y > .25) {
                     slide.setPower(-1); //Set power to the slide
                 }
             // End of Moving the Slide Outward
 
             // Zeroing the Slide
-                if (gamepad2.right_stick_y < .25 && gamepad2.right_stick_y > -.25) {
+                if (gamepad2.left_stick_y < .25 && gamepad2.left_stick_y > -.25) {
                     slide.setPower(0); //Stops power to the slid
                 }
             // End of Zeroing the Slide
 
             // Moving the Slide Inward
-                if (gamepad2.right_stick_y < -.25) {
+                if (gamepad2.left_stick_y < -.25) {
                     slide.setPower(1); //Set power to the slide
                 }
             // End of Moving the Slide Inward
@@ -223,7 +225,7 @@ public class TeleOp_19_20 extends OpMode {
             // End of Wrist controls
 
             // Grabber Controls
-                if (gamepad2.a) {
+                if (gamepad2.a){
                     grabStone.setPosition(0); //Clamp down with the grabber
                 }
 
