@@ -97,3 +97,39 @@ Autonomous directions reference sheet.
     Reset Time:
 
         ElapsedTime ResetTime = new ElapsedTime();
+
+    Andymark 20:1 Encoder Definitions:
+
+        static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;    // eg: Andymark 20:1 Motor Encoder
+        static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+        static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    Andymark 40:1 Encoder Definitions:
+
+        static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: Andymark 40:1 Motor Encoder
+        static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+        static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    Andymark 60:1 Encoder Definitions:
+
+        static final double     COUNTS_PER_MOTOR_REV    = 1680 ;    // eg: Andymark 60:1 Motor Encoder
+        static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+        static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    REV 20:1 Planetary Motor Encoder Definitions:
+
+        static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: REV 20:1 Motor Encoder
+        static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+        static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    REV 40:1 Spur Motor Encoder Definitions:
+
+        static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: REV 40:1 Motor Encoder
+        static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+        static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    REV Core Hex Motor Encoder Definitions:
+
+        static final double     COUNTS_PER_MOTOR_REV    = 288 ;    // eg: REV Core Hex Motor Encoder
+        static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+        static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
