@@ -260,4 +260,52 @@ public class TeleOp_19_20 extends OpMode {
             // End of Grabber Controls
         /** End of Hand System Control **/
     }
+
+    public void encoderLift(double speed, double Revolutions) {
+
+        int newLiftTarget;
+        int moveCounts;
+
+        moveCounts = (int) (Revolutions * COUNTS_PER_MOTOR_REV);
+
+        if (step == 0) { //Define lift target positon
+            newLiftTarget = lift.getCurrentPosition() + moveCounts;
+            lift.setTargetPosition(newLiftTarget);
+            step++;
+        }
+
+        if (step == 1) { //Set lift to run to position
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            step++;
+        }
+
+        if (step == 2) { //Set power to lift
+            lift.setPower(speed);
+            step++;
+        }
+
+        if (step == 3) { //While the lift is running to position
+            if (lift.isBusy()) {
+                telemetry.addData("Current position", lift.getCurrentPosition());
+                telemetry.update();
+            }
+            else { //Once it reaches position
+                step++;
+            }
+        }
+
+        if (step == 4) { //Stop Lift motors
+            lift.setPower(0);
+            step++;
+        }
+
+        if (step == 5) { //Set motors to run with encoders
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            step++;
+        }
+
+        if (step == 6) {
+            loop();
+        }
+    }
 }
