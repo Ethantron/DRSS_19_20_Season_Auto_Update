@@ -154,6 +154,9 @@ public class TeleOp_19_20 extends OpMode {
                     FoundationMoverL.setPosition(0);
                     FoundationMoverR.setPosition(0);
                 }
+
+                telemetry.addData("Speed", Speed);
+                telemetry.update();
             // End of Raising Foundation Movers
         /** End of Foundation Mover Controls **/
 
@@ -201,16 +204,20 @@ public class TeleOp_19_20 extends OpMode {
 
         /** Hand System Controls **/
             // Wrist Controls
-                if (gamepad2.dpad_right) {
+                if (gamepad2.right_stick_x > 0.1) {
                     wrist.setPosition(wrist.getPosition() - .025); //Move the wrist right
                 }
 
-                if (gamepad2.dpad_left) {
+                if (gamepad2.right_stick_x < -0.1) {
                     wrist.setPosition(wrist.getPosition() + .025); //Move the wrist Left
                 }
 
-                if (!gamepad2.dpad_left && !gamepad2.dpad_right) {
+                if (gamepad2.right_stick_x < -0.1 && gamepad2.right_stick_x > 0.1) {
                     wrist.setPosition(wrist.getPosition()); //Set the wrist to the current position
+                }
+
+                if (gamepad2.dpad_up){
+                    wrist.setPosition(0.5);
                 }
             // End of Wrist controls
 

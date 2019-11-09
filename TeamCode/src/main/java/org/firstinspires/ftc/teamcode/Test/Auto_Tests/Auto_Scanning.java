@@ -159,7 +159,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 1) { //Move forward and scan the first block
                 stepTelemetry();
-                encoderDrive(0.6, 12, 10);  // Forward 9 Inches with 10 Sec timeout
+                encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
 
                 pos++; //Tells code that it is checking position 1
                 sleep(scanTime);
