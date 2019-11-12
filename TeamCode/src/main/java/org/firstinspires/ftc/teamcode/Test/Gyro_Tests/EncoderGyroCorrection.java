@@ -104,13 +104,13 @@ public class EncoderGyroCorrection extends LinearOpMode {
 
         waitForStart();
 
-        gyroDrive(0.2, 48.0, 0);  // Drive FWD 48 inches at 0 degrees
+        gyroDrive(0.2, 48.0, 0); // Drive FWD 48 inches at 0 degrees
 
-        gyroTurn( TURN_SPEED, -45.0);         // Turn  CCW to -45 Degrees
-        gyroHold( TURN_SPEED, -45.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
+        gyroTurn( TURN_SPEED, -45.0); // Turn  CCW to -45 Degrees
+        gyroHold( TURN_SPEED, -45.0, 0.5); // Hold -45 Deg heading for a 1/2 second
 
-        gyroTurn( TURN_SPEED, 45.0);         // Turn  CW to 45 Degrees
-        gyroHold( TURN_SPEED, 45.0, 0.5);    // Hold 45 Deg heading for a 1/2 second
+        gyroTurn( TURN_SPEED, 45.0); // Turn  CW to 45 Degrees
+        gyroHold( TURN_SPEED, 45.0, 0.5); // Hold 45 Deg heading for a 1/2 second
     }
 
     public void gyroDrive (double speed,
