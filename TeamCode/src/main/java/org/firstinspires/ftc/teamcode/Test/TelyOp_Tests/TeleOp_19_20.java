@@ -34,13 +34,12 @@ public class TeleOp_19_20 extends OpMode {
         public Servo wrist;
         public Servo FoundationMoverL;
         public Servo FoundationMoverR;
-        double height = 0;                  //Tells what level the lift is on
+
         //Lift Positioning Definitions
             double upstep = 0;
             double upcount = 0;
-
             double claw_status = 1;
-
+            double height = 0;                  //Tells what level the lift is on
 
 
     // End of Definitions

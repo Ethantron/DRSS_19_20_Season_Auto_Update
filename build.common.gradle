@@ -1,3 +1,4 @@
+
 /**
  * build.common.gradle
  *
@@ -9,7 +10,7 @@
  * applications built using the FTC SDK. Each individual 'build.gradle' in those applications
  * can simply contain the one line:
  *
- *      apply from: '../build.common.gradle'
+ *      apply from: '../build.common.gradle')
  *
  * which will pick up this file here. This approach allows makes it easier to integrate
  * updates to the FTC SDK into your code.
@@ -53,7 +54,7 @@ android {
          * @see <a href="http://developer.android.com/tools/building/configuring-gradle.html">Configure Your Build</a>
          * @see <a href="http://developer.android.com/tools/publishing/versioning.html">Versioning Your App</a>
          */
-        def manifestFile = project(':FtcRobotController').file('src/main/AndroidManifest.xml');
+        def manifestFile = project(':FtcRobotController').file('src/main/AndroidManifest.xml')
         def manifestText = manifestFile.getText()
         //
         def vCodePattern = Pattern.compile("versionCode=\"(\\d+(\\.\\d+)*)\"")
@@ -62,7 +63,7 @@ android {
         def vCode = Integer.parseInt(matcher.group(1))
         //
         def vNamePattern = Pattern.compile("versionName=\"(.*)\"")
-        matcher = vNamePattern.matcher(manifestText);
+        matcher = vNamePattern.matcher(manifestText)
         matcher.find()
         def vName = matcher.group(1)
         //
@@ -77,7 +78,9 @@ android {
             // Disable debugging for release versions so it can be uploaded to Google Play.
             //debuggable true
             ndk {
-                abiFilters "armeabi-v7a", "arm64-v8a"
+
+                abiFilters "armeabi-v7a"
+
             }
         }
         debug {
@@ -85,7 +88,9 @@ android {
             jniDebuggable true
             renderscriptDebuggable true
             ndk {
-                abiFilters "armeabi-v7a", "arm64-v8a"
+
+                abiFilters "armeabi-v7a"
+
             }
         }
     }
