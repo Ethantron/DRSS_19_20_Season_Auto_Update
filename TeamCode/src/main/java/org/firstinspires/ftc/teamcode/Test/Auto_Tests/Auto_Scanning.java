@@ -318,54 +318,6 @@ public class Auto_Scanning extends LinearOpMode {
 
     //Skystone Position Voids
 
-    /*private void Scanning(){
-        if (scanstep == 0) { //Scans for the Skystone
-            pos++; //Sets the position of the skystone
-            scan(); //Scans for skystone
-            sleep(2000);
-            scanstep++;
-        }
-
-        if (scanstep == 1){
-            if (Skystone){
-
-                telemetry.addData("Skystone", "found! :)");
-                telemetry.update();
-
-                if (pos==1) { //If the skystone is found in position 1
-                    pos1(); //Run position 1 void
-                }
-
-                if (pos==2) { //If the skystone is found in position 2
-                    pos2(); //Run position 2 void
-                }
-            }
-            if (!Skystone){ //If skystone is not sensed
-
-                telemetry.addData("Skystone", " not found :(");
-                telemetry.update();
-
-                if (pos >= 2) { //If it has been false for the first 2 scans, it must be pos 3
-                    pos3();
-                }
-
-                if (pos < 2) { //If it has been scanned and came back false
-                    motorFrontLeft.setPower(-.4);
-                    motorFrontRight.setPower(.4);
-                    motorBackLeft.setPower(.4);
-                    motorBackRight.setPower(-.4);
-                    sleep(650);
-                    motorFrontLeft.setPower(0);
-                    motorFrontRight.setPower(0);
-                    motorBackLeft.setPower(0);
-                    motorBackRight.setPower(0);
-
-                    encoderDrive(0.5,-1,10);
-                }
-                scanstep--;
-            }
-        }
-    }*/
 
     public void scan() {
         if (tfod != null) {
