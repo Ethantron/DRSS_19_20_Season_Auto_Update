@@ -4,12 +4,11 @@ import android.graphics.Color;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -19,7 +18,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -42,6 +40,11 @@ public class Auto_Scanning extends LinearOpMode {
     int scanTime = 2000;
     boolean stopScanning = false;
     boolean left = false;
+
+    public DcMotor lift;
+
+    public Servo grabStone;
+    public Servo wrist;
 
     // Skystone detection definitions
     boolean Skystone = false;
@@ -77,10 +80,6 @@ public class Auto_Scanning extends LinearOpMode {
     // Color sensor definitions
     ColorSensor sensorColor;
     ColorSensor color2;
-    DistanceSensor sensorDistance;
-
-    //Distance Sensor Definitions
-    DistanceSensor sensorRange;
 
     @Override
     public void runOpMode(){
@@ -112,6 +111,17 @@ public class Auto_Scanning extends LinearOpMode {
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        //Hand Initiailization
+        grabStone = hardwareMap.servo.get("GS");
+        grabStone.setPosition(.6);
+        wrist = hardwareMap.servo.get("W");
+        //wrist.setPosition(0.5); // Center the wrist
+
+        //Lift Initialization
+        lift = hardwareMap.dcMotor.get("LT");
+        lift.setDirection(DcMotor.Direction.FORWARD);
+
+
         // Gyroscope initialization
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -127,14 +137,10 @@ public class Auto_Scanning extends LinearOpMode {
         // Color sensor initialization
         sensorColor = hardwareMap.get(ColorSensor.class, "color_sensor");
         color2 = hardwareMap.get(ColorSensor.class, "color2");
-        sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
+      //  sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
         float hsvValues[] = {0F, 0F, 0F};
         final float values[] = hsvValues;
         final double SCALE_FACTOR = 255;
-
-        //2M Distance Sensor Initialization
-        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
-        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
         // Skystone detection initialization
         initVuforia();
@@ -211,11 +217,11 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 4){
                 stepTelemetry();
-                telemetry.addData("Moving To Skystone", sensorRange.getDistance(DistanceUnit.INCH));
-                telemetry.update();
-
                 encoderDrive(.6 ,15, 10); //Moves forward to the block
-
+                grabStone.setPosition(0.0);
+                lift.setPower(1);
+                sleep(500);
+                lift.setPower(0.1);
                 step++;
             }
 
@@ -224,7 +230,6 @@ public class Auto_Scanning extends LinearOpMode {
             if (step == 5) {
                 stepTelemetry();
                 encoderDrive(.6,-15,10); //Move backwards 15 inches
-
                 step++;
             }
 
@@ -276,38 +281,7 @@ public class Auto_Scanning extends LinearOpMode {
                 step++;
             }
 
-            if (step == 9){ //Move back a tiny bit
-                stepTelemetry();
-                motorFrontRight.setPower(-.2);
-                motorFrontLeft.setPower(-.2);
-                motorBackLeft.setPower(-.2);
-                motorBackRight.setPower(-.2);
-                sleep(100);
-                step++;
-            }
-
-            if (step == 10){ //Stop Motors
-                stepTelemetry();
-                motorFrontRight.setPower(0);
-                motorFrontLeft.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
-
-                step++;
-            }
-
-            /** All positions should be in the same place now, and the robot moves to locate the the foundation **/
-
-            if (step == 11) { //Turn 45 degrees, pointing at where the foundation is if it hasn't been moved. Needs to be reversed for other side
-                stepTelemetry();
-                gyroTurn( TURN_SPEED, -45.0);         // Turn  CCW to -45 Degrees
-                gyroHold( TURN_SPEED, -45.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
-                telemetry.addData("Turning ", "Done :)!");
-                telemetry.update();
-                step++;
-            }
-
-            if (step == 12) { //Stop Turning
+            if (step == 9){ //Stop Motors
                 stepTelemetry();
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
@@ -316,9 +290,24 @@ public class Auto_Scanning extends LinearOpMode {
                 step++;
             }
 
-            if (step == 13){ //Checks to see if there is an obstruction(ie the foundation) within 45 inches (increased for higher range of error?), then turns back to position itself for next steps
-                sleep(1);
+            if (step == 10){
+                stepTelemetry();
+                grabStone.setPosition(0.6);
+                step++;
             }
+
+            if (step == 11){
+                if (pos == 1){
+                    pos1();
+                }
+                if (pos == 2){
+                    pos2();
+                }
+                if (pos == 3){
+                    pos3();
+                }
+            }
+
         }
     }
 
