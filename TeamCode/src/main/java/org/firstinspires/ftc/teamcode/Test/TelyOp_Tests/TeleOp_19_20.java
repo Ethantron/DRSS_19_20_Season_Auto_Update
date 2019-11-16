@@ -34,13 +34,12 @@ public class TeleOp_19_20 extends OpMode {
         public Servo wrist;
         public Servo FoundationMoverL;
         public Servo FoundationMoverR;
-        double height = 0;                  //Tells what level the lift is on
+
         //Lift Positioning Definitions
             double upstep = 0;
             double upcount = 0;
-
             double claw_status = 1;
-
+            double height = 0;                  //Tells what level the lift is on
 
 
     // End of Definitions
@@ -56,7 +55,7 @@ public class TeleOp_19_20 extends OpMode {
                 motorBackLeft = hardwareMap.dcMotor.get("BL");
                 motorBackRight = hardwareMap.dcMotor.get("BR");
 
-            //Motor Drection Initialization
+            //Motor Direction Initialization
                 motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
                 motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
                 motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -74,11 +73,11 @@ public class TeleOp_19_20 extends OpMode {
                 lift = hardwareMap.dcMotor.get("LT");
                 lift.setDirection(DcMotor.Direction.FORWARD);
 
-            //Slide Initiailization
+            //Slide Initialization
                 slide = hardwareMap.dcMotor.get("SL");
                 slide.setDirection(DcMotor.Direction.FORWARD);
 
-            //Hand Initiailization
+            //Hand Initialization
                 grabStone = hardwareMap.servo.get("GS");
                 wrist = hardwareMap.servo.get("W");
                 //wrist.setPosition(0.5); // Center the wrist
@@ -91,7 +90,7 @@ public class TeleOp_19_20 extends OpMode {
                 telemetry.addData("Payload: ", "Initialized");
                 telemetry.update();
 
-        /** End of Payload Initiailization **/
+        /** End of Payload Initialization **/
 
         telemetry.addData("Status: ", "Initialized");
         telemetry.addData("> Press Play to Start ", "TeleOp");
