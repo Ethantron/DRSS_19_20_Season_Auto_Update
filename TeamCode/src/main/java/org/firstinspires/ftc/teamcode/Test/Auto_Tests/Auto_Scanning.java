@@ -217,7 +217,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 4){
                 stepTelemetry();
-                encoderDrive(.6 ,15, 10); //Moves forward to the block
+                encoderDrive(.6 ,18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 lift.setPower(1);
                 sleep(500);
@@ -225,11 +225,9 @@ public class Auto_Scanning extends LinearOpMode {
                 step++;
             }
 
-            /**Add in the code to grab the skystone here**/
-
             if (step == 5) {
                 stepTelemetry();
-                encoderDrive(.6,-15,10); //Move backwards 15 inches
+                encoderDrive(.6,-18,10); //Move backwards 18 inches
                 step++;
             }
 
