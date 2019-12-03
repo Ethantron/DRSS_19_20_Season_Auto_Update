@@ -40,13 +40,12 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     double upstep = 0;
     double upcount = 0;
     double claw_status = 1;
-    double height = 0;                  //Tells what level the lift is on
-
+    double height = 0; //Tells what level the lift is on
 
     // End of Definitions
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
 
         /** Drive Train initialization **/
 

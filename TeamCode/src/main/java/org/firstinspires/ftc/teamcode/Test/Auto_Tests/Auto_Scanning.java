@@ -113,7 +113,7 @@ public class Auto_Scanning extends LinearOpMode {
 
         //Hand Initiailization
         grabStone = hardwareMap.servo.get("GS");
-        grabStone.setPosition(.6);
+        grabStone.setPosition(.3);
         wrist = hardwareMap.servo.get("W");
         //wrist.setPosition(0.5); // Center the wrist
 
@@ -173,7 +173,7 @@ public class Auto_Scanning extends LinearOpMode {
                 step++;
             }
 
-            if (step == 2 && !Skystone) { //If the first b;ock wasn't the skystone, move to the second block and scan it
+            if (step == 2 && !Skystone) { //If the first block wasn't the skystone, move to the second block and scan it
                 stepTelemetry();
                 pos++; //If we didn't see the skystone, move to next position
 
