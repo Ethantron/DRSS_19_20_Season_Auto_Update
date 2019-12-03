@@ -37,6 +37,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     public Servo FoundationMoverR;
 
     //Lift Positioning Definitions
+    double LiftPower = 1;
     double upstep = 0;
     double upcount = 0;
     double claw_status = 1;
@@ -193,31 +194,29 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
                     Speed = 1; //Set the speed to 1
                 }
             }
-
-
             /** End of Speed Brake Controls **/
 
             /** Gamepad 2 Controls (Payload) ==> **/
 
             /** Lift System Controls **/
             // Moving The Lift Upward
-            if (gamepad2.left_trigger > .25) {
-                lift.setPower(-1); //Set power to the slide
+            if (gamepad2.left_bumper) {
+                lift.setPower(-LiftPower); //Set power to the lift
             }
             // End of Moving the Lift Upward
 
             // Zeroing the Lift
-            if (gamepad2.left_trigger < .25 && gamepad2.right_trigger < .25 && !gamepad2.left_bumper && !gamepad2.right_bumper) {
+            if (!gamepad2.left_bumper && !gamepad2.right_bumper) {
                 lift.setPower(.022); //Holds lift in place
             }
             // End of Zeroing the lift
 
             // Moving the Lift Downward
-            if (gamepad2.right_trigger > .25) {
-                lift.setPower(1); //Set power to the slide
+            if (gamepad2.right_bumper) {
+                lift.setPower(LiftPower); //Set power to the lift
             }
 
-            if (gamepad2.left_bumper) {
+            /*if (gamepad2.left_bumper) {
                 ResetTime.reset();
                 while (ResetTime.seconds() < 1) {
                     lift.setPower(-1);
@@ -232,8 +231,17 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
                     lift.setPower(1);
                     height++;
                 }
-            }
+            } */
             /** End of Lift System Controls **/
+
+            /** Lift Speed Brake Controls **/
+            while (gamepad2.left_trigger > .3) { //While the left trigger is being held down
+                LiftPower = .25; //Sets the speed to quarter speed
+            }
+            while (gamepad2.left_trigger <= .3) { //While the left trigger is not being held down
+                LiftPower = 1; //Sets the speed to full
+            }
+            /** End of Lift Speed Brake Controls **/
 
             /** Slide System Controls **/
             // Moving The Slide Outward
