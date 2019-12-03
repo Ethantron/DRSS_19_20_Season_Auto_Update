@@ -72,7 +72,7 @@ public class Auto_Scanning extends LinearOpMode {
 
     //Turning Variables
     static final double     DRIVE_SPEED             = 0.7;     // Nominal speed for better accuracy.
-    static final double     TURN_SPEED              = 0.2;     // Nominal half speed for better accuracy.
+    static final double     TURN_SPEED              = 0.4;     // Nominal half speed for better accuracy.
 
     static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
@@ -116,7 +116,7 @@ public class Auto_Scanning extends LinearOpMode {
         grabStone = hardwareMap.servo.get("GS");
         grabStone.setPosition(.3);
         wrist = hardwareMap.servo.get("W");
-        //wrist.setPosition(0.5); // Center the wrist
+        wrist.setPosition(0.5); // Center the wrist
 
         //Lift Initialization
         lift = hardwareMap.dcMotor.get("LT");
@@ -223,10 +223,11 @@ public class Auto_Scanning extends LinearOpMode {
             if (step == 4){
                 stepTelemetry();
                 encoderDrive(.4 ,18, 10); //Moves forward to the block
-
                 grabStone.setPosition(0.0);
+                slide.setPower(0.5);
                 lift.setPower(1);
                 sleep(100);
+                slide.setPower(0);
                 lift.setPower(0.1);
                 step++;
             }
