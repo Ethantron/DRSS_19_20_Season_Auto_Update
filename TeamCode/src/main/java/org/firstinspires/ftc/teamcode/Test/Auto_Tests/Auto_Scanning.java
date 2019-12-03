@@ -42,6 +42,7 @@ public class Auto_Scanning extends LinearOpMode {
     boolean left = false;
 
     public DcMotor lift;
+    public DcMotor slide;
 
     public Servo grabStone;
     public Servo wrist;
@@ -120,6 +121,10 @@ public class Auto_Scanning extends LinearOpMode {
         //Lift Initialization
         lift = hardwareMap.dcMotor.get("LT");
         lift.setDirection(DcMotor.Direction.FORWARD);
+
+        //Slide Initialization
+        slide = hardwareMap.dcMotor.get("SL");
+        slide.setDirection(DcMotor.Direction.FORWARD);
 
 
         // Gyroscope initialization
@@ -217,7 +222,8 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 4){
                 stepTelemetry();
-                encoderDrive(.6 ,18, 10); //Moves forward to the block
+                encoderDrive(.4 ,18, 10); //Moves forward to the block
+
                 grabStone.setPosition(0.0);
                 lift.setPower(1);
                 sleep(100);
