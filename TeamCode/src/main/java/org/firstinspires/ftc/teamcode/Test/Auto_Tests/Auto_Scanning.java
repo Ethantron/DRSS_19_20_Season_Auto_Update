@@ -220,7 +220,7 @@ public class Auto_Scanning extends LinearOpMode {
                 encoderDrive(.6 ,18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 lift.setPower(1);
-                sleep(500);
+                sleep(100);
                 lift.setPower(0.1);
                 step++;
             }
@@ -492,18 +492,18 @@ public class Auto_Scanning extends LinearOpMode {
             // always end the motion as soon as possible.
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
-          /*  while (opModeIsActive() &&
+            while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (motorFrontLeft.isBusy() && motorFrontRight.isBusy() && motorBackLeft.isBusy() && motorBackRight.isBusy())) {
 
                 // Display it for the driver.
-                /*telemetry.addData("Motor Paths",  "Running at %7d : %7d : %7d : %7d", //Tells us where we are
+                telemetry.addData("Motor Paths",  "Running at %7d : %7d : %7d : %7d", //Tells us where we are
                         motorFrontLeft.getCurrentPosition(), //Front Left Position
                         motorFrontRight.getCurrentPosition(), //Front Right Position
                         motorBackLeft.getCurrentPosition(), //Back Left Position
                         motorBackRight.getCurrentPosition()); //Back Right Position
-                telemetry.update();*/
-        //    }
+                telemetry.update();
+            }
 
             // Stop all motion;
             motorFrontLeft.setPower(0);
