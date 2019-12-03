@@ -114,9 +114,9 @@ public class Auto_Scanning extends LinearOpMode {
 
         //Hand Initiailization
         grabStone = hardwareMap.servo.get("GS");
-        grabStone.setPosition(.3);
+
         wrist = hardwareMap.servo.get("W");
-        wrist.setPosition(0.5); // Center the wrist
+        wrist.setPosition(.4); // Center the wrist
 
         //Lift Initialization
         lift = hardwareMap.dcMotor.get("LT");
@@ -169,9 +169,12 @@ public class Auto_Scanning extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (step == 1) { //Move forward and scan the first block
+                grabStone.setPosition(.3);
                 stepTelemetry();
                 encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
-
+                lift.setPower(1);
+                sleep(200);
+                lift.setPower(0);
                 pos++; //Tells code that it is checking position 1
                 sleep(scanTime);
                 scan();
@@ -223,12 +226,12 @@ public class Auto_Scanning extends LinearOpMode {
             if (step == 4){
                 stepTelemetry();
                 encoderDrive(.4 ,18, 10); //Moves forward to the block
-                grabStone.setPosition(0.0);
-                slide.setPower(0.5);
-                lift.setPower(1);
+                slide.setPower(0.75);
                 sleep(100);
                 slide.setPower(0);
-                lift.setPower(0.1);
+                sleep(300);
+                grabStone.setPosition(0.0);
+                sleep(300);
                 step++;
             }
 
