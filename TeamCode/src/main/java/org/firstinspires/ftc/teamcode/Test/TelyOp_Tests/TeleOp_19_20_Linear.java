@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Test.TelyOp_Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,8 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp (name = "19-20 TeleOp", group= "TeleOp")
-public class TeleOp_19_20 extends OpMode {
+@TeleOp (name = "19-20 TeleOp Linear", group= "TeleOp")
+public class TeleOp_19_20_Linear extends LinearOpMode {
 
     // Robot definitions
 
@@ -45,7 +46,7 @@ public class TeleOp_19_20 extends OpMode {
     // End of Definitions
 
     @Override
-    public void init() {
+    public void runOpMode() throws InterruptedException {
 
         /** Drive Train initialization **/
 
@@ -95,10 +96,6 @@ public class TeleOp_19_20 extends OpMode {
         telemetry.addData("Status: ", "Initialized");
         telemetry.addData("> Press Play to Start ", "TeleOp");
         telemetry.update();
-    }
-
-    @Override
-    public void loop() {
 
         /** Gamepad 1 Controls (Drive Train) ==> **/
 

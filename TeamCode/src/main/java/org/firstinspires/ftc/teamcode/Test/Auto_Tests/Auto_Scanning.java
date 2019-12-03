@@ -78,7 +78,7 @@ public class Auto_Scanning extends LinearOpMode {
     static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
 
     // Color sensor definitions
-    ColorSensor sensorColor;
+    ColorSensor color_sensor;
     ColorSensor color2;
 
     @Override
@@ -135,7 +135,7 @@ public class Auto_Scanning extends LinearOpMode {
         composeTelemetry();
 
         // Color sensor initialization
-        sensorColor = hardwareMap.get(ColorSensor.class, "color_sensor");
+        color_sensor = hardwareMap.get(ColorSensor.class, "color_sensor");
         color2 = hardwareMap.get(ColorSensor.class, "color2");
       //  sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
         float hsvValues[] = {0F, 0F, 0F};
@@ -251,9 +251,9 @@ public class Auto_Scanning extends LinearOpMode {
 
             // Does it see the line?
             while (step == 7 && opModeIsActive()){
-                Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
-                        (int) (sensorColor.green() * SCALE_FACTOR),
-                        (int) (sensorColor.blue() * SCALE_FACTOR),
+                Color.RGBToHSV((int) (color_sensor.red() * SCALE_FACTOR),
+                        (int) (color_sensor.green() * SCALE_FACTOR),
+                        (int) (color_sensor.blue() * SCALE_FACTOR),
                         hsvValues);
                 Color.RGBToHSV((int) (color2.red() * SCALE_FACTOR),
                         (int) (color2.green() * SCALE_FACTOR),
@@ -346,9 +346,9 @@ public class Auto_Scanning extends LinearOpMode {
 
             // Does it see the line?
             while (step == 15 && opModeIsActive()){
-                Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
-                        (int) (sensorColor.green() * SCALE_FACTOR),
-                        (int) (sensorColor.blue() * SCALE_FACTOR),
+                Color.RGBToHSV((int) (color_sensor.red() * SCALE_FACTOR),
+                        (int) (color_sensor.green() * SCALE_FACTOR),
+                        (int) (color_sensor.blue() * SCALE_FACTOR),
                         hsvValues);
                 Color.RGBToHSV((int) (color2.red() * SCALE_FACTOR),
                         (int) (color2.green() * SCALE_FACTOR),
