@@ -272,7 +272,7 @@ public class Auto_Scanning extends LinearOpMode {
                 telemetry.addData("Hue", hsvValues[0]);
                 telemetry.update();
 
-                if (hsvValues[0] > 150 ){ // Checks if it is red or blue
+                if (hsvValues[0] > 150 ){ // Checks if it is brighter than the mats
                     step++;
                 }
             }
@@ -288,7 +288,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 9){
                 stepTelemetry();
-                grabStone.setPosition(0.6);
+                grabStone.setPosition(0.3);
                 step++;
             }
 
@@ -437,26 +437,26 @@ public class Auto_Scanning extends LinearOpMode {
 
     private void pos1(){
         telemetry.addData("Position: ", "1");
+        telemetry.update();
         encoderDrive(.6,-49,10); //Move backwards 49 inches
         step++;
     }
 
     private void pos2(){
         telemetry.addData("Position: ", "2");
+        telemetry.update();
         encoderDrive(.6,-58,10); //Move backwards 58 inches
         step++;
     }
 
     private void pos3(){
         telemetry.addData("Position: ", "3");
+        telemetry.update();
         encoderDrive(.6,-66,10); //Move backwards 66 inches
         step++;
     }
 
-
     //Repeated Voids
-
-
     public void encoderDrive(double speed, double Inches, double timeoutS){
 
         //Create our target variables
@@ -528,9 +528,7 @@ public class Auto_Scanning extends LinearOpMode {
         }
     }
 
-
     //Initialization Voids
-
 
     // Skystone detection configuration
     private void initVuforia () {
@@ -546,7 +544,6 @@ public class Auto_Scanning extends LinearOpMode {
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         // Loading trackables is not necessary for the TensorFlow Object Detection engine.
-
     }
 
     // Initialize the TensorFlow Object Detection engine
