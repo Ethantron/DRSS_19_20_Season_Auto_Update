@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Test.TelyOp_Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -27,6 +26,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     double Backleft;
     double Backright;
     double Speed = 1;
+    double SpeedSetting = 1;
 
     // Payload Definitions
     public DcMotor lift;
@@ -131,18 +131,22 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
             //Speed Controls
             if (gamepad1.a) {
+                SpeedSetting = 1; // Tells the code that we are on full speed
                 Speed = 1; // Full Speed
             }
 
             if (gamepad1.b) {
+                SpeedSetting = .75; // Tells the code that we are on three quarter speed
                 Speed = .75; // Three Quarter Speed
             }
 
             if (gamepad1.x) {
+                SpeedSetting = .5; // Tells the code that we are on half speed
                 Speed = .50; // Half Speed
             }
 
             if (gamepad1.y) {
+                SpeedSetting = .25; // Tells the code that we are on quarter speed
                 Speed = .25; // Quarter Speed
             }
             //End of Speed Controls
@@ -167,6 +171,31 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             telemetry.update();
             // End of Raising Foundation Movers
             /** End of Foundation Mover Controls **/
+
+            /** Speed Brake Controls **/
+            while (gamepad1.left_trigger > .3) { //While the left trigger is being held down
+                Speed = .25; //Sets the speed to quarter speed
+            }
+            while (gamepad1.left_trigger <= .3) { //While the left trigger is not being held down
+                if (SpeedSetting == .25) { //If the speed we were previously on was .25
+                    Speed = .25; //Set the speed to .25
+                }
+
+                if (SpeedSetting == .5) { //If the speed we were previously on was .5
+                    Speed = .5; //Set the speed to .5
+                }
+
+                if (SpeedSetting == .75) { //If the speed we were previously on was .75
+                    Speed = .75; //Set the speed to .75
+                }
+
+                if (SpeedSetting == 1) { //If the speed we were previously on was 1
+                    Speed = 1; //Set the speed to 1
+                }
+            }
+
+
+            /** End of Speed Brake Controls **/
 
             /** Gamepad 2 Controls (Payload) ==> **/
 
