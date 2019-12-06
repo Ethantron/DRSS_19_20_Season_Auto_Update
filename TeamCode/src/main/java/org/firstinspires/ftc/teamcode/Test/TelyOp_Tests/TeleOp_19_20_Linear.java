@@ -168,7 +168,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** End of Mechanum Drive Controls **/
 
             /** Foundation Mover Controls **/
-            // Lowering Foundation Movers
+            /*// Lowering Foundation Movers
             if (gamepad1.dpad_down) {
                 FoundationMoverL.setPosition(1);
                 FoundationMoverR.setPosition(1);
@@ -188,7 +188,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** End of Foundation Mover Controls **/
 
             /** Speed Brake Controls **/
-            while (gamepad1.left_trigger > .3) { //While the left trigger is being held down
+            /*while (gamepad1.left_trigger > .3) { //While the left trigger is being held down
                 Speed = .25; //Sets the speed to quarter speed
             }
             while (gamepad1.left_trigger <= .3) { //While the left trigger is not being held down
@@ -207,13 +207,13 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
                 if (SpeedSetting == 1) { //If the speed we were previously on was 1
                     Speed = 1; //Set the speed to 1
                 }
-            }
+            }*/
             /** End of Speed Brake Controls **/
 
             /** Gamepad 2 Controls (Payload) ==> **/
 
             /** Lift System Controls **/
-            // Moving The Lift Upward
+            /*// Moving The Lift Upward
             if (gamepad2.left_bumper) {
                 lift.setPower(-LiftPower); //Set power to the lift
             }
@@ -253,16 +253,16 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** End of Lift System Controls **/
 
             /** Lift Speed Brake Controls **/
-            while (gamepad2.left_trigger > .3) { //While the left trigger is being held down
+            /*while (gamepad2.left_trigger > .3) { //While the left trigger is being held down
                 LiftPower = .25; //Sets the speed to quarter speed
             }
             while (gamepad2.left_trigger <= .3) { //While the left trigger is not being held down
                 LiftPower = 1; //Sets the speed to full
-            }
+            }*/
             /** End of Lift Speed Brake Controls **/
 
             /** Slide System Controls **/
-            // Moving The Slide Outward
+            /*// Moving The Slide Outward
             if (gamepad2.left_stick_y > .25) {
                 slide.setPower(-1); //Set power to the slide
             }
@@ -283,7 +283,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
             /** Hand System Controls **/
             // Wrist Controls
-            if (gamepad2.right_stick_x > 0.1) {
+            /*if (gamepad2.right_stick_x > 0.1) {
                 wrist.setPosition(wrist.getPosition() + .0025); //Move the wrist right
             }
 
