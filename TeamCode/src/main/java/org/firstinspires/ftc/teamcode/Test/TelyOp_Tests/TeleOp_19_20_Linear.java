@@ -168,7 +168,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** End of Mechanum Drive Controls **/
 
             /** Foundation Mover Controls **/
-            /*// Lowering Foundation Movers
+            // Lowering Foundation Movers
             if (gamepad1.dpad_down) {
                 FoundationMoverL.setPosition(1);
                 FoundationMoverR.setPosition(1);
