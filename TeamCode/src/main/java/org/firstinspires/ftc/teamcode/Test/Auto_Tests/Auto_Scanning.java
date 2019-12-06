@@ -172,9 +172,9 @@ public class Auto_Scanning extends LinearOpMode {
                 grabStone.setPosition(.3);
                 stepTelemetry();
                 encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
-                lift.setPower(1);
+                slide.setPower(1);
                 sleep(200);
-                lift.setPower(0);
+                slide.setPower(0);
                 pos++; //Tells code that it is checking position 1
                 sleep(scanTime);
                 scan();
@@ -226,11 +226,10 @@ public class Auto_Scanning extends LinearOpMode {
             if (step == 4){
                 stepTelemetry();
                 encoderDrive(.4 ,18, 10); //Moves forward to the block
-                slide.setPower(0.75);
-                sleep(100);
-                slide.setPower(0);
-                sleep(300);
                 grabStone.setPosition(0.0);
+                lift.setPower(0.75);
+                sleep(100);
+                lift.setPower(0);
                 sleep(300);
                 step++;
             }
