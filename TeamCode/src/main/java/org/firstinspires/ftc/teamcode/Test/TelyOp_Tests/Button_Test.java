@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.Test.TelyOp_Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "Button Test", group= "TeleOp Test")
@@ -14,6 +16,8 @@ public class Button_Test extends OpMode {
     public DcMotor motorFrontLeft;
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
+    public Servo grabStone;
+
 
     // Mechanum Definitions
     double Frontleft;
@@ -24,6 +28,7 @@ public class Button_Test extends OpMode {
 
     DigitalChannel LeftButton;
     DigitalChannel RightButton;
+    DigitalChannel Button;
 
     @Override
     public void init() {
@@ -35,12 +40,18 @@ public class Button_Test extends OpMode {
         motorFrontLeft = hardwareMap.dcMotor.get("FL");
         motorBackLeft = hardwareMap.dcMotor.get("BL");
         motorBackRight = hardwareMap.dcMotor.get("BR");
+        grabStone = hardwareMap.servo.get("GS");
+
 
         //Motor Direction Initialization
         motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+
+
+        Button = hardwareMap.get(DigitalChannel.class, "B");
+        Button.setMode(DigitalChannel.Mode.INPUT);
 
 
         LeftButton = hardwareMap.get(DigitalChannel.class, "LB");
@@ -74,6 +85,16 @@ public class Button_Test extends OpMode {
 
         if (gamepad1.y) {
             Speed = .25; // Quarter Speed
+        }
+
+        if (!Button.getState()){
+            grabStone.setPosition(0.3);
+            telemetry.addData("Button", "Pressed ;)");
+            telemetry.update();
+        } else if (Button.getState()) {
+            grabStone.setPosition(0.0);
+            telemetry.addData("Button", "Not Pressed!?!?!?");
+            telemetry.update();
         }
 
         if (!LeftButton.getState()){
