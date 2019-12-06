@@ -45,7 +45,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     double claw_status = 1;
     double height = 0; //Tells what level the lift is on
         //Lift Encoder Definitions
-        static final double     COUNTS_PER_LEVEL    = 288 ;    // eg: REV Core Hex Motor Encoder
+        static final double     COUNTS_PER_LEVEL    = 50 ;    // eg: REV Core Hex Motor Encoder
 
     // End of Definitions
 
@@ -221,7 +221,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
             // Zeroing the Lift
             if (!gamepad2.left_bumper && !gamepad2.right_bumper) {
-                lift.setPower(.022); //Holds lift in place
+                lift.setPower(.001); //Holds lift in place
             }
             // End of Zeroing the lift
 
@@ -237,12 +237,12 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** End of Lift System Controls **/
 
             /** Lift Speed Brake Controls **/
-            /*if (gamepad2.left_trigger > .3) { //While the left trigger is being held down
+            if (gamepad2.left_trigger > .3) { //While the left trigger is being held down
                 LiftPower = .25; //Sets the speed to quarter speed
             }
             if (gamepad2.left_trigger <= .3) { //While the left trigger is not being held down
                 LiftPower = 1; //Sets the speed to full
-            }*/
+            }
             /** End of Lift Speed Brake Controls **/
 
             /** Slide System Controls **/
