@@ -267,7 +267,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
             /** Hand System Controls **/
             // Wrist Controls
-            /*if (gamepad2.right_stick_x > 0.1) {
+            if (gamepad2.right_stick_x > 0.1) {
                 wrist.setPosition(wrist.getPosition() + .0025); //Move the wrist right
             }
 
