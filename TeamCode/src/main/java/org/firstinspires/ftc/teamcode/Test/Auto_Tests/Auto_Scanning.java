@@ -72,7 +72,7 @@ public class Auto_Scanning extends LinearOpMode {
 
     //Turning Variables
     static final double     DRIVE_SPEED             = 0.7;     // Nominal speed for better accuracy.
-    static final double     TURN_SPEED              = 0.4;     // Nominal half speed for better accuracy.
+    static final double     TURN_SPEED              = 0.3;     // Nominal half speed for better accuracy.
 
     static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
@@ -225,7 +225,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 4){
                 stepTelemetry();
-                encoderDrive(.4 ,18, 10); //Moves forward to the block
+                encoderDrive(.2 ,18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 lift.setPower(0.75);
                 sleep(100);
