@@ -188,10 +188,10 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** End of Foundation Mover Controls **/
 
             /** Speed Brake Controls **/
-            /*while (gamepad1.left_trigger > .3) { //While the left trigger is being held down
+            if (gamepad1.left_trigger > .3) { //While the left trigger is being held down
                 Speed = .25; //Sets the speed to quarter speed
             }
-            while (gamepad1.left_trigger <= .3) { //While the left trigger is not being held down
+            if (gamepad1.left_trigger <= .3) { //While the left trigger is not being held down
                 if (SpeedSetting == .25) { //If the speed we were previously on was .25
                     Speed = .25; //Set the speed to .25
                 }
@@ -207,7 +207,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
                 if (SpeedSetting == 1) { //If the speed we were previously on was 1
                     Speed = 1; //Set the speed to 1
                 }
-            }*/
+            }
             /** End of Speed Brake Controls **/
 
             /** Gamepad 2 Controls (Payload) ==> **/
@@ -237,10 +237,10 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** End of Lift System Controls **/
 
             /** Lift Speed Brake Controls **/
-            /*while (gamepad2.left_trigger > .3) { //While the left trigger is being held down
+            /*if (gamepad2.left_trigger > .3) { //While the left trigger is being held down
                 LiftPower = .25; //Sets the speed to quarter speed
             }
-            while (gamepad2.left_trigger <= .3) { //While the left trigger is not being held down
+            if (gamepad2.left_trigger <= .3) { //While the left trigger is not being held down
                 LiftPower = 1; //Sets the speed to full
             }*/
             /** End of Lift Speed Brake Controls **/
