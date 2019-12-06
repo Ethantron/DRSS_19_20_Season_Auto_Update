@@ -234,22 +234,6 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
                 encoderLift(.25,1);
             }
 
-            /*if (gamepad2.left_bumper) {
-                ResetTime.reset();
-                while (ResetTime.seconds() < 1) {
-                    lift.setPower(-1);
-                    height--;
-                }
-            }
-            //End of Moving the Lift Downward
-
-            if (gamepad2.right_bumper) {
-                ResetTime.reset();
-                while (ResetTime.seconds() < 1) {
-                    lift.setPower(1);
-                    height++;
-                }
-            } */
             /** End of Lift System Controls **/
 
             /** Lift Speed Brake Controls **/
@@ -262,7 +246,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** End of Lift Speed Brake Controls **/
 
             /** Slide System Controls **/
-            /*// Moving The Slide Outward
+            // Moving The Slide Outward
             if (gamepad2.left_stick_y > .25) {
                 slide.setPower(-1); //Set power to the slide
             }
