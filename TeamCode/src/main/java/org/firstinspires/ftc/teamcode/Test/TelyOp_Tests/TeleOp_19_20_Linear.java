@@ -14,6 +14,8 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
     ElapsedTime ResetTime = new ElapsedTime();
 
+    ElapsedTime LiftResetTime = new ElapsedTime();
+
     // Motor Definitions
     public DcMotor motorFrontRight;
     public DcMotor motorFrontLeft;
@@ -42,6 +44,8 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     double upcount = 0;
     double claw_status = 1;
     double height = 0; //Tells what level the lift is on
+        //Lift Encoder Definitions
+        static final double     COUNTS_PER_LEVEL    = 288 ;    // eg: REV Core Hex Motor Encoder
 
     // End of Definitions
 
@@ -86,6 +90,16 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
         //Foundation Mover Initialization
         FoundationMoverL = hardwareMap.servo.get("GL");
         FoundationMoverR = hardwareMap.servo.get("GR");
+
+        // Encoder initialization
+        telemetry.addData("Status", "Resetting Encoders");
+        telemetry.update();
+
+        //Stops and Resets Encoders
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Tells Robots to Reset Encoders
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Initialized Telemetry
         telemetry.addData("Payload: ", "Initialized");
@@ -292,6 +306,36 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             }
             // End of Grabber Controls
             /** End of Hand System Control **/
+        }
+    }
+
+    public void encoderLift(double LiftSpeed, double levels) {
+        int newLiftTarget;
+
+        if (opModeIsActive()) {
+
+            newLiftTarget = lift.getCurrentPosition() + (int) (levels*COUNTS_PER_LEVEL);
+
+            lift.setTargetPosition(newLiftTarget);
+
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            LiftResetTime.reset();
+            lift.setPower(LiftSpeed);
+
+            while (opModeIsActive() && lift.isBusy()) {
+
+                telemetry.addData("lift position", lift.getCurrentPosition());
+                telemetry.update();
+
+            }
+
+            lift.setPower(0);
+
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            height = 0;
+
         }
     }
 }
