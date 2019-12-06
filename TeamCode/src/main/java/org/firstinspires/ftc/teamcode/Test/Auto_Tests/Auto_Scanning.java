@@ -253,10 +253,10 @@ public class Auto_Scanning extends LinearOpMode {
             //Parking color sensor
             if (step == 7){ //Start moving
                 stepTelemetry();
-                motorFrontRight.setPower(.4);
-                motorFrontLeft.setPower(.4);
-                motorBackLeft.setPower(.4);
-                motorBackRight.setPower(.4);
+                motorFrontRight.setPower(.6);
+                motorFrontLeft.setPower(.6);
+                motorBackLeft.setPower(.6);
+                motorBackRight.setPower(.6);
             }
 
             // Does it see the line?
@@ -349,10 +349,10 @@ public class Auto_Scanning extends LinearOpMode {
             //Parking color sensor
             if (step == 15){ //Start moving
                 stepTelemetry();
-                motorFrontRight.setPower(.4);
-                motorFrontLeft.setPower(.4);
-                motorBackLeft.setPower(.4);
-                motorBackRight.setPower(.4);
+                motorFrontRight.setPower(.6);
+                motorFrontLeft.setPower(.6);
+                motorBackLeft.setPower(.6);
+                motorBackRight.setPower(.6);
             }
 
             // Does it see the line?
@@ -382,25 +382,26 @@ public class Auto_Scanning extends LinearOpMode {
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
+                grabStone.setPosition(0.6);
                 step++;
             }
 
             if (step == 17){
                 stepTelemetry();
-                motorFrontRight.setPower(-0.1);
-                motorFrontLeft.setPower(-0.1);
-                motorBackLeft.setPower(-0.1);
-                motorBackRight.setPower(-0.1);
+                motorFrontRight.setPower(-0.5);
+                motorFrontLeft.setPower(-0.5);
+                motorBackLeft.setPower(-0.5);
+                motorBackRight.setPower(-0.5);
+                sleep(200);
                 step++;
             }
 
-            if (step == 18){ //Stop Motors
+            if (step == 16){ //Stop Motors
                 stepTelemetry();
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
-                grabStone.setPosition(0.6);
                 step++;
             }
         }

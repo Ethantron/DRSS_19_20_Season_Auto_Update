@@ -230,6 +230,10 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
                 lift.setPower(LiftPower); //Set power to the lift
             }
 
+            if (gamepad2.right_trigger > .3) {
+                encoderLift(.25,1);
+            }
+
             /*if (gamepad2.left_bumper) {
                 ResetTime.reset();
                 while (ResetTime.seconds() < 1) {
