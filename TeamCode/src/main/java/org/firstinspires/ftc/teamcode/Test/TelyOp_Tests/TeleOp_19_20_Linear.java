@@ -14,8 +14,6 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
     ElapsedTime ResetTime = new ElapsedTime();
 
-    ElapsedTime LiftResetTime = new ElapsedTime();
-
     // Motor Definitions
     public DcMotor motorFrontRight;
     public DcMotor motorFrontLeft;
@@ -43,9 +41,11 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     double upstep = 0;
     double upcount = 0;
     double claw_status = 1;
-    double height = 0; //Tells what level the lift is on
+    double height = 0; //Tells what level the lift will go to
+    double CurrentHeight = 0;
+    Boolean NeedFoundation = false;
         //Lift Encoder Definitions
-        static final double     COUNTS_PER_LEVEL    = 50 ;    // eg: REV Core Hex Motor Encoder
+        static final double     COUNTS_PER_LEVEL    = 500 ;    // eg: REV Core Hex Motor Encoder
 
     // End of Definitions
 
@@ -214,8 +214,9 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
             /** Lift System Controls **/
             // Moving The Lift Upward
-            if (gamepad2.left_bumper) {
-                lift.setPower(-LiftPower); //Set power to the lift
+            if (gamepad2.left_bumper && (CurrentHeight > 0)) {
+                height--;
+                CurrentHeight--;
             }
             // End of Moving the Lift Upward
 
@@ -226,12 +227,22 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             // End of Zeroing the lift
 
             // Moving the Lift Downward
-            if (gamepad2.right_bumper) {
-                lift.setPower(LiftPower); //Set power to the lift
+            if (gamepad2.right_bumper && (CurrentHeight < 7)) {
+                if (CurrentHeight == 0) { //If we need to lift past the foundation
+                    NeedFoundation = true;
+                }
+                height++;
+                CurrentHeight++;
             }
 
+            //Start lift
             if (gamepad2.right_trigger > .3) {
-                encoderLift(.25,1);
+                encoderLift(1,height);
+            }
+
+            //Foundation Override
+            if (gamepad2.x) {
+                NeedFoundation = false;
             }
 
             /** End of Lift System Controls **/
@@ -294,21 +305,34 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             }
             // End of Grabber Controls
             /** End of Hand System Control **/
+
+            /** Beginning of Telemetry **/
+            // Lift Telemetry
+            telemetry.addData("Current Height: ",CurrentHeight);
+            telemetry.update();
+
+            /** End of Telemetry **/
         }
     }
 
     public void encoderLift(double LiftSpeed, double levels) {
-        int newLiftTarget;
+        int newLiftTarget = 0;
 
         if (opModeIsActive()) {
 
-            newLiftTarget = lift.getCurrentPosition() + (int) (levels*COUNTS_PER_LEVEL);
+            if (!NeedFoundation && newLiftTarget == 0) {
+                newLiftTarget = lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL);
+            }
+
+            if (NeedFoundation) {
+                newLiftTarget = (lift.getCurrentPosition() + (int) (levels*COUNTS_PER_LEVEL)) + 250;
+                NeedFoundation = false;
+            }
 
             lift.setTargetPosition(newLiftTarget);
 
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            LiftResetTime.reset();
             lift.setPower(LiftSpeed);
 
             while (opModeIsActive() && lift.isBusy()) {
