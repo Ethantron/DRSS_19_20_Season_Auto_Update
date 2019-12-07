@@ -282,12 +282,9 @@ public class Auto_Scanning extends LinearOpMode {
                 }
             }
 
-            if (step == 8){ //Stop Motors
+            if (step == 8){ //Move past the line
                 stepTelemetry();
-                motorFrontRight.setPower(0);
-                motorFrontLeft.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
+                encoderDrive(.6, 9, 10);
                 step++;
             }
 
@@ -306,11 +303,11 @@ public class Auto_Scanning extends LinearOpMode {
                     pos2();
                 }
                 if (pos == 3){
-                    pos3();
+                    step++;
                 }
             }
 
-            if (step == 11) {
+            if (step == 11 && (pos == 1 || pos == 2)) {
                 stepTelemetry();
                 gyroTurn(TURN_SPEED, 0.0);         // Turn  CW to 0 Degrees
                 gyroHold(TURN_SPEED, 0.0, 0.5);    // Hold 0 Deg heading for a 1/2 second
@@ -320,6 +317,23 @@ public class Auto_Scanning extends LinearOpMode {
                 sleep(100);
                 lift.setPower(0);
                 step++;
+            }
+
+            if (step == 11 && pos == 3) {
+                stepTelemetry();
+                encoderDrive(.6, -9, 10);
+
+                //Strafe Left to get out of the way
+                motorFrontLeft.setPower(-.4);
+                motorFrontRight.setPower(.4);
+                motorBackLeft.setPower(.4);
+                motorBackRight.setPower(-.4);
+                sleep(600);
+                motorFrontLeft.setPower(0);
+                motorFrontRight.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                //End of position 3
             }
 
             if (step == 12){
@@ -380,31 +394,38 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 16){ //Stop Motors
                 stepTelemetry();
-                motorFrontRight.setPower(0);
-                motorFrontLeft.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
+                encoderDrive(.6, 9, 10);
                 grabStone.setPosition(0.6);
                 step++;
             }
 
             if (step == 17){
                 stepTelemetry();
-                motorFrontRight.setPower(-0.5);
-                motorFrontLeft.setPower(-0.5);
-                motorBackLeft.setPower(-0.5);
-                motorBackRight.setPower(-0.5);
-                sleep(200);
+                encoderDrive(.6,-9,10);
                 step++;
             }
 
-            if (step == 16){ //Stop Motors
+            if (step == 18 && pos == 2){ //Stop Motors
                 stepTelemetry();
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
-                step++;
+                //End of positon 2
+            }
+
+            if (step == 18 && pos == 1) {
+                //Strafe Left to get out of the way
+                motorFrontLeft.setPower(-.4);
+                motorFrontRight.setPower(.4);
+                motorBackLeft.setPower(.4);
+                motorBackRight.setPower(-.4);
+                sleep(600);
+                motorFrontLeft.setPower(0);
+                motorFrontRight.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
+                //End of positon 1
             }
         }
     }
@@ -445,21 +466,21 @@ public class Auto_Scanning extends LinearOpMode {
     private void pos1(){
         telemetry.addData("Position: ", "1");
         telemetry.update();
-        encoderDrive(.6,-43,10); //Move backwards 49 inches
+        encoderDrive(.6,-52,10); //Move backwards 49 inches
         step++;
     }
 
     private void pos2(){
         telemetry.addData("Position: ", "2");
         telemetry.update();
-        encoderDrive(.6,-58,10); //Move backwards 58 inches
+        encoderDrive(.6,-67,10); //Move backwards 58 inches
         step++;
     }
 
     private void pos3(){
         telemetry.addData("Position: ", "3");
         telemetry.update();
-        encoderDrive(.6,-66,10); //Move backwards 66 inches
+        encoderDrive(.6,-75,10); //Move backwards 66 inches
         step++;
     }
 
