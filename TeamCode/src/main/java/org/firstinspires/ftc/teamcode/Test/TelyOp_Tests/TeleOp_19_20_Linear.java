@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp (name = "19-20 TeleOp Linear", group= "TeleOp")
+@TeleOp (name = "19-20 TeleOp", group= "TeleOp")
 public class TeleOp_19_20_Linear extends LinearOpMode {
 
     // Robot definitions

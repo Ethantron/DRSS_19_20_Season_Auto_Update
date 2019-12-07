@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Test.TelyOp_Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+@Disabled
 @TeleOp (name = "19-20 TeleOp Non-Linear", group= "TeleOp")
 public class TeleOp_19_20_Non_Linear extends OpMode {
 
