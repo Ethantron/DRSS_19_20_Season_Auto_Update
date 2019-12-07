@@ -45,7 +45,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     double CurrentHeight = 0;
     Boolean NeedFoundation = false;
         //Lift Encoder Definitions
-        static final double     COUNTS_PER_LEVEL    = 250 ;    // eg: REV Core Hex Motor Encoder
+        static final double     COUNTS_PER_LEVEL    = 350 ;    // eg: REV Core Hex Motor Encoder
 
     // End of Definitions
 
@@ -299,7 +299,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             }
 
             if (gamepad2.b) {
-                grabStone.setPosition(.6); //Release the grabber
+                grabStone.setPosition(.3); //Release the grabber
             }
             // End of Grabber Controls
             /** End of Hand System Control **/
