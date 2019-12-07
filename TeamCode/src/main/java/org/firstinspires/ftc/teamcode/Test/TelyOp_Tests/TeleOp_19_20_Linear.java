@@ -45,7 +45,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     double CurrentHeight = 0;
     Boolean NeedFoundation = false;
         //Lift Encoder Definitions
-        static final double     COUNTS_PER_LEVEL    = 250 ;    // eg: REV Core Hex Motor Encoder
+        static final double     COUNTS_PER_LEVEL    = 300 ;    // eg: REV Core Hex Motor Encoder
 
     // End of Definitions
 
@@ -295,6 +295,10 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
             // Grabber Controls
             if (gamepad2.a) {
+                encoderPlace(1, 50);
+            }
+
+            if (gamepad2.y) {
                 grabStone.setPosition(0); //Clamp down with the grabber
             }
 
@@ -323,10 +327,10 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            newLiftTarget = lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL);
+            newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 50;
 
             if (NeedFoundation) {
-                newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL) + 100);
+                newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 150;
                 NeedFoundation = false;
             }
 
@@ -348,6 +352,54 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             height = 0;
+
+        }
+    }
+
+    public void encoderPlace(double DropSpeed, double distance) {
+        int newDropTarget;
+
+        if (opModeIsActive()) {
+
+            newDropTarget = lift.getCurrentPosition() - (int) (distance);
+
+            lift.setTargetPosition(newDropTarget);
+
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            lift.setPower(DropSpeed);
+
+            while (opModeIsActive() && lift.isBusy()) {
+
+                telemetry.addData("lift position", lift.getCurrentPosition());
+                telemetry.update();
+
+            }
+
+            lift.setPower(0);
+
+            grabStone.setPosition(.3);
+            sleep(100);
+
+            //Return the lift back up
+            newDropTarget = lift.getCurrentPosition() + (int) (distance);
+
+            lift.setTargetPosition(newDropTarget);
+
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            lift.setPower(DropSpeed);
+
+            while (opModeIsActive() && lift.isBusy()) {
+
+                telemetry.addData("lift position", lift.getCurrentPosition());
+                telemetry.update();
+
+            }
+
+            lift.setPower(0);
+
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         }
     }
