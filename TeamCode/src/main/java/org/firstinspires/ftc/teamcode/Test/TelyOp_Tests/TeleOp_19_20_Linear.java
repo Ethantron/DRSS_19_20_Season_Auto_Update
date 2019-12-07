@@ -217,6 +217,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             if (gamepad2.left_bumper && (CurrentHeight > 0)) {
                 height--;
                 CurrentHeight--;
+                sleep(100);
             }
             // End of Moving the Lift Upward
 
@@ -233,6 +234,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
                 }
                 height++;
                 CurrentHeight++;
+                sleep(100);
             }
 
             //Start lift
