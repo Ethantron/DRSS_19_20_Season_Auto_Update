@@ -180,10 +180,6 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
                 FoundationMoverL.setPosition(0);
                 FoundationMoverR.setPosition(0);
             }
-
-            telemetry.addData("Speed", Speed);
-            telemetry.addData("Wrist", wrist.getPosition());
-            telemetry.update();
             // End of Raising Foundation Movers
             /** End of Foundation Mover Controls **/
 
@@ -311,6 +307,10 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** Beginning of Telemetry **/
             // Lift Telemetry
             telemetry.addData("Current Height: ",CurrentHeight);
+
+            //Wrist Telemetry
+            telemetry.addData("Speed", Speed);
+            telemetry.addData("Wrist", wrist.getPosition());
             telemetry.update();
 
             /** End of Telemetry **/
@@ -322,14 +322,16 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            if (!NeedFoundation && newLiftTarget == 0) {
+            newLiftTarget = lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL);
+
+            /*if (!NeedFoundation && newLiftTarget == 0) {
                 newLiftTarget = lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL);
             }
 
             if (NeedFoundation) {
                 newLiftTarget = (lift.getCurrentPosition() + (int) (levels*COUNTS_PER_LEVEL)) + 250;
                 NeedFoundation = false;
-            }
+            }*/
 
             lift.setTargetPosition(newLiftTarget);
 
