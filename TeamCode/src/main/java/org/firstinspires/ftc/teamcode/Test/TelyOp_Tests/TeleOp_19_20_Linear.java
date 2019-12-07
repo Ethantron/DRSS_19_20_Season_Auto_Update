@@ -45,7 +45,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     double CurrentHeight = 0;
     Boolean NeedFoundation = false;
         //Lift Encoder Definitions
-        static final double     COUNTS_PER_LEVEL    = 300 ;    // eg: REV Core Hex Motor Encoder
+        static final double     COUNTS_PER_LEVEL    = 250 ;    // eg: REV Core Hex Motor Encoder
 
     // End of Definitions
 
@@ -230,7 +230,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
                 }
                 height++;
                 CurrentHeight++;
-                sleep(100);
+                sleep(200);
             }
 
             //Start lift
@@ -325,14 +325,10 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
             newLiftTarget = lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL);
 
-            /*if (!NeedFoundation && newLiftTarget == 0) {
-                newLiftTarget = lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL);
-            }
-
             if (NeedFoundation) {
-                newLiftTarget = (lift.getCurrentPosition() + (int) (levels*COUNTS_PER_LEVEL)) + 250;
+                newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL) + 100);
                 NeedFoundation = false;
-            }*/
+            }
 
             lift.setTargetPosition(newLiftTarget);
 
