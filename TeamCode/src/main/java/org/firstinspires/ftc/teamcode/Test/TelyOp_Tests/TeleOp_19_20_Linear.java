@@ -45,7 +45,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     double CurrentHeight = 0;
     Boolean NeedFoundation = false;
         //Lift Encoder Definitions
-        static final double     COUNTS_PER_LEVEL    = 350 ;    // eg: REV Core Hex Motor Encoder
+        static final double     COUNTS_PER_LEVEL    = 300 ;    // eg: REV Core Hex Motor Encoder
 
     // End of Definitions
 
@@ -211,9 +211,9 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** Lift System Controls **/
             // Moving The Lift Upward
             if (gamepad2.left_bumper && (CurrentHeight > 0)) {
-                height--;
-                CurrentHeight--;
-                sleep(100);
+                height = -CurrentHeight;
+                sleep(150);
+                CurrentHeight = 0;
             }
             // End of Moving the Lift Upward
 
@@ -306,6 +306,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
 
             /** Beginning of Telemetry **/
             // Lift Telemetry
+            telemetry.addData("Height Change:", height);
             telemetry.addData("Current Height: ",CurrentHeight);
 
             //Wrist Telemetry
