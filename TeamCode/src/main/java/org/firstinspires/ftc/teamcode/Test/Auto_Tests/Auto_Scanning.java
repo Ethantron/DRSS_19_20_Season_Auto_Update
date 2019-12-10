@@ -178,7 +178,6 @@ public class Auto_Scanning extends LinearOpMode {
                 sleep(200);
                 slide.setPower(0);
                 pos++; //Tells code that it is checking position 1
-                sleep(scanTime);
                 scan();
                 step++;
             }
@@ -246,7 +245,7 @@ public class Auto_Scanning extends LinearOpMode {
             if (step == 6) { //Turn 90 degrees
                 stepTelemetry();
                 gyroTurn( TURN_SPEED, -90.0);         // Turn  CCW to -45 Degrees
-                gyroHold( TURN_SPEED, -90.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
+                gyroHold( TURN_SPEED, -90.0, 0.01);    // Hold -90 Deg heading for a .01 seconds
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
                 step++;

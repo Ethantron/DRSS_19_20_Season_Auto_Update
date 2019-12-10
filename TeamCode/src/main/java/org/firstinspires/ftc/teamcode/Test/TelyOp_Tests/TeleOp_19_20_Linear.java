@@ -45,7 +45,7 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
     double CurrentHeight = 0;
     Boolean NeedFoundation = false;
         //Lift Encoder Definitions
-        static final double     COUNTS_PER_LEVEL    = 300 ;    // eg: REV Core Hex Motor Encoder
+        static final double     COUNTS_PER_LEVEL    = 300 ;    // About 55  counts per inch
 
     // End of Definitions
 
