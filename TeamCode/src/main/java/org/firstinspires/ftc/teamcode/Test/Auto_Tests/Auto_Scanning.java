@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
-import android.graphics.Color;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -232,6 +230,7 @@ public class Auto_Scanning extends LinearOpMode {
                 lift.setPower(1);
                 sleep(100);
                 lift.setPower(0);
+                sleep(300);
                 step++;
             }
 
@@ -243,28 +242,32 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 6) { //Turn 90 degrees
                 stepTelemetry();
-                gyroTurn( TURN_SPEED, -90.0);         // Turn  CCW to -45 Degrees
+                gyroTurn( TURN_SPEED, -90.0);         // Turn  CW to -90 Degrees
                 gyroHold( TURN_SPEED, -90.0, 0.01);    // Hold -90 Deg heading for a .01 seconds
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
                 step++;
-            }/*
+            }
 
             if (step == 7) { // Go across the line
+                stepTelemetry();
                 if (pos == 1) {
-
+                    encoderDrive(1, 35, 10); //Run forward 35 inches at speed of 1
+                    step++;
                 }
 
                 if (pos == 2) {
-
+                    encoderDrive(1, 39, 10); //Run forward 39 inches at speed of 1
+                    step++;
                 }
 
                 if (pos == 3) {
-
+                    encoderDrive(1, 51, 10); //Run forward 51 inches at speed of 1
+                    step++;
                 }
             }
 
-
+/*
             //Parking color sensor
             if (step == 7){ //Start moving
                 stepTelemetry();
@@ -293,21 +296,15 @@ public class Auto_Scanning extends LinearOpMode {
                 if (hsvValues[0] > 150 ){ // Checks if it is brighter than the mats
                     step++;
                 }
-            }
+            }*/
 
-            if (step == 8){ //Move past the line
-                stepTelemetry();
-                encoderDrive(.6, 9, 10);
-                step++;
-            }
-
-            if (step == 9){
+            if (step == 8){ //Drop off the first skystone
                 stepTelemetry();
                 grabStone.setPosition(0.3);
                 step++;
             }
 
-            if (step == 10){
+            if (step == 9){ //Run back to the second skystone
                 stepTelemetry();
                 if (pos == 1){
                     pos1();
@@ -320,21 +317,21 @@ public class Auto_Scanning extends LinearOpMode {
                 }
             }
 
-            if (step == 11 && (pos == 1 || pos == 2)) {
+            if (step == 10 && (pos == 1 || pos == 2)) {
                 stepTelemetry();
                 gyroTurn(TURN_SPEED, 0.0);         // Turn  CW to 0 Degrees
                 gyroHold(TURN_SPEED, 0.0, 0.5);    // Hold 0 Deg heading for a 1/2 second
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
-                lift.setPower(-0.75);
+                lift.setPower(-1);
                 sleep(100);
                 lift.setPower(0);
                 step++;
             }
 
-            if (step == 11 && pos == 3) {
+            if (step == 10 && pos == 3) {
                 stepTelemetry();
-                encoderDrive(.6, -9, 10);
+                encoderDrive(1, -6, 10);
 
                 //Strafe Left to get out of the way
                 motorFrontLeft.setPower(-.4);
@@ -349,24 +346,24 @@ public class Auto_Scanning extends LinearOpMode {
                 //End of position 3
             }
 
-            if (step == 12){
+            if (step == 11){
                 stepTelemetry();
                 encoderDrive(.6 ,18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 sleep(200);
-                lift.setPower(0.75);
+                lift.setPower(1);
                 sleep(100);
                 lift.setPower(0);
                 step++;
             }
 
-            if (step == 13) {
+            if (step == 12) {
                 stepTelemetry();
                 encoderDrive(.6,-18,10); //Move backwards 15 inches
                 step++;
             }
 
-            if (step == 14) { //Turn 90 degrees
+            if (step == 13) { //Turn 90 degrees
                 stepTelemetry();
                 gyroTurn( TURN_SPEED, -90.0);         // Turn  CCW to -45 Degrees
                 gyroHold( TURN_SPEED, -90.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
@@ -375,16 +372,22 @@ public class Auto_Scanning extends LinearOpMode {
                 step++;
             }
 
-            //Parking color sensor
-            if (step == 15){ //Start moving
+            if (step == 14){ //Start moving back across the line
                 stepTelemetry();
-                motorFrontRight.setPower(.6);
-                motorFrontLeft.setPower(.6);
-                motorBackLeft.setPower(.6);
-                motorBackRight.setPower(.6);
+                if (pos == 1) {
+                    encoderDrive(1, 59, 10);
+                }
+
+                if (pos == 2) {
+                    encoderDrive(1, 63, 10);
+                }
+
+                if (pos == 3) {
+                    encoderDrive(1, 75, 10);
+                }
             }
 
-            // Does it see the line?
+            /*// Does it see the line?
             while (step == 15 && opModeIsActive()){
                 Color.RGBToHSV((int) (color_sensor.red() * SCALE_FACTOR),
                         (int) (color_sensor.green() * SCALE_FACTOR),
@@ -403,22 +406,21 @@ public class Auto_Scanning extends LinearOpMode {
                 if (hsvValues[0] > 150 ){ // Checks if it is red or blue
                     step++;
                 }
-            }
+            }*/
 
-            if (step == 16){ //Stop Motors
+            if (step == 15){ //Stop Motors
                 stepTelemetry();
-                encoderDrive(.6, 9, 10);
                 grabStone.setPosition(0.6);
                 step++;
             }
 
-            if (step == 17){
+            if (step == 16){
                 stepTelemetry();
-                encoderDrive(.6,-9,10);
+                encoderDrive(1,-6,10);
                 step++;
             }
 
-            if (step == 18 && pos == 2){ //Stop Motors
+            if (step == 17 && pos == 2){ //Stop Motors
                 stepTelemetry();
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
@@ -427,7 +429,7 @@ public class Auto_Scanning extends LinearOpMode {
                 //End of positon 2
             }
 
-            if (step == 18 && pos == 1) {
+            if (step == 17 && pos == 1) {
                 //Strafe Left to get out of the way
                 motorFrontLeft.setPower(-.4);
                 motorFrontRight.setPower(.4);
@@ -439,12 +441,13 @@ public class Auto_Scanning extends LinearOpMode {
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
                 //End of positon 1
-            }*/
+            }
         }
     }
 
     private void stepTelemetry(){
         telemetry.addData("Current step: ", step);
+        telemetry.addData("Skystone Positon: ", pos);
         telemetry.update();
     }
 
@@ -479,14 +482,14 @@ public class Auto_Scanning extends LinearOpMode {
     private void pos1(){
         telemetry.addData("Position: ", "1");
         telemetry.update();
-        encoderDrive(.6,-52,10); //Move backwards 49 inches
+        encoderDrive(.6,-59,10); //Move backwards 49 inches
         step++;
     }
 
     private void pos2(){
         telemetry.addData("Position: ", "2");
         telemetry.update();
-        encoderDrive(.6,-67,10); //Move backwards 58 inches
+        encoderDrive(.6,-63,10); //Move backwards 58 inches
         step++;
     }
 
