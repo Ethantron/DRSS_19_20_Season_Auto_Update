@@ -249,7 +249,22 @@ public class Auto_Scanning extends LinearOpMode {
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
                 step++;
+            }/*
+
+            if (step == 7) { // Go across the line
+                if (pos == 1) {
+
+                }
+
+                if (pos == 2) {
+
+                }
+
+                if (pos == 3) {
+
+                }
             }
+
 
             //Parking color sensor
             if (step == 7){ //Start moving
@@ -425,7 +440,7 @@ public class Auto_Scanning extends LinearOpMode {
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
                 //End of positon 1
-            }
+            }*/
         }
     }
 
