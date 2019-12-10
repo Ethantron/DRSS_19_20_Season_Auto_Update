@@ -187,10 +187,10 @@ public class Auto_Scanning extends LinearOpMode {
                 pos++; //If we didn't see the skystone, move to next position
 
                 //Strafe Left to next block
-                motorFrontLeft.setPower(-.4);
-                motorFrontRight.setPower(.4);
-                motorBackLeft.setPower(.4);
-                motorBackRight.setPower(-.4);
+                motorFrontLeft.setPower(-.6);
+                motorFrontRight.setPower(.6);
+                motorBackLeft.setPower(.6);
+                motorBackRight.setPower(-.6);
                 sleep(600);
                 motorFrontLeft.setPower(0);
                 motorFrontRight.setPower(0);
@@ -206,10 +206,10 @@ public class Auto_Scanning extends LinearOpMode {
                 pos++; //If we didn't see the skystone, move to next position
 
                 //Strafe Left to next block
-                motorFrontLeft.setPower(-.4);
-                motorFrontRight.setPower(.4);
-                motorBackLeft.setPower(.4);
-                motorBackRight.setPower(-.4);
+                motorFrontLeft.setPower(-.6);
+                motorFrontRight.setPower(.6);
+                motorBackLeft.setPower(.6);
+                motorBackRight.setPower(-.6);
                 sleep(600);
                 motorFrontLeft.setPower(0);
                 motorFrontRight.setPower(0);
@@ -228,11 +228,9 @@ public class Auto_Scanning extends LinearOpMode {
                 stepTelemetry();
                 encoderDrive(.2 ,18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
-                sleep(200);
-                lift.setPower(0.75);
+                lift.setPower(1);
                 sleep(100);
                 lift.setPower(0);
-                sleep(300);
                 step++;
             }
 
