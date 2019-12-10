@@ -378,13 +378,9 @@ public class Auto_Scanning extends LinearOpMode {
                     encoderDrive(1, 59, 10);
                 }
 
-                if (pos == 2) {
+                /*else if (pos == 2) {
                     encoderDrive(1, 63, 10);
-                }
-
-                if (pos == 3) {
-                    encoderDrive(1, 75, 10);
-                }
+                }*/
             }
 
             /*// Does it see the line?
