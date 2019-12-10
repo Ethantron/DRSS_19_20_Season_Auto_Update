@@ -246,29 +246,34 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             /** End of Lift System Controls **/
 
             /** Lift Speed Brake Controls **/
-            if (gamepad2.left_trigger > .3) { //While the left trigger is being held down
-                LiftPower = .25; //Sets the speed to quarter speed
+            if (gamepad2.left_trigger > .3 && gamepad2.left_stick_y >.3) { //While the left trigger is being held down
+                lift.setPower(1);
             }
-            if (gamepad2.left_trigger <= .3) { //While the left trigger is not being held down
-                LiftPower = 1; //Sets the speed to full
+
+            if (gamepad2.left_trigger > .3 && (gamepad2.left_stick_y < .3 && gamepad2.left_stick_y > -.3)) { //While the left trigger is being held down
+                lift.setPower(0.001);
+            }
+
+            if (gamepad2.left_trigger > .3 && gamepad2.left_stick_y < -.3) { //While the left trigger is being held down
+                lift.setPower(-1);
             }
             /** End of Lift Speed Brake Controls **/
 
             /** Slide System Controls **/
             // Moving The Slide Outward
-            if (gamepad2.left_stick_y > .25) {
+            if (gamepad2.left_stick_y > .25 && gamepad2.left_trigger < .3) {
                 slide.setPower(-1); //Set power to the slide
             }
             // End of Moving the Slide Outward
 
             // Zeroing the Slide
-            if (gamepad2.left_stick_y < .25 && gamepad2.left_stick_y > -.25) {
+            if ((gamepad2.left_stick_y < .25 && gamepad2.left_stick_y > -.25) && gamepad2.left_trigger < .3) {
                 slide.setPower(0); //Stops power to the slid
             }
             // End of Zeroing the Slide
 
             // Moving the Slide Inward
-            if (gamepad2.left_stick_y < -.25) {
+            if (gamepad2.left_stick_y < -.25 && gamepad2.left_trigger < .3) {
                 slide.setPower(1); //Set power to the slide
             }
             // End of Moving the Slide Inward
