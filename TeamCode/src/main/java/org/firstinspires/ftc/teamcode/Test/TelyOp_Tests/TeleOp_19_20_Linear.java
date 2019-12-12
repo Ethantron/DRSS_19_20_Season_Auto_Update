@@ -267,13 +267,13 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             // End of Moving the Slide Outward
 
             // Zeroing the Slide
-            if ((gamepad2.left_stick_y < .25 && gamepad2.left_stick_y > -.25) && gamepad2.left_trigger < .3) {
+            if ((gamepad2.left_stick_y < .25 && gamepad2.left_stick_y > -.25) && gamepad2.left_trigger <= .3) {
                 slide.setPower(0); //Stops power to the slid
             }
             // End of Zeroing the Slide
 
             // Moving the Slide Inward
-            if (gamepad2.left_stick_y < -.25 && gamepad2.left_trigger < .3) {
+            if (gamepad2.left_stick_y < -.25 && gamepad2.left_trigger <= .3) {
                 slide.setPower(1); //Set power to the slide
             }
             // End of Moving the Slide Inward
