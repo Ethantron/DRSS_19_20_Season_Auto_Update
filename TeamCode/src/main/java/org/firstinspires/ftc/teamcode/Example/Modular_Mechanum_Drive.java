@@ -20,9 +20,6 @@ public class Modular_Mechanum_Drive extends OpMode{
     double Backleft;
     double Backright;
 
-    public Servo FoundationMoverL;
-    public Servo FoundationMoverR;
-
     public void init(){
 
         /*
@@ -42,10 +39,6 @@ public class Modular_Mechanum_Drive extends OpMode{
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-
-        FoundationMoverL = hardwareMap.servo.get("GL");
-        FoundationMoverR = hardwareMap.servo.get("GR");
-
     }
 
     @Override
@@ -96,18 +89,6 @@ public class Modular_Mechanum_Drive extends OpMode{
         }
 
         telemetry.addData("speed", Speed);
-
-        // Lowers foundation movers
-        if (gamepad1.dpad_down){
-            FoundationMoverL.setPosition(1);
-            FoundationMoverR.setPosition(1);
-        }
-
-        // Raises the foundation movers
-        if (gamepad1.dpad_up){
-            FoundationMoverL.setPosition(0);
-            FoundationMoverR.setPosition(0);
-        }
     }
 
 

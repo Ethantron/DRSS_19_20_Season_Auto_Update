@@ -1,47 +1,51 @@
+// Defines where the code is located
 package org.firstinspires.ftc.teamcode.Test.TelyOp_Tests;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+// Imports codes that the robot uses
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;        // Imports Linear Operation mode
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;              // Imports Driver Controled mode
+import com.qualcomm.robotcore.hardware.DcMotor;                     // Imports motor definitions
+import com.qualcomm.robotcore.hardware.Servo;                       // Imports servo definitions
+import com.qualcomm.robotcore.util.ElapsedTime;                     // Imports timer definitions
+import com.qualcomm.robotcore.util.Range;                           // Imports motor ranes definitions
 
-@TeleOp (name = "19-20 TeleOp", group= "TeleOp")
-public class TeleOp_19_20_Linear extends LinearOpMode {
+// Defines robot display name
+@TeleOp (name = "19-20 TeleOp", group= "TeleOp")                    // Sets codes mode to TelyOp and sets the display name for the code
+public class TeleOp_19_20_Linear extends LinearOpMode {             // Sets the codes name and sets it to Linear OpMode
 
-    // Robot definitions
+    /** Robot definitions **/
 
+    // Timer definitions
     ElapsedTime ResetTime = new ElapsedTime();
 
-    // Motor Definitions
-    public DcMotor motorFrontRight;
-    public DcMotor motorFrontLeft;
-    public DcMotor motorBackRight;
-    public DcMotor motorBackLeft;
+    // Drive motor definitions
+    public DcMotor motorFrontRight;                                 // Defines the front right motor
+    public DcMotor motorFrontLeft;                                  // Defines the front left motor
+    public DcMotor motorBackRight;                                  // Defines the back right motor
+    public DcMotor motorBackLeft;                                   // Defines the back left motor
 
     // Mechanum Definitions
-    double Frontleft;
-    double Frontright;
-    double Backleft;
-    double Backright;
-    double Speed = 1;
-    double SpeedSetting = 1;
+    double Frontright;                                              // Sets the double "Frontright"             | Helps with motor calculations
+    double Frontleft;                                               // Sets the double "Fronleft"               | Helps with motor calculations
+    double Backright;                                               // Sets the double "Backright"              | Helps with motor calculations
+    double Backleft;                                                // Sets the double "Backleft                | Helps with motor calculations
+    double Speed = 1;                                               // Sets the double "Speed" to one           | Controls overall speed of the drive motors
+    double SpeedSetting = 1;                                        // Sets the double "SpeedSetting" to one    | Allows us to remeber what the previous speed was
 
-    // Payload Definitions
-    public DcMotor lift;
-    public DcMotor slide;
-    public Servo grabStone;
-    public Servo wrist;
-    public Servo FoundationMoverL;
-    public Servo FoundationMoverR;
+    // Payload motor and servo definitions
+    public DcMotor lift;                                            // Defines the lift motor
+    public DcMotor slide;                                           // Defines the slide motor
+    public Servo grabStone;                                         // Defines the stone grabber servo
+    public Servo wrist;                                             // Defines the wrist servo
+    public Servo FoundationMoverL;                                  // Defines the left foundation servo
+    public Servo FoundationMoverR;                                  // Defines the right foundation servo
 
-    //Lift Positioning Definitions
-    double LiftPower = 1;
-    double upstep = 0;
-    double upcount = 0;
-    double claw_status = 1;
-    double height = 0; //Tells what level the lift will go to
+    //Lift positioning definitions
+    double LiftPower = 1;                                           // Sets the double "LiftPower" to one       | Defines how fast the lift moves
+    double upstep = 0;                                              // Sets the double "upstep" to zero         |
+    double upcount = 0;                                             // Sets the double "upcount" to zero        |
+    double claw_status = 1;                                         // Sets the double "claw_status" to one     |
+    double height = 0;                                              // Tells what level the lift will go to     |
     double CurrentHeight = 0;
     Boolean NeedFoundation = false;
         //Lift Encoder Definitions
@@ -65,10 +69,6 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-
-        //Initialized Telemetry
-        telemetry.addData("Drive Train: ", "Initialized");
-        telemetry.update();
 
         /** End of Drive Train Initialization **/
 
@@ -102,14 +102,12 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Initialized Telemetry
+        telemetry.addData("Drive Train: ", "Initialized");
         telemetry.addData("Payload: ", "Initialized");
-        telemetry.update();
-
-        /** End of Payload Initialization **/
-
-        telemetry.addData("Status: ", "Initialized");
+        telemetry.addData("Status: ", "Ready");
         telemetry.addData("> Press Play to Start ", "TeleOp");
         telemetry.update();
+        /** End of Payload Initialization **/
 
         waitForStart();
 
@@ -145,24 +143,29 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             Backleft = Range.clip(Math.pow(BackLeft, 3), -Speed, Speed);
 
             //Speed Controls
-            if (gamepad1.a) {
-                SpeedSetting = 1; // Tells the code that we are on full speed
-                Speed = 1; // Full Speed
-            }
+            if (gamepad1.left_trigger > .3) { //While the left trigger is being held down
+                Speed = .25; //Sets the speed to quarter speed
+            } else {
 
-            if (gamepad1.b) {
-                SpeedSetting = .75; // Tells the code that we are on three quarter speed
-                Speed = .75; // Three Quarter Speed
-            }
+                if (gamepad1.a || SpeedSetting == 1) {
+                    SpeedSetting = 1; // Tells the code that we are on full speed
+                    Speed = 1; // Full Speed
+                }
 
-            if (gamepad1.x) {
-                SpeedSetting = .5; // Tells the code that we are on half speed
-                Speed = .50; // Half Speed
-            }
+                if (gamepad1.b || SpeedSetting == .75) {
+                    SpeedSetting = .75; // Tells the code that we are on three quarter speed
+                    Speed = .75; // Three Quarter Speed
+                }
 
-            if (gamepad1.y) {
-                SpeedSetting = .25; // Tells the code that we are on quarter speed
-                Speed = .25; // Quarter Speed
+                if (gamepad1.x || SpeedSetting == .5) {
+                    SpeedSetting = .5; // Tells the code that we are on half speed
+                    Speed = .50; // Half Speed
+                }
+
+                if (gamepad1.y || SpeedSetting == .25) {
+                    SpeedSetting = .25; // Tells the code that we are on quarter speed
+                    Speed = .25; // Quarter Speed
+                }
             }
             //End of Speed Controls
             /** End of Mechanum Drive Controls **/
@@ -183,28 +186,6 @@ public class TeleOp_19_20_Linear extends LinearOpMode {
             // End of Raising Foundation Movers
             /** End of Foundation Mover Controls **/
 
-            /** Speed Brake Controls **/
-            if (gamepad1.left_trigger > .3) { //While the left trigger is being held down
-                Speed = .25; //Sets the speed to quarter speed
-            }
-            if (gamepad1.left_trigger <= .3) { //While the left trigger is not being held down
-                if (SpeedSetting == .25) { //If the speed we were previously on was .25
-                    Speed = .25; //Set the speed to .25
-                }
-
-                if (SpeedSetting == .5) { //If the speed we were previously on was .5
-                    Speed = .5; //Set the speed to .5
-                }
-
-                if (SpeedSetting == .75) { //If the speed we were previously on was .75
-                    Speed = .75; //Set the speed to .75
-                }
-
-                if (SpeedSetting == 1) { //If the speed we were previously on was 1
-                    Speed = 1; //Set the speed to 1
-                }
-            }
-            /** End of Speed Brake Controls **/
 
             /** Gamepad 2 Controls (Payload) ==> **/
 
