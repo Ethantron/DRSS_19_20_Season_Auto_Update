@@ -28,7 +28,7 @@ public class Galileo extends LinearOpMode {                         // Sets the 
         double frontRight;                                              // Sets the double "frontRight"               | Helps with motor calculations
         double frontLeft;                                               // Sets the double "fronLeft"                 | Helps with motor calculations
         double backRight;                                               // Sets the double "backRight"                | Helps with motor calculations
-        double backLeft;                                               // Sets the double "backLeft                  | Helps with motor calculations
+        double backLeft;                                                // Sets the double "backLeft                  | Helps with motor calculations
         double speed = 1;                                               // Sets the double "speed" to one             | Controls overall speed of the drive motors
         double speedSetting = 1;                                        // Sets the double "speedSetting" to one      | Allows us to remember what the previous speed was
 
@@ -49,7 +49,7 @@ public class Galileo extends LinearOpMode {                         // Sets the 
         double height = 0;                                              // Sets the double "height" to zero           | Defines the level the lift should move to
         double currentHeight = 0;                                       // Sets the double "currentHeight" to zero    | Counts what level the lift is on
         boolean needFoundation = false;                                 // Sets the boolean "needFoundation" to false | Defines wheter the lift needs to account for the foundations
-        static final double COUNTS_PER_LEVEL = 300;                     // Sets the double "COuNTS_PER_LEVEL" to 300 | Defines how long the lift needs to run to go up one level | About 55  counts per inch
+        static final double COUNTS_PER_LEVEL = 300;                     // Sets the double "COuNTS_PER_LEVEL" to 300  | Defines how long the lift needs to run to go up one level | About 55  counts per inch
     // End payload definitions
 
     // Misc definitions
