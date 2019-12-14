@@ -211,10 +211,10 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
             /** Automatic lift controls **/
             // Moving The Lift Upward
-            if (gamepad2.left_bumper && (currentHeight > 0)) {  // Do the following if the left bumper is pressed and the current height os greater than 0
-                height = -currentHeight;                        // Sets "height" to -currentHeight
+            if (gamepad2.left_bumper && (currentHeight > 0)) { // Do the following if the left bumper is pressed and the current height os greater than 0
+                height--;                                      // Sets "height" to -currentHeight
                 sleep(150);                         // Tells the code to wait 150 milliseconds
-                currentHeight = 0;                              // sets "currentHeight" to 0
+                currentHeight--;                               // sets "currentHeight" to height
             }
             // End of Moving the Lift Upward
 
@@ -320,9 +320,9 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             telemetry.addData("Half speed brake: ", HSB);           // Adds telemetry to the screen to show if the half speed brake is on
 
             // Foundation grabber telemetry
-            telemetry.addData("Foundation mover position: ", "Right %7d : Left %7d",    // Adds telemetry to the screen to show the position of the foundation movers
-                    foundationMoverR.getPosition(),
-                    foundationMoverL.getPosition());
+            telemetry.addData("Right Foundation Mover position: ", foundationMoverR.getPosition()); // Adds telemetry to the screen to show the position of the right foundation mover
+
+            telemetry.addData("Left Foundation Mover position: ", foundationMoverL.getPosition());  // Adds telemetry to the screen to show the position of the left foundation mover
 
             telemetry.addData("", "");                          // Adds a space in the telemetry
 
@@ -358,6 +358,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             while (opModeIsActive() && lift.isBusy()) {
                 telemetry.addData("lift position", lift.getCurrentPosition());
                 telemetry.update();
+
+                if (gamepad2.x) { //To jump out of void in case it gets stuck at the bottom
+                    height = 0; //Sets height to level 0 so that the lift can continue normal operation after jumping out of loop
+                    sleep(150); //Sleeps for 150 milliseconds to prevent it immedietly trying to move the lift again
+                    return; //Jumps out of Private Void
+                }
             }
 
             lift.setPower(0);
