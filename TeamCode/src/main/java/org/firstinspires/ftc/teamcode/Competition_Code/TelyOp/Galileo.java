@@ -359,9 +359,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
                 telemetry.addData("lift position", lift.getCurrentPosition());
                 telemetry.update();
 
-                if (gamepad2.x) { //To jump out of void in case it gets stuck at the bottom
+                if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
                     height = 0; //Sets height to level 0 so that the lift can continue normal operation after jumping out of loop
-                    sleep(150); //Sleeps for 150 milliseconds to prevent it immedietly trying to move the lift again
                     return; //Jumps out of Private Void
                 }
             }
