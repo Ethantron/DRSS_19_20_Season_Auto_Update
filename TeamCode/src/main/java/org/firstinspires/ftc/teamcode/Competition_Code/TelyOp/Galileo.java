@@ -36,6 +36,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
         public Servo foundationMoverL;      // Defines the left foundation servo
         public Servo foundationMoverR;      // Defines the right foundation servo
+        boolean foundationMoverPos = true;         // Defines the foundation mover positon
     //End drivetrain definitions
 
     //Payload definitions
@@ -193,6 +194,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             if (gamepad1.dpad_down) {               // Do the following if the "down" button has been pressed
                 foundationMoverR.setPosition(1);    // Sets the right foundation mover to point down
                 foundationMoverL.setPosition(1);    // Sets the left foundation mover to point down
+                foundationMoverPos = true;          // Tells the telemetry that the foundation movers are down
+
             }
             // End of Lowering Foundation Movers
 
@@ -200,6 +203,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             if (gamepad1.dpad_up) {                 // Do the following if the "up" button has been pressed
                 foundationMoverR.setPosition(0);    // Sets the right foundation mover to point up
                 foundationMoverL.setPosition(0);    // Sets the left foundation mover to point up
+                foundationMoverPos = false;         // Tells the telemetry that the foundation movers are up
             }
             // End of Raising Foundation Movers
             /** End of foundation mover controls **/
@@ -325,16 +329,21 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
             telemetry.addData("Drivetrain ", "Telemetry");      // Adds telemetry to the screen to show that the following telemetry is for the drivetrain
 
+            // Foundation grabber telemetry
+
+            if (!foundationMoverPos) {                                // If the foundation movers are up
+                telemetry.addData("Foundation Movers ", "Up"); // Display that they are up
+            }
+
+            if (foundationMoverPos) {                                 // If the foundation movers are down
+                telemetry.addData("Foundation Movers", "Down");// Display that they are down
+            }
+
             // Speed telemetry
             telemetry.addData("Speed", speed);                      // Adds telemetry to the screen to show the current speed of the robot
 
             telemetry.addData("Quarter speed brake: ", QSB);        // Adds telemetry to the screen to show if the quarter speed brake is on
             telemetry.addData("Half speed brake: ", HSB);           // Adds telemetry to the screen to show if the half speed brake is on
-
-            // Foundation grabber telemetry
-            telemetry.addData("Right Foundation Mover position: ", foundationMoverR.getPosition()); // Adds telemetry to the screen to show the position of the right foundation mover
-
-            telemetry.addData("Left Foundation Mover position: ", foundationMoverL.getPosition());  // Adds telemetry to the screen to show the position of the left foundation mover
 
             /** End of telemetry **/
         }
