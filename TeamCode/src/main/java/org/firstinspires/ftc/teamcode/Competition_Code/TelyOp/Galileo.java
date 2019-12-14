@@ -217,7 +217,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             // Moving The Lift Upward
             if (gamepad2.left_bumper && (currentHeight > 0)) { // Do the following if the left bumper is pressed and the current height os greater than 0
                 height--;                                      // Sets "height" to -currentHeight
-                sleep(150);                         // Tells the code to wait 150 milliseconds
+                sleep(150);                        // Tells the code to wait 150 milliseconds
                 currentHeight--;                               // sets "currentHeight" to height
             }
             // End of Moving the Lift Upward
@@ -240,7 +240,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
             //Start lift
             if (gamepad2.x) {                     // Do the following if the "x" button is pressed
-                encoderLift(1, height); // Tells the lift to move up to set height
+                encoderLift(1, height);  // Tells the lift to move up to set height
             }
 
             //Foundation Override
@@ -251,12 +251,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             /** End of automatic lift controls **/
 
             /** Manual lift controls **/
-            if (gamepad2.right_trigger > 0.3) { // Tells the code ro do the following if the right trigger is pressed
-                lift.setPower(gamepad2.right_trigger);               // Sets the lift motor speed to 1
+            if (gamepad2.right_trigger > 0.3) {         // Tells the code ro do the following if the right trigger is pressed
+                lift.setPower(gamepad2.right_trigger);  // Sets the lift motor speed to 1
             } 
             
-            else if (gamepad2.left_trigger > 0.3) {  // Do the following if the left trigger is held down
-                lift.setPower(-gamepad2.left_trigger);                   // Sets the lift motor speed to -1
+            else if (gamepad2.left_trigger > 0.3) {     // Do the following if the left trigger is held down
+                lift.setPower(-gamepad2.left_trigger);  // Sets the lift motor speed to -1
             } 
             
             else if (gamepad2.right_trigger < 0.3 && gamepad2.left_trigger < 0.3){ // Do the following if neither trigger is held down
@@ -335,8 +335,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
                 telemetry.addData("Foundation Movers ", "Up"); // Display that they are up
             }
 
-            if (foundationMoverPos) {                                 // If the foundation movers are down
-                telemetry.addData("Foundation Movers", "Down");// Display that they are down
+            if (foundationMoverPos) {                                  // If the foundation movers are down
+                telemetry.addData("Foundation Movers", "Down"); // Display that they are down
             }
 
             // Speed telemetry
