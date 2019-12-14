@@ -311,6 +311,18 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             /** End of gamepad 2 controls (payload) **/
 
             /** Beginning of telemetry **/
+            telemetry.addData("Payload ", "Telemetry");          // Adds telemetry to the screen to show that the following telemetry is for the drivetrain
+
+            // Lift telemetry
+            telemetry.addData("Desired Height:", height);           // Adds telemetry to the screen to show the desired height of the lift
+            telemetry.addData("Current Height: ", currentHeight);   // Adds telemetry to the screen to show the current height of the lift
+
+            //Wrist telemetry
+            telemetry.addData("Wrist", wrist.getPosition());        // Adds telemetry to the screen to show the current position of the wrist
+            telemetry.update();                                        // Tells the telemetry to display on the phone
+
+            telemetry.addData("", "");                          // Adds a space in the telemetry
+
             telemetry.addData("Drivetrain ", "Telemetry");      // Adds telemetry to the screen to show that the following telemetry is for the drivetrain
 
             // Speed telemetry
@@ -323,18 +335,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             telemetry.addData("Right Foundation Mover position: ", foundationMoverR.getPosition()); // Adds telemetry to the screen to show the position of the right foundation mover
 
             telemetry.addData("Left Foundation Mover position: ", foundationMoverL.getPosition());  // Adds telemetry to the screen to show the position of the left foundation mover
-
-            telemetry.addData("", "");                          // Adds a space in the telemetry
-
-            telemetry.addData("Payload ", "Telemetry");          // Adds telemetry to the screen to show that the following telemetry is for the drivetrain
-
-            // Lift telemetry
-            telemetry.addData("Desired Height:", height);           // Adds telemetry to the screen to show the desired height of the lift
-            telemetry.addData("Current Height: ", currentHeight);   // Adds telemetry to the screen to show the current height of the lift
-
-            //Wrist telemetry
-            telemetry.addData("Wrist", wrist.getPosition());        // Adds telemetry to the screen to show the current position of the wrist
-            telemetry.update();                                        // Tells the telemetry to display on the phone
 
             /** End of telemetry **/
         }
