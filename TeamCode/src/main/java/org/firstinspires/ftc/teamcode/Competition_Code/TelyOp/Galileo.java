@@ -93,7 +93,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
         slide.setDirection(DcMotor.Direction.FORWARD);  // Sets the slide motors direction to forward
 
         //Hand Initialization
-        grabStone = hardwareMap.servo.get("GS");    // Initializes the claw servos name for configuration
+        grabStone = hardwareMap.servo.get("GS");    // Initializes the grabber servos name for configuration
         wrist = hardwareMap.servo.get("W");         // Initializes the wrist servos name for configuration
         /** End of payload initialization **/
 
@@ -119,7 +119,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
         waitForStart();     // Tells the code to wait here until the drivers have pressed the start button
 
-        while (opModeIsActive()) {      // Tells the code to do the following after the start button has been pressed and until the stop button is pressed
+        while (opModeIsActive()) {      // Do the following after the start button has been pressed and until the stop button is pressed
 
             /** Gamepad 1 controls (drive train) ==> **/
 
@@ -143,26 +143,26 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
 
                         //speed Controls
-            if (gamepad1.left_trigger > .3) {   // Tells the code to do the following while the left trigger is being held down
+            if (gamepad1.left_trigger > .3) {   // Do the following while the left trigger is being held down
                 speed = .25;                    // Sets the speed to quarter speed
-            } else {                            // Tells the code to do the following while the left trigger is not being held down
+            } else {                            // Do the following while the left trigger is not being held down
 
-                if (gamepad1.a || speedSetting == 1) {      // Tells the code to do the following if the "a" button has been pressed or the double "speedSetting" is equal to 1
+                if (gamepad1.a || speedSetting == 1) {      // Do the following if the "a" button has been pressed or the double "speedSetting" is equal to 1
                     speedSetting = 1;                       // Tells the code that we are on full speed
                     speed = 1;                              // Sets the speed to 1
                 }
 
-                if (gamepad1.b || speedSetting == .75) {    // Tells the code to do the following if the "b" button has been pressed or the double "speedSetting" is equal to .75
+                if (gamepad1.b || speedSetting == .75) {    // Do the following if the "b" button has been pressed or the double "speedSetting" is equal to .75
                     speedSetting = .75;                     // Tells the code that we are on three quarter speed
                     speed = .75;                            // Sets the speed to .75
                 }
 
-                if (gamepad1.x || speedSetting == .5) {     // Tells the code to do the following if the "x" button has been pressed or the double "speedSetting" is equal to .5
+                if (gamepad1.x || speedSetting == .5) {     // Do the following if the "x" button has been pressed or the double "speedSetting" is equal to .5
                     speedSetting = .5;                      // Tells the code that we are on half speed
                     speed = .50;                            // Sets the speed to .5
                 }
 
-                if (gamepad1.y || speedSetting == .25) {    // Tells the code to do the following if the "y" button has been pressed or the double "speedSetting" is equal to .25
+                if (gamepad1.y || speedSetting == .25) {    // Do the following if the "y" button has been pressed or the double "speedSetting" is equal to .25
                     speedSetting = .25;                     // Tells the code that we are on quarter speed
                     speed = .25;                            // Sets the speed to .25
                 }
@@ -177,14 +177,14 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
             /** Foundation mover controls **/
             // Lowering Foundation Movers
-            if (gamepad1.dpad_down) {               // Tells the code to do the following if the down button has been pressed
+            if (gamepad1.dpad_down) {               // Do the following if the "down" button has been pressed
                 foundationMoverR.setPosition(1);    // Sets the right foundation mover to point down
                 foundationMoverL.setPosition(1);    // Sets the left foundation mover to point down
             }
             // End of Lowering Foundation Movers
 
             // Raising Foundation Movers
-            if (gamepad1.dpad_up) {                 // Tells the code to do the following if the down button has been pressed
+            if (gamepad1.dpad_up) {                 // Do the following if the "up" button has been pressed
                 foundationMoverR.setPosition(0);    // Sets the right foundation mover to point up
                 foundationMoverL.setPosition(0);    // Sets the left foundation mover to point up
             }
@@ -196,107 +196,101 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
             /** Gamepad 2 controls (payload) ==> **/
 
-            /** Lift system controls **/
+            /** Automatic lift controls **/
             // Moving The Lift Upward
-            if (gamepad2.left_bumper && (currentHeight > 0)) {
-                height = -currentHeight;
-                sleep(150);
-                currentHeight = 0;
+            if (gamepad2.left_bumper && (currentHeight > 0)) {  // Do the following if the left bumper is pressed and the current height os greater than 0
+                height = -currentHeight;                        // Sets "height" to -currentHeight
+                sleep(150);                         // Tells the code to wait 150 milliseconds
+                currentHeight = 0;                              // sets "currentHeight" to 0
             }
             // End of Moving the Lift Upward
 
             // Zeroing the Lift
-            if (!gamepad2.left_bumper && !gamepad2.right_bumper) {
-                lift.setPower(.001); //Holds lift in place
+            if (!gamepad2.left_bumper && !gamepad2.right_bumper) {  // Do the following if neither bumper is pressed
+                lift.setPower(.001);                                // Tells the lift to hold in place by setting the motor power to .001
             }
             // End of Zeroing the lift
 
             // Moving the Lift Downward
-            if (gamepad2.right_bumper && (currentHeight < 7)) {
-                if (currentHeight == 0) { //If we need to lift past the foundation
-                    needFoundation = true;
+            if (gamepad2.right_bumper && (currentHeight < 7)) {     // Do the following if the right bumper has been pressed and the current height is greater than 7
+                if (currentHeight == 0) {                           // Do the following if the current height is 0
+                    needFoundation = true;                          // Sets "needFoundation" to true
                 }
-                height++;
-                currentHeight++;
-                sleep(200);
+                height++;                                           // Adds 1 to "height"
+                currentHeight++;                                    // Adds 1 to "currentHeight"
+                sleep(200);                             // Tells the code to wait 200 milliseconds
             }
 
             //Start lift
-            if (gamepad2.right_trigger > .3) {
-                encoderLift(1, height);
+            if (gamepad2.x) {                     // Do the following if the "x" button is pressed
+                encoderLift(1, height); // Tells the lift to move up to set height
             }
 
             //Foundation Override
-            if (gamepad2.x) {
-                needFoundation = false;
+            if (gamepad2.dpad_down) {           // Do the following if the "down" button is pressed
+                needFoundation = false;         // Overrides need foundation to false
             }
 
-            /** End of lift system controls **/
+            /** End of automatic lift controls **/
 
-            /** Lift speed brake controls **/
-            if (gamepad2.left_trigger > .3 && gamepad2.left_stick_y > .3) { //While the left trigger is being held down
-                lift.setPower(1);
+            /** Manual lift controls **/
+            if (gamepad2.right_trigger > 0.3) { // Tells the code ro do the following if the right trigger is pressed
+                lift.setPower(1);               // Sets the lift motor speed to 1
+            } 
+            
+            else if (gamepad2.left_trigger > 0.3) {  // Do the following if the left trigger is held down
+                lift.setPower(-1);                   // Sets the lift motor speed to -1
+            } 
+            
+            else if (gamepad2.right_trigger < 0.3 && gamepad2.left_trigger < 0.3){ // Do the following if neither trigger is held down
+                lift.setPower(.001);                                               // Tells the lift to hold in place by setting the motor power to .001
             }
-
-            if (gamepad2.left_trigger > .3 && (gamepad2.left_stick_y < .3 && gamepad2.left_stick_y > -.3)) { //While the left trigger is being held down
-                lift.setPower(0.001);
-            }
-
-            if (gamepad2.left_trigger > .3 && gamepad2.left_stick_y < -.3) { //While the left trigger is being held down
-                lift.setPower(-1);
-            }
-            /** End of lift speed brake controls **/
+            /** End of manual lift controls **/
 
             /** Slide system controls **/
-            // Moving The Slide Outward
-            if (gamepad2.left_stick_y > .25 && gamepad2.left_trigger < .3) {
-                slide.setPower(-1); //Set power to the slide
+            if (gamepad2.left_stick_y > .25) {  // Do the following if the left stick is up
+                slide.setPower(-1);             //Sets the slide motors speed to -1
             }
-            // End of Moving the Slide Outward
+            
+            if (gamepad2.left_stick_y < .25 && gamepad2.left_stick_y > -.25) {  // Do the following if the left stick is centered
+                slide.setPower(0);                                              // Sets the slide motors speed to 0
+            }
 
-            // Zeroing the Slide
-            if ((gamepad2.left_stick_y < .25 && gamepad2.left_stick_y > -.25) && gamepad2.left_trigger <= .3) {
-                slide.setPower(0); //Stops power to the slid
+            if (gamepad2.left_stick_y < -.25 && gamepad2.left_trigger <= .3) {  // Do the followin if the left stick is down
+                slide.setPower(1);                                              // Sets the slide motors speed to 1
             }
-            // End of Zeroing the Slide
-
-            // Moving the Slide Inward
-            if (gamepad2.left_stick_y < -.25 && gamepad2.left_trigger <= .3) {
-                slide.setPower(1); //Set power to the slide
-            }
-            // End of Moving the Slide Inward
             /** End of slide system controls **/
 
             /** Hand system controls **/
             // Wrist Controls
-            if (gamepad2.right_stick_x > 0.1) {
-                wrist.setPosition(wrist.getPosition() + .0025); //Move the wrist right
+            if (gamepad2.right_stick_x > 0.1) {                 // Do the following if the right stick is right
+                wrist.setPosition(wrist.getPosition() + .0025); // Turns the wrist right
             }
 
-            if (gamepad2.right_stick_x < -0.1) {
-                wrist.setPosition(wrist.getPosition() - .0025); //Move the wrist Left
+            if (gamepad2.right_stick_x < -0.1) {                // Do the following if the right stick is left
+                wrist.setPosition(wrist.getPosition() - .0025); // Turns the wrist left
             }
 
-            if (gamepad2.right_stick_x < -0.1 && gamepad2.right_stick_x > 0.1) {
-                wrist.setPosition(wrist.getPosition()); //Set the wrist to the current position
+            if (gamepad2.right_stick_x < -0.1 && gamepad2.right_stick_x > 0.1) {    // Do the following if the right stick is centered
+                wrist.setPosition(wrist.getPosition());                             // Sets the wrist to its current position
             }
 
-            if (gamepad2.dpad_up) {
-                wrist.setPosition(0.4);
+            if (gamepad2.dpad_up) {     // Do the following if the "up" button on the dpad is pressed
+                wrist.setPosition(0.4); // Centers the wrist
             }
             // End of Wrist controls
 
             // Grabber Controls
-            if (gamepad2.a) {
-                encoderPlace(1, 50);
+            if (gamepad2.a) {                              // Do the following if the "a" button is pressed
+                encoderPlace(1, 50);    // Moves the lift slightly down and opens the grabber
             }
 
-            if (gamepad2.y) {
-                grabStone.setPosition(0); //Clamp down with the grabber
+            if (gamepad2.y) {               // Do the following if the "y" button is pressed
+                grabStone.setPosition(0);   // Closes the grabber
             }
 
-            if (gamepad2.b) {
-                grabStone.setPosition(.3); //Release the grabber
+            if (gamepad2.b) {               // Do the following if the "b" button is pressed
+                grabStone.setPosition(.3);  // Opens the grabber
             }
             // End of Grabber Controls
             /** End of hand system control **/
