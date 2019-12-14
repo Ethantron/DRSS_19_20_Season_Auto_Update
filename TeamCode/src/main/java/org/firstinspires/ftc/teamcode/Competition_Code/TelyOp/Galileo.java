@@ -4,56 +4,56 @@
 package org.firstinspires.ftc.teamcode.Competition_Code.TelyOp;
 
 // Imports codes that the robot uses
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;        // Imports Linear Operation mode
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;              // Imports Driver Controled mode
-import com.qualcomm.robotcore.hardware.DcMotor;                     // Imports motor definitions
-import com.qualcomm.robotcore.hardware.Servo;                       // Imports servo definitions
-import com.qualcomm.robotcore.util.ElapsedTime;                     // Imports timer definitions
-import com.qualcomm.robotcore.util.Range;                           // Imports motor ranes definitions
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;    // Imports Linear Operation mode
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;          // Imports Driver Controled mode
+import com.qualcomm.robotcore.hardware.DcMotor;                 // Imports motor definitions
+import com.qualcomm.robotcore.hardware.Servo;                   // Imports servo definitions
+import com.qualcomm.robotcore.util.ElapsedTime;                 // Imports timer definitions
+import com.qualcomm.robotcore.util.Range;                       // Imports motor ranes definitions
 
 // Defines robot display name
-@TeleOp (name = "Galileo", group= "TeleOp")                         // Sets codes mode to TelyOp and sets the display name for the code
-public class Galileo extends LinearOpMode {                         // Sets the codes name and sets it to Linear OpMode
+@TeleOp (name = "Galileo", group= "TeleOp")     // Sets codes mode to TelyOp and sets the display name for the code
+public class Galileo extends LinearOpMode {     // Sets the codes name and sets it to Linear OpMode
 
     /**Robot definitions **/
 
     // Drivetrain definitions
         // Drive motor definitions
-        public DcMotor motorFrontRight;                                 // Defines the front right motor
-        public DcMotor motorFrontLeft;                                  // Defines the front left motor
-        public DcMotor motorBackRight;                                  // Defines the back right motor
-        public DcMotor motorBackLeft;                                   // Defines the back left motor
+        public DcMotor motorFrontRight;     // Defines the front right motor
+        public DcMotor motorFrontLeft;      // Defines the front left motor
+        public DcMotor motorBackRight;      // Defines the back right motor
+        public DcMotor motorBackLeft;       // Defines the back left motor
 
         // Mechanum Definitions
-        double frontRight;                                              // Sets the double "frontRight"               | Helps with motor calculations
-        double frontLeft;                                               // Sets the double "fronLeft"                 | Helps with motor calculations
-        double backRight;                                               // Sets the double "backRight"                | Helps with motor calculations
-        double backLeft;                                                // Sets the double "backLeft                  | Helps with motor calculations
-        double speed = 1;                                               // Sets the double "speed" to one             | Controls overall speed of the drive motors
-        double speedSetting = 1;                                        // Sets the double "speedSetting" to one      | Allows us to remember what the previous speed was
+        double frontRight;          // Sets the double "frontRight"             | Helps with motor calculations
+        double frontLeft;           // Sets the double "fronLeft"               | Helps with motor calculations
+        double backRight;           // Sets the double "backRight"              | Helps with motor calculations
+        double backLeft;            // Sets the double "backLeft                | Helps with motor calculations
+        double speed = 1;           // Sets the double "speed" to one           | Controls overall speed of the drive motors
+        double speedSetting = 1;    // Sets the double "speedSetting" to one    | Allows us to remember what the previous speed was
 
-        public Servo foundationMoverL;                                  // Defines the left foundation servo
-        public Servo foundationMoverR;                                  // Defines the right foundation servo
+        public Servo foundationMoverL;      // Defines the left foundation servo
+        public Servo foundationMoverR;      // Defines the right foundation servo
     //End drivetrain definitions
 
     //Payload definitions
         // Payload motor and servo definitions
-        public DcMotor lift;                                            // Defines the lift motor
-        public DcMotor slide;                                           // Defines the slide motor
-        public Servo grabStone;                                         // Defines the stone grabber servo
-        public Servo wrist;                                             // Defines the wrist servo
+        public DcMotor lift;        // Defines the lift motor
+        public DcMotor slide;       // Defines the slide motor
+        public Servo grabStone;     // Defines the stone grabber servo
+        public Servo wrist;         // Defines the wrist servo
 
 
         //Lift positioning definitions
-        double liftPower = 1;                                           // Sets the double "liftPower" to one         | Defines how fast the lift moves
-        double height = 0;                                              // Sets the double "height" to zero           | Defines the level the lift should move to
-        double currentHeight = 0;                                       // Sets the double "currentHeight" to zero    | Counts what level the lift is on
-        boolean needFoundation = false;                                 // Sets the boolean "needFoundation" to false | Defines wheter the lift needs to account for the foundations
-        static final double COUNTS_PER_LEVEL = 300;                     // Sets the double "COuNTS_PER_LEVEL" to 300  | Defines how long the lift needs to run to go up one level | About 55  counts per inch
+        double liftPower = 1;                           // Sets the double "liftPower" to one           | Defines how fast the lift moves
+        double height = 0;                              // Sets the double "height" to zero             | Defines the level the lift should move to
+        double currentHeight = 0;                       // Sets the double "currentHeight" to zero      | Counts what level the lift is on
+        boolean needFoundation = false;                 // Sets the boolean "needFoundation" to false   | Defines wheter the lift needs to account for the foundations
+        static final double COUNTS_PER_LEVEL = 300;     // Sets the double "COuNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
     // End payload definitions
 
     // Misc definitions
-        ElapsedTime ResetTime = new ElapsedTime();                      // Enables a built in timer 
+        ElapsedTime ResetTime = new ElapsedTime();      // Enables a built in timer
     //End misc definitions
 
     /** End robot definitions **/
@@ -61,138 +61,132 @@ public class Galileo extends LinearOpMode {                         // Sets the 
 /** End pre-initialization code **/
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() {       // Begins running the initialization code when the "int" button is pressed
 
         /** Drive Train initialization **/
 
         //Motor Initialization
-        motorFrontRight = hardwareMap.dcMotor.get("FR");
-        motorFrontLeft = hardwareMap.dcMotor.get("FL");
-        motorBackLeft = hardwareMap.dcMotor.get("BL");
-        motorBackRight = hardwareMap.dcMotor.get("BR");
+        motorFrontRight = hardwareMap.dcMotor.get("FR");    // Initializes the front right motors name for configuration
+        motorFrontLeft = hardwareMap.dcMotor.get("FL");     // Initializes the front left motors name for configuration
+        motorBackRight = hardwareMap.dcMotor.get("BR");     // Initializes the back right motors name for configuration
+        motorBackLeft = hardwareMap.dcMotor.get("BL");      // Initializes the back left motors name for configuration
 
         //Motor Direction Initialization
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);    // Sets the front right motors direction to reverse
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);     // Sets the front left motors direction to reverse
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);     // Sets the back right motors direction to reverse
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);      // Sets the back left motors direction to reverse
 
         //Foundation Mover Initialization
-        foundationMoverL = hardwareMap.servo.get("GL");
-        foundationMoverR = hardwareMap.servo.get("GR");
-
+        foundationMoverR = hardwareMap.servo.get("GR");     // Initializes the right foundation movers name for configuration
+        foundationMoverL = hardwareMap.servo.get("GL");     // Initializes the left foundation movers name for configuration
         /** End of Drive Train Initialization **/
 
         /** Payload Initialization **/
 
         //Lift Initialization
-        lift = hardwareMap.dcMotor.get("LT");
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift = hardwareMap.dcMotor.get("LT");           // Initializes the lift motors name for configuration
+        lift.setDirection(DcMotor.Direction.FORWARD);   // Sets the lift motors direction to forward
 
         //Slide Initialization
-        slide = hardwareMap.dcMotor.get("SL");
-        slide.setDirection(DcMotor.Direction.FORWARD);
+        slide = hardwareMap.dcMotor.get("SL");          // Initializes the slide motors name for configuration
+        slide.setDirection(DcMotor.Direction.FORWARD);  // Sets the slide motors direction to forward
 
         //Hand Initialization
-        grabStone = hardwareMap.servo.get("GS");
-        wrist = hardwareMap.servo.get("W");
-        //wrist.setPosition(0.5); // Center the wrist
-
+        grabStone = hardwareMap.servo.get("GS");    // Initializes the claw servos name for configuration
+        wrist = hardwareMap.servo.get("W");         // Initializes the wrist servos name for configuration
         /** End of payload initialization **/
 
         /** Encoder initalization **/
         // Encoder initialization
-        telemetry.addData("Status", "Resetting Encoders");
-        telemetry.update();
+        telemetry.addData("Status", "Resetting Encoders");  // Adds telemetry to the screen to show that the robot is resetting the encoders
+        telemetry.update();                                       // Tells the telemetry to display on the phone
 
         //Stops and Resets Encoders
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);   // Tells the lift motor to reset its encoder
 
         //Tells Robots to Reset Encoders
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);    // Tells the lift motor to ru using its encoder
 
         /** End encoder initalization **/
 
         //Initializeation Telemetry
-        telemetry.addData("Drive Train: ", "Initialized");
-        telemetry.addData("Payload: ", "Initialized");
-        telemetry.addData("Status: ", "Ready");
-        telemetry.addData("Press Play to Start ", "TeleOp");
-        telemetry.update();
+        telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
+        telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
+        telemetry.addData("Status: ", "Ready");                 // Adds telemetry to the screen to show that the robot is ready
+        telemetry.addData("Press Play to Start ", "TeleOp");    // Adds telemetry to the screen to tell the drivers that the code is ready to start
+        telemetry.update();                                           // Tells the telemetry to display on the phone
 
-        waitForStart();
+        waitForStart();     // Tells the code to wait here until the drivers have pressed the start button
 
-        while (opModeIsActive()) {
+        while (opModeIsActive()) {      // Tells the code to do the following after the start button has been pressed and until the stop button is pressed
 
             /** Gamepad 1 controls (drive train) ==> **/
 
             /**Mechanum drive controls**/
             // left stick controls direction
             // right stick X controls rotation
-            float gamepad1LeftY = gamepad1.left_stick_y;
-            float gamepad1LeftX = -gamepad1.left_stick_x;
-            float gamepad1RightX = -gamepad1.right_stick_x;
+            float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
+            float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
+            float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
 
             // Mechanum formulas
-            double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
-            double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
-            double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
-            double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
-
-            // clip the right/left values so that the values never exceed +/- 1
-
-            // write the values to the motors
-            motorFrontRight.setPower(frontRight);
-            motorFrontLeft.setPower(frontLeft);
-            motorBackLeft.setPower(backLeft);
-            motorBackRight.setPower(backRight);
+            double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+            double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+            double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+            double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
 
             // sets speed
-            frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);
-            frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);
-            backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);
-            backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);
+            frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
+            frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+            backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+            backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
 
-            //speed Controls
-            if (gamepad1.left_trigger > .3) { //While the left trigger is being held down
-                speed = .25; //Sets the speed to quarter speed
-            } else {
+                        //speed Controls
+            if (gamepad1.left_trigger > .3) {   // Tells the code to do the following while the left trigger is being held down
+                speed = .25;                    // Sets the speed to quarter speed
+            } else {                            // Tells the code to do the following while the left trigger is not being held down
 
-                if (gamepad1.a || speedSetting == 1) {
-                    speedSetting = 1; // Tells the code that we are on full speed
-                    speed = 1; // Full speed
+                if (gamepad1.a || speedSetting == 1) {      // Tells the code to do the following if the "a" button has been pressed or the double "speedSetting" is equal to 1
+                    speedSetting = 1;                       // Tells the code that we are on full speed
+                    speed = 1;                              // Sets the speed to 1
                 }
 
-                if (gamepad1.b || speedSetting == .75) {
-                    speedSetting = .75; // Tells the code that we are on three quarter speed
-                    speed = .75; // Three Quarter speed
+                if (gamepad1.b || speedSetting == .75) {    // Tells the code to do the following if the "b" button has been pressed or the double "speedSetting" is equal to .75
+                    speedSetting = .75;                     // Tells the code that we are on three quarter speed
+                    speed = .75;                            // Sets the speed to .75
                 }
 
-                if (gamepad1.x || speedSetting == .5) {
-                    speedSetting = .5; // Tells the code that we are on half speed
-                    speed = .50; // Half speed
+                if (gamepad1.x || speedSetting == .5) {     // Tells the code to do the following if the "x" button has been pressed or the double "speedSetting" is equal to .5
+                    speedSetting = .5;                      // Tells the code that we are on half speed
+                    speed = .50;                            // Sets the speed to .5
                 }
 
-                if (gamepad1.y || speedSetting == .25) {
-                    speedSetting = .25; // Tells the code that we are on quarter speed
-                    speed = .25; // Quarter speed
+                if (gamepad1.y || speedSetting == .25) {    // Tells the code to do the following if the "y" button has been pressed or the double "speedSetting" is equal to .25
+                    speedSetting = .25;                     // Tells the code that we are on quarter speed
+                    speed = .25;                            // Sets the speed to .25
                 }
             }
-            //End of speed Controls
+
+            motorFrontRight.setPower(frontRight);   // Sets the front right motors speed to the previous double
+            motorFrontLeft.setPower(frontLeft);     // Sets the front left motors speed to the previous double
+            motorBackRight.setPower(backRight);     // Sets the back right motors speed to the previous double
+            motorBackLeft.setPower(backLeft);       // Sets the back left motors speed to the previous double
+                //End of speed Controls
             /** End of mechanum drive controls **/
 
             /** Foundation mover controls **/
             // Lowering Foundation Movers
-            if (gamepad1.dpad_down) {
-                foundationMoverL.setPosition(1);
-                foundationMoverR.setPosition(1);
+            if (gamepad1.dpad_down) {               // Tells the code to do the following if the down button has been pressed
+                foundationMoverR.setPosition(1);    // Sets the right foundation mover to point down
+                foundationMoverL.setPosition(1);    // Sets the left foundation mover to point down
             }
             // End of Lowering Foundation Movers
 
             // Raising Foundation Movers
-            if (gamepad1.dpad_up) {
-                foundationMoverL.setPosition(0);
-                foundationMoverR.setPosition(0);
+            if (gamepad1.dpad_up) {                 // Tells the code to do the following if the down button has been pressed
+                foundationMoverR.setPosition(0);    // Sets the right foundation mover to point up
+                foundationMoverL.setPosition(0);    // Sets the left foundation mover to point up
             }
             // End of Raising Foundation Movers
             /** End of foundation mover controls **/
