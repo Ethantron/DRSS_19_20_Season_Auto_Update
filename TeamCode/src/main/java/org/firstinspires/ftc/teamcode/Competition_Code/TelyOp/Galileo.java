@@ -248,11 +248,11 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
             /** Manual lift controls **/
             if (gamepad2.right_trigger > 0.3) { // Tells the code ro do the following if the right trigger is pressed
-                lift.setPower(1);               // Sets the lift motor speed to 1
+                lift.setPower(gamepad2.right_trigger);               // Sets the lift motor speed to 1
             } 
             
             else if (gamepad2.left_trigger > 0.3) {  // Do the following if the left trigger is held down
-                lift.setPower(-1);                   // Sets the lift motor speed to -1
+                lift.setPower(-gamepad2.left_trigger);                   // Sets the lift motor speed to -1
             } 
             
             else if (gamepad2.right_trigger < 0.3 && gamepad2.left_trigger < 0.3){ // Do the following if neither trigger is held down
