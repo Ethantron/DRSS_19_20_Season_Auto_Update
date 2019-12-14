@@ -31,6 +31,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
         double backLeft;            // Sets the double "backLeft                | Helps with motor calculations
         double speed = 1;           // Sets the double "speed" to one           | Controls overall speed of the drive motors
         double speedSetting = 1;    // Sets the double "speedSetting" to one    | Allows us to remember what the previous speed was
+        boolean QSB = false;        // Sets the boolean "QSB" to false          | Allows us to know if he quarter speed brake is on
+        boolean HSB = false;        // Sets the boolean "HSB" to false          | Allows us to know if the half speed brake is on
 
         public Servo foundationMoverL;      // Defines the left foundation servo
         public Servo foundationMoverR;      // Defines the right foundation servo
@@ -142,10 +144,21 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
             backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
 
-                        //speed Controls
+            //speed Controls
             if (gamepad1.left_trigger > .3) {   // Do the following while the left trigger is being held down
                 speed = .25;                    // Sets the speed to quarter speed
-            } else {                            // Do the following while the left trigger is not being held down
+                QSB = true;
+                HSB = false;
+            }
+            else if (gamepad1.right_trigger > .3 && gamepad1.left_trigger < .3){   // Do the following  while the right trigger is held down and the left trigger is not
+                speed = .5;                     // Sets the speed to half speed
+                QSB = false;
+                HSB =true;
+            }
+            else if (gamepad1.right_trigger < .3 && gamepad1.left_trigger < .3){    // Do the following while the left trigger is not being held down
+
+                QSB =false;
+                HSB =false;
 
                 if (gamepad1.a || speedSetting == 1) {      // Do the following if the "a" button has been pressed or the double "speedSetting" is equal to 1
                     speedSetting = 1;                       // Tells the code that we are on full speed
@@ -295,24 +308,42 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             // End of Grabber Controls
             /** End of hand system control **/
 
-            /** Beginning of telemetry **/
-            // Lift Telemetry
-            telemetry.addData("Height Change:", height);
-            telemetry.addData("Current Height: ", currentHeight);
+            /** End of gamepad 2 controls (payload) **/
 
-            //Wrist Telemetry
-            telemetry.addData("Speed", speed);
-            telemetry.addData("Wrist", wrist.getPosition());
-            telemetry.update();
+            /** Beginning of telemetry **/
+            telemetry.addData("Drivetrain ", "Telemetry");      // Adds telemetry to the screen to show that the following telemetry is for the drivetrain
+
+            // Speed telemetry
+            telemetry.addData("Speed", speed);                      // Adds telemetry to the screen to show the current speed of the robot
+
+            telemetry.addData("Quarter speed brake: ", QSB);        // Adds telemetry to the screen to show if the quarter speed brake is on
+            telemetry.addData("Half speed brake: ", HSB);           // Adds telemetry to the screen to show if the half speed brake is on
+
+            // Foundation grabber telemetry
+            telemetry.addData("Foundation mover position: ", "Right %7d : Left %7d",    // Adds telemetry to the screen to show the position of the foundation movers
+                    foundationMoverR.getPosition(),
+                    foundationMoverL.getPosition());
+
+            telemetry.addData("", "");                          // Adds a space in the telemetry
+
+            telemetry.addData("Payload ", "Telemetry");          // Adds telemetry to the screen to show that the following telemetry is for the drivetrain
+
+            // Lift telemetry
+            telemetry.addData("Desired Height:", height);           // Adds telemetry to the screen to show the desired height of the lift
+            telemetry.addData("Current Height: ", currentHeight);   // Adds telemetry to the screen to show the current height of the lift
+
+            //Wrist telemetry
+            telemetry.addData("Wrist", wrist.getPosition());        // Adds telemetry to the screen to show the current position of the wrist
+            telemetry.update();                                        // Tells the telemetry to display on the phone
 
             /** End of telemetry **/
         }
     }
 
-    public void encoderLift(double LiftSpeed, double levels) {
-        int newLiftTarget;
+    public void encoderLift(double liftSpeed, double levels) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
+        int newLiftTarget;                                      // Creates the integer "newLiftTarget"
 
-        if (opModeIsActive()) {
+        if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
             newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 50;
 
             if (needFoundation) {
@@ -322,7 +353,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
             lift.setTargetPosition(newLiftTarget);
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            lift.setPower(LiftSpeed);
+            lift.setPower(liftSpeed);
 
             while (opModeIsActive() && lift.isBusy()) {
                 telemetry.addData("lift position", lift.getCurrentPosition());
