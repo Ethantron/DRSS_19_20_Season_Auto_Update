@@ -83,6 +83,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
         //Foundation Mover Initialization
         foundationMoverR = hardwareMap.servo.get("GR");     // Initializes the right foundation movers name for configuration
         foundationMoverL = hardwareMap.servo.get("GL");     // Initializes the left foundation movers name for configuration
+        foundationMoverR.setPosition(1);                    // Sets the right foundation mover to point down
+        foundationMoverL.setPosition(1);                    // Sets the left foundation mover to point down
         /** End of Drive Train Initialization **/
 
         /** Payload Initialization **/
