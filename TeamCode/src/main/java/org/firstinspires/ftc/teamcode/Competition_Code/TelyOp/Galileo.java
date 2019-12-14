@@ -323,7 +323,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
             //Wrist telemetry
             telemetry.addData("Wrist", wrist.getPosition());        // Adds telemetry to the screen to show the current position of the wrist
-            telemetry.update();                                        // Tells the telemetry to display on the phone
 
             telemetry.addData("", "");                          // Adds a space in the telemetry
 
@@ -336,7 +335,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             }
 
             if (foundationMoverPos) {                                  // If the foundation movers are down
-                telemetry.addData("Foundation Movers", "Down"); // Display that they are down
+                telemetry.addData("Foundation Movers ", "Down"); // Display that they are down
             }
 
             // Speed telemetry
@@ -344,6 +343,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
             telemetry.addData("Quarter speed brake: ", QSB);        // Adds telemetry to the screen to show if the quarter speed brake is on
             telemetry.addData("Half speed brake: ", HSB);           // Adds telemetry to the screen to show if the half speed brake is on
+
+            telemetry.update();                                        // Tells the telemetry to display on the phone
 
             /** End of telemetry **/
         }
