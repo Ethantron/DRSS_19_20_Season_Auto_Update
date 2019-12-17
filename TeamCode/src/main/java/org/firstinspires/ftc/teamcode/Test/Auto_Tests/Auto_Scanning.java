@@ -230,7 +230,6 @@ public class Auto_Scanning extends LinearOpMode {
                 lift.setPower(1);
                 sleep(100);
                 lift.setPower(0);
-                sleep(300);
                 step++;
             }
 
@@ -359,7 +358,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 12) {
                 stepTelemetry();
-                encoderDrive(.6,-18,10); //Move backwards 15 inches
+                encoderDrive(.6,-18,10); //Move backwards 18 inches
                 step++;
             }
 
@@ -406,7 +405,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 15){ //Stop Motors
                 stepTelemetry();
-                grabStone.setPosition(0.6);
+                grabStone.setPosition(0.3);
                 step++;
             }
 
