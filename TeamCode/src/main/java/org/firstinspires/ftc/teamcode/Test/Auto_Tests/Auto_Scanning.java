@@ -4,11 +4,11 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -39,7 +39,6 @@ public class Auto_Scanning extends LinearOpMode {
     int scanTime = 2000;
     boolean stopScanning = false;
     boolean left = false;
-    AnalogInput button;
 
     public DcMotor lift;
     public DcMotor slide;
@@ -83,7 +82,7 @@ public class Auto_Scanning extends LinearOpMode {
     ColorSensor color2;
 
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
 
         // Drivetrain initialization
         motorFrontLeft = hardwareMap.dcMotor.get("FL");
@@ -142,7 +141,7 @@ public class Auto_Scanning extends LinearOpMode {
         // Color sensor initialization
         color_sensor = hardwareMap.get(ColorSensor.class, "color_sensor");
         color2 = hardwareMap.get(ColorSensor.class, "color2");
-      //  sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
+        //  sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
         float hsvValues[] = {0F, 0F, 0F};
         final float values[] = hsvValues;
         final double SCALE_FACTOR = 255;
@@ -160,10 +159,11 @@ public class Auto_Scanning extends LinearOpMode {
             tfod.activate();
         }
 
-        // Wait for the game to begin
-        telemetry.addData("Status: ", "Initialized");
-        telemetry.addData(">", "Press Play to start op mode");
-        telemetry.update();
+        telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
+        telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
+        telemetry.addData("Status: ", "Ready");                 // Adds telemetry to the screen to show that the robot is ready
+        telemetry.addData("Press Play to Start ", "TeleOp");    // Adds telemetry to the screen to tell the drivers that the code is ready to start
+        telemetry.update();                                           // Tells the telemetry to display on the phone
         waitForStart();
 
         while (opModeIsActive()) {
@@ -222,27 +222,28 @@ public class Auto_Scanning extends LinearOpMode {
                 step = 4;
             }
 
-            if (step == 4){
+            if (step == 4) {
                 stepTelemetry();
-                encoderDrive(.4 ,18, 10); //Moves forward to the block
+                encoderDrive(.4, 18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 sleep(200);
                 lift.setPower(1);
                 sleep(100);
                 lift.setPower(0);
+                sleep(300);
                 step++;
             }
 
             if (step == 5) {
                 stepTelemetry();
-                encoderDrive(.6,-18,10); //Move backwards 18 inches
+                encoderDrive(.6, -18, 10); //Move backwards 18 inches
                 step++;
             }
 
             if (step == 6) { //Turn 90 degrees
                 stepTelemetry();
-                gyroTurn( TURN_SPEED, -90.0);         // Turn  CW to -90 Degrees
-                gyroHold( TURN_SPEED, -90.0, 0.01);    // Hold -90 Deg heading for a .01 seconds
+                gyroTurn(TURN_SPEED, -90.0);         // Turn  CW to -90 Degrees
+                gyroHold(TURN_SPEED, -90.0, 0.01);    // Hold -90 Deg heading for a .01 seconds
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
                 step++;
@@ -297,21 +298,21 @@ public class Auto_Scanning extends LinearOpMode {
                 }
             }*/
 
-            if (step == 8){ //Drop off the first skystone
+            if (step == 8) { //Drop off the first skystone
                 stepTelemetry();
                 grabStone.setPosition(0.3);
                 step++;
             }
 
-            if (step == 9){ //Run back to the second skystone
+            if (step == 9) { //Run back to the second skystone
                 stepTelemetry();
-                if (pos == 1){
+                if (pos == 1) {
                     pos1();
                 }
-                if (pos == 2){
+                if (pos == 2) {
                     pos2();
                 }
-                if (pos == 3){
+                if (pos == 3) {
                     step++;
                 }
             }
@@ -345,9 +346,9 @@ public class Auto_Scanning extends LinearOpMode {
                 //End of position 3
             }
 
-            if (step == 11){
+            if (step == 11) {
                 stepTelemetry();
-                encoderDrive(.6 ,18, 10); //Moves forward to the block
+                encoderDrive(.6, 18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 sleep(200);
                 lift.setPower(1);
@@ -358,20 +359,20 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 12) {
                 stepTelemetry();
-                encoderDrive(.6,-18,10); //Move backwards 18 inches
+                encoderDrive(.6, -18, 10); //Move backwards 18 inches
                 step++;
             }
 
             if (step == 13) { //Turn 90 degrees
                 stepTelemetry();
-                gyroTurn( TURN_SPEED, -90.0);         // Turn  CCW to -45 Degrees
-                gyroHold( TURN_SPEED, -90.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
+                gyroTurn(TURN_SPEED, -90.0);         // Turn  CCW to -45 Degrees
+                gyroHold(TURN_SPEED, -90.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
                 step++;
             }
 
-            if (step == 14){ //Start moving back across the line
+            if (step == 14) { //Start moving back across the line
                 stepTelemetry();
                 if (pos == 1) {
                     encoderDrive(1, 59, 10);
@@ -403,19 +404,19 @@ public class Auto_Scanning extends LinearOpMode {
                 }
             }*/
 
-            if (step == 15){ //Stop Motors
+            if (step == 15) { //Stop Motors
                 stepTelemetry();
                 grabStone.setPosition(0.3);
                 step++;
             }
 
-            if (step == 16){
+            if (step == 16) {
                 stepTelemetry();
-                encoderDrive(1,-6,10);
+                encoderDrive(1, -6, 10);
                 step++;
             }
 
-            if (step == 17 && pos == 2){ //Stop Motors
+            if (step == 17 && pos == 2) { //Stop Motors
                 stepTelemetry();
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
@@ -704,7 +705,7 @@ public class Auto_Scanning extends LinearOpMode {
      * @return
      */
     public double getSteer(double error, double PCoeff) {
-        return com.qualcomm.robotcore.util.Range.clip(error * PCoeff, -1, 1);
+        return Range.clip(error * PCoeff, -1, 1);
     }
 
 
