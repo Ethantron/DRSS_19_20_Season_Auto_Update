@@ -375,7 +375,7 @@ public class Auto_Scanning extends LinearOpMode {
             if (step == 14) { //Start moving back across the line
                 stepTelemetry();
                 if (pos == 1) {
-                    encoderDrive(1, 59, 10);
+                    //encoderDrive(1, 59, 10);
                 }
 
                 /*else if (pos == 2) {
@@ -487,21 +487,48 @@ public class Auto_Scanning extends LinearOpMode {
     private void pos1(){
         telemetry.addData("Position: ", "1");
         telemetry.update();
-        encoderDrive(.6,-59,10); //Move backwards 49 inches
+        //encoderDrive(.6,-59,10); //Move backwards 49 inches
+        motorFrontRight.setPower(-.6);
+        motorFrontLeft.setPower(-.6);
+        motorBackLeft.setPower(-.6);
+        motorBackRight.setPower(-.6);
+        sleep(2000);
+        motorFrontRight.setPower(0);
+        motorFrontLeft.setPower(0);
+        motorBackLeft.setPower(0);
+        motorBackRight.setPower(0);
         step++;
     }
 
     private void pos2(){
         telemetry.addData("Position: ", "2");
         telemetry.update();
-        encoderDrive(.6,-63,10); //Move backwards 58 inches
+        //encoderDrive(.6,-63,10); //Move backwards 58 inches
+        motorFrontRight.setPower(-.6);
+        motorFrontLeft.setPower(-.6);
+        motorBackLeft.setPower(-.6);
+        motorBackRight.setPower(-.6);
+        sleep(500);
+        motorFrontRight.setPower(0);
+        motorFrontLeft.setPower(0);
+        motorBackLeft.setPower(0);
+        motorBackRight.setPower(0);
         step++;
     }
 
     private void pos3(){
         telemetry.addData("Position: ", "3");
         telemetry.update();
-        encoderDrive(.6,-75,10); //Move backwards 66 inches
+        //encoderDrive(.6,-75,10); //Move backwards 66 inches
+        motorFrontRight.setPower(-.6);
+        motorFrontLeft.setPower(-.6);
+        motorBackLeft.setPower(-.6);
+        motorBackRight.setPower(-.6);
+        sleep(500);
+        motorFrontRight.setPower(0);
+        motorFrontLeft.setPower(0);
+        motorBackLeft.setPower(0);
+        motorBackRight.setPower(0);
         step++;
     }
 
