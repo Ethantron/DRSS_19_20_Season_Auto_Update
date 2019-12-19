@@ -372,6 +372,7 @@ public class Auto_Scanning extends LinearOpMode {
                 step++;
             }
 
+            /**THIS IS PROBLEM AREA**/
             if (step == 14) { //Start moving back across the line
                 stepTelemetry();
                 if (pos == 1) {
@@ -381,6 +382,7 @@ public class Auto_Scanning extends LinearOpMode {
                 /*else if (pos == 2) {
                     encoderDrive(1, 63, 10);
                 }*/
+            /**END OF PROBLEM AREA**/
             }
 
             /*// Does it see the line?
@@ -413,11 +415,11 @@ public class Auto_Scanning extends LinearOpMode {
             if (step == 16) {
                 stepTelemetry();
                 //encoderDrive(1, -6, 10);
-                motorFrontRight.setPower(-.6);
+                /*motorFrontRight.setPower(-.6);
                 motorFrontLeft.setPower(-.6);
                 motorBackLeft.setPower(-.6);
                 motorBackRight.setPower(-.6);
-                sleep(500);
+                sleep(500);*/
                 motorFrontRight.setPower(0);
                 motorFrontLeft.setPower(0);
                 motorBackLeft.setPower(0);
