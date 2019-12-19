@@ -412,7 +412,16 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 16) {
                 stepTelemetry();
-                encoderDrive(1, -6, 10);
+                //encoderDrive(1, -6, 10);
+                motorFrontRight.setPower(-.6);
+                motorFrontLeft.setPower(-.6);
+                motorBackLeft.setPower(-.6);
+                motorBackRight.setPower(-.6);
+                sleep(500);
+                motorFrontRight.setPower(0);
+                motorFrontLeft.setPower(0);
+                motorBackLeft.setPower(0);
+                motorBackRight.setPower(0);
                 step++;
             }
 
