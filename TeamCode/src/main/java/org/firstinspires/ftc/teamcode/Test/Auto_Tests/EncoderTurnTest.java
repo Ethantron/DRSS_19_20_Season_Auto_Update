@@ -94,15 +94,16 @@ public class EncoderTurnTest extends LinearOpMode {
         double c = 60.35; //Circumference of arc created by robot wheels
         double ANGLE_RATIO = angle / 360; //Ratio of angle relative to entire circle
         double CIRCUMFERENCE_OF_ANGLE = c * ANGLE_RATIO; //Circumference of Angle
+        int COUNTS_PER_DISTANCE = (int) ((CIRCUMFERENCE_OF_ANGLE * COUNTS_PER_INCH) * 1.35);
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Math to calculate each target position for the motors
-            newFrontLeftTarget = motorFrontLeft.getCurrentPosition() - (int) (CIRCUMFERENCE_OF_ANGLE * COUNTS_PER_INCH);
-            newFrontRightTarget = motorFrontRight.getCurrentPosition() + (int) (CIRCUMFERENCE_OF_ANGLE * COUNTS_PER_INCH);
-            newBackLeftTarget = motorBackLeft.getCurrentPosition() - (int) (CIRCUMFERENCE_OF_ANGLE * COUNTS_PER_INCH);
-            newBackRightTarget = motorBackRight.getCurrentPosition() + (int) (CIRCUMFERENCE_OF_ANGLE * COUNTS_PER_INCH);
+            newFrontLeftTarget = motorFrontLeft.getCurrentPosition() - COUNTS_PER_DISTANCE;
+            newFrontRightTarget = motorFrontRight.getCurrentPosition() + COUNTS_PER_DISTANCE;
+            newBackLeftTarget = motorBackLeft.getCurrentPosition() - COUNTS_PER_DISTANCE;
+            newBackRightTarget = (motorBackRight.getCurrentPosition() + COUNTS_PER_DISTANCE);
 
             //Set Target Positions to respective motors
             motorFrontLeft.setTargetPosition(newFrontLeftTarget);
