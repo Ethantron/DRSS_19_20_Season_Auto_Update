@@ -230,7 +230,7 @@ public class Auto_Scanning extends LinearOpMode {
                 encoderDrive(.3, 18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 sleep(200);
-                encoderLift(1, 0.5); //Lift up the lift 0.5"
+                encoderLift(1, 1); //Lift up the lift 0.5"
                 sleep(300);
                 step++;
             }
@@ -435,7 +435,7 @@ public class Auto_Scanning extends LinearOpMode {
                 motorFrontRight.setPower(.4);
                 motorBackLeft.setPower(.4);
                 motorBackRight.setPower(-.4);
-                sleep(600);
+                sleep(100);
                 motorFrontLeft.setPower(0);
                 motorFrontRight.setPower(0);
                 motorBackLeft.setPower(0);
