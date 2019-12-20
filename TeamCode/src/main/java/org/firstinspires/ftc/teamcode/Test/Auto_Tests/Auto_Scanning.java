@@ -243,8 +243,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 6) { //Turn 90 degrees
                 stepTelemetry();
-                gyroTurn(TURN_SPEED, -90.0);         // Turn  CW to -90 Degrees
-                gyroHold(TURN_SPEED, -90.0, 0.01);    // Hold -90 Deg heading for a .01 seconds
+                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
                 step++;
@@ -320,8 +319,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 10 && (pos == 1 || pos == 2)) {
                 stepTelemetry();
-                gyroTurn(TURN_SPEED, 0.0);         // Turn  CW to 0 Degrees
-                gyroHold(TURN_SPEED, 0.0, 0.5);    // Hold 0 Deg heading for a 1/2 second
+                encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
                 lift.setPower(-1);
@@ -366,8 +364,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 13) { //Turn 90 degrees
                 stepTelemetry();
-                gyroTurn(TURN_SPEED, -90.0);         // Turn  CCW to -45 Degrees
-                gyroHold(TURN_SPEED, -90.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
+                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
                 step++;
@@ -376,11 +373,16 @@ public class Auto_Scanning extends LinearOpMode {
             /**THIS IS PROBLEM AREA**/
             if (step == 14) { //Start moving back across the line
                 stepTelemetry();
-                if (pos == 1) {
-                    //encoderDrive(1, 59, 10);
+
+                encoderDrive(1, 50, 10);
+
+                step++;
+
+                /*if (pos == 1) {
+                    encoderDrive(1, 59, 10);
                 }
 
-                /*else if (pos == 2) {
+                else if (pos == 2) {
                     encoderDrive(1, 63, 10);
                 }*/
             /**END OF PROBLEM AREA**/
@@ -415,16 +417,6 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 16) {
                 stepTelemetry();
-                //encoderDrive(1, -6, 10);
-                /*motorFrontRight.setPower(-.6);
-                motorFrontLeft.setPower(-.6);
-                motorBackLeft.setPower(-.6);
-                motorBackRight.setPower(-.6);
-                sleep(500);*/
-                motorFrontRight.setPower(0);
-                motorFrontLeft.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
                 step++;
             }
 
@@ -629,6 +621,86 @@ public class Auto_Scanning extends LinearOpMode {
         }
     }
 
+    public void encoderTurn(double speed, double angle, double timeoutS) {
+        //Create our target variables
+        int newFrontLeftTarget;
+        int newFrontRightTarget;
+        int newBackLeftTarget;
+        int newBackRightTarget;
+
+        //Create our new circumference variables
+        double r = 9.605; //Radius of arc created by robot wheels
+        double c = 60.35; //Circumference of arc created by robot wheels
+        double ANGLE_RATIO = angle / 360; //Ratio of angle relative to entire circle
+        double CIRCUMFERENCE_OF_ANGLE = c * ANGLE_RATIO; //Circumference of Angle
+        int COUNTS_PER_DISTANCE = (int) ((CIRCUMFERENCE_OF_ANGLE * COUNTS_PER_INCH) * 1.305);
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Math to calculate each target position for the motors
+            newFrontLeftTarget = motorFrontLeft.getCurrentPosition() - COUNTS_PER_DISTANCE;
+            newFrontRightTarget = motorFrontRight.getCurrentPosition() + COUNTS_PER_DISTANCE;
+            newBackLeftTarget = motorBackLeft.getCurrentPosition() - COUNTS_PER_DISTANCE;
+            newBackRightTarget = (motorBackRight.getCurrentPosition() + COUNTS_PER_DISTANCE);
+
+            //Set Target Positions to respective motors
+            motorFrontLeft.setTargetPosition(newFrontLeftTarget);
+            motorFrontRight.setTargetPosition(newFrontRightTarget);
+            motorBackLeft.setTargetPosition(newBackLeftTarget);
+            motorBackRight.setTargetPosition(newBackRightTarget);
+
+            // Turn On RUN_TO_POSITION
+            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            motorFrontLeft.setPower(speed);
+            motorFrontRight.setPower(speed);
+            motorBackLeft.setPower(speed);
+            motorBackRight.setPower(speed);
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (motorFrontLeft.isBusy() && motorFrontRight.isBusy() && motorBackLeft.isBusy() && motorBackRight.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("FLM: Path2", "Running at %7d", //Tells us where we are
+                        motorFrontLeft.getCurrentPosition()); //Front Left Position
+                telemetry.addData("FRM: Path2", "Running at %7d", //Tells us where we are
+                        motorFrontRight.getCurrentPosition()); //Front Right Position
+                telemetry.addData("BLM: Path2", "Running at %7d", //Tells us where we are
+                        motorBackLeft.getCurrentPosition()); //Back Left Position
+                telemetry.addData("BRM: Path2", "Running at %7d", //Tells us where we are
+                        motorBackRight.getCurrentPosition()); //Back Right Position
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            motorFrontLeft.setPower(0);
+            motorFrontRight.setPower(0);
+            motorBackLeft.setPower(0);
+            motorBackRight.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            //  sleep(250);   // optional pause after each move
+        }
+    }
+
     //Initialization Voids
 
     // Skystone detection configuration
@@ -658,7 +730,7 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
 
-    public void gyroTurn (  double speed, double angle) {
+    /*public void gyroTurn (  double speed, double angle) {
 
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && !onHeading(speed, angle, P_TURN_COEFF)) {
@@ -677,7 +749,7 @@ public class Auto_Scanning extends LinearOpMode {
      *                   If a relative angle is required, add/subtract from current heading.
      * @param holdTime   Length of time (in seconds) to hold the specified heading.
      */
-    public void gyroHold( double speed, double angle, double holdTime) {
+    /*public void gyroHold( double speed, double angle, double holdTime) {
 
         ElapsedTime holdTimer = new ElapsedTime();
 
@@ -706,7 +778,7 @@ public class Auto_Scanning extends LinearOpMode {
      * @param PCoeff    Proportional Gain coefficient
      * @return
      */
-    boolean onHeading(double speed, double angle, double PCoeff) {
+    /*boolean onHeading(double speed, double angle, double PCoeff) {
         double   error ;
         double   steer ;
         boolean  onTarget = false ;
@@ -748,7 +820,7 @@ public class Auto_Scanning extends LinearOpMode {
      * @return  error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
      *          +ve error means the robot should turn LEFT (CCW) to reduce error.
      */
-    public double getError(double targetAngle) {
+    /*public double getError(double targetAngle) {
 
         double robotError;
 
@@ -765,9 +837,9 @@ public class Auto_Scanning extends LinearOpMode {
      * @param PCoeff  Proportional Gain Coefficient
      * @return
      */
-    public double getSteer(double error, double PCoeff) {
+    /*public double getSteer(double error, double PCoeff) {
         return Range.clip(error * PCoeff, -1, 1);
-    }
+    }*/
 
 
     void composeTelemetry() {
