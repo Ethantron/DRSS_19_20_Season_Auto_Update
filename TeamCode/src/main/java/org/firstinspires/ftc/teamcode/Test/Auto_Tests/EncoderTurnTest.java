@@ -94,7 +94,7 @@ public class EncoderTurnTest extends LinearOpMode {
         double c = 60.35; //Circumference of arc created by robot wheels
         double ANGLE_RATIO = angle / 360; //Ratio of angle relative to entire circle
         double CIRCUMFERENCE_OF_ANGLE = c * ANGLE_RATIO; //Circumference of Angle
-        int COUNTS_PER_DISTANCE = (int) ((CIRCUMFERENCE_OF_ANGLE * COUNTS_PER_INCH) * 1.35);
+        int COUNTS_PER_DISTANCE = (int) ((CIRCUMFERENCE_OF_ANGLE * COUNTS_PER_INCH) * 1.305);
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
