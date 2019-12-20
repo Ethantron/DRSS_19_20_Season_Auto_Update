@@ -77,6 +77,9 @@ public class Auto_Scanning extends LinearOpMode {
     static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
     static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
 
+    //Lift positioning definitions
+    static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
+
     // Color sensor definitions
     ColorSensor color_sensor;
     ColorSensor color2;
@@ -224,12 +227,10 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 4) {
                 stepTelemetry();
-                encoderDrive(.4, 18, 10); //Moves forward to the block
+                encoderDrive(.3, 18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 sleep(200);
-                lift.setPower(1);
-                sleep(100);
-                lift.setPower(0);
+                encoderLift(1, 0.5); //Lift up the lift 0.5"
                 sleep(300);
                 step++;
             }
@@ -603,6 +604,28 @@ public class Auto_Scanning extends LinearOpMode {
             motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
+        }
+    }
+
+    public void encoderLift(double liftSpeed, double Inches) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
+        int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+
+        if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+            newLiftTarget = (lift.getCurrentPosition() + (int) (Inches * COUNTS_PER_LIFT_INCH));
+
+            lift.setTargetPosition(newLiftTarget);
+
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            lift.setPower(liftSpeed);
+
+            while (opModeIsActive() && lift.isBusy()) {
+                telemetry.addData("lift position", lift.getCurrentPosition());
+                telemetry.update();
+            }
+
+            lift.setPower(0);
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 

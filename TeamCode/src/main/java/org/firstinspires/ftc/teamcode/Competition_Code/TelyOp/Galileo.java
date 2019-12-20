@@ -353,34 +353,34 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
     }
 
     public void encoderLift(double liftSpeed, double levels) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
-        int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+            int newLiftTarget;                                      // Creates the integer "newLiftTarget"
 
-        if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
-            newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 50;
+            if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+                newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 50;
 
-            if (needFoundation) {
-                newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 150;
-                needFoundation = false;
-            }
-
-            lift.setTargetPosition(newLiftTarget);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            lift.setPower(liftSpeed);
-
-            while (opModeIsActive() && lift.isBusy()) {
-                telemetry.addData("lift position", lift.getCurrentPosition());
-                telemetry.update();
-
-                if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
-                    height = 0; //Sets height to level 0 so that the lift can continue normal operation after jumping out of loop
-                    return; //Jumps out of Private Void
+                if (needFoundation) {
+                    newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 150;
+                    needFoundation = false;
                 }
-            }
 
-            lift.setPower(0);
-            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            height = 0;
-        }
+                lift.setTargetPosition(newLiftTarget);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                lift.setPower(liftSpeed);
+
+                while (opModeIsActive() && lift.isBusy()) {
+                    telemetry.addData("lift position", lift.getCurrentPosition());
+                    telemetry.update();
+
+                    if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
+                        height = 0; //Sets height to level 0 so that the lift can continue normal operation after jumping out of loop
+                        return; //Jumps out of Private Void
+                    }
+                }
+
+                lift.setPower(0);
+                lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                height = 0;
+            }
     }
 
     public void encoderPlace(double DropSpeed, double distance) {
