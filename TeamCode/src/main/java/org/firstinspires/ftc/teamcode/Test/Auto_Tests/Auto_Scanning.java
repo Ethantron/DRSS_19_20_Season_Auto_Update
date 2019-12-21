@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -229,8 +228,8 @@ public class Auto_Scanning extends LinearOpMode {
                 stepTelemetry();
                 encoderDrive(.3, 18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
-                sleep(200);
-                encoderLift(1, 1); //Lift up the lift 0.5"
+                sleep(300);
+                encoderLift(1, 1.5); //Lift up the lift 1.5"
                 sleep(300);
                 step++;
             }
@@ -319,12 +318,10 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 10 && (pos == 1 || pos == 2)) {
                 stepTelemetry();
+                encoderLift(1, -1.5); //Drop the lift 1.5"
                 encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
-                lift.setPower(-1);
-                sleep(100);
-                lift.setPower(0);
                 step++;
             }
 
@@ -337,7 +334,11 @@ public class Auto_Scanning extends LinearOpMode {
                 motorFrontRight.setPower(.4);
                 motorBackLeft.setPower(.4);
                 motorBackRight.setPower(-.4);
-                sleep(600);
+                sleep(300);
+                step++;
+            }
+
+            if (step == 11 && pos==3) {
                 motorFrontLeft.setPower(0);
                 motorFrontRight.setPower(0);
                 motorBackLeft.setPower(0);
@@ -345,14 +346,12 @@ public class Auto_Scanning extends LinearOpMode {
                 //End of position 3
             }
 
-            if (step == 11) {
+            if (step == 11 && (pos == 1 || pos == 2)) {
                 stepTelemetry();
-                encoderDrive(.6, 18, 10); //Moves forward to the block
+                encoderDrive(.3, 18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 sleep(200);
-                lift.setPower(1);
-                sleep(100);
-                lift.setPower(0);
+                encoderLift(1, 1.5); //Lift up the lift 1.5"
                 step++;
             }
 
@@ -417,30 +416,26 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 16) {
                 stepTelemetry();
+                encoderDrive(1,-6,10); //Move backward 6 inches
                 step++;
             }
 
-            if (step == 17 && pos == 2) { //Stop Motors
-                stepTelemetry();
-                motorFrontRight.setPower(0);
-                motorFrontLeft.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
-                //End of positon 2
-            }
-
-            if (step == 17 && pos == 1) {
+            if (step == 17) {
                 //Strafe Left to get out of the way
                 motorFrontLeft.setPower(-.4);
                 motorFrontRight.setPower(.4);
                 motorBackLeft.setPower(.4);
                 motorBackRight.setPower(-.4);
-                sleep(100);
+                sleep(300);
+                step++;
+            }
+
+            if (step == 18) {
                 motorFrontLeft.setPower(0);
                 motorFrontRight.setPower(0);
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
-                //End of positon 1
+                //End of positon 1 & 2
             }
         }
     }
