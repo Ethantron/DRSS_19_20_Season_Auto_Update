@@ -172,8 +172,8 @@ public class Auto_Scanning extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (step == 1) { //Move forward and scan the first block
-                grabStone.setPosition(.3);
                 stepTelemetry();
+                grabStone.setPosition(.6);
                 encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
                 slide.setPower(1);
                 sleep(200);
@@ -300,7 +300,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 8) { //Drop off the first skystone
                 stepTelemetry();
-                grabStone.setPosition(0.3);
+                grabStone.setPosition(0.6);
                 step++;
             }
 
@@ -411,7 +411,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 15) { //Stop Motors
                 stepTelemetry();
-                grabStone.setPosition(0.3);
+                grabStone.setPosition(0.6);
                 step++;
             }
 
