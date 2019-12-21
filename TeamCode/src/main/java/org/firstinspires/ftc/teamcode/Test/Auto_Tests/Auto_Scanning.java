@@ -226,10 +226,10 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 4) {
                 stepTelemetry();
-                encoderDrive(.3, 18, 10); //Moves forward to the block
+                encoderDrive(.2, 18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 sleep(300);
-                encoderLift(1, 1.5); //Lift up the lift 1.5"
+                encoderLift(1, 1.35); //Lift up the lift 1.35"
                 sleep(300);
                 step++;
             }
@@ -318,7 +318,7 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 10 && (pos == 1 || pos == 2)) {
                 stepTelemetry();
-                encoderLift(1, -1.5); //Drop the lift 1.5"
+                encoderLift(1, -1.35); //Drop the lift 1.35"
                 encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
                 telemetry.addData("Turning ", "Done :)!");
                 telemetry.update();
@@ -348,10 +348,10 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 11 && (pos == 1 || pos == 2)) {
                 stepTelemetry();
-                encoderDrive(.3, 18, 10); //Moves forward to the block
+                encoderDrive(.2, 18, 10); //Moves forward to the block
                 grabStone.setPosition(0.0);
                 sleep(200);
-                encoderLift(1, 1.5); //Lift up the lift 1.5"
+                encoderLift(1, 1.35); //Lift up the lift 1.35"
                 step++;
             }
 
