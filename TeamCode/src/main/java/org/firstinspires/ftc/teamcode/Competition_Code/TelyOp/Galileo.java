@@ -7,6 +7,7 @@ package org.firstinspires.ftc.teamcode.Competition_Code.TelyOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;    // Imports Linear Operation mode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;          // Imports Driver Controled mode
 import com.qualcomm.robotcore.hardware.DcMotor;                 // Imports motor definitions
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;                   // Imports servo definitions
 import com.qualcomm.robotcore.util.ElapsedTime;                 // Imports timer definitions
 import com.qualcomm.robotcore.util.Range;                       // Imports motor ranes definitions
@@ -45,6 +46,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
         public DcMotor slide;       // Defines the slide motor
         public Servo grabStone;     // Defines the stone grabber servo
         public Servo wrist;         // Defines the wrist servo
+        public DigitalChannel stoneButton; // Defines the Stone Button on the grabber
 
 
         //Lift positioning definitions
@@ -100,9 +102,13 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
         //Hand Initialization
         grabStone = hardwareMap.servo.get("GS");    // Initializes the grabber servos name for configuration
         wrist = hardwareMap.servo.get("W");         // Initializes the wrist servos name for configuration
+
+        //Stone Button Sensor Initialization
+        stoneButton = hardwareMap.get(DigitalChannel.class, "stone_button"); // Initializes the stone button name for configuration
+        stoneButton.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
         /** End of payload initialization **/
 
-        /** Encoder initalization **/
+        /** Encoder initialization **/
         // Encoder initialization
         telemetry.addData("Status", "Resetting Encoders");  // Adds telemetry to the screen to show that the robot is resetting the encoders
         telemetry.update();                                       // Tells the telemetry to display on the phone
@@ -309,7 +315,13 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             }
 
             if (gamepad2.b) {               // Do the following if the "b" button is pressed
-                grabStone.setPosition(.3);  // Opens the grabber
+                grabStone.setPosition(.6);  // Opens the grabber
+            }
+
+            if (stoneButton.getState() == true) { // Do the following if the stone button is pressed
+                grabStone.setPosition(0);        // Closes the grabber
+            } else {                              // Do the following if the stone button is not pressed
+                grabStone.setPosition(.6);         // Opens the grabber
             }
             // End of Grabber Controls
             /** End of hand system control **/
