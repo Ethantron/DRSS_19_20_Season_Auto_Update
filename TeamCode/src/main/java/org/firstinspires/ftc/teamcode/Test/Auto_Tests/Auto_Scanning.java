@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -171,20 +172,20 @@ public class Auto_Scanning extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (step == 1) { //Move forward and scan the first block
-                stepTelemetry();
-                grabStone.setPosition(.6);
+                stepTelemetry(); //Display telemetry
+                grabStone.setPosition(.6); //Open the grabber
                 encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
-                slide.setPower(1);
-                sleep(200);
-                slide.setPower(0);
+                slide.setPower(1); //Move Slide Forward
+                sleep(200); //Wait 200 Milliseconds
+                slide.setPower(0); //Stop Moving Slide Forward
                 pos++; //Tells code that it is checking position 1
-                scan();
-                step++;
+                scan(); //Scan for skystone
+                step++; //Next Step
             }
 
             if (step == 2 && !Skystone) { //If the first block wasn't the skystone, move to the second block and scan it
-                stepTelemetry();
-                pos++; //If we didn't see the skystone, move to next position
+                stepTelemetry(); //Display Telemetry
+                pos++; //If we didn't see the skystone in position 1, move to next position
 
                 //Strafe Left to next block
                 motorFrontLeft.setPower(-.6);
@@ -196,13 +197,14 @@ public class Auto_Scanning extends LinearOpMode {
                 motorFrontRight.setPower(0);
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
+
                 sleep(scanTime); //Wait 2 seconds to scan
-                scan();
-                step++;
+                scan(); //Scan for Skystone
+                step++; //Next Step
             }
 
             if (step == 3 && !Skystone) { //If the first two blocks weren't the skystone, it must be the third. Move and graab it
-                stepTelemetry();
+                stepTelemetry(); //Display Telemetry
                 pos++; //If we didn't see the skystone, move to next position
 
                 //Strafe Left to next block
@@ -221,48 +223,46 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step > 1 && step < 4 && Skystone) { //If skystone is true after intial move forward, and stops after moving
-                step = 4;
+                step = 4; //If the skystone is found, move on to grabbing
             }
 
             if (step == 4) {
-                stepTelemetry();
-                encoderDrive(.2, 18, 10); //Moves forward to the block
-                grabStone.setPosition(0.0);
-                sleep(300);
-                encoderLift(1, 1.35); //Lift up the lift 1.35"
-                sleep(300);
-                step++;
+                stepTelemetry(); //Display Telemetry
+                encoderDrive(.2, 18, 10); //Moves forward 18 inches to the block
+                grabStone.setPosition(0.0); //Grab the Skystone
+                sleep(300); //Wait 300 milliseconds
+                encoderLift(1, 1.25); //Lift up the lift 1.25"
+                sleep(300); //Wait 300 milliseconds
+                step++; //Move to the next step
             }
 
             if (step == 5) {
-                stepTelemetry();
+                stepTelemetry(); //Display Telemetry
                 encoderDrive(.6, -18, 10); //Move backwards 18 inches
-                step++;
+                step++; //Move to the next step
             }
 
-            if (step == 6) { //Turn 90 degrees
-                stepTelemetry();
+            if (step == 6) {
+                stepTelemetry(); //Display Telemetry
                 encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
-                telemetry.addData("Turning ", "Done :)!");
-                telemetry.update();
-                step++;
+                step++; //Move to the next step
             }
 
             if (step == 7) { // Go across the line
-                stepTelemetry();
-                if (pos == 1) {
+                stepTelemetry(); //Display Telemetry
+                if (pos == 1) { //If the skystone was in position 1
                     encoderDrive(1, 35, 10); //Run forward 35 inches at speed of 1
-                    step++;
+                    step++; //Move to the next step
                 }
 
-                if (pos == 2) {
+                if (pos == 2) { //If the skystone was in position 2
                     encoderDrive(1, 39, 10); //Run forward 39 inches at speed of 1
-                    step++;
+                    step++; //Move to the next step
                 }
 
-                if (pos == 3) {
+                if (pos == 3) { //If the skystone was in position 3
                     encoderDrive(1, 51, 10); //Run forward 51 inches at speed of 1
-                    step++;
+                    step++; //Move to the next step
                 }
             }
 
@@ -298,47 +298,49 @@ public class Auto_Scanning extends LinearOpMode {
             }*/
 
             if (step == 8) { //Drop off the first skystone
-                stepTelemetry();
-                grabStone.setPosition(0.6);
-                step++;
+                stepTelemetry(); //Display telemetry
+                grabStone.setPosition(0.6); //Release the skystone
+                step++; //Move to next step
             }
 
             if (step == 9) { //Run back to the second skystone
-                stepTelemetry();
-                if (pos == 1) {
-                    pos1();
+                stepTelemetry(); //Display telemetry
+                if (pos == 1) { //If the skystone was in position 1
+                    encoderDrive(.6,-59,10); //Move backwards 49 inches to second skystone
                 }
-                if (pos == 2) {
-                    pos2();
+                if (pos == 2) { //If the skystone was in position 2
+                    encoderDrive(.6,-63,10); //Move backwards 58 inches to second skystone
                 }
-                if (pos == 3) {
-                    step++;
+                if (pos == 3) { //If the skystone was in position 3
+                    //encoderDrive(.6,-75,10); //Use in case we want second skystone on pos 3
+                    step++; //Move to next step
                 }
             }
 
             if (step == 10 && (pos == 1 || pos == 2)) {
-                stepTelemetry();
+                stepTelemetry(); //Display telemetry
                 encoderLift(1, -1.35); //Drop the lift 1.35"
                 encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
-                telemetry.addData("Turning ", "Done :)!");
-                telemetry.update();
-                step++;
+                gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
+                gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
+                step++; //Move to next step
             }
 
             if (step == 10 && pos == 3) {
-                stepTelemetry();
-                encoderDrive(1, -6, 10);
+                stepTelemetry(); //Display telemetry
+                encoderDrive(1, -6, 10); //Move Backwards 6 inches
 
                 //Strafe Left to get out of the way
                 motorFrontLeft.setPower(-.4);
                 motorFrontRight.setPower(.4);
                 motorBackLeft.setPower(.4);
                 motorBackRight.setPower(-.4);
-                sleep(300);
-                step++;
+                sleep(300); //Wait 300 milliseconds
+                step++; //Move to next step
             }
 
             if (step == 11 && pos==3) {
+                //Stop Strafing
                 motorFrontLeft.setPower(0);
                 motorFrontRight.setPower(0);
                 motorBackLeft.setPower(0);
@@ -347,44 +349,37 @@ public class Auto_Scanning extends LinearOpMode {
             }
 
             if (step == 11 && (pos == 1 || pos == 2)) {
-                stepTelemetry();
-                encoderDrive(.2, 18, 10); //Moves forward to the block
-                grabStone.setPosition(0.0);
-                sleep(200);
-                encoderLift(1, 1.35); //Lift up the lift 1.35"
-                step++;
+                stepTelemetry(); //Display telemetry
+                encoderDrive(.2, 18, 10); //Moves forward 18 inches to the block
+                grabStone.setPosition(0.0); //Grab the Skystone
+                sleep(300); //Wait 300 milliseconds
+                encoderLift(1, 1.25); //Lift up the lift 1.25"
+                sleep(300); //Wait 300 milliseconds
+                step++; //Move to next step
             }
 
             if (step == 12) {
-                stepTelemetry();
+                stepTelemetry(); //Display telemetry
                 encoderDrive(.6, -18, 10); //Move backwards 18 inches
-                step++;
+                step++; //Move to next step
             }
 
             if (step == 13) { //Turn 90 degrees
-                stepTelemetry();
+                stepTelemetry(); //Display telemetry
                 encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
-                telemetry.addData("Turning ", "Done :)!");
-                telemetry.update();
-                step++;
+                step++; //Move to next step
             }
 
-            /**THIS IS PROBLEM AREA**/
             if (step == 14) { //Start moving back across the line
-                stepTelemetry();
-
-                encoderDrive(1, 50, 10);
-
-                step++;
-
-                /*if (pos == 1) {
-                    encoderDrive(1, 59, 10);
+                if (pos == 1) { //If the skystone was in position 1
+                    encoderDrive(1, 59, 10); //Move forward across the line
+                    step++; // Move to next step
                 }
 
-                else if (pos == 2) {
-                    encoderDrive(1, 63, 10);
-                }*/
-            /**END OF PROBLEM AREA**/
+                else if (pos == 2) { //If the skystone was in position 2
+                    encoderDrive(1, 63, 10); //Move forward across the line
+                    step++; //Move to next step
+                }
             }
 
             /*// Does it see the line?
@@ -409,15 +404,15 @@ public class Auto_Scanning extends LinearOpMode {
             }*/
 
             if (step == 15) { //Stop Motors
-                stepTelemetry();
-                grabStone.setPosition(0.6);
-                step++;
+                stepTelemetry(); //Dislay Telemetry
+                grabStone.setPosition(0.6); //release Skystone
+                step++; //Move to next step
             }
 
             if (step == 16) {
-                stepTelemetry();
+                stepTelemetry(); //Display Telemetry
                 encoderDrive(1,-6,10); //Move backward 6 inches
-                step++;
+                step++; //Move to next step
             }
 
             if (step == 17) {
@@ -426,16 +421,17 @@ public class Auto_Scanning extends LinearOpMode {
                 motorFrontRight.setPower(.4);
                 motorBackLeft.setPower(.4);
                 motorBackRight.setPower(-.4);
-                sleep(300);
-                step++;
+                sleep(300); //Wait 300 milliseconds
+                step++; //move to next step
             }
 
             if (step == 18) {
+                //Stop all motors
                 motorFrontLeft.setPower(0);
                 motorFrontRight.setPower(0);
                 motorBackLeft.setPower(0);
                 motorBackRight.setPower(0);
-                //End of positon 1 & 2
+                //End of position 1 & 2
             }
         }
     }
@@ -472,54 +468,6 @@ public class Auto_Scanning extends LinearOpMode {
                 telemetry.update();
             }
         }
-    }
-
-    private void pos1(){
-        telemetry.addData("Position: ", "1");
-        telemetry.update();
-        //encoderDrive(.6,-59,10); //Move backwards 49 inches
-        motorFrontRight.setPower(-.6);
-        motorFrontLeft.setPower(-.6);
-        motorBackLeft.setPower(-.6);
-        motorBackRight.setPower(-.6);
-        sleep(2000);
-        motorFrontRight.setPower(0);
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
-        step++;
-    }
-
-    private void pos2(){
-        telemetry.addData("Position: ", "2");
-        telemetry.update();
-        //encoderDrive(.6,-63,10); //Move backwards 58 inches
-        motorFrontRight.setPower(-.6);
-        motorFrontLeft.setPower(-.6);
-        motorBackLeft.setPower(-.6);
-        motorBackRight.setPower(-.6);
-        sleep(500);
-        motorFrontRight.setPower(0);
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
-        step++;
-    }
-
-    private void pos3(){
-        telemetry.addData("Position: ", "3");
-        telemetry.update();
-        //encoderDrive(.6,-75,10); //Move backwards 66 inches
-        motorFrontRight.setPower(-.6);
-        motorFrontLeft.setPower(-.6);
-        motorBackLeft.setPower(-.6);
-        motorBackRight.setPower(-.6);
-        sleep(500);
-        motorFrontRight.setPower(0);
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
-        step++;
     }
 
     //Repeated Voids
@@ -725,7 +673,7 @@ public class Auto_Scanning extends LinearOpMode {
     }
 
 
-    /*public void gyroTurn (  double speed, double angle) {
+    public void gyroTurn (  double speed, double angle) {
 
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && !onHeading(speed, angle, P_TURN_COEFF)) {
@@ -744,7 +692,7 @@ public class Auto_Scanning extends LinearOpMode {
      *                   If a relative angle is required, add/subtract from current heading.
      * @param holdTime   Length of time (in seconds) to hold the specified heading.
      */
-    /*public void gyroHold( double speed, double angle, double holdTime) {
+    public void gyroHold( double speed, double angle, double holdTime) {
 
         ElapsedTime holdTimer = new ElapsedTime();
 
@@ -773,7 +721,7 @@ public class Auto_Scanning extends LinearOpMode {
      * @param PCoeff    Proportional Gain coefficient
      * @return
      */
-    /*boolean onHeading(double speed, double angle, double PCoeff) {
+    boolean onHeading(double speed, double angle, double PCoeff) {
         double   error ;
         double   steer ;
         boolean  onTarget = false ;
@@ -815,7 +763,7 @@ public class Auto_Scanning extends LinearOpMode {
      * @return  error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
      *          +ve error means the robot should turn LEFT (CCW) to reduce error.
      */
-    /*public double getError(double targetAngle) {
+    public double getError(double targetAngle) {
 
         double robotError;
 
@@ -832,9 +780,9 @@ public class Auto_Scanning extends LinearOpMode {
      * @param PCoeff  Proportional Gain Coefficient
      * @return
      */
-    /*public double getSteer(double error, double PCoeff) {
+    public double getSteer(double error, double PCoeff) {
         return Range.clip(error * PCoeff, -1, 1);
-    }*/
+    }
 
 
     void composeTelemetry() {
