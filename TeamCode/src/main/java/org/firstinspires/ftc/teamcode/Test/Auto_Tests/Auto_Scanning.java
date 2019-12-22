@@ -173,83 +173,114 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 1) { //Move forward and scan the first block
                 stepTelemetry(); //Display telemetry
-                grabStone.setPosition(.6); //Open the grabber
+
+                //Open the grabber
+                grabStone.setPosition(.6); //Set the grabber to open position
+
+                //Move Forward
                 encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
+
+                //Move Slide Forward
                 slide.setPower(1); //Move Slide Forward
                 sleep(200); //Wait 200 Milliseconds
                 slide.setPower(0); //Stop Moving Slide Forward
+
+                //Start Scanning
                 pos++; //Tells code that it is checking position 1
                 scan(); //Scan for skystone
+
                 step++; //Next Step
             }
 
             if (step == 2 && !Skystone) { //If the first block wasn't the skystone, move to the second block and scan it
                 stepTelemetry(); //Display Telemetry
+
+                //Setting skystone position for later
                 pos++; //If we didn't see the skystone in position 1, move to next position
 
                 //Strafe Left to next block
-                motorFrontLeft.setPower(-.6);
-                motorFrontRight.setPower(.6);
-                motorBackLeft.setPower(.6);
-                motorBackRight.setPower(-.6);
-                sleep(500);
-                motorFrontLeft.setPower(0);
-                motorFrontRight.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
+                motorFrontLeft.setPower(-.6); //Set the motors to strafe left
+                motorFrontRight.setPower(.6); //Set the motors to strafe left
+                motorBackLeft.setPower(.6); //Set the motors to strafe left
+                motorBackRight.setPower(-.6); //Set the motors to strafe left
+                sleep(500); //Wait 500 milliseconds
+                motorFrontLeft.setPower(0); //Stop all power to the motors
+                motorFrontRight.setPower(0); //Stop all power to the motors
+                motorBackLeft.setPower(0); //Stop all power to the motors
+                motorBackRight.setPower(0); //Stop all power to the motors
 
-                sleep(scanTime); //Wait 2 seconds to scan
+                //Scan for second skystone
+                sleep(scanTime); //Wait 2 seconds to give vuforia time to identify the skystone
                 scan(); //Scan for Skystone
+
                 step++; //Next Step
             }
 
-            if (step == 3 && !Skystone) { //If the first two blocks weren't the skystone, it must be the third. Move and graab it
+            if (step == 3 && !Skystone) { //If the first two blocks weren't the skystone, it must be the third. Move and grab it
                 stepTelemetry(); //Display Telemetry
+
+                //Setting skystone position for later
                 pos++; //If we didn't see the skystone, move to next position
 
                 //Strafe Left to next block
-                motorFrontLeft.setPower(-.6);
-                motorFrontRight.setPower(.6);
-                motorBackLeft.setPower(.6);
-                motorBackRight.setPower(-.6);
-                sleep(500);
-                motorFrontLeft.setPower(0);
-                motorFrontRight.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
+                motorFrontLeft.setPower(-.6); //Set the motors to strafe left
+                motorFrontRight.setPower(.6); //Set the motors to strafe left
+                motorBackLeft.setPower(.6); //Set the motors to strafe left
+                motorBackRight.setPower(-.6); //Set the motors to strafe left
+                sleep(500); //Wait for 500 milliseconds
+                motorFrontLeft.setPower(0); //Stop all power to the motors
+                motorFrontRight.setPower(0); //Stop all power to the motors
+                motorBackLeft.setPower(0); //Stop all power to the motors
+                motorBackRight.setPower(0); //Stop all power to the motors
 
+                //Set skystone as true, which also moves us on to the next step
                 Skystone = true; //If position 1 and 2 are not skystone, then it must be position 3
 
             }
 
-            if (step > 1 && step < 4 && Skystone) { //If skystone is true after intial move forward, and stops after moving
+            if (step > 1 && step < 4 && Skystone) { //If skystone is true
                 step = 4; //If the skystone is found, move on to grabbing
             }
 
-            if (step == 4) {
+            if (step == 4) { //Grabbing the first skystone
                 stepTelemetry(); //Display Telemetry
+
+                //Move forward to grab skystone
                 encoderDrive(.2, 18, 10); //Moves forward 18 inches to the block
+
+                //Grab skystone
                 grabStone.setPosition(0.0); //Grab the Skystone
                 sleep(300); //Wait 300 milliseconds
+
+                //Move the lift up
                 encoderLift(1, 1.25); //Lift up the lift 1.25"
                 sleep(300); //Wait 300 milliseconds
+
                 step++; //Move to the next step
             }
 
-            if (step == 5) {
+            if (step == 5) { //Move backwards with the skystone
                 stepTelemetry(); //Display Telemetry
+
+                //Move backwards
                 encoderDrive(.6, -18, 10); //Move backwards 18 inches
+
                 step++; //Move to the next step
             }
 
-            if (step == 6) {
+            if (step == 6) { //Turn 90 degrees clockwise
                 stepTelemetry(); //Display Telemetry
+
+                //Turn Clockwise
                 encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
+
                 step++; //Move to the next step
             }
 
-            if (step == 7) { // Go across the line
+            if (step == 7) { //Run across the line =
                 stepTelemetry(); //Display Telemetry
+
+                //Set distances needed to be moved by each postion
                 if (pos == 1) { //If the skystone was in position 1
                     encoderDrive(1, 35, 10); //Run forward 35 inches at speed of 1
                     step++; //Move to the next step
@@ -299,7 +330,10 @@ public class Auto_Scanning extends LinearOpMode {
 
             if (step == 8) { //Drop off the first skystone
                 stepTelemetry(); //Display telemetry
+
+                //Place the skystone
                 grabStone.setPosition(0.6); //Release the skystone
+
                 step++; //Move to next step
             }
 
@@ -317,50 +351,68 @@ public class Auto_Scanning extends LinearOpMode {
                 }
             }
 
-            if (step == 10 && (pos == 1 || pos == 2)) {
+            if (step == 10 && (pos == 1 || pos == 2)) { //Turn toward the second skystone
                 stepTelemetry(); //Display telemetry
-                encoderLift(1, -1.35); //Drop the lift 1.35"
+
+                //Drive the lfit up
+                encoderLift(1, -1.25); //Drop the lift 1.25"
+
+                //Turn 90 degrees counterclockwise
                 encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
                 gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
                 gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
+
                 step++; //Move to next step
             }
 
-            if (step == 10 && pos == 3) {
+            if (step == 10 && pos == 3) { //Move backwards to park
                 stepTelemetry(); //Display telemetry
+
+                //Move backwards
                 encoderDrive(1, -6, 10); //Move Backwards 6 inches
 
                 //Strafe Left to get out of the way
-                motorFrontLeft.setPower(-.4);
-                motorFrontRight.setPower(.4);
-                motorBackLeft.setPower(.4);
-                motorBackRight.setPower(-.4);
+                motorFrontLeft.setPower(-.4); //Set power to strafe left
+                motorFrontRight.setPower(.4); //Set power to strafe left
+                motorBackLeft.setPower(.4); //Set power to strafe left
+                motorBackRight.setPower(-.4); //Set power to strafe left
                 sleep(300); //Wait 300 milliseconds
+
                 step++; //Move to next step
             }
 
-            if (step == 11 && pos==3) {
+            if (step == 11 && pos==3) { //Stop strafing and end position 3
                 //Stop Strafing
-                motorFrontLeft.setPower(0);
-                motorFrontRight.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
+                motorFrontLeft.setPower(0); //Stop all power to the motors
+                motorFrontRight.setPower(0); //Stop all power to the motors
+                motorBackLeft.setPower(0); //Stop all power to the motors
+                motorBackRight.setPower(0); //Stop all power to the motors
                 //End of position 3
             }
 
-            if (step == 11 && (pos == 1 || pos == 2)) {
+            if (step == 11 && (pos == 1 || pos == 2)) { //Grab the second skystone
                 stepTelemetry(); //Display telemetry
+
+                //Drive forward
                 encoderDrive(.2, 18, 10); //Moves forward 18 inches to the block
+
+                //Grab the skystone
                 grabStone.setPosition(0.0); //Grab the Skystone
                 sleep(300); //Wait 300 milliseconds
+
+                //Drive the lift up
                 encoderLift(1, 1.25); //Lift up the lift 1.25"
                 sleep(300); //Wait 300 milliseconds
+
                 step++; //Move to next step
             }
 
-            if (step == 12) {
+            if (step == 12) { //Move backwards with skystone
                 stepTelemetry(); //Display telemetry
+
+                //Move backward
                 encoderDrive(.6, -18, 10); //Move backwards 18 inches
+
                 step++; //Move to next step
             }
 
@@ -403,34 +455,42 @@ public class Auto_Scanning extends LinearOpMode {
                 }
             }*/
 
-            if (step == 15) { //Stop Motors
+            if (step == 15) { //Release the skystone
                 stepTelemetry(); //Dislay Telemetry
-                grabStone.setPosition(0.6); //release Skystone
+
+                //Release the skystone
+                grabStone.setPosition(0.6); //release the grabber
+
                 step++; //Move to next step
             }
 
-            if (step == 16) {
+            if (step == 16) { //Move backward to the line
                 stepTelemetry(); //Display Telemetry
+
+                //Move backward
                 encoderDrive(1,-6,10); //Move backward 6 inches
+
                 step++; //Move to next step
             }
 
-            if (step == 17) {
+            if (step == 17) { //Strafe left
+
                 //Strafe Left to get out of the way
-                motorFrontLeft.setPower(-.4);
-                motorFrontRight.setPower(.4);
-                motorBackLeft.setPower(.4);
-                motorBackRight.setPower(-.4);
+                motorFrontLeft.setPower(-.4); //Set power to strafe left
+                motorFrontRight.setPower(.4); //Set power to strafe left
+                motorBackLeft.setPower(.4); //Set power to strafe left
+                motorBackRight.setPower(-.4); //Set power to strafe left
                 sleep(300); //Wait 300 milliseconds
+
                 step++; //move to next step
             }
 
-            if (step == 18) {
+            if (step == 18) { //Stop motors and end of position 1 and 2
                 //Stop all motors
-                motorFrontLeft.setPower(0);
-                motorFrontRight.setPower(0);
-                motorBackLeft.setPower(0);
-                motorBackRight.setPower(0);
+                motorFrontLeft.setPower(0); //Stop all power to the motors
+                motorFrontRight.setPower(0); //Stop all power to the motors
+                motorBackLeft.setPower(0); //Stop all power to the motors
+                motorBackRight.setPower(0); //Stop all power to the motors
                 //End of position 1 & 2
             }
         }
