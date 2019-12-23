@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
+import android.annotation.SuppressLint;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -34,11 +36,8 @@ public class Auto_Scanning extends LinearOpMode {
     public DcMotor motorBackRight;
     public DcMotor motorBackLeft;
     double step = 1;
-    double scanstep = 0;
     double pos = 0;
     int scanTime = 2000;
-    boolean stopScanning = false;
-    boolean left = false;
 
     public DcMotor lift;
     public DcMotor slide;
@@ -70,12 +69,8 @@ public class Auto_Scanning extends LinearOpMode {
     Acceleration gravity;
 
     //Turning Variables
-    static final double     DRIVE_SPEED             = 0.7;     // Nominal speed for better accuracy.
-    static final double     TURN_SPEED              = 0.2;     // Nominal half speed for better accuracy.
-
     static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
 
     //Lift positioning definitions
     static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
@@ -505,6 +500,7 @@ public class Auto_Scanning extends LinearOpMode {
 
     //Skystone Position Voids
 
+    @SuppressLint("DefaultLocale")
     public void scan() {
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
@@ -632,8 +628,7 @@ public class Auto_Scanning extends LinearOpMode {
         int newBackRightTarget;
 
         //Create our new circumference variables
-        double r = 9.605; //Radius of arc created by robot wheels
-        double c = 60.35; //Circumference of arc created by robot wheels
+        double c = 60.35; //Circumference of arc created by robot wheels (Radius is 9.605)
         double ANGLE_RATIO = angle / 360; //Ratio of angle relative to entire circle
         double CIRCUMFERENCE_OF_ANGLE = c * ANGLE_RATIO; //Circumference of Angle
         int COUNTS_PER_DISTANCE = (int) ((CIRCUMFERENCE_OF_ANGLE * COUNTS_PER_INCH) * 1.305);

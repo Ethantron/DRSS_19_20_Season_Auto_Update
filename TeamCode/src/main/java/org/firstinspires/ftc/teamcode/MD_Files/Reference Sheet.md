@@ -11,6 +11,23 @@ TelyOp reference sheet.
     
         @TeleOp(name = "", group= "")
 
+    Galileo Definitions:
+        AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
+
+    Galileo Initialization:
+        robot.init(hardwareMap); //Calls Upon Robot Initialization File
+
+        composeTelemetry(); //Gyro Telemetry Initialization
+
+        // Skystone detection initialization
+            initVuforia(); //Vuforia Initialization
+
+            if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+                initTfod(); //Tensor Flow Object Detection Initialization
+            } else {
+                telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+            }
+
     Mechanum definitions:
 
         public DcMotor motorFrontRight;
@@ -39,52 +56,52 @@ Autonomous directions reference sheet.
 
     Stop:
     
-        motorFrontRight.setPower(0);
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorBackRight.setPower(0);
+        robot.motorFrontRight.setPower(0);
+        robot.motorFrontLeft.setPower(0);
+        robot.motorBackLeft.setPower(0);
+        robot.motorBackRight.setPower(0);
 
     Forward:
     
-        motorFrontRight.setPower(.6);
-        motorFrontLeft.setPower(.6);
-        motorBackLeft.setPower(.6);
-        motorBackRight.setPower(.6);
+        robot.motorFrontRight.setPower(.6);
+        robot.motorFrontLeft.setPower(.6);
+        robot.motorBackLeft.setPower(.6);
+        robot.motorBackRight.setPower(.6);
 
     Reverse:
     
-        motorFrontRight.setPower(-.6);
-        motorFrontLeft.setPower(-.6);
-        motorBackLeft.setPower(-.6);
-        motorBackRight.setPower(-.6);
+        robot.motorFrontRight.setPower(-.6);
+        robot.motorFrontLeft.setPower(-.6);
+        robot.motorBackLeft.setPower(-.6);
+        robot.motorBackRight.setPower(-.6);
 
     Turn Left:
     
-        motorFrontRight.setPower(.6);
-        motorFrontLeft.setPower(-.6);
-        motorBackLeft.setPower(-.6);
-        motorBackRight.setPower(.6);
+        robot.motorFrontRight.setPower(.6);
+        robot.motorFrontLeft.setPower(-.6);
+        robot.motorBackLeft.setPower(-.6);
+        robot.motorBackRight.setPower(.6);
 
     Turn Right:
     
-        motorFrontRight.setPower(-.6);
-        motorFrontLeft.setPower(.6);
-        motorBackLeft.setPower(.6);
-        motorBackRight.setPower(-.6);
+        robot.motorFrontRight.setPower(-.6);
+        robot.motorFrontLeft.setPower(.6);
+        robot.motorBackLeft.setPower(.6);
+        robot.motorBackRight.setPower(-.6);
 
     Strafe Left:
     
-        motorFrontRight.setPower(.7);
-        motorFrontLeft.setPower(-.4);
-        motorBackLeft.setPower(.7);
-        motorBackRight.setPower(-.4);
+        robot.motorFrontRight.setPower(.7);
+        robot.motorFrontLeft.setPower(-.4);
+        robot.motorBackLeft.setPower(.7);
+        robot.motorBackRight.setPower(-.4);
 
     Strafe Right:
     
-        motorFrontRight.setPower(-.7);
-        motorFrontLeft.setPower(.4);
-        motorBackLeft.setPower(-.7);
-        motorBackRight.setPower(.4);
+        robot.motorFrontRight.setPower(-.7);
+        robot.motorFrontLeft.setPower(.4);
+        robot.motorBackLeft.setPower(-.7);
+        robot.motorBackRight.setPower(.4);
 
     Timing Reference:
     
