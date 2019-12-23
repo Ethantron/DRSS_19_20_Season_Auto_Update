@@ -26,7 +26,7 @@ public class Auto_Blue_Load extends LinearOpMode {
 
     AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
 
-    private ElapsedTime runtime = new ElapsedTime(); //Sets timer for encoders and gyro
+    private ElapsedTime runtime = new ElapsedTime(); //Sets timer for encoders
 
     double step = 1; //Sets the steps for the autonomous
 
