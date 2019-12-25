@@ -21,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 import java.util.Locale;
 
-@Autonomous(name = "Auto_Scanning", group= "Autonomous")
+@Autonomous(name = "Auto_Blue_Load", group= "Autonomous")
 public class Auto_Blue_Load extends LinearOpMode {
 
     AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
