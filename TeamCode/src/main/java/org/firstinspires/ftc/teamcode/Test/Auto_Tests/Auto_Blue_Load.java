@@ -46,6 +46,10 @@ public class Auto_Blue_Load extends LinearOpMode {
                 telemetry.addData("Sorry!", "This device is not compatible with TFOD");
             }
 
+            if (robot.tfod != null) {
+                robot.tfod.activate();
+            }
+
         telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
         telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
         telemetry.addData("Status: ", "Ready");                 // Adds telemetry to the screen to show that the robot is ready

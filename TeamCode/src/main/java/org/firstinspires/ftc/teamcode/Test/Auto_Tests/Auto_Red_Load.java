@@ -38,13 +38,17 @@ public class Auto_Red_Load extends LinearOpMode {
         composeTelemetry(); //Gyro Telemetry Initialization
 
         // Skystone detection initialization
-        initVuforia(); //Vuforia Initialization
+            initVuforia(); //Vuforia Initialization
 
-        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod(); //Tensor Flow Object Detection Initialization
-        } else {
-            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-        }
+            if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+                initTfod(); //Tensor Flow Object Detection Initialization
+            } else {
+                telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+            }
+
+            if (robot.tfod != null) {
+                robot.tfod.activate();
+            }
 
         telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
         telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized

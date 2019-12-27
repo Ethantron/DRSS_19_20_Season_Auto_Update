@@ -28,6 +28,10 @@ TelyOp reference sheet.
                 telemetry.addData("Sorry!", "This device is not compatible with TFOD");
             }
 
+            if (robot.tfod != null) {
+                robot.tfod.activate();
+            }
+
     Mechanum definitions:
 
         public DcMotor motorFrontRight;

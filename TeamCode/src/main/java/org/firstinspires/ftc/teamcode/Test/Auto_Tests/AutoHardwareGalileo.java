@@ -137,11 +137,5 @@ public class AutoHardwareGalileo {
             float hsvValues[] = {0F, 0F, 0F};
             final float values[] = hsvValues;
             final double SCALE_FACTOR = 255;
-
-        //Vuforia Initialization
-            // Skystone detection initialization
-            if (tfod != null) {
-                tfod.activate();
-            }
     }
 }
