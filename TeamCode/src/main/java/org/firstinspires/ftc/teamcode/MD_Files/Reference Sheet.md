@@ -32,6 +32,13 @@ TelyOp reference sheet.
                 robot.tfod.activate();
             }
 
+            telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
+            telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
+            telemetry.addData("Status: ", "Ready");                 // Adds telemetry to the screen to show that the robot is ready
+            telemetry.addData("Press Play to Start ", "TeleOp");    // Adds telemetry to the screen to tell the drivers that the code is ready to start
+            telemetry.update();                                     // Tells the telemetry to display on the phone
+            waitForStart();
+
     Mechanum definitions:
 
         public DcMotor motorFrontRight;

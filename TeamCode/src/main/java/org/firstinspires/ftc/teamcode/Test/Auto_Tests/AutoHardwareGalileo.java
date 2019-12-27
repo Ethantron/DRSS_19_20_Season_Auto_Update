@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -27,8 +28,19 @@ public class AutoHardwareGalileo {
     public Servo wrist;
 
     //Color Sensor Definitions
-        ColorSensor color_sensor;
-        ColorSensor color2;
+    ColorSensor color_sensor;
+    ColorSensor color2;
+
+    //Foundatioon Mover Definitions
+    public Servo foundationMoverL;      // Defines the left foundation servo
+    public Servo foundationMoverR;      // Defines the right foundation servo
+
+    //Stone Button Definitions
+    public DigitalChannel stoneButton; // Defines the Stone Button on the grabber
+
+    //Foundation Bumper Definitions
+    public DigitalChannel foundationBumperLeft;  //Defines the left foundation bumper button
+    public DigitalChannel foundationBumperRight; //Defines the right foundation bumper button
 
     //Gyro Definitions
         // Defines the gyro
@@ -118,6 +130,22 @@ public class AutoHardwareGalileo {
         //Slide Initialization
         slide = hwMap.dcMotor.get("SL");
         slide.setDirection(DcMotor.Direction.FORWARD);
+
+        //Foundation Mover Initialization
+        foundationMoverR = hwMap.servo.get("GR");     // Initializes the right foundation movers name for configuration
+        foundationMoverL = hwMap.servo.get("GL");     // Initializes the left foundation movers name for configuration
+        foundationMoverR.setPosition(0);                    // Sets the right foundation mover to point up
+        foundationMoverL.setPosition(0);                    // Sets the left foundation mover to point up
+
+        //Stone Button Sensor Initialization
+        stoneButton = hwMap.get(DigitalChannel.class, "stone_button"); // Initializes the stone button name for configuration
+        stoneButton.setMode(DigitalChannel.Mode.INPUT);                           // Initializes the mode of the button
+
+        //Foundation Bumpers Initialization
+        foundationBumperLeft = hwMap.get(DigitalChannel.class, "bumper_left");   // Initializes the stone button name for configuration
+        foundationBumperRight = hwMap.get(DigitalChannel.class, "bumper_right"); // Initializes the stone button name for configuration
+        foundationBumperLeft.setMode(DigitalChannel.Mode.INPUT);                            // Initializes the mode of the button
+        foundationBumperRight.setMode(DigitalChannel.Mode.INPUT);                           // Initializes the mode of the button
 
         //Gyro Initialization
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
