@@ -316,11 +316,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 
 
-            if (stoneButton.getState() == true && !gamepad2.b) { // Do the following if the stone button and not the "b" button is pressed
+            if (stoneButton.getState() && !gamepad2.b) { // Do the following if the stone button and not the "b" button is pressed
                 grabStone.setPosition(0);        // Closes the grabber
             } /*else {                              // Do the following if the stone button is not pressed or the "b" button is pressed
                 grabStone.setPosition(.6);         // Opens the grabber
             }*/
+
             // End of Grabber Controls
 
             /** End of hand system control **/
@@ -331,7 +332,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             telemetry.addData("Payload ", "Telemetry");          // Adds telemetry to the screen to show that the following telemetry is for the drivetrain
 
             // Lift telemetry
-            telemetry.addData("Desired Height:", height);           // Adds telemetry to the screen to show the desired height of the lift
+            telemetry.addData("Desired Height:", height);
+            // Adds telemetry to the screen to show the desired height of the lift
             telemetry.addData("Current Height: ", currentHeight);   // Adds telemetry to the screen to show the current height of the lift
 
             //Wrist telemetry
@@ -409,7 +411,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             }
 
             lift.setPower(0);
-            grabStone.setPosition(.3);
+            grabStone.setPosition(.6);
             sleep(100);
 
             //Return the lift back up
