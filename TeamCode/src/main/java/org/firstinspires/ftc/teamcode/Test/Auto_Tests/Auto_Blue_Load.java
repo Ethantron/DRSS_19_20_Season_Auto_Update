@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
-import android.annotation.SuppressLint;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -395,7 +393,6 @@ public class Auto_Blue_Load extends LinearOpMode {
 
     //Skystone Position Voids
 
-    @SuppressLint("DefaultLocale")
     public void scan() {
         if (robot.tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
