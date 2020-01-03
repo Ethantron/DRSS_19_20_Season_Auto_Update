@@ -229,9 +229,11 @@ public class Auto_Blue_Load extends LinearOpMode {
                 stepTelemetry(); //Display telemetry
                 if (robot.pos == 1) { //If the skystone was in position 1
                     encoderDrive(.6,-59,10); //Move backwards 49 inches to second skystone
+                    step++;
                 }
                 if (robot.pos == 2) { //If the skystone was in position 2
                     encoderDrive(.6,-63,10); //Move backwards 58 inches to second skystone
+                    step++;
                 }
                 if (robot.pos == 3) { //If the skystone was in position 3
                     //encoderDrive(.6,-75,10); //Use in case we want second skystone on pos 3
