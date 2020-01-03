@@ -54,7 +54,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
         double height = 0;                              // Sets the double "height" to zero             | Defines the level the lift should move to
         double currentHeight = 0;                       // Sets the double "currentHeight" to zero      | Counts what level the lift is on
         boolean needFoundation = false;                 // Sets the boolean "needFoundation" to false   | Defines wheter the lift needs to account for the foundations
-        static final double COUNTS_PER_LEVEL = 300;     // Sets the double "COuNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
+        static final double COUNTS_PER_LEVEL = 300;     // Sets the double "COuNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
     // End payload definitions
 
     // Misc definitions
@@ -315,6 +315,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             if (gamepad2.a) {                              // Do the following if the "a" button is pressed
                 encoderPlace(1, 50);    // Moves the lift slightly down and opens the grabber
             }
+
+
 
             if (gamepad2.y) {               // Do the following if the "y" button is pressed
                 grabStone.setPosition(0);   // Closes the grabber

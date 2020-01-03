@@ -23,7 +23,7 @@ public class Auto_Red_Build extends LinearOpMode {
     double step = 1; //Sets the steps for the autonomous
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         robot.init(hardwareMap); //Calls Upon Robot Initialization File
 
         composeTelemetry(); //Gyro Telemetry Initialization
