@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 import java.util.Locale;
 
-@Autonomous (name = "Auto_Blue_Build", group = "Autonomous")
+@Autonomous (name = "Auto_Red_Build", group = "Autonomous")
 public class Auto_Red_Build extends LinearOpMode {
 
     AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
