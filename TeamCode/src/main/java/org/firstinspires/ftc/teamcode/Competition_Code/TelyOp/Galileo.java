@@ -117,7 +117,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);   // Tells the lift motor to reset its encoder
 
         //Tells Robots to Reset Encoders
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);    // Tells the lift motor to ru using its encoder
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);    // Tells the lift motor to run without using its encoder
 
         /** End encoder initalization **/
 
@@ -222,7 +222,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             /** Gamepad 2 controls (payload) ==> **/
 
             /** Automatic lift controls **/
-            // Moving The Lift Upward
+            // Moving The Lift Downard
             if (gamepad2.left_bumper && (currentHeight > 0)) { // Do the following if the left bumper is pressed and the current height os greater than 0
                 height--;                                      // Sets "height" to -currentHeight
                 sleep(150);                        // Tells the code to wait 150 milliseconds
@@ -230,13 +230,17 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             }
             // End of Moving the Lift Upward
 
+
             // Zeroing the Lift
-            if (!gamepad2.left_bumper && !gamepad2.right_bumper) {  // Do the following if neither bumper is pressed
+            if (!gamepad2.left_bumper && !gamepad2.right_bumper && gamepad2.left_trigger < .3 && gamepad2.right_trigger < .3) {  // Do the following if neither bumper is pressed
                 lift.setPower(.001);                                // Tells the lift to hold in place by setting the motor power to .001
             }
             // End of Zeroing the lift
 
-            // Moving the Lift Downward
+
+
+
+            // Moving the Lift Upward
             if (gamepad2.right_bumper && (currentHeight < 7)) {     // Do the following if the right bumper has been pressed and the current height is greater than 7
                 if (currentHeight == 0) {                           // Do the following if the current height is 0
                     needFoundation = true;                          // Sets "needFoundation" to true
@@ -305,6 +309,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             }
             // End of Wrist controls
 
+
+
             // Grabber Controls
             if (gamepad2.a) {                              // Do the following if the "a" button is pressed
                 encoderPlace(1, 50);    // Moves the lift slightly down and opens the grabber
@@ -323,6 +329,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             }*/
 
             // End of Grabber Controls
+
+
 
             /** End of hand system control **/
 
@@ -371,6 +379,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
                 newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 50;
 
+                lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
                 if (needFoundation) {
                     newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 150;
                     needFoundation = false;
@@ -391,7 +401,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
                 }
 
                 lift.setPower(0);
-                lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 height = 0;
             }
     }
