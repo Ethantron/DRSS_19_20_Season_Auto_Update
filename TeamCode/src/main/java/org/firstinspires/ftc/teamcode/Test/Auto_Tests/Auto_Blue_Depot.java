@@ -286,7 +286,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 }
 
                 else if (robot.pos == 2) { //If the skystone was in position 2
-                    encoderDrive(1, 63, 10); //Move forward across the line
+                    encoderDrive(1, 65, 10); //Move forward across the line
                     step++; //Move to next step
                 }
             }
