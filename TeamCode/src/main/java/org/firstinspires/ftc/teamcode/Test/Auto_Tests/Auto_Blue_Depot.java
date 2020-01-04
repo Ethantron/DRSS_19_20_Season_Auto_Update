@@ -195,7 +195,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
             if (step == 9) { //Run back to the second skystone
                 stepTelemetry(); //Display telemetry
                 if (robot.pos == 1) { //If the skystone was in position 1
-                    encoderDrive(.6,-59,10); //Move backwards 49 inches to second skystone
+                    encoderDrive(.6,-64,10); //Move backwards 64 inches to second skystone
                     step++;
                 }
                 if (robot.pos == 2) { //If the skystone was in position 2
@@ -212,7 +212,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display telemetry
 
                 //Drive the lfit up
-                encoderLift(1, -1.25); //Drop the lift 1.25"
+                encoderLift(1, -1); //Drop the lift 1"
 
                 //Turn 90 degrees counterclockwise
                 encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
@@ -251,7 +251,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display telemetry
 
                 //Drive forward
-                encoderDrive(.2, 18, 10); //Moves forward 18 inches to the block
+                encoderDrive(.2, 22, 10); //Moves forward 22 inches to the block
 
                 //Grab the skystone
                 robot.grabStone.setPosition(0.0); //Grab the Skystone
@@ -268,7 +268,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display telemetry
 
                 //Move backward
-                encoderDrive(.6, -18, 10); //Move backwards 18 inches
+                encoderDrive(.6, -22, 10); //Move backwards 22 inches
 
                 step++; //Move to next step
             }
