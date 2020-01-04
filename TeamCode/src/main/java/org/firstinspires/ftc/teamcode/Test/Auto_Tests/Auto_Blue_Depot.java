@@ -132,24 +132,17 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display Telemetry
 
                 //Move forward to grab skystone
-                robot.motorFrontLeft.setPower(.2); //Set the motors to move forward
-                robot.motorFrontRight.setPower(.2); //Set the motors to move forward
-                robot.motorBackLeft.setPower(.2); //Set the motors to move forward
-                robot.motorBackRight.setPower(.2); //Set the motors to move forward
-
-                runtime.reset(); //Set a timer to prevent running forward indefinetly
+                encoderDrive(.2, 18, 10); //Moves forward 18 inches to the block
 
                 //Grab skystone
-                if (robot.stoneButton.getState() || (runtime.seconds() > 3)) {
-                    robot.grabStone.setPosition(0.0); //Grab the Skystone
-                    sleep(300); //Wait 300 milliseconds
+                robot.grabStone.setPosition(0.0); //Grab the Skystone
+                sleep(300); //Wait 300 milliseconds
 
-                    //Move the lift up
-                    encoderLift(1, 1.25); //Lift up the lift 1.25"
-                    sleep(300); //Wait 300 milliseconds
+                //Move the lift up
+                encoderLift(1, 1.25); //Lift up the lift 1.25"
+                sleep(300); //Wait 300 milliseconds
 
-                    step++; //Move to the next step
-                }
+                step++; //Move to the next step
             }
 
             if (step == 5) { //Move backwards with the skystone
@@ -257,25 +250,18 @@ public class Auto_Blue_Depot extends LinearOpMode {
             if (step == 11 && (robot.pos == 1 || robot.pos == 2)) { //Grab the second skystone
                 stepTelemetry(); //Display telemetry
 
-                //Move forward to grab skystone
-                robot.motorFrontLeft.setPower(.2); //Set the motors to move forward
-                robot.motorFrontRight.setPower(.2); //Set the motors to move forward
-                robot.motorBackLeft.setPower(.2); //Set the motors to move forward
-                robot.motorBackRight.setPower(.2); //Set the motors to move forward
+                //Drive forward
+                encoderDrive(.2, 18, 10); //Moves forward 18 inches to the block
 
-                runtime.reset(); //Set a timer to prevent running forward indefinetly
+                //Grab the skystone
+                robot.grabStone.setPosition(0.0); //Grab the Skystone
+                sleep(300); //Wait 300 milliseconds
 
-                //Grab skystone
-                if (robot.stoneButton.getState() || (runtime.seconds() > 3)) {
-                    robot.grabStone.setPosition(0.0); //Grab the Skystone
-                    sleep(300); //Wait 300 milliseconds
+                //Drive the lift up
+                encoderLift(1, 1.25); //Lift up the lift 1.25"
+                sleep(300); //Wait 300 milliseconds
 
-                    //Move the lift up
-                    encoderLift(1, 1.25); //Lift up the lift 1.25"
-                    sleep(300); //Wait 300 milliseconds
-
-                    step++; //Move to the next step
-                }
+                step++; //Move to next step
             }
 
             if (step == 12) { //Move backwards with skystone
@@ -304,6 +290,27 @@ public class Auto_Blue_Depot extends LinearOpMode {
                     step++; //Move to next step
                 }
             }
+
+            /*// Does it see the line?
+            while (step == 15 && opModeIsActive()){
+                Color.RGBToHSV((int) (color_sensor.red() * SCALE_FACTOR),
+                        (int) (color_sensor.green() * SCALE_FACTOR),
+                        (int) (color_sensor.blue() * SCALE_FACTOR),
+                        hsvValues);
+                Color.RGBToHSV((int) (color2.red() * SCALE_FACTOR),
+                        (int) (color2.green() * SCALE_FACTOR),
+                        (int) (color2.blue() * SCALE_FACTOR),
+                        hsvValues);
+
+                // Send the info back to driver station using telemetry function.
+                telemetry.addData("Step: ", step);
+                telemetry.addData("Hue", hsvValues[0]);
+                telemetry.update();
+
+                if (hsvValues[0] > 150 ){ // Checks if it is red or blue
+                    step++;
+                }
+            }*/
 
             if (step == 15) { //Release the skystone
                 stepTelemetry(); //Dislay Telemetry
