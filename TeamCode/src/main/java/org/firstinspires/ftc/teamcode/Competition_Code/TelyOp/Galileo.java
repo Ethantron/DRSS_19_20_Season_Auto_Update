@@ -47,6 +47,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
         public Servo grabStone;     // Defines the stone grabber servo
         public Servo wrist;         // Defines the wrist servo
         public DigitalChannel stoneButton; // Defines the Stone Button on the grabber
+        boolean handOpen = true;    // Defines a boolean which will be used to define whether the hand is open or not
 
 
         //Lift positioning definitions
@@ -55,6 +56,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
         double currentHeight = 0;                       // Sets the double "currentHeight" to zero      | Counts what level the lift is on
         boolean needFoundation = false;                 // Sets the boolean "needFoundation" to false   | Defines wheter the lift needs to account for the foundations
         static final double COUNTS_PER_LEVEL = 300;     // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
+        static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
+
     // End payload definitions
 
     // Misc definitions
@@ -237,9 +240,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             }
             // End of Zeroing the lift
 
-
-
-
             // Moving the Lift Upward
             if (gamepad2.right_bumper && (currentHeight < 7)) {     // Do the following if the right bumper has been pressed and the current height is greater than 7
                 if (currentHeight == 0) {                           // Do the following if the current height is 0
@@ -260,6 +260,10 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
                 needFoundation = false;         // Overrides need foundation to false
             }
 
+            //Block Transportation Lift setting
+            if (gamepad2.y && currentHeight == 0) {
+                encoderTransport(1, 1.25); //Lift up the lift 1.25" for transporting blocks
+            }
             /** End of automatic lift controls **/
 
             /** Manual lift controls **/
@@ -316,19 +320,21 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
                 encoderPlace(1, 50);    // Moves the lift slightly down and opens the grabber
             }
 
-
-
-            if (gamepad2.y) {               // Do the following if the "y" button is pressed
-                grabStone.setPosition(0);   // Closes the grabber
+            if (gamepad2.b && !handOpen) {  // Do the following if the "b" button is pressed while the hand is closed
+                handOpen = true;            // Set handOpen to true, which will set hand position to .6 based on stoneButton Logic below
+                sleep(250);     // Wait 250 Milliseconds to prevent looping between false and true for handOpen
             }
 
+            if (gamepad2.b && handOpen) {  // Do the following if the "b" button is pressed while the hand is open
+                handOpen = false;          // Set handOpen to false, which will set hand position to 0 based on stoneButton Logic below
+                sleep(250);    // Wait 250 Milliseconds to prevent looping between false and true for handOpen
+            }
 
-
-            if (stoneButton.getState() && !gamepad2.b) { // Do the following if the stone button and not the "b" button is pressed
-                grabStone.setPosition(0);        // Closes the grabber
-            } /*else {                              // Do the following if the stone button is not pressed or the "b" button is pressed
-                grabStone.setPosition(.6);         // Opens the grabber
-            }*/
+            if (stoneButton.getState() && !handOpen) {   // Do the following if the stone button and not the "b" button is pressed and hand is closed
+                grabStone.setPosition(0);                // Closes the grabber
+            } else {                                     // Do the following if the stone button is not pressed or the "b" button is pressed
+                grabStone.setPosition(.6);               // Opens the grabber
+            }
 
             // End of Grabber Controls
 
@@ -379,6 +385,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             int newLiftTarget;                                      // Creates the integer "newLiftTarget"
 
             if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+
+                motorFrontRight.setPower(0); // Stop motors to prevent losing control while lifting
+                motorFrontLeft.setPower(0);  // Stop motors to prevent losing control while lifting
+                motorBackLeft.setPower(0);   // Stop motors to prevent losing control while lifting
+                motorBackRight.setPower(0);  // Stop motors to prevent losing control while lifting
+
                 newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 50;
 
                 lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -394,10 +406,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
                 while (opModeIsActive() && lift.isBusy()) {
                     telemetry.addData("lift position", lift.getCurrentPosition());
+                    telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
                     telemetry.update();
 
                     if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
                         height = 0; //Sets height to level 0 so that the lift can continue normal operation after jumping out of loop
+                        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                         return; //Jumps out of Private Void
                     }
                 }
@@ -412,14 +426,29 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
         int newDropTarget;
 
         if (opModeIsActive()) {
+
+            motorFrontRight.setPower(0); // Stop motors to prevent losing control while lifting
+            motorFrontLeft.setPower(0);  // Stop motors to prevent losing control while lifting
+            motorBackLeft.setPower(0);   // Stop motors to prevent losing control while lifting
+            motorBackRight.setPower(0);  // Stop motors to prevent losing control while lifting
+
             newDropTarget = lift.getCurrentPosition() - (int) (distance);
+
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
             lift.setTargetPosition(newDropTarget);
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lift.setPower(DropSpeed);
 
             while (opModeIsActive() && lift.isBusy()) {
                 telemetry.addData("lift position", lift.getCurrentPosition());
+                telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
                 telemetry.update();
+
+                if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
+                    lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    return; //Jumps out of Private Void
+                }
             }
 
             lift.setPower(0);
@@ -434,11 +463,51 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
             while (opModeIsActive() && lift.isBusy()) {
                 telemetry.addData("lift position", lift.getCurrentPosition());
+                telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
                 telemetry.update();
+
+                if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
+                    lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    return; //Jumps out of Private Void
+                }
             }
 
             lift.setPower(0);
-            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+    }
+
+    public void encoderTransport(double liftSpeed, double Inches) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
+        int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+
+        if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+
+            motorFrontRight.setPower(0); // Stop motors to prevent losing control while lifting
+            motorFrontLeft.setPower(0);  // Stop motors to prevent losing control while lifting
+            motorBackLeft.setPower(0);   // Stop motors to prevent losing control while lifting
+            motorBackRight.setPower(0);  // Stop motors to prevent losing control while lifting
+
+            newLiftTarget = (lift.getCurrentPosition() + (int) (Inches * COUNTS_PER_LIFT_INCH));
+
+            lift.setTargetPosition(newLiftTarget);
+
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            lift.setPower(liftSpeed);
+
+            while (opModeIsActive() && lift.isBusy()) {
+                telemetry.addData("lift position", lift.getCurrentPosition());
+                telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
+                telemetry.update();
+
+                if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
+                    lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    return; //Jumps out of Private Void
+                }
+            }
+
+            lift.setPower(0);
+            lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     }
 }
