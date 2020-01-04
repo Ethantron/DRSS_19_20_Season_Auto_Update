@@ -222,6 +222,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             /** End of gamepad 1 controls (drive train) **/
 
 
+
             /** Gamepad 2 controls (payload) ==> **/
 
             /** Automatic lift controls **/
@@ -232,7 +233,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
                 currentHeight--;                               // sets "currentHeight" to height
             }
             // End of Moving the Lift Upward
-
 
             // Zeroing the Lift
             if (!gamepad2.left_bumper && !gamepad2.right_bumper && gamepad2.left_trigger < .3 && gamepad2.right_trigger < .3) {  // Do the following if neither bumper is pressed
@@ -264,6 +264,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             if (gamepad2.y && currentHeight == 0) {
                 encoderTransport(1, 1.25); //Lift up the lift 1.25" for transporting blocks
             }
+
             /** End of automatic lift controls **/
 
             /** Manual lift controls **/
@@ -313,32 +314,18 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             }
             // End of Wrist controls
 
-
-
             // Grabber Controls
             if (gamepad2.a) {                              // Do the following if the "a" button is pressed
                 encoderPlace(1, 50);    // Moves the lift slightly down and opens the grabber
             }
 
-            if (gamepad2.b && !handOpen) {  // Do the following if the "b" button is pressed while the hand is closed
-                handOpen = true;            // Set handOpen to true, which will set hand position to .6 based on stoneButton Logic below
-                sleep(250);     // Wait 250 Milliseconds to prevent looping between false and true for handOpen
-            }
-
-            if (gamepad2.b && handOpen) {  // Do the following if the "b" button is pressed while the hand is open
-                handOpen = false;          // Set handOpen to false, which will set hand position to 0 based on stoneButton Logic below
-                sleep(250);    // Wait 250 Milliseconds to prevent looping between false and true for handOpen
-            }
-
-            if (stoneButton.getState() && !handOpen) {   // Do the following if the stone button and not the "b" button is pressed and hand is closed
-                grabStone.setPosition(0);                // Closes the grabber
-            } else {                                     // Do the following if the stone button is not pressed or the "b" button is pressed
-                grabStone.setPosition(.6);               // Opens the grabber
+            if (stoneButton.getState() && !gamepad2.b) {   // Do the following if the stone button is pressed
+                grabStone.setPosition(0);                  // Closes the grabber
+            } else {                                       // Do the following if the stone button is not pressed or the "b" button is pressed
+                grabStone.setPosition(.6);                 // Opens the grabber
             }
 
             // End of Grabber Controls
-
-
 
             /** End of hand system control **/
 
