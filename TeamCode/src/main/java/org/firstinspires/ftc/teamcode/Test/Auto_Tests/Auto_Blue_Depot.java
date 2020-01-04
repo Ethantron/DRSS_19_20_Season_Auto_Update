@@ -195,7 +195,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
             if (step == 9) { //Run back to the second skystone
                 stepTelemetry(); //Display telemetry
                 if (robot.pos == 1) { //If the skystone was in position 1
-                    encoderDrive(.6,-61,10); //Move backwards 62 inches to second skystone
+                    encoderDrive(.6,-63,10); //Move backwards 62 inches to second skystone
                     step++;
                 }
                 if (robot.pos == 2) { //If the skystone was in position 2
@@ -281,7 +281,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 
             if (step == 14) { //Start moving back across the line
                 if (robot.pos == 1) { //If the skystone was in position 1
-                    encoderDrive(1, 61, 10); //Move forward across the line
+                    encoderDrive(1, 63, 10); //Move forward across the line
                     step++; // Move to next step
                 }
 
