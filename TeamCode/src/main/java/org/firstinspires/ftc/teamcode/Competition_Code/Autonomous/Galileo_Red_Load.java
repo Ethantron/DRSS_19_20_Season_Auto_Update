@@ -2,8 +2,11 @@ package org.firstinspires.ftc.teamcode.Competition_Code.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -16,7 +19,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-
 import java.util.List;
 import java.util.Locale;
 
@@ -24,16 +26,13 @@ import java.util.Locale;
 public class Galileo_Red_Load extends LinearOpMode{
 
 	Galileo_Hardware robot = new Galileo_Hardware();   //Calls Upon Robot Definitions File
-
 	private ElapsedTime runtime = new ElapsedTime(); //Sets timer for encoders
-
 	double step = 1; //Sets the steps for the autonomous
 
 	@Override
 	public void runOpMode(){
 
 		robot.init(hardwareMap); //Calls Upon Robot Initialization File
-
 		composeTelemetry(); //Gyro Telemetry Initialization
 
 		// Skystone detection initialization
@@ -440,7 +439,7 @@ public class Galileo_Red_Load extends LinearOpMode{
 	}
 
 	public void encoderLift(double liftSpeed, double Inches){  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
-		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+		int newLiftTarget;                                     // Creates the integer "newLiftTarget"
 
 		if (opModeIsActive()){     // Do the following after the start button has been pressed and until the stop button is pressed
 			newLiftTarget = (robot.lift.getCurrentPosition() + (int) (Inches * Galileo_Hardware.COUNTS_PER_LIFT_INCH));
@@ -509,19 +508,19 @@ public class Galileo_Red_Load extends LinearOpMode{
 			// However, if you require that BOTH motors have finished their moves before the robot continues
 			// onto the next step, use (isBusy() || isBusy()) in the loop test.
 			while (opModeIsActive() &&
-					(runtime.seconds() < timeoutS) &&
-					(robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy() && robot.motorBackLeft.isBusy() && robot.motorBackRight.isBusy())){
+			(runtime.seconds() < timeoutS) &&
+			(robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy() && robot.motorBackLeft.isBusy() && robot.motorBackRight.isBusy())){
 
-				// Display it for the driver.
-				telemetry.addData("FLM: Path2", "Running at %7d", //Tells us where we are
+					// Display it for the driver.
+					telemetry.addData("FLM: Path2", "Running at %7d", //Tells us where we are
 						robot.motorFrontLeft.getCurrentPosition()); //Front Left Position
-				telemetry.addData("FRM: Path2", "Running at %7d", //Tells us where we are
+					telemetry.addData("FRM: Path2", "Running at %7d", //Tells us where we are
 						robot.motorFrontRight.getCurrentPosition()); //Front Right Position
-				telemetry.addData("BLM: Path2", "Running at %7d", //Tells us where we are
+					telemetry.addData("BLM: Path2", "Running at %7d", //Tells us where we are
 						robot.motorBackLeft.getCurrentPosition()); //Back Left Position
-				telemetry.addData("BRM: Path2", "Running at %7d", //Tells us where we are
+					telemetry.addData("BRM: Path2", "Running at %7d", //Tells us where we are
 						robot.motorBackRight.getCurrentPosition()); //Back Right Position
-				telemetry.update();
+					telemetry.update();
 			}
 
 			// Stop all motion;
@@ -535,8 +534,6 @@ public class Galileo_Red_Load extends LinearOpMode{
 			robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 			robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 			robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-			//  sleep(250);   // optional pause after each move
 		}
 	}
 
@@ -561,7 +558,7 @@ public class Galileo_Red_Load extends LinearOpMode{
 	// Initialize the TensorFlow Object Detection engine
 	private void initTfod(){
 		int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-				"tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+			"tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 		TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
 		tfodParameters.minimumConfidence = 0.8;
 		robot.tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, robot.vuforia);
@@ -573,8 +570,7 @@ public class Galileo_Red_Load extends LinearOpMode{
 
 		// keep looping while we are still active, and not on heading.
 		while (opModeIsActive() && !onHeading(speed, angle, Galileo_Hardware.P_TURN_COEFF)){
-			// Update telemetry & Allow time for other processes to run.
-			telemetry.update();
+			telemetry.update(); // Update telemetry & Allow time for other processes to run.
 		}
 	}
 
