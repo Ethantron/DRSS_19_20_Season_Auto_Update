@@ -195,7 +195,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
             if (step == 9) { //Run back to the second skystone
                 stepTelemetry(); //Display telemetry
                 if (robot.pos == 1) { //If the skystone was in position 1
-                    encoderDrive(.6,-62,10); //Move backwards 62 inches to second skystone
+                    encoderDrive(.6,-59,10); //Move backwards 62 inches to second skystone
                     step++;
                 }
                 if (robot.pos == 2) { //If the skystone was in position 2
@@ -281,7 +281,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 
             if (step == 14) { //Start moving back across the line
                 if (robot.pos == 1) { //If the skystone was in position 1
-                    encoderDrive(1, 62, 10); //Move forward across the line
+                    encoderDrive(1, 59, 10); //Move forward across the line
                     step++; // Move to next step
                 }
 
@@ -290,27 +290,6 @@ public class Auto_Blue_Depot extends LinearOpMode {
                     step++; //Move to next step
                 }
             }
-
-            /*// Does it see the line?
-            while (step == 15 && opModeIsActive()){
-                Color.RGBToHSV((int) (color_sensor.red() * SCALE_FACTOR),
-                        (int) (color_sensor.green() * SCALE_FACTOR),
-                        (int) (color_sensor.blue() * SCALE_FACTOR),
-                        hsvValues);
-                Color.RGBToHSV((int) (color2.red() * SCALE_FACTOR),
-                        (int) (color2.green() * SCALE_FACTOR),
-                        (int) (color2.blue() * SCALE_FACTOR),
-                        hsvValues);
-
-                // Send the info back to driver station using telemetry function.
-                telemetry.addData("Step: ", step);
-                telemetry.addData("Hue", hsvValues[0]);
-                telemetry.update();
-
-                if (hsvValues[0] > 150 ){ // Checks if it is red or blue
-                    step++;
-                }
-            }*/
 
             if (step == 15) { //Release the skystone
                 stepTelemetry(); //Dislay Telemetry
@@ -337,7 +316,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 robot.motorFrontRight.setPower(.4); //Set power to strafe left
                 robot.motorBackLeft.setPower(.4); //Set power to strafe left
                 robot.motorBackRight.setPower(-.4); //Set power to strafe left
-                sleep(500); //Wait 500 milliseconds
+                sleep(750); //Wait 750 milliseconds
 
                 step++; //move to next step
             }
