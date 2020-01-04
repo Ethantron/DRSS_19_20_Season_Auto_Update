@@ -228,14 +228,14 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display telemetry
 
                 //Move backwards
-                encoderDrive(1, -6, 10); //Move Backwards 6 inches
+                encoderDrive(1, -16, 10); //Move Backwards 16 inches
 
                 //Strafe Left to get out of the way
                 robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
                 robot.motorFrontRight.setPower(.4); //Set power to strafe left
                 robot.motorBackLeft.setPower(.4); //Set power to strafe left
                 robot.motorBackRight.setPower(-.4); //Set power to strafe left
-                sleep(300); //Wait 300 milliseconds
+                sleep(500); //Wait 500 milliseconds
 
                 step++; //Move to next step
             }
