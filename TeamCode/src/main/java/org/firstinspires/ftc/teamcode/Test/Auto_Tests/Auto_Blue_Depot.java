@@ -19,7 +19,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 import java.util.Locale;
 
-@Autonomous(name = "Auto_Blue_Depot", group= "Autonomous")
+@Autonomous(name = "Auto_Red_Depot", group= "Autonomous")
 public class Auto_Blue_Depot extends LinearOpMode {
 
     AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
