@@ -369,12 +369,26 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public void encoderLift(double liftSpeed, double levels) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
 		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
 
-		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+		/**Mechanum drive controls**/
+		// left stick controls direction
+		// right stick X controls rotation
+		float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
+		float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
+		float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
 
-			motorFrontRight.setPower(0); // Stop motors to prevent losing control while lifting
-			motorFrontLeft.setPower(0);  // Stop motors to prevent losing control while lifting
-			motorBackLeft.setPower(0);   // Stop motors to prevent losing control while lifting
-			motorBackRight.setPower(0);  // Stop motors to prevent losing control while lifting
+		// Mechanum formulas
+		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+
+		// sets speed
+		frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
+		frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+		backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+		backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
+
+		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
 
 			newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 50;
 
@@ -410,12 +424,26 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public void encoderPlace(double DropSpeed, double distance) {
 		int newDropTarget;
 
-		if (opModeIsActive()) {
+		/**Mechanum drive controls**/
+		// left stick controls direction
+		// right stick X controls rotation
+		float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
+		float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
+		float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
 
-			motorFrontRight.setPower(0); // Stop motors to prevent losing control while lifting
-			motorFrontLeft.setPower(0);  // Stop motors to prevent losing control while lifting
-			motorBackLeft.setPower(0);   // Stop motors to prevent losing control while lifting
-			motorBackRight.setPower(0);  // Stop motors to prevent losing control while lifting
+		// Mechanum formulas
+		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+
+		// sets speed
+		frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
+		frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+		backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+		backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
+
+		if (opModeIsActive()) {
 
 			newDropTarget = lift.getCurrentPosition() - (int) (distance);
 
@@ -463,14 +491,28 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	}
 
 	public void encoderTransport(double liftSpeed, double Inches) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
-		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+		int newLiftTarget;                                           // Creates the integer "newLiftTarget"
+
+		/**Mechanum drive controls**/
+		// left stick controls direction
+		// right stick X controls rotation
+		float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
+		float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
+		float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
+
+		// Mechanum formulas
+		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+
+		// sets speed
+		frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
+		frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+		backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+		backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
 
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
-
-			motorFrontRight.setPower(0); // Stop motors to prevent losing control while lifting
-			motorFrontLeft.setPower(0);  // Stop motors to prevent losing control while lifting
-			motorBackLeft.setPower(0);   // Stop motors to prevent losing control while lifting
-			motorBackRight.setPower(0);  // Stop motors to prevent losing control while lifting
 
 			newLiftTarget = (lift.getCurrentPosition() + (int) (Inches * COUNTS_PER_LIFT_INCH));
 
