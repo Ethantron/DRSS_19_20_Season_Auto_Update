@@ -113,7 +113,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
                 robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
                 robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
-                sleep(500); //Wait for 500 milliseconds
+                sleep(600); //Wait for 600 milliseconds
                 robot.motorFrontLeft.setPower(0); //Stop all power to the motors
                 robot.motorFrontRight.setPower(0); //Stop all power to the motors
                 robot.motorBackLeft.setPower(0); //Stop all power to the motors
@@ -199,7 +199,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                     step++;
                 }
                 if (robot.pos == 2) { //If the skystone was in position 2
-                    encoderDrive(.6,-63,10); //Move backwards 58 inches to second skystone
+                    encoderDrive(.6,-64,10); //Move backwards 58 inches to second skystone
                     step++;
                 }
                 if (robot.pos == 3) { //If the skystone was in position 3
