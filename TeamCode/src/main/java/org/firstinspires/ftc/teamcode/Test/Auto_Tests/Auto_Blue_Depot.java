@@ -71,6 +71,8 @@ public class Auto_Blue_Depot extends LinearOpMode {
                     robot.tfod.activate();
                 }
 
+                sleep(1000);
+
                 //Start Scanning
                 robot.pos++; //Tells code that it is checking position 1
                 scan(); //Scan for skystone
