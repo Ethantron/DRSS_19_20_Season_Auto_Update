@@ -315,14 +315,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
             // End of Wrist controls
 
             // Grabber Controls
-            if (gamepad2.a) {                              // Do the following if the "a" button is pressed
-                encoderPlace(1, 50);    // Moves the lift slightly down and opens the grabber
+            if ((gamepad2.b || stoneButton.getState()) && !gamepad2.a) { // Do the following if the "b" button is pressed
+                grabStone.setPosition(0);               // Close the grabber
             }
 
-            if (stoneButton.getState() && !gamepad2.b) {   // Do the following if the stone button is pressed
-                grabStone.setPosition(0);                  // Closes the grabber
-            } else {                                       // Do the following if the stone button is not pressed or the "b" button is pressed
-                grabStone.setPosition(.6);                 // Opens the grabber
+            if ((gamepad2.a || !stoneButton.getState()) && !gamepad2.b) {              // Do the following if the "a" button is pressed
+                grabStone.setPosition(.6); // Open the grabber
             }
 
             // End of Grabber Controls
