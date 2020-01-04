@@ -19,7 +19,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 import java.util.Locale;
 
-@Autonomous(name = "Auto_Red_Depot", group= "Autonomous")
+@Autonomous (name = "Auto_Blue_Depot", group = "Autonomous")
 public class Auto_Blue_Depot extends LinearOpMode {
 
     AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
@@ -36,13 +36,13 @@ public class Auto_Blue_Depot extends LinearOpMode {
         composeTelemetry(); //Gyro Telemetry Initialization
 
         // Skystone detection initialization
-            initVuforia(); //Vuforia Initialization
+        initVuforia(); //Vuforia Initialization
 
-            if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-                initTfod(); //Tensor Flow Object Detection Initialization
-            } else {
-                telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-            }
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            initTfod(); //Tensor Flow Object Detection Initialization
+        } else {
+            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+        }
 
         telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
         telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
@@ -71,7 +71,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                     robot.tfod.activate();
                 }
 
-                sleep(1000);
+                sleep(2000);
 
                 //Start Scanning
                 robot.pos++; //Tells code that it is checking position 1
@@ -86,11 +86,11 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 //Setting skystone position for later
                 robot.pos++; //If we didn't see the skystone in position 1, move to next position
 
-                //Strafe Left to next block
-                robot.motorFrontLeft.setPower(-.6); //Set the motors to strafe left
-                robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
-                robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
-                robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
+                //Strafe Right to next block
+                robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
+                robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
+                robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
+                robot.motorBackRight.setPower(.6); //Set the motors to strafe right
                 sleep(500); //Wait 500 milliseconds
                 robot.motorFrontLeft.setPower(0); //Stop all power to the motors
                 robot.motorFrontRight.setPower(0); //Stop all power to the motors
@@ -110,11 +110,11 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 //Setting skystone position for later
                 robot.pos++; //If we didn't see the skystone, move to next position
 
-                //Strafe Left to next block
-                robot.motorFrontLeft.setPower(-.6); //Set the motors to strafe left
-                robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
-                robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
-                robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
+                //Strafe Right to next block
+                robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
+                robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
+                robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
+                robot.motorBackRight.setPower(.6); //Set the motors to strafe right
                 sleep(600); //Wait for 600 milliseconds
                 robot.motorFrontLeft.setPower(0); //Stop all power to the motors
                 robot.motorFrontRight.setPower(0); //Stop all power to the motors
@@ -160,7 +160,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display Telemetry
 
                 //Turn Clockwise
-                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
+                encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
 
                 step++; //Move to the next step
             }
@@ -217,7 +217,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 encoderLift(1, -1); //Drop the lift 1"
 
                 //Turn 90 degrees counterclockwise
-                encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
+                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
                 gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
                 gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
 
@@ -230,11 +230,11 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 //Move backwards
                 encoderDrive(1, -16, 10); //Move Backwards 16 inches
 
-                //Strafe Left to get out of the way
-                robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
-                robot.motorFrontRight.setPower(.4); //Set power to strafe left
-                robot.motorBackLeft.setPower(.4); //Set power to strafe left
-                robot.motorBackRight.setPower(-.4); //Set power to strafe left
+                //Strafe Right to get out of the way
+                robot.motorFrontLeft.setPower(.4); //Set power to strafe right
+                robot.motorFrontRight.setPower(-.4); //Set power to strafe right
+                robot.motorBackLeft.setPower(-.4); //Set power to strafe right
+                robot.motorBackRight.setPower(.4); //Set power to strafe right
                 sleep(500); //Wait 500 milliseconds
 
                 step++; //Move to next step
@@ -277,7 +277,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 
             if (step == 13) { //Turn 90 degrees
                 stepTelemetry(); //Display telemetry
-                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
+                encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
                 step++; //Move to next step
             }
 
@@ -313,11 +313,11 @@ public class Auto_Blue_Depot extends LinearOpMode {
 
             if (step == 17) { //Strafe left
 
-                //Strafe Left to get out of the way
-                robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
-                robot.motorFrontRight.setPower(.4); //Set power to strafe left
-                robot.motorBackLeft.setPower(.4); //Set power to strafe left
-                robot.motorBackRight.setPower(-.4); //Set power to strafe left
+                //Strafe Right to get out of the way
+                robot.motorFrontLeft.setPower(.4); //Set power to strafe right
+                robot.motorFrontRight.setPower(-.4); //Set power to strafe right
+                robot.motorBackLeft.setPower(-.4); //Set power to strafe right
+                robot.motorBackRight.setPower(.4); //Set power to strafe right
                 sleep(750); //Wait 750 milliseconds
 
                 step++; //move to next step
