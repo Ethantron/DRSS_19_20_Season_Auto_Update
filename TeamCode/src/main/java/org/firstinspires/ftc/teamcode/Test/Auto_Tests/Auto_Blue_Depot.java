@@ -44,10 +44,6 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 telemetry.addData("Sorry!", "This device is not compatible with TFOD");
             }
 
-            if (robot.tfod != null) {
-                robot.tfod.activate();
-            }
-
         telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
         telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
         telemetry.addData("Status: ", "Ready");                 // Adds telemetry to the screen to show that the robot is ready
@@ -70,6 +66,10 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 robot.slide.setPower(1); //Move Slide Forward
                 sleep(200); //Wait 200 Milliseconds
                 robot.slide.setPower(0); //Stop Moving Slide Forward
+
+                if (robot.tfod != null) {
+                    robot.tfod.activate();
+                }
 
                 //Start Scanning
                 robot.pos++; //Tells code that it is checking position 1
