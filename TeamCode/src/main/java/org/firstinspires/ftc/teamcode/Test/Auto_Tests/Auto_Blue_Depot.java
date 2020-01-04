@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
-import android.annotation.SuppressLint;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -21,8 +19,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 import java.util.Locale;
 
-@Autonomous (name = "Auto_Red_Load", group = "Autonomous")
-public class Auto_Red_Load extends LinearOpMode {
+@Autonomous(name = "Auto_Blue_Depot", group= "Autonomous")
+public class Auto_Blue_Depot extends LinearOpMode {
 
     AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
 
@@ -86,11 +84,11 @@ public class Auto_Red_Load extends LinearOpMode {
                 //Setting skystone position for later
                 robot.pos++; //If we didn't see the skystone in position 1, move to next position
 
-                //Strafe Right to next block
-                robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
-                robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
-                robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
-                robot.motorBackRight.setPower(.6); //Set the motors to strafe right
+                //Strafe Left to next block
+                robot.motorFrontLeft.setPower(-.6); //Set the motors to strafe left
+                robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
+                robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
+                robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
                 sleep(500); //Wait 500 milliseconds
                 robot.motorFrontLeft.setPower(0); //Stop all power to the motors
                 robot.motorFrontRight.setPower(0); //Stop all power to the motors
@@ -110,11 +108,11 @@ public class Auto_Red_Load extends LinearOpMode {
                 //Setting skystone position for later
                 robot.pos++; //If we didn't see the skystone, move to next position
 
-                //Strafe Right to next block
-                robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
-                robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
-                robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
-                robot.motorBackRight.setPower(.6); //Set the motors to strafe right
+                //Strafe Left to next block
+                robot.motorFrontLeft.setPower(-.6); //Set the motors to strafe left
+                robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
+                robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
+                robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
                 sleep(500); //Wait for 500 milliseconds
                 robot.motorFrontLeft.setPower(0); //Stop all power to the motors
                 robot.motorFrontRight.setPower(0); //Stop all power to the motors
@@ -159,8 +157,8 @@ public class Auto_Red_Load extends LinearOpMode {
             if (step == 6) { //Turn 90 degrees clockwise
                 stepTelemetry(); //Display Telemetry
 
-                //Turn Counter Clockwise
-                encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
+                //Turn Clockwise
+                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
 
                 step++; //Move to the next step
             }
@@ -228,10 +226,12 @@ public class Auto_Red_Load extends LinearOpMode {
             if (step == 9) { //Run back to the second skystone
                 stepTelemetry(); //Display telemetry
                 if (robot.pos == 1) { //If the skystone was in position 1
-                    encoderDrive(.6, -59, 10); //Move backwards 49 inches to second skystone
+                    encoderDrive(.6,-59,10); //Move backwards 49 inches to second skystone
+                    step++;
                 }
                 if (robot.pos == 2) { //If the skystone was in position 2
-                    encoderDrive(.6, -63, 10); //Move backwards 58 inches to second skystone
+                    encoderDrive(.6,-63,10); //Move backwards 58 inches to second skystone
+                    step++;
                 }
                 if (robot.pos == 3) { //If the skystone was in position 3
                     //encoderDrive(.6,-75,10); //Use in case we want second skystone on pos 3
@@ -245,8 +245,8 @@ public class Auto_Red_Load extends LinearOpMode {
                 //Drive the lfit up
                 encoderLift(1, -1.25); //Drop the lift 1.25"
 
-                //Turn 90 degrees clockwise
-                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
+                //Turn 90 degrees counterclockwise
+                encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
                 gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
                 gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
 
@@ -259,17 +259,17 @@ public class Auto_Red_Load extends LinearOpMode {
                 //Move backwards
                 encoderDrive(1, -6, 10); //Move Backwards 6 inches
 
-                //Strafe Right to get out of the way
-                robot.motorFrontLeft.setPower(.4); //Set power to strafe right
-                robot.motorFrontRight.setPower(-.4); //Set power to strafe right
-                robot.motorBackLeft.setPower(-.4); //Set power to strafe right
-                robot.motorBackRight.setPower(.4); //Set power to strafe right
+                //Strafe Left to get out of the way
+                robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
+                robot.motorFrontRight.setPower(.4); //Set power to strafe left
+                robot.motorBackLeft.setPower(.4); //Set power to strafe left
+                robot.motorBackRight.setPower(-.4); //Set power to strafe left
                 sleep(300); //Wait 300 milliseconds
 
                 step++; //Move to next step
             }
 
-            if (step == 11 && robot.pos == 3) { //Stop strafing and end position 3
+            if (step == 11 && robot.pos==3) { //Stop strafing and end position 3
                 //Stop Strafing
                 robot.motorFrontLeft.setPower(0); //Stop all power to the motors
                 robot.motorFrontRight.setPower(0); //Stop all power to the motors
@@ -306,7 +306,7 @@ public class Auto_Red_Load extends LinearOpMode {
 
             if (step == 13) { //Turn 90 degrees
                 stepTelemetry(); //Display telemetry
-                encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
+                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
                 step++; //Move to next step
             }
 
@@ -314,7 +314,9 @@ public class Auto_Red_Load extends LinearOpMode {
                 if (robot.pos == 1) { //If the skystone was in position 1
                     encoderDrive(1, 59, 10); //Move forward across the line
                     step++; // Move to next step
-                } else if (robot.pos == 2) { //If the skystone was in position 2
+                }
+
+                else if (robot.pos == 2) { //If the skystone was in position 2
                     encoderDrive(1, 63, 10); //Move forward across the line
                     step++; //Move to next step
                 }
@@ -354,18 +356,18 @@ public class Auto_Red_Load extends LinearOpMode {
                 stepTelemetry(); //Display Telemetry
 
                 //Move backward
-                encoderDrive(1, -6, 10); //Move backward 6 inches
+                encoderDrive(1,-6,10); //Move backward 6 inches
 
                 step++; //Move to next step
             }
 
             if (step == 17) { //Strafe left
 
-                //Strafe Right to get out of the way
-                robot.motorFrontLeft.setPower(.4); //Set power to strafe right
-                robot.motorFrontRight.setPower(-.4); //Set power to strafe right
-                robot.motorBackLeft.setPower(-.4); //Set power to strafe right
-                robot.motorBackRight.setPower(.4); //Set power to strafe right
+                //Strafe Left to get out of the way
+                robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
+                robot.motorFrontRight.setPower(.4); //Set power to strafe left
+                robot.motorBackLeft.setPower(.4); //Set power to strafe left
+                robot.motorBackRight.setPower(-.4); //Set power to strafe left
                 sleep(300); //Wait 300 milliseconds
 
                 step++; //move to next step
@@ -382,7 +384,7 @@ public class Auto_Red_Load extends LinearOpMode {
         }
     }
 
-    private void stepTelemetry() {
+    private void stepTelemetry(){
         telemetry.addData("Current step: ", step);
         telemetry.addData("Skystone Positon: ", robot.pos);
         telemetry.update();
@@ -391,7 +393,6 @@ public class Auto_Red_Load extends LinearOpMode {
 
     //Skystone Position Voids
 
-    @SuppressLint("DefaultLocale")
     public void scan() {
         if (robot.tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
@@ -418,7 +419,7 @@ public class Auto_Red_Load extends LinearOpMode {
     }
 
     //Repeated Voids
-    public void encoderDrive(double speed, double Inches, double timeoutS) {
+    public void encoderDrive(double speed, double Inches, double timeoutS){
 
         //Create our target variables
         int newFrontLeftTarget;
@@ -430,10 +431,10 @@ public class Auto_Red_Load extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Math to calculate each target position for the motors
-            newFrontLeftTarget = robot.motorFrontLeft.getCurrentPosition() + (int) (Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
-            newFrontRightTarget = robot.motorFrontRight.getCurrentPosition() + (int) (Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
-            newBackLeftTarget = robot.motorBackLeft.getCurrentPosition() + (int) (Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
-            newBackRightTarget = robot.motorBackRight.getCurrentPosition() + (int) (Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
+            newFrontLeftTarget = robot.motorFrontLeft.getCurrentPosition() + (int)(Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
+            newFrontRightTarget = robot.motorFrontRight.getCurrentPosition() + (int)(Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
+            newBackLeftTarget = robot.motorBackLeft.getCurrentPosition() + (int)(Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
+            newBackRightTarget = robot.motorBackRight.getCurrentPosition() + (int)(Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
 
             //Set Target Positions to respective motors
             robot.motorFrontLeft.setTargetPosition(newFrontLeftTarget);
@@ -465,7 +466,7 @@ public class Auto_Red_Load extends LinearOpMode {
                     (robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy() && robot.motorBackLeft.isBusy() && robot.motorBackRight.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Motor Paths", "Running at %7d : %7d : %7d : %7d", //Tells us where we are
+                telemetry.addData("Motor Paths",  "Running at %7d : %7d : %7d : %7d", //Tells us where we are
                         robot.motorFrontLeft.getCurrentPosition(), //Front Left Position
                         robot.motorFrontRight.getCurrentPosition(), //Front Right Position
                         robot.motorBackLeft.getCurrentPosition(), //Back Left Position
@@ -593,7 +594,7 @@ public class Auto_Red_Load extends LinearOpMode {
     //Initialization Voids
 
     // Skystone detection configuration
-    private void initVuforia() {
+    private void initVuforia () {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
@@ -609,7 +610,7 @@ public class Auto_Red_Load extends LinearOpMode {
     }
 
     // Initialize the TensorFlow Object Detection engine
-    private void initTfod() {
+    private void initTfod () {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
@@ -619,7 +620,7 @@ public class Auto_Red_Load extends LinearOpMode {
     }
 
 
-    public void gyroTurn(double speed, double angle) {
+    public void gyroTurn (  double speed, double angle) {
 
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && !onHeading(speed, angle, AutoHardwareGalileo.P_TURN_COEFF)) {
@@ -629,16 +630,16 @@ public class Auto_Red_Load extends LinearOpMode {
     }
 
     /**
-     * Method to obtain & hold a heading for a finite amount of time
-     * Move will stop once the requested time has elapsed
+     *  Method to obtain & hold a heading for a finite amount of time
+     *  Move will stop once the requested time has elapsed
      *
-     * @param speed    Desired speed of turn.
-     * @param angle    Absolute Angle (in Degrees) relative to last gyro reset.
-     *                 0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *                 If a relative angle is required, add/subtract from current heading.
-     * @param holdTime Length of time (in seconds) to hold the specified heading.
+     * @param speed      Desired speed of turn.
+     * @param angle      Absolute Angle (in Degrees) relative to last gyro reset.
+     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                   If a relative angle is required, add/subtract from current heading.
+     * @param holdTime   Length of time (in seconds) to hold the specified heading.
      */
-    public void gyroHold(double speed, double angle, double holdTime) {
+    public void gyroHold( double speed, double angle, double holdTime) {
 
         ElapsedTime holdTimer = new ElapsedTime();
 
@@ -660,17 +661,17 @@ public class Auto_Red_Load extends LinearOpMode {
     /**
      * Perform one cycle of closed loop heading control.
      *
-     * @param speed  Desired speed of turn.
-     * @param angle  Absolute Angle (in Degrees) relative to last gyro reset.
-     *               0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *               If a relative angle is required, add/subtract from current heading.
-     * @param PCoeff Proportional Gain coefficient
+     * @param speed     Desired speed of turn.
+     * @param angle     Absolute Angle (in Degrees) relative to last gyro reset.
+     *                  0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                  If a relative angle is required, add/subtract from current heading.
+     * @param PCoeff    Proportional Gain coefficient
      * @return
      */
     boolean onHeading(double speed, double angle, double PCoeff) {
-        double error;
-        double steer;
-        boolean onTarget = false;
+        double   error ;
+        double   steer ;
+        boolean  onTarget = false ;
         double leftSpeed;
         double rightSpeed;
 
@@ -679,13 +680,14 @@ public class Auto_Red_Load extends LinearOpMode {
 
         if (Math.abs(error) <= AutoHardwareGalileo.HEADING_THRESHOLD) {
             steer = 0.0;
-            leftSpeed = 0.0;
+            leftSpeed  = 0.0;
             rightSpeed = 0.0;
             onTarget = true;
-        } else {
+        }
+        else {
             steer = getSteer(error, PCoeff);
-            rightSpeed = speed * steer;
-            leftSpeed = -rightSpeed;
+            rightSpeed  = speed * steer;
+            leftSpeed   = -rightSpeed;
         }
 
         // Send desired speeds to motors.
@@ -704,10 +706,9 @@ public class Auto_Red_Load extends LinearOpMode {
 
     /**
      * getError determines the error between the target angle and the robot's current heading
-     *
-     * @param targetAngle Desired angle (relative to global reference established at last Gyro Reset).
-     * @return error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
-     * +ve error means the robot should turn LEFT (CCW) to reduce error.
+     * @param   targetAngle  Desired angle (relative to global reference established at last Gyro Reset).
+     * @return  error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
+     *          +ve error means the robot should turn LEFT (CCW) to reduce error.
      */
     public double getError(double targetAngle) {
 
@@ -715,16 +716,15 @@ public class Auto_Red_Load extends LinearOpMode {
 
         // calculate error in -179 to +180 range  (
         robotError = targetAngle - robot.angles.firstAngle;
-        while (robotError > 180) robotError -= 360;
+        while (robotError > 180)  robotError -= 360;
         while (robotError <= -180) robotError += 360;
         return robotError;
     }
 
     /**
      * returns desired steering force.  +/- 1 range.  +ve = steer left
-     *
-     * @param error  Error angle in robot relative degrees
-     * @param PCoeff Proportional Gain Coefficient
+     * @param error   Error angle in robot relative degrees
+     * @param PCoeff  Proportional Gain Coefficient
      * @return
      */
     public double getSteer(double error, double PCoeff) {
@@ -736,20 +736,18 @@ public class Auto_Red_Load extends LinearOpMode {
 
         // At the beginning of each telemetry update, grab a bunch of data
         // from the IMU that we will then display in separate lines.
-        telemetry.addAction(new Runnable() {
-            @Override
-            public void run() {
-                // Acquiring the angles is relatively expensive; we don't want
-                // to do that in each of the three items that need that info, as that's
-                // three times the necessary expense.
-                robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                robot.gravity = robot.imu.getGravity();
-            }
+        telemetry.addAction(new Runnable() { @Override public void run()
+        {
+            // Acquiring the angles is relatively expensive; we don't want
+            // to do that in each of the three items that need that info, as that's
+            // three times the necessary expense.
+            robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            robot.gravity  = robot.imu.getGravity();
+        }
         });
         telemetry.addLine()
                 .addData("heading", new Func<String>() {
-                    @Override
-                    public String value() {
+                    @Override public String value() {
                         return formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
                     }
                 });
@@ -759,8 +757,7 @@ public class Auto_Red_Load extends LinearOpMode {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
-    String formatDegrees(double degrees) {
+    String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }
-

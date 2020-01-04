@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 import java.util.Locale;
 
-@Autonomous (name = "Auto_Red_Build", group = "Autonomous")
-public class Auto_Red_Build extends LinearOpMode {
+@Autonomous (name = "Auto_Blue_Foundation", group = "Autonomous")
+public class Auto_Blue_Foundation extends LinearOpMode {
 
     AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
 
@@ -23,7 +23,7 @@ public class Auto_Red_Build extends LinearOpMode {
     double step = 1; //Sets the steps for the autonomous
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap); //Calls Upon Robot Initialization File
 
         composeTelemetry(); //Gyro Telemetry Initialization
@@ -43,23 +43,23 @@ public class Auto_Red_Build extends LinearOpMode {
             step++;
         }
 
-        if (step == 2) {                                     //Turn counterclockwise 90 degrees
+        if (step == 2) {                                     //Turn clockwise 90 degrees
             stepTelemetry();                                 //Display Telemetry
 
-            encoderTurn(.35, 90, 10); //Turn CCW 90 Degrees
-            gyroTurn(.1, -90);                   //Make Sure We are perfectly 90 degrees
-            gyroHold(.1,-90,.25);       //Hold Angle for .25 seconds
+            encoderTurn(.35, -90, 10); //Turn CW 90 Degrees
+            gyroTurn(.1, 90);                   //Make Sure We are perfectly 90 degrees
+            gyroHold(.1,90,.25);       //Hold Angle for .25 seconds
 
             step++;
         }
 
-        if (step == 3) {                                    //Strafe Right
+        if (step == 3) {                                    //Strafe Left
             stepTelemetry();                                //Display Telemetry
 
-            robot.motorFrontRight.setPower(-.6);            //Set motor power to Strafe Right
-            robot.motorFrontLeft.setPower(.6);              //Set motor power to Strafe Right
-            robot.motorBackLeft.setPower(-.6);              //Set motor power to Strafe Right
-            robot.motorBackRight.setPower(.6);              //Set motor power to Strafe Right
+            robot.motorFrontRight.setPower(.6);             //Set motor power to strafe left
+            robot.motorFrontLeft.setPower(-.6);             //Set motor power to strafe left
+            robot.motorBackLeft.setPower(.6);               //Set motor power to strafe left
+            robot.motorBackRight.setPower(-.6);             //Set motor power to strafe left
             sleep(2500);                         //wait 2.5 seconds to strafe far enough
             robot.motorFrontRight.setPower(0);              //Set motor power to stop
             robot.motorFrontLeft.setPower(0);               //Set motor power to stop
@@ -117,15 +117,15 @@ public class Auto_Red_Build extends LinearOpMode {
             step++;
         }
 
-        if (step == 7) {                                      //Turn CounterClockwise 60 degrees
+        if (step == 7) {                                      //Turn Clockwise 60 degrees
             stepTelemetry();                                  //Display Telemetry
 
-            encoderTurn(.35, 60, 10); //Turn CCW 60 degrees
+            encoderTurn(.35, -60, 10); //Turn CW 60 degrees
 
             step++;
         }
 
-        if (step == 8) {                                    //Move the foundation forward 24 inches
+        if (step == 8) {                                    //Move the foundation forward 25 inches
             stepTelemetry();                                //Display Telemetry
 
             encoderDrive(1, 24, 10); //Move forward 24 inches to place foundation into zone
@@ -153,8 +153,8 @@ public class Auto_Red_Build extends LinearOpMode {
         if (step == 11) {                                   //Turn to 90 degrees from starting position
             stepTelemetry();                                //Display Telemetry
 
-            gyroTurn(.1, -90);                 //Turn right 60 degrees
-            gyroHold(.1, -90,.25);    //Hold 90 degrees for  .25 seconds
+            gyroTurn(.1, 90);                 //Turn left 60 degrees
+            gyroHold(.1, 90,.25);    //Hold 90 degrees for  .25 seconds
 
             step++;
         }
