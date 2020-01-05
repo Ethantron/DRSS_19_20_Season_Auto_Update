@@ -38,7 +38,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
         if (step == 1) {                                    //Move forward
             stepTelemetry();                                //Display Telemetry
 
-            encoderDrive(1, 48, 10); //Move forward 36 inches just before the foundation
+            encoderDrive(1, 50, 10); //Move forward 50 inches just before the foundation
 
             step++;
         }
@@ -53,18 +53,10 @@ public class Auto_Red_Foundation extends LinearOpMode {
             step++;
         }
 
-        if (step == 3) {                                    //Strafe Left
+        if (step == 3) {                                    //Lift to clear foundation
             stepTelemetry();                                //Display Telemetry
 
-            robot.motorFrontRight.setPower(.6);             //Set motor power to strafe left
-            robot.motorFrontLeft.setPower(-.6);             //Set motor power to strafe left
-            robot.motorBackLeft.setPower(.6);               //Set motor power to strafe left
-            robot.motorBackRight.setPower(-.6);             //Set motor power to strafe left
-            sleep(2500);                         //wait 2.5 seconds to strafe far enough
-            robot.motorFrontRight.setPower(0);              //Set motor power to stop
-            robot.motorFrontLeft.setPower(0);               //Set motor power to stop
-            robot.motorBackLeft.setPower(0);                //Set motor power to stop
-            robot.motorBackRight.setPower(0);               //Set motor power to stop
+            encoderLift(1, 2.5);           //Move the lift up 2.5 inches to clear the foundation
 
             step++;
         }
@@ -128,7 +120,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
         if (step == 8) {                                    //Move the foundation forward 25 inches
             stepTelemetry();                                //Display Telemetry
 
-            encoderDrive(1, 24, 10); //Move forward 24 inches to place foundation into zone
+            encoderDrive(1, 36, 10); //Move forward 36 inches to place foundation into zone
 
             step++;
         }
