@@ -47,8 +47,8 @@ public class Auto_Red_Foundation extends LinearOpMode {
             stepTelemetry();                                 //Display Telemetry
 
             encoderTurn(.35, -90, 10); //Turn CW 90 Degrees
-            gyroTurn(.1, 90);                   //Make Sure We are perfectly 90 degrees
-            gyroHold(.1,90,.25);       //Hold Angle for .25 seconds
+            gyroTurn(.1, -90);                   //Make Sure We are perfectly 90 degrees
+            gyroHold(.1,-90,.25);       //Hold Angle for .25 seconds
 
             step++;
         }
