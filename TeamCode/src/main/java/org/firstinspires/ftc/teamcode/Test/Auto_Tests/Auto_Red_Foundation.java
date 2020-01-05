@@ -31,14 +31,14 @@ public class Auto_Red_Foundation extends LinearOpMode {
         telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
         telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
         telemetry.addData("Status: ", "Ready");                 // Adds telemetry to the screen to show that the robot is ready
-        telemetry.addData("Press Play to Start ", "TeleOp");    // Adds telemetry to the screen to tell the drivers that the code is ready to start
+        telemetry.addData("Press Play to Start ", "Autonomous");    // Adds telemetry to the screen to tell the drivers that the code is ready to start
         telemetry.update();                                                   // Tells the telemetry to display on the phone
         waitForStart();
 
         if (step == 1) {                                    //Move forward
             stepTelemetry();                                //Display Telemetry
 
-            encoderDrive(.4, 50, 10); //Move forward 50 inches just before the foundation
+            encoderDrive(.4, 46, 10); //Move forward 46 inches just before the foundation
 
             step++;
         }
@@ -56,76 +56,48 @@ public class Auto_Red_Foundation extends LinearOpMode {
         if (step == 3) {                                    //Lift to clear foundation
             stepTelemetry();                                //Display Telemetry
 
-            encoderLift(1, 2.5);           //Move the lift up 2.5 inches to clear the foundation
+            encoderLift(1, 1);           //Move the lift up 2.5 inches to clear the foundation
 
-            //step++;
+            step++;
         }
 
         if (step == 4) {                                    //Start moving against the foundation
             stepTelemetry();                                //Display Telemetry
 
-            robot.motorFrontRight.setPower(.3);             //Set motor power to move forward
-            robot.motorFrontLeft.setPower(.3);              //Set motor power to move forward
-            robot.motorBackLeft.setPower(.3);               //Set motor power to move forward
-            robot.motorBackRight.setPower(.3);              //Set motor power to move forward
+            encoderDrive(.3,12, 10);  //Move forward 12 inches
+            sleep(1000);                         //Wait 1 second
 
             step++;
         }
 
-        if (step == 5) {                                          //Align with foundation using foundation bumpers
-            stepTelemetry();                                      //Display Telemetry
-
-            if (robot.foundationBumperLeft.isPressed()) {          //If the left foundation bumper is pressed against the foundation
-                robot.motorFrontLeft.setPower(0);                 //Set Motor Power to stop
-                robot.motorBackLeft.setPower(0);                  //Set Motor Power to stop
-            }
-
-            if (!robot.foundationBumperLeft.isPressed()) {          //If the left foundation bumper is not pressed against the foundation
-                robot.motorFrontLeft.setPower(.3);                 //Set Motor Power to move forward
-                robot.motorBackLeft.setPower(.3);                  //Set Motor Power to move forward
-            }
-
-            if (robot.foundationBumperRight.isPressed()) {         //If the right foundation bumper is pressed against the foundation
-                robot.motorFrontRight.setPower(0);                //Set Motor Power to stop
-                robot.motorBackRight.setPower(0);                 //Set Motor Power to stop
-            }
-
-            if (!robot.foundationBumperRight.isPressed()) {         //If the right foundation bumper is not pressed against the foundation
-                robot.motorFrontRight.setPower(.3);                //Set Motor Power to move forward
-                robot.motorBackRight.setPower(.3);                 //Set Motor Power to move forward
-            }
-
-            if (robot.foundationBumperLeft.isPressed() && robot.foundationBumperRight.isPressed()) { //If both foundation bumpers are pressed against the foundation
-                step++;                                            //Move to next step
-            }
-        }
-
-        if (step == 6) {                                    //Clamp down on the foundation
+        if (step == 5) {                                    //Clamp down on the foundation
             stepTelemetry();                                //Display Telemetry
 
             robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
             robot.foundationMoverR.setPosition(1);          //Set Foundation movers to clamp down on the foundation
 
+            sleep(1000);                        //Wait 1 second
+
             step++;
         }
 
-        if (step == 7) {                                      //Turn Clockwise 60 degrees
+        if (step == 6) {                                      //Turn Clockwise 60 degrees
             stepTelemetry();                                  //Display Telemetry
 
-            encoderTurn(.35, -60, 10); //Turn CW 60 degrees
+            encoderTurn(.35, -75, 10); //Turn CW 60 degrees
 
             step++;
         }
 
-        if (step == 8) {                                    //Move the foundation forward 25 inches
+        if (step == 7) {                                    //Move the foundation forward 25 inches
             stepTelemetry();                                //Display Telemetry
 
-            encoderDrive(1, 36, 10); //Move forward 36 inches to place foundation into zone
+            encoderDrive(.5, 12, 10); //Move forward 12 inches to place foundation into zone
 
             step++;
         }
 
-        if (step == 9) {                                    //Release the foundation
+        if (step == 8) {                                    //Release the foundation
             stepTelemetry();                                //Display Telemetry
 
             robot.foundationMoverL.setPosition(0);          //Set Foundation movers to release the foundation
@@ -134,19 +106,34 @@ public class Auto_Red_Foundation extends LinearOpMode {
             step++;
         }
 
-        if (step == 10) {                                   //Move backwards
+        if (step == 9) {                                   //Move backwards
             stepTelemetry();                                //Display Telemetry
 
-            encoderDrive(.5,-6,10);  //Move backwards 6 inches
+            encoderDrive(.5,-22,10);  //Move backwards 18 inches
 
             step++;
         }
 
-        if (step == 11) {                                   //Turn to 90 degrees from starting position
+        if (step == 10) {                                   //Turn to 90 degrees from starting position
             stepTelemetry();                                //Display Telemetry
 
-            gyroTurn(.1, 90);                 //Turn left 60 degrees
-            gyroHold(.1, 90,.25);    //Hold 90 degrees for  .25 seconds
+            encoderTurn(.35, 75, 10);
+
+            step++;
+        }
+
+        if (step == 11) { //Strafe right
+            stepTelemetry();
+
+            robot.motorFrontRight.setPower(-.6);
+            robot.motorFrontLeft.setPower(.6);
+            robot.motorBackLeft.setPower(-.6);
+            robot.motorBackRight.setPower(.6);
+            sleep(1200);
+            robot.motorFrontRight.setPower(0);
+            robot.motorFrontLeft.setPower(0);
+            robot.motorBackLeft.setPower(0);
+            robot.motorBackRight.setPower(0);
 
             step++;
         }
@@ -154,7 +141,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
         if (step == 12) {                                   //Park on line
             stepTelemetry();                                //Display Telemetry
 
-            encoderDrive(1, -6, 10); //Move backwards 6 inches
+            encoderDrive(1, -12, 10); //Move backwards 18 inches
 
             step++;
         }
