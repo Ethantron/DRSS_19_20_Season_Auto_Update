@@ -35,7 +35,20 @@ public class Auto_Red_Foundation extends LinearOpMode {
         telemetry.update();                                                   // Tells the telemetry to display on the phone
         waitForStart();
 
-        if (step == 1) {                                    //Move forward
+        if (step == 1) {
+            if (robot.foundationBumperLeft.getState()) {
+                robot.foundationMoverL.setPosition(0);
+            } else {
+                robot.foundationMoverL.setPosition(1);
+            }
+
+            if (robot.foundationBumperRight.getState()) {
+                robot.foundationMoverR.setPosition(0);
+            } else {
+                robot.foundationMoverR.setPosition(1);
+            }
+        }
+        /*if (step == 1) {                                    //Move forward
             stepTelemetry();                                //Display Telemetry
 
             encoderDrive(.4, 50, 10); //Move forward 50 inches just before the foundation
@@ -166,8 +179,8 @@ public class Auto_Red_Foundation extends LinearOpMode {
             robot.motorFrontLeft.setPower(0);               //Set motor power to stop
             robot.motorBackLeft.setPower(0);                //Set motor power to stop
             robot.motorBackRight.setPower(0);               //Set motor power to stop
-            /** End of autonomous **/
-        }
+            /** End of autonomous
+        }*/
     }
     //Telemetry
     private void stepTelemetry() {
