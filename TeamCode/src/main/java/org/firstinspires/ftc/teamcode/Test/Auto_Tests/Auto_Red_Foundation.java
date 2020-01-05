@@ -49,9 +49,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
             }
         }
 
-        if (step == 2) {
-            robot.motorFrontRight.setPower(0);
-        }
+        sleep(30000);
         /*if (step == 1) {                                    //Move forward
             stepTelemetry();                                //Display Telemetry
 
