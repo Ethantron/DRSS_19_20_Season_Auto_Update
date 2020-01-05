@@ -39,9 +39,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public Servo foundationMoverL;      // Defines the left foundation servo
 	public Servo foundationMoverR;      // Defines the right foundation servo
 	boolean foundationMoverPos = true;         // Defines the foundation mover positon
-	//Foundation Bumper Definitions
-	public TouchSensor foundationBumperLeft;  //Defines the left foundation bumper button
-	public TouchSensor foundationBumperRight; //Defines the right foundation bumper button
 	//End drivetrain definitions
 
 	//Payload definitions
@@ -94,8 +91,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		foundationMoverL = hardwareMap.servo.get("GL");     // Initializes the left foundation movers name for configuration
 		foundationMoverR.setPosition(0);                    // Sets the right foundation mover to point down
 		foundationMoverL.setPosition(0);                    // Sets the left foundation mover to point down
-		foundationBumperLeft = hardwareMap.touchSensor.get("bumper_left");   // Initializes the stone button name for configuration
-		foundationBumperRight = hardwareMap.touchSensor.get("bumper_right"); // Initializes the stone button name for configuration
 		/** End of Drive Train Initialization **/
 
 		/** Payload Initialization **/
@@ -223,13 +218,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				foundationMoverPos = false;         // Tells the telemetry that the foundation movers are up
 			}
 
-			if (foundationBumperLeft.isPressed()) {
-				foundationMoverL.setPosition(1);
-			}
-
-			if (foundationBumperRight.isPressed()) {
-				foundationMoverR.setPosition(1);
-			}
 			// End of Raising Foundation Movers
 			/** End of foundation mover controls **/
 

@@ -35,28 +35,13 @@ public class Auto_Red_Foundation extends LinearOpMode {
         telemetry.update();                                                   // Tells the telemetry to display on the phone
         waitForStart();
 
-        if (step == 1) {
-
-            if (robot.foundationBumperLeft.isPressed()) {
-                robot.foundationMoverL.setPosition(1);
-            }
-
-            if (robot.foundationBumperRight.isPressed()) {
-                robot.foundationMoverR.setPosition(1);
-            }
-            if (robot.foundationBumperRight.isPressed() && robot.foundationBumperLeft.isPressed()) {
-                telemetry.addData("Test", "test");
-                telemetry.update();
-            }
-
-        }
-        /*if (step == 1) {                                    //Move forward
+        if (step == 1) {                                    //Move forward
             stepTelemetry();                                //Display Telemetry
 
             encoderDrive(.4, 50, 10); //Move forward 50 inches just before the foundation
 
             step++;
-        }*/
+        }
 
         if (step == 2) {                                     //Turn clockwise 90 degrees
             stepTelemetry();                                 //Display Telemetry
@@ -73,7 +58,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 
             encoderLift(1, 2.5);           //Move the lift up 2.5 inches to clear the foundation
 
-            step++;
+            //step++;
         }
 
         if (step == 4) {                                    //Start moving against the foundation
