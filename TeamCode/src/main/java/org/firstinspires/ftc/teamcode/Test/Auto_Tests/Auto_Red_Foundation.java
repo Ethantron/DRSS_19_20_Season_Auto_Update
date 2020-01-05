@@ -58,7 +58,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
             encoderDrive(.4, 50, 10); //Move forward 50 inches just before the foundation
 
             step++;
-        }
+        }*/
 
         if (step == 2) {                                     //Turn clockwise 90 degrees
             stepTelemetry();                                 //Display Telemetry
@@ -183,8 +183,8 @@ public class Auto_Red_Foundation extends LinearOpMode {
             robot.motorFrontLeft.setPower(0);               //Set motor power to stop
             robot.motorBackLeft.setPower(0);                //Set motor power to stop
             robot.motorBackRight.setPower(0);               //Set motor power to stop
-            /** End of autonomous
-        }*/
+            /** End of autonomous **/
+        }
     }
     //Telemetry
     private void stepTelemetry() {
