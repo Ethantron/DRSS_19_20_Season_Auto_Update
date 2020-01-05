@@ -36,22 +36,20 @@ public class Auto_Red_Foundation extends LinearOpMode {
         waitForStart();
 
         if (step == 1) {
+
             if (robot.foundationBumperLeft.isPressed()) {
-                robot.foundationMoverL.setPosition(0);
-            } else {
                 robot.foundationMoverL.setPosition(1);
             }
 
             if (robot.foundationBumperRight.isPressed()) {
-                robot.foundationMoverR.setPosition(0);
-            } else {
                 robot.foundationMoverR.setPosition(1);
             }
-            telemetry.addData("Test", "test");
-            telemetry.update();
-        }
+            if (robot.foundationBumperRight.isPressed() && robot.foundationBumperLeft.isPressed()) {
+                telemetry.addData("Test", "test");
+                telemetry.update();
+            }
 
-        sleep(30000);
+        }
         /*if (step == 1) {                                    //Move forward
             stepTelemetry();                                //Display Telemetry
 
