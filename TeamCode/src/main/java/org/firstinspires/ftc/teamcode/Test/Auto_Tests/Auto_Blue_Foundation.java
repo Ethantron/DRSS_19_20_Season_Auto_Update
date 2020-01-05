@@ -83,29 +83,7 @@ public class Auto_Blue_Foundation extends LinearOpMode {
         if (step == 5) {                                          //Align with foundation using foundation bumpers
             stepTelemetry();                                      //Display Telemetry
 
-            if (robot.foundationBumperLeft.getState()) {          //If the left foundation bumper is pressed against the foundation
-                robot.motorFrontLeft.setPower(0);                 //Set Motor Power to stop
-                robot.motorBackLeft.setPower(0);                  //Set Motor Power to stop
-            }
 
-            if (!robot.foundationBumperLeft.getState()) {          //If the left foundation bumper is not pressed against the foundation
-                robot.motorFrontLeft.setPower(.3);                 //Set Motor Power to move forward
-                robot.motorBackLeft.setPower(.3);                  //Set Motor Power to move forward
-            }
-
-            if (robot.foundationBumperRight.getState()) {         //If the right foundation bumper is pressed against the foundation
-                robot.motorFrontRight.setPower(0);                //Set Motor Power to stop
-                robot.motorBackRight.setPower(0);                 //Set Motor Power to stop
-            }
-
-            if (!robot.foundationBumperRight.getState()) {         //If the right foundation bumper is not pressed against the foundation
-                robot.motorFrontRight.setPower(.3);                //Set Motor Power to move forward
-                robot.motorBackRight.setPower(.3);                 //Set Motor Power to move forward
-            }
-
-            if (robot.foundationBumperLeft.getState() && robot.foundationBumperRight.getState()) { //If both foundation bumpers are pressed against the foundation
-                step++;                                            //Move to next step
-            }
         }
 
         if (step == 6) {                                    //Clamp down on the foundation
