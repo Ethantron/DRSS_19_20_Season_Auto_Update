@@ -38,7 +38,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
         if (step == 1) {                                    //Move forward
             stepTelemetry();                                //Display Telemetry
 
-            encoderDrive(1, 50, 10); //Move forward 50 inches just before the foundation
+            encoderDrive(.4, 50, 10); //Move forward 50 inches just before the foundation
 
             step++;
         }
