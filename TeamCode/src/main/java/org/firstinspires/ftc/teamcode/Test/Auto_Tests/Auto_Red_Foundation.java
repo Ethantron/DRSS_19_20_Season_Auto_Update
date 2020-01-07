@@ -125,10 +125,10 @@ public class Auto_Red_Foundation extends LinearOpMode {
         if (step == 11) { //Strafe right
             stepTelemetry();
 
-            robot.motorFrontRight.setPower(-.6);
-            robot.motorFrontLeft.setPower(.6);
-            robot.motorBackLeft.setPower(-.6);
-            robot.motorBackRight.setPower(.6);
+            robot.motorFrontRight.setPower(-.7);
+            robot.motorFrontLeft.setPower(.7);
+            robot.motorBackLeft.setPower(-.7);
+            robot.motorBackRight.setPower(.7);
             sleep(1500);
             robot.motorFrontRight.setPower(0);
             robot.motorFrontLeft.setPower(0);
