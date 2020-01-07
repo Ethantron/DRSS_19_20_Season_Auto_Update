@@ -173,7 +173,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				QSB =false;
 				HSB =false;
 
-				if (gamepad1.a || speedSetting == 1) {      // Do the following if the "a" button has been pressed or the double "speedSetting" is equal to 1
+				/*if (gamepad1.a || speedSetting == 1) {      // Do the following if the "a" button has been pressed or the double "speedSetting" is equal to 1
 					speedSetting = 1;                       // Tells the code that we are on full speed
 					speed = 1;                              // Sets the speed to 1
 				}
@@ -191,7 +191,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				if (gamepad1.y || speedSetting == .25) {    // Do the following if the "y" button has been pressed or the double "speedSetting" is equal to .25
 					speedSetting = .25;                     // Tells the code that we are on quarter speed
 					speed = .25;                            // Sets the speed to .25
-				}
+				}*/
 			}
 
 			motorFrontRight.setPower(frontRight);   // Sets the front right motors speed to the previous double
