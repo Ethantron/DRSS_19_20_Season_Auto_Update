@@ -141,7 +141,7 @@ public class Auto_Blue_Foundation extends LinearOpMode {
         if (step == 12) {                                   //Park on line
             stepTelemetry();                                //Display Telemetry
 
-            encoderDrive(1, -24, 10); //Move backwards 24 inches
+            encoderDrive(1, -28, 10); //Move backwards 28 inches
 
             step++;
         }
