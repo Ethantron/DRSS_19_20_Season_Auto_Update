@@ -129,7 +129,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
             robot.motorFrontLeft.setPower(.6);
             robot.motorBackLeft.setPower(-.6);
             robot.motorBackRight.setPower(.6);
-            sleep(1200);
+            sleep(1500);
             robot.motorFrontRight.setPower(0);
             robot.motorFrontLeft.setPower(0);
             robot.motorBackLeft.setPower(0);
@@ -141,7 +141,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
         if (step == 12) {                                   //Park on line
             stepTelemetry();                                //Display Telemetry
 
-            encoderDrive(1, -12, 10); //Move backwards 18 inches
+            encoderDrive(1, -20, 10); //Move backwards 20 inches
 
             step++;
         }
