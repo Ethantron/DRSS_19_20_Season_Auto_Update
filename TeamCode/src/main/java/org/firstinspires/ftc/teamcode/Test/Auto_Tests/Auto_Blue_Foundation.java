@@ -159,7 +159,7 @@ public class Auto_Blue_Foundation extends LinearOpMode {
     //Telemetry
     private void stepTelemetry() {
         telemetry.addData("Current step: ", step);
-        telemetry.addData("Skystone Positon: ", robot.pos);
+        telemetry.addData("Skystone Position: ", robot.pos);
         telemetry.update();
     }
 

@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.Test.TelyOp_Tests;
 
 // Imports codes that the robot uses
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;        // Imports Linear Operation mode
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;              // Imports Driver Controled mode
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;              // Imports Driver Controlled mode
 import com.qualcomm.robotcore.hardware.DcMotor;                     // Imports motor definitions
 import com.qualcomm.robotcore.hardware.Servo;                       // Imports servo definitions
 import com.qualcomm.robotcore.util.ElapsedTime;                     // Imports timer definitions
-import com.qualcomm.robotcore.util.Range;                           // Imports motor ranes definitions
+import com.qualcomm.robotcore.util.Range;                           // Imports motor ranges definitions
 
 // Defines robot display name
 @TeleOp (name = "19-20 TeleOp", group= "TeleOp")                    // Sets codes mode to TelyOp and sets the display name for the code
@@ -26,11 +26,11 @@ public class TeleOp_19_20_Linear extends LinearOpMode {             // Sets the 
 
     // Mechanum Definitions
     double Frontright;                                              // Sets the double "Frontright"             | Helps with motor calculations
-    double Frontleft;                                               // Sets the double "Fronleft"               | Helps with motor calculations
+    double Frontleft;                                               // Sets the double "Frontleft"              | Helps with motor calculations
     double Backright;                                               // Sets the double "Backright"              | Helps with motor calculations
     double Backleft;                                                // Sets the double "Backleft                | Helps with motor calculations
     double Speed = 1;                                               // Sets the double "Speed" to one           | Controls overall speed of the drive motors
-    double SpeedSetting = 1;                                        // Sets the double "SpeedSetting" to one    | Allows us to remeber what the previous speed was
+    double SpeedSetting = 1;                                        // Sets the double "SpeedSetting" to one    | Allows us to remember what the previous speed was
 
     // Payload motor and servo definitions
     public DcMotor lift;                                            // Defines the lift motor
