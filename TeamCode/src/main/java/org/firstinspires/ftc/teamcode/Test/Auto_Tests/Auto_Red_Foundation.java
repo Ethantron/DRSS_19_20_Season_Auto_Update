@@ -56,7 +56,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
         if (step == 3) {                                    //Lift to clear foundation
             stepTelemetry();                                //Display Telemetry
 
-            encoderLift(1, 1);           //Move the lift up 2.5 inches to clear the foundation
+            encoderLift(1, .75);           //Move the lift up 2.5 inches to clear the foundation
 
             step++;
         }
@@ -141,7 +141,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
         if (step == 12) {                                   //Park on line
             stepTelemetry();                                //Display Telemetry
 
-            encoderDrive(1, -22, 10); //Move backwards 22 inches
+            encoderDrive(.6, -20, 10); //Move backwards 20 inches
 
             step++;
         }
