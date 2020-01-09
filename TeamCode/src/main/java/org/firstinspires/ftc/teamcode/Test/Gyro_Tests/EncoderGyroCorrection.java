@@ -51,7 +51,7 @@ public class EncoderGyroCorrection extends LinearOpMode {
 
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode(){
 
         // Drivetrain initialization
         motorFrontLeft = hardwareMap.dcMotor.get("FL");

@@ -32,7 +32,7 @@ public class Scanner_Tests_Test extends LinearOpMode {
     private TFObjectDetector tfod;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode(){
 
         // Drivetrain initialization
         motorFrontLeft = hardwareMap.dcMotor.get("FL");

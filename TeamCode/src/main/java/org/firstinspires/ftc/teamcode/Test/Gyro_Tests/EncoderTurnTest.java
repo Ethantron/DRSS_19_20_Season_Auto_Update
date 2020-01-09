@@ -27,7 +27,7 @@ public class EncoderTurnTest extends LinearOpMode {
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode(){
 
         // Drive train initialization
         motorFrontRight = hardwareMap.dcMotor.get("FR");

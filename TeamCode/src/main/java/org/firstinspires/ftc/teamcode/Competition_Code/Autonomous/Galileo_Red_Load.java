@@ -168,7 +168,7 @@ public class Galileo_Red_Load extends LinearOpMode{
 			if (step == 7){ //Run across the line
 				stepTelemetry(); //Display Telemetry
 
-				//Set distances needed to be moved by each postion
+				//Set distances needed to be moved by each position
 				if (robot.pos == 1){ //If the skystone was in position 1
 					encoderDrive(1, 35, 10); //Run forward 35 inches at speed of 1
 					step++; //Move to the next step
@@ -213,7 +213,7 @@ public class Galileo_Red_Load extends LinearOpMode{
 			if (step == 10 && (robot.pos == 1 || robot.pos == 2)){ //Turn toward the second skystone
 				stepTelemetry(); //Display telemetry
 
-				//Drive the lfit up
+				//Drive the lift up
 				encoderLift(1, -1); //Drop the lift 1"
 
 				//Turn 90 degrees counterclockwise
@@ -292,7 +292,7 @@ public class Galileo_Red_Load extends LinearOpMode{
 			}
 
 			if (step == 15){ //Release the skystone
-				stepTelemetry(); //Dislay Telemetry
+				stepTelemetry(); //Display Telemetry
 
 				//Release the skystone
 				robot.grabStone.setPosition(0.6); //release the grabber
@@ -334,7 +334,7 @@ public class Galileo_Red_Load extends LinearOpMode{
 
 	private void stepTelemetry(){
 		telemetry.addData("Current step: ", step);
-		telemetry.addData("Skystone Positon: ", robot.pos);
+		telemetry.addData("Skystone Position: ", robot.pos);
 		telemetry.update();
 	}
 

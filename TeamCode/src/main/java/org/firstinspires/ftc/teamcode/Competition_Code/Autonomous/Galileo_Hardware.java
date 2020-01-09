@@ -32,7 +32,7 @@ public class Galileo_Hardware{
 	ColorSensor color_sensor;
 	ColorSensor color2;
 
-	//Foundatioon Mover Definitions
+	//Foundation Mover Definitions
 	public Servo foundationMoverL;      // Defines the left foundation servo
 	public Servo foundationMoverR;      // Defines the right foundation servo
 

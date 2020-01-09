@@ -5,13 +5,12 @@ package org.firstinspires.ftc.teamcode.Competition_Code.TelyOp;
 
 // Imports codes that the robot uses
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;    // Imports Linear Operation mode
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;          // Imports Driver Controled mode
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;          // Imports Driver Controlled mode
 import com.qualcomm.robotcore.hardware.DcMotor;                 // Imports motor definitions
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;                   // Imports servo definitions
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;                 // Imports timer definitions
-import com.qualcomm.robotcore.util.Range;                       // Imports motor ranes definitions
+import com.qualcomm.robotcore.util.Range;                       // Imports motor ranges definitions
 
 // Defines robot display name
 @TeleOp (name = "Galileo", group= "TeleOp")     // Sets codes mode to TelyOp and sets the display name for the code
@@ -28,7 +27,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 	// Mechanum Definitions
 	double frontRight;          // Sets the double "frontRight"             | Helps with motor calculations
-	double frontLeft;           // Sets the double "fronLeft"               | Helps with motor calculations
+	double frontLeft;           // Sets the double "frontLeft"               | Helps with motor calculations
 	double backRight;           // Sets the double "backRight"              | Helps with motor calculations
 	double backLeft;            // Sets the double "backLeft                | Helps with motor calculations
 	double speed = 1;           // Sets the double "speed" to one           | Controls overall speed of the drive motors
@@ -38,7 +37,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 	public Servo foundationMoverL;      // Defines the left foundation servo
 	public Servo foundationMoverR;      // Defines the right foundation servo
-	boolean foundationMoverPos = true;         // Defines the foundation mover positon
+	boolean foundationMoverPos = true;         // Defines the foundation mover position
 	//End drivetrain definitions
 
 	//Payload definitions
@@ -55,7 +54,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	double liftPower = 1;                           // Sets the double "liftPower" to one           | Defines how fast the lift moves
 	double height = 0;                              // Sets the double "height" to zero             | Defines the level the lift should move to
 	double currentHeight = 0;                       // Sets the double "currentHeight" to zero      | Counts what level the lift is on
-	boolean needFoundation = false;                 // Sets the boolean "needFoundation" to false   | Defines wheter the lift needs to account for the foundations
+	boolean needFoundation = false;                 // Sets the boolean "needFoundation" to false   | Defines whether the lift needs to account for the foundations
 	static final double COUNTS_PER_LEVEL = 300;     // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
 	static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
@@ -123,9 +122,9 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		//Tells Robots to Reset Encoders
 		lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);    // Tells the lift motor to run without using its encoder
 
-		/** End encoder initalization **/
+		/** End encoder initialization **/
 
-		//Initializeation Telemetry
+		//Initialization Telemetry
 		telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
 		telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
 		telemetry.addData("Status: ", "Ready");                 // Adds telemetry to the screen to show that the robot is ready
@@ -146,10 +145,10 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
 
 			// Mechanum formulas
-			double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-			double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-			double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-			double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+			double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+			double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+			double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+			double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
 
 			// sets speed
 			frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
@@ -228,7 +227,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			/** Gamepad 2 controls (payload) ==> **/
 
 			/** Automatic lift controls **/
-			// Moving The Lift Downard
+			// Moving The Lift Downward
 			if (gamepad2.left_bumper && (currentHeight > 0)) { // Do the following if the left bumper is pressed and the current height os greater than 0
 				height--;                                      // Sets "height" to -currentHeight
 				sleep(150);                        // Tells the code to wait 150 milliseconds
@@ -292,7 +291,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				slide.setPower(0);                                              // Sets the slide motors speed to 0
 			}
 
-			if (gamepad2.left_stick_y < -.25 && gamepad2.left_trigger <= .3) {  // Do the followin if the left stick is down
+			if (gamepad2.left_stick_y < -.25 && gamepad2.left_trigger <= .3) {  // Do the following if the left stick is down
 				slide.setPower(1);                                              // Sets the slide motors speed to 1
 			}
 			/** End of slide system controls **/
@@ -379,10 +378,10 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
 
 		// Mechanum formulas
-		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
 
 		// sets speed
 		frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
@@ -434,10 +433,10 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
 
 		// Mechanum formulas
-		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
 
 		// sets speed
 		frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
@@ -503,10 +502,10 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
 
 		// Mechanum formulas
-		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
-		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the imputs of the sticks to clip their output to a value between 1 and -1
+		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
 
 		// sets speed
 		frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
