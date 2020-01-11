@@ -151,7 +151,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display Telemetry
 
                 //Move backwards
-                encoderDrive(.6, -15, 10); //Move backwards 15 inches
+                encoderDrive(.6, -12, 10); //Move backwards 12 inches
 
                 step++; //Move to the next step
             }
@@ -228,7 +228,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display telemetry
 
                 //Move backwards
-                encoderDrive(1, -16, 10); //Move Backwards 16 inches
+                encoderDrive(1, -12, 10); //Move Backwards 12 inches
 
                 //Strafe Right to get out of the way
                 robot.motorFrontLeft.setPower(.4); //Set power to strafe right
@@ -253,7 +253,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display telemetry
 
                 //Drive forward
-                encoderDrive(.2, 22, 10); //Moves forward 22 inches to the block
+                encoderDrive(.2, 18, 10); //Moves forward 18 inches to the block
 
                 //Grab the skystone
                 robot.grabStone.setPosition(0.0); //Grab the Skystone
@@ -270,7 +270,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display telemetry
 
                 //Move backward
-                encoderDrive(.6, -22, 10); //Move backwards 22 inches
+                encoderDrive(.6, -18, 10); //Move backwards 18 inches
 
                 step++; //Move to next step
             }
@@ -278,6 +278,8 @@ public class Auto_Blue_Depot extends LinearOpMode {
             if (step == 13) { //Turn 90 degrees
                 stepTelemetry(); //Display telemetry
                 encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
+                gyroTurn(.1,90);
+                gyroHold(.1,90,0.25);
                 step++; //Move to next step
             }
 
@@ -306,7 +308,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display Telemetry
 
                 //Move backward
-                encoderDrive(1,-16,10); //Move backward 16 inches
+                encoderDrive(1,-12,10); //Move backward 12 inches
 
                 step++; //Move to next step
             }
