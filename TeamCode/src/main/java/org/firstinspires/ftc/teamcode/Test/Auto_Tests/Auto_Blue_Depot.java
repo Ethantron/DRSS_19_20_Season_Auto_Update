@@ -151,7 +151,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
                 stepTelemetry(); //Display Telemetry
 
                 //Move backwards
-                encoderDrive(.6, -18, 10); //Move backwards 18 inches
+                encoderDrive(.6, -15, 10); //Move backwards 15 inches
 
                 step++; //Move to the next step
             }
