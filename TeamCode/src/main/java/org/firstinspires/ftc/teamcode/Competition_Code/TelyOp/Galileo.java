@@ -293,11 +293,11 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			/** Hand system controls **/
 			// Wrist Controls
 			if (gamepad2.right_stick_x > 0.1) {                 // Do the following if the right stick is right
-				wrist.setPosition(wrist.getPosition() + .01); // Turns the wrist right
+				wrist.setPosition(wrist.getPosition() - .0075); // Turns the wrist right
 			}
 
 			if (gamepad2.right_stick_x < -0.1) {                // Do the following if the right stick is left
-				wrist.setPosition(wrist.getPosition() - .01); // Turns the wrist left
+				wrist.setPosition(wrist.getPosition() + .0075); // Turns the wrist left
 			}
 
 			if (gamepad2.right_stick_x < -0.1 && gamepad2.right_stick_x > 0.1) {    // Do the following if the right stick is centered
