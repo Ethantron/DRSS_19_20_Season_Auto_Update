@@ -159,18 +159,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			//speed Controls
 			if (gamepad1.left_trigger > .3) {   // Do the following while the left trigger is being held down
 				speed = .25;                    // Sets the speed to quarter speed
-				QSB = true;
-				HSB = false;
 			}
-			else if (gamepad1.right_trigger > .3 && gamepad1.left_trigger < .3){   // Do the following  while the right trigger is held down and the left trigger is not
-				speed = .5;                     // Sets the speed to half speed
-				QSB = false;
-				HSB =true;
+			if (gamepad1.right_trigger < .3 && gamepad1.left_trigger < .3){   // Do the following  while the right trigger is held down and the left trigger is not
+				speed = 1;                     // Sets the speed to half speed
 			}
-			else if (gamepad1.right_trigger < .3 && gamepad1.left_trigger < .3){    // Do the following while the left trigger is not being held down
-
-				QSB =false;
-				HSB =false;
+			if (gamepad1.right_trigger > .3){    // Do the following while the left trigger is not being held down
+				speed = .5;
 
 				/*if (gamepad1.a || speedSetting == 1) {      // Do the following if the "a" button has been pressed or the double "speedSetting" is equal to 1
 					speedSetting = 1;                       // Tells the code that we are on full speed
@@ -299,11 +293,11 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			/** Hand system controls **/
 			// Wrist Controls
 			if (gamepad2.right_stick_x > 0.1) {                 // Do the following if the right stick is right
-				wrist.setPosition(wrist.getPosition() + .0025); // Turns the wrist right
+				wrist.setPosition(wrist.getPosition() + .01); // Turns the wrist right
 			}
 
 			if (gamepad2.right_stick_x < -0.1) {                // Do the following if the right stick is left
-				wrist.setPosition(wrist.getPosition() - .0025); // Turns the wrist left
+				wrist.setPosition(wrist.getPosition() - .01); // Turns the wrist left
 			}
 
 			if (gamepad2.right_stick_x < -0.1 && gamepad2.right_stick_x > 0.1) {    // Do the following if the right stick is centered
