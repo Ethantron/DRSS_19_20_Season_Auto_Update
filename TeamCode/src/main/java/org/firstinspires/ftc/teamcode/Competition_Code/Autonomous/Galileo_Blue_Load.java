@@ -1,28 +1,29 @@
-package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
+package org.firstinspires.ftc.teamcode.Competition_Code.Autonomous;
 
-        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.util.ElapsedTime;
-        import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
-        import org.firstinspires.ftc.robotcore.external.ClassFactory;
-        import org.firstinspires.ftc.robotcore.external.Func;
-        import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-        import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-        import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-        import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-        import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-        import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-        import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-        import java.util.List;
-        import java.util.Locale;
+import java.util.List;
+import java.util.Locale;
 
-@Autonomous(name = "Auto_Red_Depot", group= "Autonomous")
-public class Auto_Red_Depot extends LinearOpMode {
+@Autonomous(name = "Galileo_Blue_Load", group = "Autonomous")
+public class Galileo_Blue_Load extends LinearOpMode {
 
-    AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
+
+    Galileo_Hardware robot = new Galileo_Hardware();   //Calls Upon Robot Definitions File
 
     private ElapsedTime runtime = new ElapsedTime(); //Sets timer for encoders
 
@@ -71,7 +72,7 @@ public class Auto_Red_Depot extends LinearOpMode {
                     robot.tfod.activate();
                 }
 
-                sleep(1000);
+                sleep(2000);
 
                 //Start Scanning
                 robot.pos++; //Tells code that it is checking position 1
@@ -86,11 +87,11 @@ public class Auto_Red_Depot extends LinearOpMode {
                 //Setting skystone position for later
                 robot.pos++; //If we didn't see the skystone in position 1, move to next position
 
-                //Strafe Left to next block
-                robot.motorFrontLeft.setPower(-.6); //Set the motors to strafe left
-                robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
-                robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
-                robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
+                //Strafe Right to next block
+                robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
+                robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
+                robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
+                robot.motorBackRight.setPower(.6); //Set the motors to strafe right
                 sleep(500); //Wait 500 milliseconds
                 robot.motorFrontLeft.setPower(0); //Stop all power to the motors
                 robot.motorFrontRight.setPower(0); //Stop all power to the motors
@@ -110,11 +111,11 @@ public class Auto_Red_Depot extends LinearOpMode {
                 //Setting skystone position for later
                 robot.pos++; //If we didn't see the skystone, move to next position
 
-                //Strafe Left to next block
-                robot.motorFrontLeft.setPower(-.6); //Set the motors to strafe left
-                robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
-                robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
-                robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
+                //Strafe Right to next block
+                robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
+                robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
+                robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
+                robot.motorBackRight.setPower(.6); //Set the motors to strafe right
                 sleep(600); //Wait for 600 milliseconds
                 robot.motorFrontLeft.setPower(0); //Stop all power to the motors
                 robot.motorFrontRight.setPower(0); //Stop all power to the motors
@@ -160,7 +161,7 @@ public class Auto_Red_Depot extends LinearOpMode {
                 stepTelemetry(); //Display Telemetry
 
                 //Turn Clockwise
-                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
+                encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
 
                 step++; //Move to the next step
             }
@@ -217,7 +218,7 @@ public class Auto_Red_Depot extends LinearOpMode {
                 encoderLift(1, -1); //Drop the lift 1"
 
                 //Turn 90 degrees counterclockwise
-                encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
+                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
                 gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
                 gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
 
@@ -230,11 +231,11 @@ public class Auto_Red_Depot extends LinearOpMode {
                 //Move backwards
                 encoderDrive(1, -16, 10); //Move Backwards 16 inches
 
-                //Strafe Left to get out of the way
-                robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
-                robot.motorFrontRight.setPower(.4); //Set power to strafe left
-                robot.motorBackLeft.setPower(.4); //Set power to strafe left
-                robot.motorBackRight.setPower(-.4); //Set power to strafe left
+                //Strafe Right to get out of the way
+                robot.motorFrontLeft.setPower(.4); //Set power to strafe right
+                robot.motorFrontRight.setPower(-.4); //Set power to strafe right
+                robot.motorBackLeft.setPower(-.4); //Set power to strafe right
+                robot.motorBackRight.setPower(.4); //Set power to strafe right
                 sleep(500); //Wait 500 milliseconds
 
                 step++; //Move to next step
@@ -277,7 +278,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 
             if (step == 13) { //Turn 90 degrees
                 stepTelemetry(); //Display telemetry
-                encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
+                encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
                 step++; //Move to next step
             }
 
@@ -313,11 +314,11 @@ public class Auto_Red_Depot extends LinearOpMode {
 
             if (step == 17) { //Strafe left
 
-                //Strafe Left to get out of the way
-                robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
-                robot.motorFrontRight.setPower(.4); //Set power to strafe left
-                robot.motorBackLeft.setPower(.4); //Set power to strafe left
-                robot.motorBackRight.setPower(-.4); //Set power to strafe left
+                //Strafe Right to get out of the way
+                robot.motorFrontLeft.setPower(.4); //Set power to strafe right
+                robot.motorFrontRight.setPower(-.4); //Set power to strafe right
+                robot.motorBackLeft.setPower(-.4); //Set power to strafe right
+                robot.motorBackRight.setPower(.4); //Set power to strafe right
                 sleep(750); //Wait 750 milliseconds
 
                 step++; //move to next step
@@ -359,7 +360,7 @@ public class Auto_Red_Depot extends LinearOpMode {
                             recognition.getLeft(), recognition.getTop());
                     telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                             recognition.getRight(), recognition.getBottom());
-                    if (recognition.getLabel().equals(AutoHardwareGalileo.LABEL_SECOND_ELEMENT)) {
+                    if (recognition.getLabel().equals(Galileo_Hardware.LABEL_SECOND_ELEMENT)) {
                         robot.Skystone = true;
                     }
                 }
@@ -381,10 +382,10 @@ public class Auto_Red_Depot extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Math to calculate each target position for the motors
-            newFrontLeftTarget = robot.motorFrontLeft.getCurrentPosition() + (int)(Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
-            newFrontRightTarget = robot.motorFrontRight.getCurrentPosition() + (int)(Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
-            newBackLeftTarget = robot.motorBackLeft.getCurrentPosition() + (int)(Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
-            newBackRightTarget = robot.motorBackRight.getCurrentPosition() + (int)(Inches * AutoHardwareGalileo.COUNTS_PER_INCH);
+            newFrontLeftTarget = robot.motorFrontLeft.getCurrentPosition() + (int)(Inches * Galileo_Hardware.COUNTS_PER_INCH);
+            newFrontRightTarget = robot.motorFrontRight.getCurrentPosition() + (int)(Inches * Galileo_Hardware.COUNTS_PER_INCH);
+            newBackLeftTarget = robot.motorBackLeft.getCurrentPosition() + (int)(Inches * Galileo_Hardware.COUNTS_PER_INCH);
+            newBackRightTarget = robot.motorBackRight.getCurrentPosition() + (int)(Inches * Galileo_Hardware.COUNTS_PER_INCH);
 
             //Set Target Positions to respective motors
             robot.motorFrontLeft.setTargetPosition(newFrontLeftTarget);
@@ -444,7 +445,7 @@ public class Auto_Red_Depot extends LinearOpMode {
         int newLiftTarget;                                      // Creates the integer "newLiftTarget"
 
         if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
-            newLiftTarget = (robot.lift.getCurrentPosition() + (int) (Inches * AutoHardwareGalileo.COUNTS_PER_LIFT_INCH));
+            newLiftTarget = (robot.lift.getCurrentPosition() + (int) (Inches * Galileo_Hardware.COUNTS_PER_LIFT_INCH));
 
             robot.lift.setTargetPosition(newLiftTarget);
 
@@ -473,7 +474,7 @@ public class Auto_Red_Depot extends LinearOpMode {
         double c = 60.35; //Circumference of arc created by robot wheels (Radius is 9.605")
         double ANGLE_RATIO = angle / 360; //Ratio of angle relative to entire circle
         double CIRCUMFERENCE_OF_ANGLE = c * ANGLE_RATIO; //Circumference of Angle
-        int COUNTS_PER_DISTANCE = (int) ((CIRCUMFERENCE_OF_ANGLE * AutoHardwareGalileo.COUNTS_PER_INCH) * 1.305);
+        int COUNTS_PER_DISTANCE = (int) ((CIRCUMFERENCE_OF_ANGLE * Galileo_Hardware.COUNTS_PER_INCH) * 1.305);
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -550,7 +551,7 @@ public class Auto_Red_Depot extends LinearOpMode {
          */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        parameters.vuforiaLicenseKey = AutoHardwareGalileo.VUFORIA_KEY;
+        parameters.vuforiaLicenseKey = Galileo_Hardware.VUFORIA_KEY;
         parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         //  Instantiate the Vuforia engine
@@ -566,14 +567,14 @@ public class Auto_Red_Depot extends LinearOpMode {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minimumConfidence = 0.8;
         robot.tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, robot.vuforia);
-        robot.tfod.loadModelFromAsset(AutoHardwareGalileo.TFOD_MODEL_ASSET, AutoHardwareGalileo.LABEL_FIRST_ELEMENT, AutoHardwareGalileo.LABEL_SECOND_ELEMENT);
+        robot.tfod.loadModelFromAsset(Galileo_Hardware.TFOD_MODEL_ASSET, Galileo_Hardware.LABEL_FIRST_ELEMENT, Galileo_Hardware.LABEL_SECOND_ELEMENT);
     }
 
 
     public void gyroTurn (  double speed, double angle) {
 
         // keep looping while we are still active, and not on heading.
-        while (opModeIsActive() && !onHeading(speed, angle, AutoHardwareGalileo.P_TURN_COEFF)) {
+        while (opModeIsActive() && !onHeading(speed, angle, Galileo_Hardware.P_TURN_COEFF)) {
             // Update telemetry & Allow time for other processes to run.
             telemetry.update();
         }
@@ -597,7 +598,7 @@ public class Auto_Red_Depot extends LinearOpMode {
         holdTimer.reset();
         while (opModeIsActive() && (holdTimer.time() < holdTime)) {
             // Update telemetry & Allow time for other processes to run.
-            onHeading(speed, angle, AutoHardwareGalileo.P_TURN_COEFF);
+            onHeading(speed, angle, Galileo_Hardware.P_TURN_COEFF);
             telemetry.update();
         }
 
@@ -628,7 +629,7 @@ public class Auto_Red_Depot extends LinearOpMode {
         // determine turn power based on +/- error
         error = getError(angle);
 
-        if (Math.abs(error) <= AutoHardwareGalileo.HEADING_THRESHOLD) {
+        if (Math.abs(error) <= Galileo_Hardware.HEADING_THRESHOLD) {
             steer = 0.0;
             leftSpeed  = 0.0;
             rightSpeed = 0.0;

@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -14,7 +15,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 public class Galileo_Hardware{
-
 	//Drive train definitions
 	public DcMotor motorFrontRight;
 	public DcMotor motorFrontLeft;
@@ -40,8 +40,8 @@ public class Galileo_Hardware{
 	public DigitalChannel stoneButton; // Defines the Stone Button on the grabber
 
 	//Foundation Bumper Definitions
-	public DigitalChannel foundationBumperLeft;  //Defines the left foundation bumper button
-	public DigitalChannel foundationBumperRight; //Defines the right foundation bumper button
+	public TouchSensor foundationBumperLeft;  //Defines the left foundation bumper button
+	public TouchSensor foundationBumperRight; //Defines the right foundation bumper button
 
 	//Gyro Definitions
 	// Defines the gyro
@@ -143,10 +143,8 @@ public class Galileo_Hardware{
 		stoneButton.setMode(DigitalChannel.Mode.INPUT);                           // Initializes the mode of the button
 
 		//Foundation Bumpers Initialization
-		foundationBumperLeft = hwMap.get(DigitalChannel.class, "bumper_left");   // Initializes the stone button name for configuration
-		foundationBumperRight = hwMap.get(DigitalChannel.class, "bumper_right"); // Initializes the stone button name for configuration
-		foundationBumperLeft.setMode(DigitalChannel.Mode.INPUT);                            // Initializes the mode of the button
-		foundationBumperRight.setMode(DigitalChannel.Mode.INPUT);                           // Initializes the mode of the button
+		foundationBumperLeft = hwMap.touchSensor.get("bumper_left");   // Initializes the stone button name for configuration
+		foundationBumperRight = hwMap.touchSensor.get("bumper_right"); // Initializes the stone button name for configuration
 
 		//Gyro Initialization
 		BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
