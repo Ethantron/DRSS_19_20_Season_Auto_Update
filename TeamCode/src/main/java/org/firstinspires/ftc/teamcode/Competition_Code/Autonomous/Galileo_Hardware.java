@@ -9,12 +9,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-public class Galileo_Hardware{
+public class Galileo_Hardware {
 	//Drive train definitions
 	public DcMotor motorFrontRight;
 	public DcMotor motorFrontLeft;
@@ -53,16 +54,16 @@ public class Galileo_Hardware{
 
 	//Generic Auto Definitions
 	//Drive Train Encoder Definitions
-	public static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: REV 20:1 Motor Encoder
-	public static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-	public static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
+	public static final double COUNTS_PER_MOTOR_REV = 560;    // eg: REV 20:1 Motor Encoder
+	public static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+	public static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
 	//Lift Encoder Definitions
 	static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
 	//Gyro Turning Definitions
-	static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
-	static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
+	static final double HEADING_THRESHOLD = 1;      // As tight as we can make it with an integer gyro
+	static final double P_TURN_COEFF = 0.15;     // Larger is more responsive, but also less stable
 
 	//Vuforia Definitions
 	//Scanning Timing and Position Definitions
@@ -80,10 +81,10 @@ public class Galileo_Hardware{
 	public TFObjectDetector tfod;
 
 	//Local OpMode Members
-	HardwareMap hwMap =  null;
+	HardwareMap hwMap = null;
 
 	//Constructor
-	public Galileo_Hardware () {
+	public Galileo_Hardware() {
 		//Purposefully Left Empty
 	}
 
@@ -164,5 +165,6 @@ public class Galileo_Hardware{
 		float hsvValues[] = {0F, 0F, 0F};
 		final float values[] = hsvValues;
 		final double SCALE_FACTOR = 255;
+
 	}
 }
