@@ -288,7 +288,7 @@ public class Galileo_Master extends LinearOpMode {
                     if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
                         telemetry.addData("Visible Target", trackable.getName());
                         targetVisible = true;
-                            if (trackable.getName() == "Red"){
+                            if (trackable.getName() == "Red Perimeter 1"){
                                 encoderTurn(1, 360, 10);
                             }
                         // getUpdatedRobotLocation() will return null if no new information is available since
