@@ -291,6 +291,15 @@ public class Galileo_Master extends LinearOpMode {
                             if (trackable.getName() == "Red Perimeter 1"){
                                 encoderTurn(1, 360, 10);
                             }
+                            else if (trackable.getName() == "Red Perimeter 2"){
+                                encoderTurn(1, 360, 10);
+                            }
+                            else if (trackable.getName() == "Blue Perimeter 1"){
+                                encoderTurn(1, 360, 10);
+                            }
+                            else if (trackable.getName() == "Blue Perimeter 2"){
+                                encoderTurn(1, 360, 10);
+                            }
                         // getUpdatedRobotLocation() will return null if no new information is available since
                         // the last time that call was made, or if the trackable is not currently visible.
                         OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
