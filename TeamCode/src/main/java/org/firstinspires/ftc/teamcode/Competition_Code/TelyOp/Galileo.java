@@ -49,7 +49,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public Servo cap;			// Defines the Capstone servo
 	public DigitalChannel stoneButton; // Defines the Stone Button on the grabber
 	boolean handOpen = true;    // Defines a boolean which will be used to define whether the hand is open or not
-	boolean capout = false;
+	boolean capout = false;		// Defines a boolean which will be used to define whether the capstone pusher is out or not
 
 
 	//Lift positioning definitions
