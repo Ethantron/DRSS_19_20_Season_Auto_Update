@@ -307,6 +307,14 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			if (gamepad2.dpad_up) {     // Do the following if the "up" button on the dpad is pressed
 				wrist.setPosition(0.4); // Centers the wrist
 			}
+
+			if (gamepad2.dpad_left) {
+				wrist.setPosition(1);
+			}
+
+			if (gamepad2.dpad_right) {
+				wrist.setPosition(-1);
+			}
 			// End of Wrist controls
 
 			// Grabber Controls
