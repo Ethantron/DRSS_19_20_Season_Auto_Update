@@ -46,8 +46,10 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public DcMotor slide;       // Defines the slide motor
 	public Servo grabStone;     // Defines the stone grabber servo
 	public Servo wrist;         // Defines the wrist servo
+	public Servo cap;			// Defines the Capstone servo
 	public DigitalChannel stoneButton; // Defines the Stone Button on the grabber
 	boolean handOpen = true;    // Defines a boolean which will be used to define whether the hand is open or not
+	boolean capout = false;
 
 
 	//Lift positioning definitions
@@ -105,6 +107,9 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		//Hand Initialization
 		grabStone = hardwareMap.servo.get("GS");    // Initializes the grabber servos name for configuration
 		wrist = hardwareMap.servo.get("W");         // Initializes the wrist servos name for configuration
+
+		// Capstone Initialization
+		cap = hardwareMap.servo.get("CS");
 
 		//Stone Button Sensor Initialization
 		stoneButton = hardwareMap.get(DigitalChannel.class, "stone_button"); // Initializes the stone button name for configuration
@@ -316,6 +321,16 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				wrist.setPosition(-1);
 			}
 			// End of Wrist controls
+
+			// Capstone controls
+			if (gamepad2.dpad_down){
+				if (!capout){
+					cap.setPosition(1);
+				} else if (capout){
+					cap.setPosition(-1);
+				}
+			}
+			// End of Capstone controls
 
 			// Grabber Controls
 			if ((gamepad2.b || stoneButton.getState()) && !gamepad2.a) { // Do the following if the "b" button is pressed
