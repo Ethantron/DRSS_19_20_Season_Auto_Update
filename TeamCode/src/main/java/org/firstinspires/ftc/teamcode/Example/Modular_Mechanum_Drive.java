@@ -1,9 +1,16 @@
 package org.firstinspires.ftc.teamcode.Example;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.SampleRevBlinkinLedDriver;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+
+import java.util.concurrent.TimeUnit;
 
 @TeleOp(name = "Modular_Mechanum_Drive", group= "Modular_Drivetrains")
 public class Modular_Mechanum_Drive extends OpMode{
@@ -17,6 +24,21 @@ public class Modular_Mechanum_Drive extends OpMode{
     double Frontright;
     double Backleft;
     double Backright;
+
+    private final static int LED_PERIOD = 10;
+    RevBlinkinLedDriver blinkinLedDriver;
+    RevBlinkinLedDriver.BlinkinPattern pattern;
+
+    Telemetry.Item patternName;
+    Telemetry.Item display;
+    Deadline ledCycleDeadline;
+    Deadline gamepadRateLimit;
+    SampleRevBlinkinLedDriver.DisplayKind displayKind;
+
+    protected enum DisplayKind {
+        MANUAL,
+        AUTO
+    }
 
     public void init(){
 
@@ -37,6 +59,16 @@ public class Modular_Mechanum_Drive extends OpMode{
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+
+
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+        pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+        blinkinLedDriver.setPattern(pattern);
+
+        display = telemetry.addData("Display Kind: ", displayKind.toString());
+        patternName = telemetry.addData("Pattern: ", pattern.toString());
+
+        ledCycleDeadline = new Deadline(LED_PERIOD, TimeUnit.SECONDS);
     }
 
     @Override
@@ -72,6 +104,8 @@ public class Modular_Mechanum_Drive extends OpMode{
 
         if (gamepad1.a){
             Speed = 1;
+            pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;
+            displayPattern();
         }
 
         if (gamepad1.b){
@@ -122,5 +156,26 @@ public class Modular_Mechanum_Drive extends OpMode{
 
         // return scaled value.
         return dScale;
+    }
+
+    protected void setDisplayKind(SampleRevBlinkinLedDriver.DisplayKind displayKind)
+    {
+        this.displayKind = displayKind;
+        display.setValue(displayKind.toString());
+    }
+
+    protected void doAutoDisplay()
+    {
+        if (ledCycleDeadline.hasExpired()) {
+            pattern = pattern.next();
+            displayPattern();
+            ledCycleDeadline.reset();
+        }
+    }
+
+    protected void displayPattern()
+    {
+        blinkinLedDriver.setPattern(pattern);
+        patternName.setValue(pattern.toString());
     }
 }
