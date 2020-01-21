@@ -4,6 +4,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SampleRevBlinkinLedDriver;
@@ -24,6 +25,8 @@ public class Tank_Drive extends OpMode{
 	double Frontright;
 	double Backleft;
 	double Backright;
+	public DigitalChannel Button; // Defines the Stone Button on the grabber
+
 
 	private final static int LED_PERIOD = 10;
 	RevBlinkinLedDriver blinkinLedDriver;
@@ -71,6 +74,9 @@ public class Tank_Drive extends OpMode{
 		patternName = telemetry.addData("Pattern: ", pattern.toString());
 
 		ledCycleDeadline = new Deadline(LED_PERIOD, TimeUnit.SECONDS);
+
+		Button = hardwareMap.get(DigitalChannel.class, "button"); // Initializes the stone button name for configuration
+		Button.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
 	}
 
 	@Override
@@ -109,6 +115,11 @@ public class Tank_Drive extends OpMode{
 		if (gamepad1.y){
 			Speed = .25;
 			pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+			displayPattern();
+		}
+
+		if (Button.getState() == false){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_GOLD;
 			displayPattern();
 		}
 

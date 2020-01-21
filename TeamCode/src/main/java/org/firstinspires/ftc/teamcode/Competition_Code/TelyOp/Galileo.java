@@ -50,7 +50,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public DigitalChannel stoneButton; // Defines the Stone Button on the grabber
 	boolean handOpen = true;    // Defines a boolean which will be used to define whether the hand is open or not
 	boolean capout = false;		// Defines a boolean which will be used to define whether the capstone pusher is out or not
-	double liftEncoderReading = lift.getCurrentPosition(); // Defines a variable that collects the starting position of the lift encoder
+	double liftEncoderReading;
 
 
 	//Lift positioning definitions
@@ -243,7 +243,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			// Moving the Lift Upward
 			if (gamepad2.right_bumper && (currentHeight < 7)) {     // Do the following if the right bumper has been pressed and the current height is greater than 7
-				if (currentHeight == 0) {                           // Do the following if the current height is 0
+				if (currentHeight < 1) {                           // Do the following if the current height is 0
 					needFoundation = true;                          // Sets "needFoundation" to true
 				}
 				height++;                                           // Adds 1 to "height"
@@ -311,11 +311,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			}
 
 			if (gamepad2.dpad_up) {     // Do the following if the "up" button on the dpad is pressed
-				wrist.setPosition(0.4); // Centers the wrist
+				wrist.setPosition(0.5); // Centers the wrist
 			}
 
 			if (gamepad2.dpad_left) {
-				wrist.setPosition(1);
+				//wrist.setPosition(1);
+				liftEncoderReading = lift.getCurrentPosition();
 			}
 
 			if (gamepad2.dpad_right) {
@@ -410,7 +411,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
 
-			newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 50;
+			newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL));
 
 			lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
