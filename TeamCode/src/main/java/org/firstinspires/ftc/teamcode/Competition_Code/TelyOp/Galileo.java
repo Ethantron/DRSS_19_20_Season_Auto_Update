@@ -352,7 +352,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			telemetry.addData("Payload ", "Telemetry");          // Adds telemetry to the screen to show that the following telemetry is for the drivetrain
 
 			// Lift telemetry
-			telemetry.addData("Encoder Reading", lift.getCurrentPosition());
+			telemetry.addData("Encoder Reading", lift.getCurrentPosition() - liftEncoderReading);
 
 			telemetry.addData("Desired Height:", height); // Adds telemetry to the screen to show the desired height of the lift
 			telemetry.addData("Current Height: ", currentHeight);   // Adds telemetry to the screen to show the current height of the lift
