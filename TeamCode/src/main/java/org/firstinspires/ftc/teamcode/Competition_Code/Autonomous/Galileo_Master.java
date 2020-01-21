@@ -343,15 +343,7 @@ public class Galileo_Master extends LinearOpMode {
 
 	public void RedBuild(){
 
-		if (step == 1) {                                    //Move forward
-			stepTelemetry();                                //Display Telemetry
-
-			encoderDrive(.4, 46, 10); //Move forward 46 inches just before the foundation
-
-			step++;
-		}
-
-		if (step == 2) {                                     //Turn clockwise 90 degrees
+		if (step == 1) {                                     //Turn clockwise 90 degrees
 			stepTelemetry();                                 //Display Telemetry
 
 			encoderTurn(.35, -90, 10); //Turn CW 90 Degrees
@@ -361,7 +353,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 3) {                                    //Lift to clear foundation
+		if (step == 2) {                                    //Lift to clear foundation
 			stepTelemetry();                                //Display Telemetry
 
 			encoderLift(1, .75);           //Move the lift up 2.5 inches to clear the foundation
@@ -369,7 +361,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 4) {                                    //Start moving against the foundation
+		if (step == 3) {                                    //Start moving against the foundation
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(.3,12, 10);  //Move forward 12 inches
@@ -378,7 +370,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 5) {                                    //Clamp down on the foundation
+		if (step == 4) {                                    //Clamp down on the foundation
 			stepTelemetry();                                //Display Telemetry
 
 			robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
@@ -389,7 +381,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 6) {                                      //Turn Clockwise 60 degrees
+		if (step == 5) {                                      //Turn Clockwise 60 degrees
 			stepTelemetry();                                  //Display Telemetry
 
 			encoderTurn(.35, -75, 10); //Turn CW 60 degrees
@@ -397,7 +389,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 7) {                                    //Move the foundation forward 25 inches
+		if (step == 6) {                                    //Move the foundation forward 25 inches
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(.5, 14, 10); //Move forward 14 inches to place foundation into zone
@@ -405,7 +397,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 8) {                                    //Release the foundation
+		if (step == 7) {                                    //Release the foundation
 			stepTelemetry();                                //Display Telemetry
 
 			robot.foundationMoverL.setPosition(0);          //Set Foundation movers to release the foundation
@@ -414,7 +406,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 9) {                                   //Move backwards
+		if (step == 8) {                                   //Move backwards
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(.5,-22,10);  //Move backwards 18 inches
@@ -422,7 +414,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 10) {                                   //Turn to 90 degrees from starting position
+		if (step == 9) {                                   //Turn to 90 degrees from starting position
 			stepTelemetry();                                //Display Telemetry
 
 			encoderTurn(.35, 75, 10);
@@ -430,7 +422,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 11) { //Strafe right
+		if (step == 10) { //Strafe right
 			stepTelemetry();
 
 			robot.motorFrontRight.setPower(-.7);
@@ -446,7 +438,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 12) {                                   //Park on line
+		if (step == 11) {                                   //Park on line
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(.6, -20, 10); //Move backwards 20 inches
@@ -454,7 +446,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 13) {                                   //Make sure motors are stopped, and end autonomous
+		if (step == 12) {                                   //Make sure motors are stopped, and end autonomous
 			stepTelemetry();                                //Display Telemetry
 
 			robot.motorFrontRight.setPower(0);              //Set motor power to stop
@@ -473,9 +465,6 @@ public class Galileo_Master extends LinearOpMode {
 
 				//Open the grabber
 				robot.grabStone.setPosition(.6); //Set the grabber to open position
-
-				//Move Forward
-				encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
 
 				//Move Slide Forward
 				robot.slide.setPower(1); //Move Slide Forward
@@ -751,15 +740,8 @@ public class Galileo_Master extends LinearOpMode {
 	}
 
 	public void BlueBuild(){
-		if (step == 1) {                                    //Move forward
-			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.4, 46, 10); //Move forward 46 inches just before the foundation
-
-			step++;
-		}
-
-		if (step == 2) {                                     //Turn counterclockwise 90 degrees
+		if (step == 1) {                                     //Turn counterclockwise 90 degrees
 			stepTelemetry();                                 //Display Telemetry
 
 			encoderTurn(.35, 90, 10); //Turn CCW 90 Degrees
@@ -769,7 +751,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 3) {                                    //Lift to clear foundation
+		if (step == 2) {                                    //Lift to clear foundation
 			stepTelemetry();                                //Display Telemetry
 
 			encoderLift(1, 1);           //Move the lift up 2.5 inches to clear the foundation
@@ -777,7 +759,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 4) {                                    //Start moving against the foundation
+		if (step == 3) {                                    //Start moving against the foundation
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(.3,12, 10);  //Move forward 12 inches
@@ -786,7 +768,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 5) {                                    //Clamp down on the foundation
+		if (step == 4) {                                    //Clamp down on the foundation
 			stepTelemetry();                                //Display Telemetry
 
 			robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
@@ -797,7 +779,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 6) {                                      //Turn CounterClockwise 60 degrees
+		if (step == 5) {                                      //Turn CounterClockwise 60 degrees
 			stepTelemetry();                                  //Display Telemetry
 
 			encoderTurn(.35, 75, 10); //Turn CCW 60 degrees
@@ -805,7 +787,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 7) {                                    //Move the foundation forward 25 inches
+		if (step == 6) {                                    //Move the foundation forward 25 inches
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(.5, 14, 10); //Move forward 14 inches to place foundation into zone
@@ -813,7 +795,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 8) {                                    //Release the foundation
+		if (step == 7) {                                    //Release the foundation
 			stepTelemetry();                                //Display Telemetry
 
 			robot.foundationMoverL.setPosition(0);          //Set Foundation movers to release the foundation
@@ -822,7 +804,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 9) {                                   //Move backwards
+		if (step == 8) {                                   //Move backwards
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(.5,-22,10);  //Move backwards 18 inches
@@ -830,7 +812,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 10) {                                   //Turn to 90 degrees from starting position
+		if (step == 9) {                                   //Turn to 90 degrees from starting position
 			stepTelemetry();                                //Display Telemetry
 
 			encoderTurn(.35, -75, 10);
@@ -838,7 +820,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 11) { //Strafe right
+		if (step == 10) { //Strafe right
 			stepTelemetry();
 
 			robot.motorFrontRight.setPower(.7);
@@ -854,7 +836,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 12) {                                   //Park on line
+		if (step == 11) {                                   //Park on line
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(1, -28, 10); //Move backwards 28 inches
@@ -862,7 +844,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 13) {                                   //Make sure motors are stopped, and end autonomous
+		if (step == 12) {                                   //Make sure motors are stopped, and end autonomous
 			stepTelemetry();                                //Display Telemetry
 
 			robot.motorFrontRight.setPower(0);              //Set motor power to stop
@@ -881,9 +863,6 @@ public class Galileo_Master extends LinearOpMode {
 
 				//Open the grabber
 				robot.grabStone.setPosition(.6); //Set the grabber to open position
-
-				//Move Forward
-				encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
 
 				//Move Slide Forward
 				robot.slide.setPower(1); //Move Slide Forward
