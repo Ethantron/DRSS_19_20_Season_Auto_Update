@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 import java.util.Locale;
 
-@Autonomous(name = "Park_RDepot_BBuild", group= "Autonomous")
+@Autonomous(name = "Galileo_Park_RPark_BBuild", group= "Autonomous")
 public class Galileo_Park_RLoad_BBuild extends LinearOpMode{
 
 	Galileo_Hardware robot = new Galileo_Hardware();   //Calls Upon Robot Definitions File

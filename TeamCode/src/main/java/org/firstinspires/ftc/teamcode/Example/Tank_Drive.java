@@ -90,13 +90,13 @@ public class Tank_Drive extends OpMode{
 
 		if (gamepad1.a){
 			Speed = 1;
-			pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;
+			pattern = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_RAINBOW_PALETTE;
 			displayPattern();
 		}
 
 		if (gamepad1.b){
 			Speed = .75;
-			pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
+			pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
 			displayPattern();
 		}
 
@@ -108,7 +108,7 @@ public class Tank_Drive extends OpMode{
 
 		if (gamepad1.y){
 			Speed = .25;
-			pattern = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_RAINBOW_PALETTE;
+			pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
 			displayPattern();
 		}
 
@@ -116,11 +116,11 @@ public class Tank_Drive extends OpMode{
 		telemetry.update();
 
 		if (gamepad1.left_stick_y>0.1 && gamepad1.right_stick_y>0.1){
-			pattern = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_PARTY_PALETTE;
+			pattern = RevBlinkinLedDriver.BlinkinPattern.LIGHT_CHASE_RED;
 			displayPattern();
 		}
 		if (gamepad1.left_stick_y<-0.1 && gamepad1.right_stick_y<-0.1){
-			pattern = RevBlinkinLedDriver.BlinkinPattern.LIGHT_CHASE_RED;
+			pattern = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_PARTY_PALETTE;
 			displayPattern();
 		}
 

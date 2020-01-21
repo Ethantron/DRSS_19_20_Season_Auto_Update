@@ -50,6 +50,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public DigitalChannel stoneButton; // Defines the Stone Button on the grabber
 	boolean handOpen = true;    // Defines a boolean which will be used to define whether the hand is open or not
 	boolean capout = false;		// Defines a boolean which will be used to define whether the capstone pusher is out or not
+	double liftEncoderReading = lift.getCurrentPosition(); // Defines a variable that collects the starting position of the lift encoder
 
 
 	//Lift positioning definitions
@@ -351,8 +352,9 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			telemetry.addData("Payload ", "Telemetry");          // Adds telemetry to the screen to show that the following telemetry is for the drivetrain
 
 			// Lift telemetry
-			telemetry.addData("Desired Height:", height);
-			// Adds telemetry to the screen to show the desired height of the lift
+			telemetry.addData("Encoder Reading", lift.getCurrentPosition());
+
+			telemetry.addData("Desired Height:", height); // Adds telemetry to the screen to show the desired height of the lift
 			telemetry.addData("Current Height: ", currentHeight);   // Adds telemetry to the screen to show the current height of the lift
 
 			//Wrist telemetry
