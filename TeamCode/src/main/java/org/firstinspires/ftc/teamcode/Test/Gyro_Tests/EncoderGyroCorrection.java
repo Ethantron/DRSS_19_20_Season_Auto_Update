@@ -20,332 +20,332 @@ import java.util.Locale;
 @Autonomous(name = "EncoderGyroCorrection", group = "Misc_Tests")
 public class EncoderGyroCorrection extends LinearOpMode {
 
-    // Robot definitions
-    // Defines the Motors
-    public DcMotor motorFrontRight;
-    public DcMotor motorFrontLeft;
-    public DcMotor motorBackRight;
-    public DcMotor motorBackLeft;
+	// Robot definitions
+	// Defines the Motors
+	public DcMotor motorFrontRight;
+	public DcMotor motorFrontLeft;
+	public DcMotor motorBackRight;
+	public DcMotor motorBackLeft;
 
-    // Encoder definitions
-    private ElapsedTime runtime = new ElapsedTime();
-    static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: REV 20:1 Motor Encoder
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
-
-
-    // Defines the gyro
-    BNO055IMU imu;
-
-    // State used for updating telemetry
-    Orientation angles;
-    Acceleration gravity;
-
-    //Turning Variables
-    static final double     DRIVE_SPEED             = 0.7;     // Nominal speed for better accuracy.
-    static final double     TURN_SPEED              = 0.2;     // Nominal half speed for better accuracy.
-
-    static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
-    static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
+	// Encoder definitions
+	private ElapsedTime runtime = new ElapsedTime();
+	static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: REV 20:1 Motor Encoder
+	static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+	static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
 
-    @Override
-    public void runOpMode(){
+	// Defines the gyro
+	BNO055IMU imu;
 
-        // Drivetrain initialization
-        motorFrontLeft = hardwareMap.dcMotor.get("FL");
-        motorFrontRight = hardwareMap.dcMotor.get("FR");
-        motorBackLeft = hardwareMap.dcMotor.get("BL");
-        motorBackRight = hardwareMap.dcMotor.get("BR");
+	// State used for updating telemetry
+	Orientation angles;
+	Acceleration gravity;
 
-        motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
-        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+	//Turning Variables
+	static final double     DRIVE_SPEED             = 0.7;     // Nominal speed for better accuracy.
+	static final double     TURN_SPEED              = 0.2;     // Nominal half speed for better accuracy.
 
-        // Encoder initialization
-        telemetry.addData("Status", "Resetting Encoders");
-        telemetry.update();
+	static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
+	static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
+	static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
 
-        //Stops and Resets Encoders
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        //Tells Robots to Reset Encoders
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+	@Override
+	public void runOpMode(){
 
-        //Set up IMU
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+		// Drivetrain initialization
+		motorFrontLeft = hardwareMap.dcMotor.get("FL");
+		motorFrontRight = hardwareMap.dcMotor.get("FR");
+		motorBackLeft = hardwareMap.dcMotor.get("BL");
+		motorBackRight = hardwareMap.dcMotor.get("BR");
 
-        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-        // and named "imu".
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
+		motorFrontLeft.setDirection(DcMotor.Direction.FORWARD);
+		motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+		motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
+		motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 
-        // Set up our telemetry dashboard
-        composeTelemetry();
+		// Encoder initialization
+		telemetry.addData("Status", "Resetting Encoders");
+		telemetry.update();
 
-        telemetry.addData("Status: ", "Initialized");
-        telemetry.addData(">", "Press Play to start op mode");
-        telemetry.update();
+		//Stops and Resets Encoders
+		motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+		motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+		motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+		motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        waitForStart();
+		//Tells Robots to Reset Encoders
+		motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+		motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+		motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+		motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        gyroDrive(0.2, 48.0, 0); // Drive FWD 48 inches at 0 degrees
+		//Set up IMU
+		BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+		parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+		parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+		parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+		parameters.loggingEnabled = true;
+		parameters.loggingTag = "IMU";
+		parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        gyroTurn( TURN_SPEED, -45.0); // Turn  CCW to -45 Degrees
-        gyroHold( TURN_SPEED, -45.0, 0.5); // Hold -45 Deg heading for a 1/2 second
+		// Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+		// on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+		// and named "imu".
+		imu = hardwareMap.get(BNO055IMU.class, "imu");
+		imu.initialize(parameters);
 
-        gyroTurn( TURN_SPEED, 45.0); // Turn  CW to 45 Degrees
-        gyroHold( TURN_SPEED, 45.0, 0.5); // Hold 45 Deg heading for a 1/2 second
-    }
+		// Set up our telemetry dashboard
+		composeTelemetry();
 
-    public void gyroDrive (double speed,
-                           double Inches,
-                           double angle) {
-        int newFrontLeftTarget;
-        int newFrontRightTarget;
-        int newBackLeftTarget;
-        int newBackRightTarget;
+		telemetry.addData("Status: ", "Initialized");
+		telemetry.addData(">", "Press Play to start op mode");
+		telemetry.update();
 
-        int     moveCounts;
-        double  max;
-        double  error;
-        double  steer;
-        double  leftSpeed;
-        double  rightSpeed;
+		waitForStart();
 
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
+		gyroDrive(0.2, 48.0, 0); // Drive FWD 48 inches at 0 degrees
 
-            // Math to calculate each target position for the motors
-            moveCounts = (int)(Inches * COUNTS_PER_INCH);
+		gyroTurn( TURN_SPEED, -45.0); // Turn  CCW to -45 Degrees
+		gyroHold( TURN_SPEED, -45.0, 0.5); // Hold -45 Deg heading for a 1/2 second
 
-            newFrontLeftTarget = motorFrontLeft.getCurrentPosition() + moveCounts;
-            newFrontRightTarget = motorFrontRight.getCurrentPosition() + moveCounts;
-            newBackLeftTarget = motorBackLeft.getCurrentPosition() + moveCounts;
-            newBackRightTarget = motorBackRight.getCurrentPosition() + moveCounts;
+		gyroTurn( TURN_SPEED, 45.0); // Turn  CW to 45 Degrees
+		gyroHold( TURN_SPEED, 45.0, 0.5); // Hold 45 Deg heading for a 1/2 second
+	}
 
-            //Set Target Positions to respective motors
-            motorFrontLeft.setTargetPosition(newFrontLeftTarget);
-            motorFrontRight.setTargetPosition(newFrontRightTarget);
-            motorBackLeft.setTargetPosition(newBackLeftTarget);
-            motorBackRight.setTargetPosition(newBackRightTarget);
+	public void gyroDrive (double speed,
+						   double Inches,
+						   double angle) {
+		int newFrontLeftTarget;
+		int newFrontRightTarget;
+		int newBackLeftTarget;
+		int newBackRightTarget;
 
-            // Turn On RUN_TO_POSITION
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		int     moveCounts;
+		double  max;
+		double  error;
+		double  steer;
+		double  leftSpeed;
+		double  rightSpeed;
 
-            // start motion.
-            speed = Range.clip(Math.abs(speed), 0.0, 1.0);
-            motorFrontLeft.setPower(speed);
-            motorFrontRight.setPower(speed);
-            motorBackLeft.setPower(speed);
-            motorBackRight.setPower(speed);
+		// Ensure that the opmode is still active
+		if (opModeIsActive()) {
 
-            // keep looping while we are still active, and ALL motors are running.
-            while (opModeIsActive() &&
-                    (motorFrontLeft.isBusy() && motorFrontRight.isBusy() && motorBackLeft.isBusy() && motorBackRight.isBusy())) {
+			// Math to calculate each target position for the motors
+			moveCounts = (int)(Inches * COUNTS_PER_INCH);
 
-                // adjust relative speed based on heading error.
-                error = getError(angle);
-                steer = getSteer(error, P_DRIVE_COEFF);
+			newFrontLeftTarget = motorFrontLeft.getCurrentPosition() + moveCounts;
+			newFrontRightTarget = motorFrontRight.getCurrentPosition() + moveCounts;
+			newBackLeftTarget = motorBackLeft.getCurrentPosition() + moveCounts;
+			newBackRightTarget = motorBackRight.getCurrentPosition() + moveCounts;
 
-                // if driving in reverse, the motor correction also needs to be reversed
-                if (Inches < 0)
-                    steer *= -1.0;
+			//Set Target Positions to respective motors
+			motorFrontLeft.setTargetPosition(newFrontLeftTarget);
+			motorFrontRight.setTargetPosition(newFrontRightTarget);
+			motorBackLeft.setTargetPosition(newBackLeftTarget);
+			motorBackRight.setTargetPosition(newBackRightTarget);
 
-                leftSpeed = speed - steer;
-                rightSpeed = speed + steer;
+			// Turn On RUN_TO_POSITION
+			motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+			motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+			motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+			motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                // Normalize speeds if either one exceeds +/- 1.0;
-                max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-                if (max > 1.0)
-                {
-                    leftSpeed /= max;
-                    rightSpeed /= max;
-                }
+			// start motion.
+			speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+			motorFrontLeft.setPower(speed);
+			motorFrontRight.setPower(speed);
+			motorBackLeft.setPower(speed);
+			motorBackRight.setPower(speed);
 
-                motorFrontLeft.setPower(leftSpeed);
-                motorFrontRight.setPower(rightSpeed);
-                motorBackLeft.setPower(leftSpeed);
-                motorBackRight.setPower(rightSpeed);
+			// keep looping while we are still active, and ALL motors are running.
+			while (opModeIsActive() &&
+					(motorFrontLeft.isBusy() && motorFrontRight.isBusy() && motorBackLeft.isBusy() && motorBackRight.isBusy())) {
 
-                // Display drive status for the driver.
-                telemetry.addData("Err/St",  "%5.1f/%5.1f",  error, steer);
-                telemetry.addData("Target",  "%7d:%7d",      newFrontLeftTarget,  newFrontRightTarget);
-                telemetry.addData("Actual",  "%7d:%7d",      motorFrontLeft.getCurrentPosition(),
-                        motorFrontRight.getCurrentPosition());
-                telemetry.addData("Speed",   "%5.2f:%5.2f",  leftSpeed, rightSpeed);
-                telemetry.update();
-            }
+				// adjust relative speed based on heading error.
+				error = getError(angle);
+				steer = getSteer(error, P_DRIVE_COEFF);
 
-            // Stop all motion;
-            motorFrontLeft.setPower(0);
-            motorFrontRight.setPower(0);
-            motorBackLeft.setPower(0);
-            motorBackRight.setPower(0);
+				// if driving in reverse, the motor correction also needs to be reversed
+				if (Inches < 0)
+					steer *= -1.0;
 
-            // Turn off RUN_TO_POSITION
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-    }
+				leftSpeed = speed - steer;
+				rightSpeed = speed + steer;
 
-    public void gyroTurn (  double speed, double angle) {
+				// Normalize speeds if either one exceeds +/- 1.0;
+				max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+				if (max > 1.0)
+				{
+					leftSpeed /= max;
+					rightSpeed /= max;
+				}
 
-        // keep looping while we are still active, and not on heading.
-        while (opModeIsActive() && !onHeading(speed, angle, P_TURN_COEFF)) {
-            // Update telemetry & Allow time for other processes to run.
-            telemetry.update();
-        }
-    }
+				motorFrontLeft.setPower(leftSpeed);
+				motorFrontRight.setPower(rightSpeed);
+				motorBackLeft.setPower(leftSpeed);
+				motorBackRight.setPower(rightSpeed);
 
-    /**
-     *  Method to obtain & hold a heading for a finite amount of time
-     *  Move will stop once the requested time has elapsed
-     *
-     * @param speed      Desired speed of turn.
-     * @param angle      Absolute Angle (in Degrees) relative to last gyro reset.
-     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *                   If a relative angle is required, add/subtract from current heading.
-     * @param holdTime   Length of time (in seconds) to hold the specified heading.
-     */
-    public void gyroHold( double speed, double angle, double holdTime) {
+				// Display drive status for the driver.
+				telemetry.addData("Err/St",  "%5.1f/%5.1f",  error, steer);
+				telemetry.addData("Target",  "%7d:%7d",      newFrontLeftTarget,  newFrontRightTarget);
+				telemetry.addData("Actual",  "%7d:%7d",      motorFrontLeft.getCurrentPosition(),
+						motorFrontRight.getCurrentPosition());
+				telemetry.addData("Speed",   "%5.2f:%5.2f",  leftSpeed, rightSpeed);
+				telemetry.update();
+			}
 
-        ElapsedTime holdTimer = new ElapsedTime();
+			// Stop all motion;
+			motorFrontLeft.setPower(0);
+			motorFrontRight.setPower(0);
+			motorBackLeft.setPower(0);
+			motorBackRight.setPower(0);
 
-        // keep looping while we have time remaining.
-        holdTimer.reset();
-        while (opModeIsActive() && (holdTimer.time() < holdTime)) {
-            // Update telemetry & Allow time for other processes to run.
-            onHeading(speed, angle, P_TURN_COEFF);
-            telemetry.update();
-        }
+			// Turn off RUN_TO_POSITION
+			motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+			motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+			motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+			motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+		}
+	}
 
-        // Stop all motion;
-        motorFrontLeft.setPower(0);
-        motorBackLeft.setPower(0);
-        motorFrontRight.setPower(0);
-        motorBackRight.setPower(0);
-    }
+	public void gyroTurn (  double speed, double angle) {
 
-    /**
-     * Perform one cycle of closed loop heading control.
-     *
-     * @param speed     Desired speed of turn.
-     * @param angle     Absolute Angle (in Degrees) relative to last gyro reset.
-     *                  0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *                  If a relative angle is required, add/subtract from current heading.
-     * @param PCoeff    Proportional Gain coefficient
-     * @return
-     */
-    boolean onHeading(double speed, double angle, double PCoeff) {
-        double   error ;
-        double   steer ;
-        boolean  onTarget = false ;
-        double leftSpeed;
-        double rightSpeed;
+		// keep looping while we are still active, and not on heading.
+		while (opModeIsActive() && !onHeading(speed, angle, P_TURN_COEFF)) {
+			// Update telemetry & Allow time for other processes to run.
+			telemetry.update();
+		}
+	}
 
-        // determine turn power based on +/- error
-        error = getError(angle);
+	/**
+	 *  Method to obtain & hold a heading for a finite amount of time
+	 *  Move will stop once the requested time has elapsed
+	 *
+	 * @param speed      Desired speed of turn.
+	 * @param angle      Absolute Angle (in Degrees) relative to last gyro reset.
+	 *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+	 *                   If a relative angle is required, add/subtract from current heading.
+	 * @param holdTime   Length of time (in seconds) to hold the specified heading.
+	 */
+	public void gyroHold( double speed, double angle, double holdTime) {
 
-        if (Math.abs(error) <= HEADING_THRESHOLD) {
-            steer = 0.0;
-            leftSpeed  = 0.0;
-            rightSpeed = 0.0;
-            onTarget = true;
-        }
-        else {
-            steer = getSteer(error, PCoeff);
-            rightSpeed  = speed * steer;
-            leftSpeed   = -rightSpeed;
-        }
+		ElapsedTime holdTimer = new ElapsedTime();
 
-        // Send desired speeds to motors.
-        motorFrontLeft.setPower(leftSpeed);
-        motorBackLeft.setPower(leftSpeed);
-        motorFrontRight.setPower(rightSpeed);
-        motorBackRight.setPower(rightSpeed);
+		// keep looping while we have time remaining.
+		holdTimer.reset();
+		while (opModeIsActive() && (holdTimer.time() < holdTime)) {
+			// Update telemetry & Allow time for other processes to run.
+			onHeading(speed, angle, P_TURN_COEFF);
+			telemetry.update();
+		}
 
-        // Display it for the driver.
-        telemetry.addData("Target", "%5.2f", angle);
-        telemetry.addData("Err/St", "%5.2f/%5.2f", error, steer);
-        telemetry.addData("Speed.", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+		// Stop all motion;
+		motorFrontLeft.setPower(0);
+		motorBackLeft.setPower(0);
+		motorFrontRight.setPower(0);
+		motorBackRight.setPower(0);
+	}
 
-        return onTarget;
-    }
+	/**
+	 * Perform one cycle of closed loop heading control.
+	 *
+	 * @param speed     Desired speed of turn.
+	 * @param angle     Absolute Angle (in Degrees) relative to last gyro reset.
+	 *                  0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+	 *                  If a relative angle is required, add/subtract from current heading.
+	 * @param PCoeff    Proportional Gain coefficient
+	 * @return
+	 */
+	boolean onHeading(double speed, double angle, double PCoeff) {
+		double   error ;
+		double   steer ;
+		boolean  onTarget = false ;
+		double leftSpeed;
+		double rightSpeed;
 
-    /**
-     * getError determines the error between the target angle and the robot's current heading
-     * @param   targetAngle  Desired angle (relative to global reference established at last Gyro Reset).
-     * @return  error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
-     *          +ve error means the robot should turn LEFT (CCW) to reduce error.
-     */
-    public double getError(double targetAngle) {
+		// determine turn power based on +/- error
+		error = getError(angle);
 
-        double robotError;
+		if (Math.abs(error) <= HEADING_THRESHOLD) {
+			steer = 0.0;
+			leftSpeed  = 0.0;
+			rightSpeed = 0.0;
+			onTarget = true;
+		}
+		else {
+			steer = getSteer(error, PCoeff);
+			rightSpeed  = speed * steer;
+			leftSpeed   = -rightSpeed;
+		}
 
-        // calculate error in -179 to +180 range  (
-        robotError = targetAngle - angles.firstAngle;
-        while (robotError > 180)  robotError -= 360;
-        while (robotError <= -180) robotError += 360;
-        return robotError;
-    }
+		// Send desired speeds to motors.
+		motorFrontLeft.setPower(leftSpeed);
+		motorBackLeft.setPower(leftSpeed);
+		motorFrontRight.setPower(rightSpeed);
+		motorBackRight.setPower(rightSpeed);
 
-    /**
-     * returns desired steering force.  +/- 1 range.  +ve = steer left
-     * @param error   Error angle in robot relative degrees
-     * @param PCoeff  Proportional Gain Coefficient
-     * @return
-     */
-    public double getSteer(double error, double PCoeff) {
-        return Range.clip(error * PCoeff, -1, 1);
-    }
+		// Display it for the driver.
+		telemetry.addData("Target", "%5.2f", angle);
+		telemetry.addData("Err/St", "%5.2f/%5.2f", error, steer);
+		telemetry.addData("Speed.", "%5.2f:%5.2f", leftSpeed, rightSpeed);
 
-    void composeTelemetry() {
+		return onTarget;
+	}
 
-        // At the beginning of each telemetry update, grab a bunch of data
-        // from the IMU that we will then display in separate lines.
-        telemetry.addAction(new Runnable() { @Override public void run()
-        {
-            // Acquiring the angles is relatively expensive; we don't want
-            // to do that in each of the three items that need that info, as that's
-            // three times the necessary expense.
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            gravity  = imu.getGravity();
-        }
-        });
-        telemetry.addLine()
-                .addData("heading", new Func<String>() {
-                    @Override public String value() {
-                        return formatAngle(angles.angleUnit, angles.firstAngle);
-                    }
-                });
-    }
+	/**
+	 * getError determines the error between the target angle and the robot's current heading
+	 * @param   targetAngle  Desired angle (relative to global reference established at last Gyro Reset).
+	 * @return  error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
+	 *          +ve error means the robot should turn LEFT (CCW) to reduce error.
+	 */
+	public double getError(double targetAngle) {
 
-    String formatAngle(AngleUnit angleUnit, double angle) {
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
-    }
+		double robotError;
 
-    String formatDegrees(double degrees){
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
-    }
+		// calculate error in -179 to +180 range  (
+		robotError = targetAngle - angles.firstAngle;
+		while (robotError > 180)  robotError -= 360;
+		while (robotError <= -180) robotError += 360;
+		return robotError;
+	}
+
+	/**
+	 * returns desired steering force.  +/- 1 range.  +ve = steer left
+	 * @param error   Error angle in robot relative degrees
+	 * @param PCoeff  Proportional Gain Coefficient
+	 * @return
+	 */
+	public double getSteer(double error, double PCoeff) {
+		return Range.clip(error * PCoeff, -1, 1);
+	}
+
+	void composeTelemetry() {
+
+		// At the beginning of each telemetry update, grab a bunch of data
+		// from the IMU that we will then display in separate lines.
+		telemetry.addAction(new Runnable() { @Override public void run()
+		{
+			// Acquiring the angles is relatively expensive; we don't want
+			// to do that in each of the three items that need that info, as that's
+			// three times the necessary expense.
+			angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+			gravity  = imu.getGravity();
+		}
+		});
+		telemetry.addLine()
+				.addData("heading", new Func<String>() {
+					@Override public String value() {
+						return formatAngle(angles.angleUnit, angles.firstAngle);
+					}
+				});
+	}
+
+	String formatAngle(AngleUnit angleUnit, double angle) {
+		return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+	}
+
+	String formatDegrees(double degrees){
+		return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+	}
 }

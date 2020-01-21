@@ -24,21 +24,21 @@ A brief synopsis of the naming convention is given here:
 The prefix of the name will be one of the following:
 
 * Basic:    This is a minimally functional OpMode used to illustrate the skeleton/structure
-            of a particular style of OpMode.  These are bare bones examples.
+			of a particular style of OpMode.  These are bare bones examples.
 * Sensor:   This is a Sample OpMode that shows how to use a specific sensor.
-            It is not intended as a functioning robot, it is simply showing the minimal code
-            required to read and display the sensor values.
+			It is not intended as a functioning robot, it is simply showing the minimal code
+			required to read and display the sensor values.
 * Hardware: This is not an actual OpMode, but a helper class that is used to describe
-            one particular robot's hardware devices: eg: for a Pushbot.  Look at any
-            Pushbot sample to see how this can be used in an OpMode.
-            Teams can copy one of these to create their own robot definition.
+			one particular robot's hardware devices: eg: for a Pushbot.  Look at any
+			Pushbot sample to see how this can be used in an OpMode.
+			Teams can copy one of these to create their own robot definition.
 * Pushbot:  This is a Sample OpMode that uses the Pushbot robot structure as a base.
 * Concept:	This is a sample OpMode that illustrates performing a specific function or concept.
-            These may be complex, but their operation should be explained clearly in the comments,
-            or the header should reference an external doc, guide or tutorial.
+			These may be complex, but their operation should be explained clearly in the comments,
+			or the header should reference an external doc, guide or tutorial.
 * Library:  This is a class, or set of classes used to implement some strategy.
-            These will typically NOT implement a full OpMode.  Instead they will be included
-            by an OpMode to provide some stand-alone capability.
+			These will typically NOT implement a full OpMode.  Instead they will be included
+			by an OpMode to provide some stand-alone capability.
 
 Once you are familiar with the range of samples available, you can choose one to be the
 basis for your own robot.  In all cases, the desired sample(s) needs to be copied into
@@ -55,8 +55,8 @@ This is done inside Android Studio directly, using the following steps:
  4) Right click on the org.firstinspires.ftc.teamcode folder and select "Paste"
 
  5) You will be prompted for a class name for the copy.
-    Choose something meaningful based on the purpose of this class.
-    Start with a capital letter, and remember that there may be more similar classes later.
+	Choose something meaningful based on the purpose of this class.
+	Start with a capital letter, and remember that there may be more similar classes later.
 
 Once your copy has been created, you should prepare it for use on your robot.
 This is done by adjusting the OpMode's name, and enabling it to be displayed on the
@@ -104,18 +104,18 @@ To clone TeamCode, do the following:
 Note: Some names start with "Team" and others start with "team".  This is intentional.
 
 1)  Using your operating system file management tools, copy the whole "TeamCode"
-    folder to a sibling folder with a corresponding new name, eg: "Team0417".
+	folder to a sibling folder with a corresponding new name, eg: "Team0417".
 
 2)  In the new Team0417 folder, delete the TeamCode.iml file.
 
 3)  the new Team0417 folder, rename the "src/main/java/org/firstinspires/ftc/teamcode" folder
-    to a matching name with a lowercase 'team' eg:  "team0417".
+	to a matching name with a lowercase 'team' eg:  "team0417".
 
 4)  In the new Team0417/src/main folder, edit the "AndroidManifest.xml" file, change the line that contains
-         package="org.firstinspires.ftc.teamcode"
-    to be
-         package="org.firstinspires.ftc.team0417"
+		 package="org.firstinspires.ftc.teamcode"
+	to be
+		 package="org.firstinspires.ftc.team0417"
 
 5)  Add:    include ':Team0417' to the "/settings.gradle" file.
-    
+	
 6)  Open up Android Studios and clean out any old files by using the menu to "Build/Clean Project""
