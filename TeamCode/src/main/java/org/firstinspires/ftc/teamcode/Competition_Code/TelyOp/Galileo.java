@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;                   // Imports servo
 import com.qualcomm.robotcore.util.ElapsedTime;                 // Imports timer definitions
 import com.qualcomm.robotcore.util.Range;                       // Imports motor ranges definitions
 
+import org.firstinspires.ftc.teamcode.Test.Auto_Tests.AutoHardwareGalileo;
+
 // Defines robot display name
 @TeleOp (name = "Galileo", group= "TeleOp")     // Sets codes mode to TelyOp and sets the display name for the code
 public class Galileo extends LinearOpMode {     // Sets the codes name and sets it to Linear OpMode
@@ -60,6 +62,9 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	boolean needFoundation = false;                 // Sets the boolean "needFoundation" to false   | Defines whether the lift needs to account for the foundations
 	static final double COUNTS_PER_LEVEL = 300;     // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
 	static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
+
+	//Slide Positioning Definitions
+	static final double COUNTS_PER_SLIDE_INCH = 49.23;
 
 	// End payload definitions
 
@@ -557,6 +562,28 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			lift.setPower(0);
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		}
+	}
+
+	public void encoderSlide (double slideSpeed, double Inches){
+		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+
+		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+			newLiftTarget = (slide.getCurrentPosition() + (int) (Inches * COUNTS_PER_SLIDE_INCH));
+
+			slide.setTargetPosition(newLiftTarget);
+
+			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+			slide.setPower(slideSpeed);
+
+			while (opModeIsActive() && slide.isBusy()) {
+				telemetry.addData("lift position", slide.getCurrentPosition());
+				telemetry.update();
+			}
+
+			slide.setPower(0);
+			slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		}
 	}
 }
