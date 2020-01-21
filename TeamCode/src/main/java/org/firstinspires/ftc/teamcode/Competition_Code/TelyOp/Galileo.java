@@ -354,6 +354,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			// Lift telemetry
 			telemetry.addData("Encoder Reading", lift.getCurrentPosition() - liftEncoderReading);
+			telemetry.addData("Need Foundation: ", needFoundation);
 
 			telemetry.addData("Desired Height:", height); // Adds telemetry to the screen to show the desired height of the lift
 			telemetry.addData("Current Height: ", currentHeight);   // Adds telemetry to the screen to show the current height of the lift

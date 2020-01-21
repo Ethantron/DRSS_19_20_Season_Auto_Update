@@ -118,8 +118,8 @@ public class Tank_Drive extends OpMode{
 			displayPattern();
 		}
 
-		if (Button.getState() == false){
-			pattern = RevBlinkinLedDriver.BlinkinPattern.STROBE_GOLD;
+		if (!Button.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.CP1_2_COLOR_WAVES;
 			displayPattern();
 		}
 
