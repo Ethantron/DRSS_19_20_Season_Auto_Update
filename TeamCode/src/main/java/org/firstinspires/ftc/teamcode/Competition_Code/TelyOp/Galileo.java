@@ -12,8 +12,6 @@ import com.qualcomm.robotcore.hardware.Servo;                   // Imports servo
 import com.qualcomm.robotcore.util.ElapsedTime;                 // Imports timer definitions
 import com.qualcomm.robotcore.util.Range;                       // Imports motor ranges definitions
 
-import org.firstinspires.ftc.teamcode.Test.Auto_Tests.AutoHardwareGalileo;
-
 // Defines robot display name
 @TeleOp (name = "Galileo", group= "TeleOp")     // Sets codes mode to TelyOp and sets the display name for the code
 public class Galileo extends LinearOpMode {     // Sets the codes name and sets it to Linear OpMode
@@ -345,7 +343,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			}
 
 			if ((gamepad2.a) && !gamepad2.b) {              // Do the following if the "a" button is pressed
-				grabStone.setPosition(.6); // Open the grabber
+				grabStone.setPosition(.5); // Open the grabber
 			}
 
 			// End of Grabber Controls

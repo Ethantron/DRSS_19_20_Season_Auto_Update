@@ -29,10 +29,6 @@ public class AutoHardwareGalileo {
 	public Servo grabStone;
 	public Servo wrist;
 
-	//Color Sensor Definitions
-	ColorSensor color_sensor;
-	ColorSensor color2;
-
 	//Foundation Mover Definitions
 	public Servo foundationMoverL;      // Defines the left foundation servo
 	public Servo foundationMoverR;      // Defines the right foundation servo
@@ -157,13 +153,5 @@ public class AutoHardwareGalileo {
 		parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 		imu = hwMap.get(BNO055IMU.class, "imu");
 		imu.initialize(parameters);
-
-		//Color Sensor Initialization
-		color_sensor = hwMap.get(ColorSensor.class, "color_sensor");
-		color2 = hwMap.get(ColorSensor.class, "color2");
-		//sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
-		float hsvValues[] = {0F, 0F, 0F};
-		final float values[] = hsvValues;
-		final double SCALE_FACTOR = 255;
 	}
 }

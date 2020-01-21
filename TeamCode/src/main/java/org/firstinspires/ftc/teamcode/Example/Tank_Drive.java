@@ -119,7 +119,7 @@ public class Tank_Drive extends OpMode{
 		}
 
 		if (!Button.getState()){
-			pattern = RevBlinkinLedDriver.BlinkinPattern.CP1_2_COLOR_WAVES;
+			pattern = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;
 			displayPattern();
 		}
 
