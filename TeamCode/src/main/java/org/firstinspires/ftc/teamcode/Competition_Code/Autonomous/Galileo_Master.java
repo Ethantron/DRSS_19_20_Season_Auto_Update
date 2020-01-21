@@ -41,6 +41,7 @@ public class Galileo_Master extends LinearOpMode {
 
     double step = 1; //Sets the steps for the autonomous
 
+    double largeStep = 1;
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -136,17 +137,17 @@ public class Galileo_Master extends LinearOpMode {
         VuforiaTrackable blueFrontBridge = targetsSkyStone.get(4);
         blueFrontBridge.setName("Blue Front Bridge");
         VuforiaTrackable red1 = targetsSkyStone.get(5);
-        red1.setName("Red Perimeter 1");
+        red1.setName("Red Load");
         VuforiaTrackable red2 = targetsSkyStone.get(6);
-        red2.setName("Red Perimeter 2");
+        red2.setName("Red Build");
         VuforiaTrackable front1 = targetsSkyStone.get(7);
         front1.setName("Front Perimeter 1");
         VuforiaTrackable front2 = targetsSkyStone.get(8);
         front2.setName("Front Perimeter 2");
         VuforiaTrackable blue1 = targetsSkyStone.get(9);
-        blue1.setName("Blue Perimeter 1");
+        blue1.setName("Blue Load");
         VuforiaTrackable blue2 = targetsSkyStone.get(10);
-        blue2.setName("Blue Perimeter 2");
+        blue2.setName("Blue Build");
         VuforiaTrackable rear1 = targetsSkyStone.get(11);
         rear1.setName("Rear Perimeter 1");
         VuforiaTrackable rear2 = targetsSkyStone.get(12);
@@ -279,30 +280,38 @@ public class Galileo_Master extends LinearOpMode {
         telemetry.update();                                                   // Tells the telemetry to display on the phone
         waitForStart();
 
+
+        if (largeStep == 1){
+            encoderDrive(.5,-24,10);
+            largeStep++;
+        }
+
+        if (largeStep == 2) {
             targetsSkyStone.activate();
             while (!isStopRequested()) {
 
                 // check all the trackable targets to see which one (if any) is visible.
                 targetVisible = false;
                 for (VuforiaTrackable trackable : allTrackables) {
-                    if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                    if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
                         telemetry.addData("Visible Target", trackable.getName());
                         targetVisible = true;
-                            if (trackable.getName() == "Red Perimeter 1"){
-                                encoderTurn(1, 360, 10);
-                            }
-                            else if (trackable.getName() == "Red Perimeter 2"){
-                                encoderTurn(1, 360, 10);
-                            }
-                            else if (trackable.getName() == "Blue Perimeter 1"){
-                                encoderTurn(1, 360, 10);
-                            }
-                            else if (trackable.getName() == "Blue Perimeter 2"){
-                                encoderTurn(1, 360, 10);
-                            }
+                        if (trackable.getName() == "Red Load") {
+                            encoderTurn(.5, 180, 10);
+                            RedLoad();
+                        } else if (trackable.getName() == "Red Build") {
+                            encoderTurn(.5, 180, 10);
+                            RedBuild();
+                        } else if (trackable.getName() == "Blue Load") {
+                            encoderTurn(.5, 180, 10);
+                            BlueLoad();
+                        } else if (trackable.getName() == "Blue Build") {
+                            encoderTurn(.5, 180, 10);
+                            BlueBuild();
+                        }
                         // getUpdatedRobotLocation() will return null if no new information is available since
                         // the last time that call was made, or if the trackable is not currently visible.
-                        OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                        OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
                         if (robotLocationTransform != null) {
                             lastLocation = robotLocationTransform;
                         }
@@ -320,8 +329,7 @@ public class Galileo_Master extends LinearOpMode {
                     // express the rotation of the robot in degrees.
                     Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                     telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-                }
-                else {
+                } else {
                     telemetry.addData("Visible Target", "none");
                 }
                 telemetry.update();
@@ -329,6 +337,7 @@ public class Galileo_Master extends LinearOpMode {
 
             // Disable Tracking when we are done;
             targetsSkyStone.deactivate();
+        }
     }
 
 
