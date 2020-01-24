@@ -169,17 +169,17 @@ public class Auto_Red_Depot extends LinearOpMode {
 
 				//Set distances needed to be moved by each position
 				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(1, 35, 10); //Run forward 35 inches at speed of 1
+					encoderDrive(1, 40, 10); //Run forward 40 inches at speed of 1
 					step++; //Move to the next step
 				}
 
 				if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(1, 39, 10); //Run forward 39 inches at speed of 1
+					encoderDrive(1, 44, 10); //Run forward 44 inches at speed of 1
 					step++; //Move to the next step
 				}
 
 				if (robot.pos == 3) { //If the skystone was in position 3
-					encoderDrive(1, 51, 10); //Run forward 51 inches at speed of 1
+					encoderDrive(1, 56, 10); //Run forward 56 inches at speed of 1
 					step++; //Move to the next step
 				}
 			}
@@ -196,11 +196,11 @@ public class Auto_Red_Depot extends LinearOpMode {
 			if (step == 9) { //Run back to the second skystone
 				stepTelemetry(); //Display telemetry
 				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(.6,-62,10); //Move backwards 62 inches to second skystone
+					encoderDrive(.6,-67,10); //Move backwards 67 inches to second skystone
 					step++;
 				}
 				if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(.6,-64,10); //Move backwards 58 inches to second skystone
+					encoderDrive(.6,-69,10); //Move backwards 69 inches to second skystone
 					step++;
 				}
 				if (robot.pos == 3) { //If the skystone was in position 3
@@ -282,12 +282,12 @@ public class Auto_Red_Depot extends LinearOpMode {
 
 			if (step == 14) { //Start moving back across the line
 				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(1, 62, 10); //Move forward across the line
+					encoderDrive(1, 67, 10); //Move forward across the line
 					step++; // Move to next step
 				}
 
 				else if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(1, 65, 10); //Move forward across the line
+					encoderDrive(1, 70, 10); //Move forward across the line
 					step++; //Move to next step
 				}
 			}
