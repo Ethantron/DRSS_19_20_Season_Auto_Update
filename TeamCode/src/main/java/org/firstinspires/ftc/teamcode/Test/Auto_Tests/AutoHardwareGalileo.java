@@ -141,7 +141,7 @@ public class AutoHardwareGalileo {
 
 		//Capstone Mover Initialization
 		capstone = hwMap.servo.get("CS"); // Initializes the Capstone Servo name for configuration
-		capstone.setPosition(0);          // Sets the capstone mover out to give more clearance
+		capstone.setPosition(1);          // Sets the capstone mover out to give more clearance
 
 		//Stone Button Sensor Initialization
 		stoneButton = hwMap.get(DigitalChannel.class, "stone_button"); // Initializes the stone button name for configuration
