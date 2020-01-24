@@ -39,6 +39,9 @@ public class AutoHardwareGalileo {
 	public TouchSensor foundationBumperLeft;  //Defines the left foundation bumper button
 	public TouchSensor foundationBumperRight; //Defines the right foundation bumper button
 
+	//Capstone Mover Definitions
+	public Servo capstone; //Defines the capstone mover servo
+
 	//Gyro Definitions
 	// Defines the gyro
 	BNO055IMU imu;
@@ -124,7 +127,7 @@ public class AutoHardwareGalileo {
 		grabStone = hwMap.servo.get("GS");
 
 		wrist = hwMap.servo.get("W");
-		wrist.setPosition(.6); // Center the wrist
+		wrist.setPosition(.57); // Center the wrist
 
 		//Slide Initialization
 		slide = hwMap.dcMotor.get("SL");
@@ -135,6 +138,10 @@ public class AutoHardwareGalileo {
 		foundationMoverL = hwMap.servo.get("GL");     // Initializes the left foundation movers name for configuration
 		foundationMoverR.setPosition(0);                    // Sets the right foundation mover to point up
 		foundationMoverL.setPosition(0);                    // Sets the left foundation mover to point up
+
+		//Capstone Mover Initialization
+		capstone = hwMap.servo.get("CS"); // Initializes the Capstone Servo name for configuration
+		capstone.setPosition(0);          // Sets the capstone mover out to give more clearance
 
 		//Stone Button Sensor Initialization
 		stoneButton = hwMap.get(DigitalChannel.class, "stone_button"); // Initializes the stone button name for configuration
