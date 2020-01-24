@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -57,6 +56,8 @@ public class AutoHardwareGalileo {
 	//Lift Encoder Definitions
 	static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
+	//Slide Encoder Definitions
+	static final double COUNTS_PER_SLIDE_INCH = 49.23;
 	//Gyro Turning Definitions
 	static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
 	static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
@@ -123,7 +124,7 @@ public class AutoHardwareGalileo {
 		grabStone = hwMap.servo.get("GS");
 
 		wrist = hwMap.servo.get("W");
-		wrist.setPosition(.4); // Center the wrist
+		wrist.setPosition(.5); // Center the wrist
 
 		//Slide Initialization
 		slide = hwMap.dcMotor.get("SL");

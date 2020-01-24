@@ -56,16 +56,15 @@ public class Auto_Blue_Depot extends LinearOpMode {
 			if (step == 1) { //Move forward and scan the first block
 				stepTelemetry(); //Display telemetry
 
+				//Move the slide forward, and drop lift
+				encoderSlide(1, 4); // Move the slide forward 4 inches
+				encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
+
 				//Open the grabber
 				robot.grabStone.setPosition(.6); //Set the grabber to open position
 
 				//Move Forward
 				encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
-
-				//Move Slide Forward
-				robot.slide.setPower(1); //Move Slide Forward
-				sleep(200); //Wait 200 Milliseconds
-				robot.slide.setPower(0); //Stop Moving Slide Forward
 
 				if (robot.tfod != null) {
 					robot.tfod.activate();
@@ -461,6 +460,28 @@ public class Auto_Blue_Depot extends LinearOpMode {
 
 			robot.lift.setPower(0);
 			robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+		}
+	}
+
+	public void encoderSlide (double slideSpeed, double Inches){
+		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+
+		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+			newLiftTarget = (robot.slide.getCurrentPosition() + (int) (Inches * robot.COUNTS_PER_SLIDE_INCH));
+
+			robot.slide.setTargetPosition(newLiftTarget);
+
+			robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+			robot.slide.setPower(slideSpeed);
+
+			while (opModeIsActive() && robot.slide.isBusy()) {
+				telemetry.addData("lift position", robot.slide.getCurrentPosition());
+				telemetry.update();
+			}
+
+			robot.slide.setPower(0);
+			robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		}
 	}
 
