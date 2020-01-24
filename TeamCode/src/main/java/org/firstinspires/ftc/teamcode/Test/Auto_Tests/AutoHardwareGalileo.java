@@ -124,7 +124,7 @@ public class AutoHardwareGalileo {
 		grabStone = hwMap.servo.get("GS");
 
 		wrist = hwMap.servo.get("W");
-		wrist.setPosition(.55); // Center the wrist
+		wrist.setPosition(.6); // Center the wrist
 
 		//Slide Initialization
 		slide = hwMap.dcMotor.get("SL");
