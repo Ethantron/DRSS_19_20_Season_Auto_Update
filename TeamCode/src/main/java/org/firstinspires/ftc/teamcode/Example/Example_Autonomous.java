@@ -87,7 +87,7 @@ public class Example_Autonomous extends LinearOpMode {
 			motorFrontRight.setPower(1);
 			motorBackLeft.setPower(1);
 			motorBackRight.setPower(1);
-			sleep(3000);
+			sleep(1000);
 			motorFrontLeft.setPower(0);
 			motorFrontRight.setPower(0);
 			motorBackLeft.setPower(0);
