@@ -51,6 +51,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	boolean handOpen = true;    // Defines a boolean which will be used to define whether the hand is open or not
 	boolean capout = false;		// Defines a boolean which will be used to define whether the capstone pusher is out or not
 	double liftEncoderReading;
+	double slideStartCount;     // Defines a double which will keep a reference for our starting point for the encoder
 
 
 	//Lift positioning definitions
@@ -127,9 +128,14 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 		//Stops and Resets Encoders
 		lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);   // Tells the lift motor to reset its encoder
+		lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);   // Tells the slide motor to reset its encoder
+
+		//Store Starting Position
+		slideStartCount = slide.getCurrentPosition();         // Stores the original starting position of the slide for future reference
 
 		//Tells Robots to Reset Encoders
 		lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);    // Tells the lift motor to run without using its encoder
+		slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);   // Tells the slide motor to run without using its encoder
 
 		/** End encoder initialization **/
 
