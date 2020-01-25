@@ -60,7 +60,7 @@ public class Auto_Blue_Foundation extends LinearOpMode {
 		if (step == 3) {                                    //Lift to clear foundation
 			stepTelemetry();                                //Display Telemetry
 
-			encoderLift(1, 1);           //Move the lift up 2.5 inches to clear the foundation
+			encoderLift(1, 2.5);           //Move the lift up 2.5 inches to clear the foundation
 
 			step++;
 		}
@@ -152,6 +152,8 @@ public class Auto_Blue_Foundation extends LinearOpMode {
 
 		if (step == 13) {                                   //Make sure motors are stopped, and end autonomous
 			stepTelemetry();                                //Display Telemetry
+
+			encoderLift(1, -2.5);           //Move the lift 2.5 inches
 
 			robot.motorFrontRight.setPower(0);              //Set motor power to stop
 			robot.motorFrontLeft.setPower(0);               //Set motor power to stop
