@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "Modular_Mechanum_Drive", group= "Modular_Drivetrains")
+@TeleOp(name = "Test_Bot_Program", group= "Modular_Drivetrains")
 public class Test_Bot_Program  extends OpMode{
 
 	public DcMotor motorFrontRight;
