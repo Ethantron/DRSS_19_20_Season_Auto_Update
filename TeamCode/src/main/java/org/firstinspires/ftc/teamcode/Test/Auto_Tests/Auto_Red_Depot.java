@@ -57,8 +57,8 @@ public class Auto_Red_Depot extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Move the slide forward, and drop lift
-				encoderSlide(1, 4); // Move the slide forward 4 inches
-				encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
+				encoderSlide(1, 4);  // Move the slide forward 4 inches
+				encoderLift(1, -1.4); // Drop the lift downward 1.4 inches
 
 				//Open the grabber
 				robot.grabStone.setPosition(.6); //Set the grabber to open position
@@ -159,7 +159,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 				stepTelemetry(); //Display Telemetry
 
 				//Turn Clockwise
-				encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
+				encoderTurn(.25, -100, 10); //Turn CW 100 Degrees
 
 				step++; //Move to the next step
 			}
@@ -216,9 +216,9 @@ public class Auto_Red_Depot extends LinearOpMode {
 				encoderLift(1, -1.25); //Drop the lift 1.25"
 
 				//Turn 90 degrees counterclockwise
-				encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
-				gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
-				gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
+				encoderTurn(.25, 100, 10); //Turn CCW 100 Degrees
+				// gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
+				// gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
 
 				step++; //Move to next step
 			}
@@ -276,7 +276,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 
 			if (step == 13) { //Turn 90 degrees
 				stepTelemetry(); //Display telemetry
-				encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
+				encoderTurn(.25, -100, 10); //Turn CW 100 Degrees
 				step++; //Move to next step
 			}
 
