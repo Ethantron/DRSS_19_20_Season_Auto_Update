@@ -335,11 +335,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			// Capstone controls
 			if (gamepad2.dpad_down){
-				if (!capout){
+				/*if (!capout){
 					cap.setPosition(1);
 				} else if (capout){
 					cap.setPosition(-1);
-				}
+				}*/
+				capstonePickup();
 			}
 			// End of Capstone controls
 
@@ -575,6 +576,25 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		int startDistance;  // Creates the integer "startDistance"
 
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+
+			/**Mechanum drive controls**/
+			// left stick controls direction
+			// right stick X controls rotation
+			float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
+			float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
+			float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
+
+			// Mechanum formulas
+			double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+			double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+			double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+			double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+
+			// sets speed
+			frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
+			frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+			backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+			backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
 
 			/** Grabbing the capstone **/
 
