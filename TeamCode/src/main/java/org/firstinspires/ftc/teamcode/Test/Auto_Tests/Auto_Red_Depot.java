@@ -213,7 +213,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Drive the lift up
-				encoderLift(1, -1.25); //Drop the lift 1.25"
+				encoderLift(1, -1.15); //Drop the lift 1.15"
 
 				//Turn 90 degrees counterclockwise
 				encoderTurn(.25, 100, 10); //Turn CCW 100 Degrees
