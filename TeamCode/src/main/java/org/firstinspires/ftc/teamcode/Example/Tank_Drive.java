@@ -26,6 +26,12 @@ public class Tank_Drive extends OpMode{
 	double Backleft;
 	double Backright;
 	public DigitalChannel Button; // Defines the Stone Button on the grabber
+	public DigitalChannel zero;
+	public DigitalChannel one;
+	public DigitalChannel two;
+	public DigitalChannel three;
+	public DigitalChannel four;
+	public DigitalChannel five;
 
 
 	private final static int LED_PERIOD = 10;
@@ -77,6 +83,24 @@ public class Tank_Drive extends OpMode{
 
 		Button = hardwareMap.get(DigitalChannel.class, "button"); // Initializes the stone button name for configuration
 		Button.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
+
+		zero = hardwareMap.get(DigitalChannel.class, "zero"); // Initializes the stone button name for configuration
+		zero.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
+
+		one = hardwareMap.get(DigitalChannel.class, "one"); // Initializes the stone button name for configuration
+		one.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
+
+		two = hardwareMap.get(DigitalChannel.class, "two"); // Initializes the stone button name for configuration
+		two.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
+
+		three = hardwareMap.get(DigitalChannel.class, "three"); // Initializes the stone button name for configuration
+		three.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
+
+		four = hardwareMap.get(DigitalChannel.class, "four"); // Initializes the stone button name for configuration
+		four.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
+
+		five = hardwareMap.get(DigitalChannel.class, "five"); // Initializes the stone button name for configuration
+		five.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
 	}
 
 	@Override
@@ -120,6 +144,36 @@ public class Tank_Drive extends OpMode{
 
 		if (!Button.getState()){
 			pattern = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;
+			displayPattern();
+		}
+
+		if (!zero.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
+			displayPattern();
+		}
+
+		if (!one.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
+			displayPattern();
+		}
+
+		if (!two.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_WITH_GLITTER;
+			displayPattern();
+		}
+
+		if (!three.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.FIRE_LARGE;
+			displayPattern();
+		}
+
+		if (!four.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.LIME;
+			displayPattern();
+		}
+
+		if (!five.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.TWINKLES_RAINBOW_PALETTE;
 			displayPattern();
 		}
 
