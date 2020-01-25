@@ -90,7 +90,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 				robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
 				robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
 				robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
-				sleep(600); //Wait 600 milliseconds
+				sleep(500); //Wait 500 milliseconds
 				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
 				robot.motorFrontRight.setPower(0); //Stop all power to the motors
 				robot.motorBackLeft.setPower(0); //Stop all power to the motors
@@ -114,7 +114,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 				robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
 				robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
 				robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
-				sleep(600); //Wait for 600 milliseconds
+				sleep(500); //Wait for 500 milliseconds
 				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
 				robot.motorFrontRight.setPower(0); //Stop all power to the motors
 				robot.motorBackLeft.setPower(0); //Stop all power to the motors
