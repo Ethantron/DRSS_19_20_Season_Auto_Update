@@ -575,24 +575,126 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		int startDistance;  // Creates the integer "startDistance"
 
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
-			startDistance = (int) (slideStartCount - slide.getCurrentPosition());
 
-			newLiftTarget = (lift.getCurrentPosition() + (int) (4 * COUNTS_PER_LIFT_INCH));
-			newSlideTarget = (slide.getCurrentPosition() + (int) (startDistance + (-4.5 * COUNTS_PER_SLIDE_INCH)));
+			/** Grabbing the capstone **/
 
-			slide.setTargetPosition(newSlideTarget);
+			startDistance = (int) (slideStartCount - slide.getCurrentPosition()); // Finds the distance needed to go from the current slide position to the starting positon
 
-			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+			newLiftTarget = (lift.getCurrentPosition() + (int) (4 * COUNTS_PER_LIFT_INCH)); // Sets the target for the lift
+			newSlideTarget = (slide.getCurrentPosition() + (int) (startDistance + (-4.5 * COUNTS_PER_SLIDE_INCH))); // Sets the target for the slide
 
-			slide.setPower(1);
+			lift.setTargetPosition(newLiftTarget); // Gives the lift motor its target position
+			slide.setTargetPosition(newSlideTarget); // Gives the slide motor its target position
 
-			while (opModeIsActive() && slide.isBusy()) {
-				telemetry.addData("lift position", slide.getCurrentPosition());
+			lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Tells the lift to start running to the count
+
+			lift.setPower(1); // Set power to the lift
+
+			while (opModeIsActive() && lift.isBusy()) { // Wait while we are trying to get to the position
+				telemetry.addData("lift position", lift.getCurrentPosition()); // Display Current positon
+				telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
 				telemetry.update();
+
+				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
+					lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+					return; //Jumps out of Private Void
+				}
 			}
 
-			slide.setPower(0);
-			slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+			lift.setPower(0); // Stop lift once it reaches target position
+			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
+
+			grabStone.setPosition(.3); // Open the Hand a little
+			wrist.setPosition(0); // Set the wrist so we are facing the capstone
+
+			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Start running the slide to target positon
+			slide.setPower(1); // Set power to the slide
+
+			while (opModeIsActive() && slide.isBusy()) { // Wait while the slide is running to it's desired position
+				telemetry.addData("Slide position", slide.getCurrentPosition());
+				telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
+				telemetry.update();
+
+				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
+					lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+					return; //Jumps out of Private Void
+				}
+			}
+
+			slide.setPower(0); // Stop Slide
+			slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder for slide
+
+			cap.setPosition(.5); // Move capstone into place
+			grabStone.setPosition(0); // Close the grabber
+
+			/** Deploying the Capstone **/
+
+			newLiftTarget = (lift.getCurrentPosition() + (int) (4 * COUNTS_PER_LIFT_INCH)); // Sets the target for the lift
+			newSlideTarget = (slide.getCurrentPosition() + (int) (4.5 * COUNTS_PER_SLIDE_INCH)); // Sets the target for the slide
+
+			lift.setTargetPosition(newLiftTarget); // Gives the lift motor its target position
+			slide.setTargetPosition(newSlideTarget); // Gives the slide motor its target position
+
+			lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Tells the lift to start running to the count
+
+			lift.setPower(1); // Set power to the lift
+
+			while (opModeIsActive() && lift.isBusy()) { // Wait while we are trying to get to the position
+				telemetry.addData("lift position", lift.getCurrentPosition()); // Display Current positon
+				telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
+				telemetry.update();
+
+				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
+					lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+					return; //Jumps out of Private Void
+				}
+			}
+
+			lift.setPower(0); // Stop lift once it reaches target position
+			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
+
+			wrist.setPosition(.57); // Set the wrist so we are facing forward
+
+			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Start running the slide to target positon
+			slide.setPower(1); // Set power to the slide
+
+			while (opModeIsActive() && slide.isBusy()) { // Wait while the slide is running to it's desired position
+				telemetry.addData("Slide position", slide.getCurrentPosition());
+				telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
+				telemetry.update();
+
+				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
+					lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+					return; //Jumps out of Private Void
+				}
+			}
+
+			slide.setPower(0); // Stop Slide
+			slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder for slide
+
+			/** Lowering the lift back to driving level **/
+
+			newLiftTarget = (lift.getCurrentPosition() + (int) (-7 * COUNTS_PER_LIFT_INCH)); // Sets the target for the lift
+
+			lift.setTargetPosition(newLiftTarget); // Gives the lift motor its target position
+
+			lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Tells the lift to start running to the count
+
+			lift.setPower(1); // Set power to the lift
+
+			while (opModeIsActive() && lift.isBusy()) { // Wait while we are trying to get to the position
+				telemetry.addData("lift position", lift.getCurrentPosition()); // Display Current positon
+				telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
+				telemetry.update();
+
+				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
+					lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+					return; //Jumps out of Private Void
+				}
+			}
+
+			lift.setPower(0); // Stop lift once it reaches target position
+			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
 		}
 	}
 }
