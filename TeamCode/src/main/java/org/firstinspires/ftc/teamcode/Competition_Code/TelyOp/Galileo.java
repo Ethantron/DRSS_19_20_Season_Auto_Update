@@ -569,17 +569,22 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		}
 	}
 
-	public void encoderSlide (double slideSpeed, double Inches){
-		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+	public void capstonePickup (){
+		int newLiftTarget;  // Creates the integer "newLiftTarget"
+		int newSlideTarget; // Creates the integer "newSlideTarget"
+		int startDistance;  // Creates the integer "startDistance"
 
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
-			newLiftTarget = (slide.getCurrentPosition() + (int) (Inches * COUNTS_PER_SLIDE_INCH));
+			startDistance = (int) (slideStartCount - slide.getCurrentPosition());
 
-			slide.setTargetPosition(newLiftTarget);
+			newLiftTarget = (lift.getCurrentPosition() + (int) (4 * COUNTS_PER_LIFT_INCH));
+			newSlideTarget = (slide.getCurrentPosition() + (int) (startDistance + (-4.5 * COUNTS_PER_SLIDE_INCH)));
+
+			slide.setTargetPosition(newSlideTarget);
 
 			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-			slide.setPower(slideSpeed);
+			slide.setPower(1);
 
 			while (opModeIsActive() && slide.isBusy()) {
 				telemetry.addData("lift position", slide.getCurrentPosition());
