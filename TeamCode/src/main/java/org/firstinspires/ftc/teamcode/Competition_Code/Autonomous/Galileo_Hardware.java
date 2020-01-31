@@ -2,13 +2,11 @@ package org.firstinspires.ftc.teamcode.Competition_Code.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -29,9 +27,6 @@ public class Galileo_Hardware {
 	public Servo grabStone;
 	public Servo wrist;
 
-	//Color Sensor Definitions
-	ColorSensor color_sensor;
-	ColorSensor color2;
 
 	//Foundation Mover Definitions
 	public Servo foundationMoverL;      // Defines the left foundation servo
@@ -158,13 +153,6 @@ public class Galileo_Hardware {
 		imu = hwMap.get(BNO055IMU.class, "imu");
 		imu.initialize(parameters);
 
-		//Color Sensor Initialization
-		color_sensor = hwMap.get(ColorSensor.class, "color_sensor");
-		color2 = hwMap.get(ColorSensor.class, "color2");
-		//sensorDistance = hardwareMap.get(DistanceSensor.class, "color_sensor");
-		float hsvValues[] = {0F, 0F, 0F};
-		final float values[] = hsvValues;
-		final double SCALE_FACTOR = 255;
 
 	}
 }
