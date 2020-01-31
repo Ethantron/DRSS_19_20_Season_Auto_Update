@@ -4,13 +4,19 @@
 package org.firstinspires.ftc.teamcode.Competition_Code.TelyOp;
 
 // Imports codes that the robot uses
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;    // Imports Linear Operation mode
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;          // Imports Driver Controlled mode
-import com.qualcomm.robotcore.hardware.DcMotor;                 // Imports motor definitions
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.Servo;                   // Imports servo definitions
-import com.qualcomm.robotcore.util.ElapsedTime;                 // Imports timer definitions
-import com.qualcomm.robotcore.util.Range;                       // Imports motor ranges definitions
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.SampleRevBlinkinLedDriver;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+
 
 // Defines robot display name
 @TeleOp (name = "Galileo", group= "TeleOp")     // Sets codes mode to TelyOp and sets the display name for the code
@@ -24,6 +30,19 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public DcMotor motorFrontLeft;      // Defines the front left motor
 	public DcMotor motorBackRight;      // Defines the back right motor
 	public DcMotor motorBackLeft;       // Defines the back left motor
+
+	private final static int LED_PERIOD = 10;
+	RevBlinkinLedDriver blinkinLedDriver;
+	RevBlinkinLedDriver.BlinkinPattern pattern;
+
+	Telemetry.Item patternName;
+	Telemetry.Item display;
+	Deadline ledCycleDeadline;
+	Deadline gamepadRateLimit;
+	SampleRevBlinkinLedDriver.DisplayKind displayKind;
+
+
+
 
 	// Mechanum Definitions
 	double frontRight;          // Sets the double "frontRight"             | Helps with motor calculations
@@ -80,6 +99,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 		/** Drive Train initialization **/
 
+
 		//Motor Initialization
 		motorFrontRight = hardwareMap.dcMotor.get("FR");    // Initializes the front right motors name for configuration
 		motorFrontLeft = hardwareMap.dcMotor.get("FL");     // Initializes the front left motors name for configuration
@@ -97,7 +117,26 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		foundationMoverL = hardwareMap.servo.get("GL");     // Initializes the left foundation movers name for configuration
 		foundationMoverR.setPosition(0);                    // Sets the right foundation mover to point down
 		foundationMoverL.setPosition(0);                    // Sets the left foundation mover to point down
-		/** End of Drive Train Initialization **/
+
+		//Colored Lights Initialization
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);
+
+		displayKind = SampleRevBlinkinLedDriver.DisplayKind.MANUAL;
+		display = telemetry.addData("Display Kind: ", displayKind.toString());
+		patternName = telemetry.addData("Pattern: ", pattern.toString());
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);            	//
+		/*End of Drive Train Initialization **/
+
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);
+
+			pattern = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_RAINBOW_PALETTE;
+			displayPattern();
 
 		/** Payload Initialization **/
 
@@ -138,7 +177,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);   // Tells the slide motor to run without using its encoder
 
 		/** End encoder initialization **/
-
+		pattern = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_PARTY_PALETTE;
+		displayPattern();
 		//Initialization Telemetry
 		telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
 		telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
@@ -177,9 +217,13 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			}
 			if (gamepad1.right_trigger < .3 && gamepad1.left_trigger < .3){   // Do the following  while the right trigger is held down and the left trigger is not
 				speed = 1;                     // Sets the speed to half speed
+
 			}
 			if (gamepad1.right_trigger > .3){    // Do the following while the left trigger is not being held down
 				speed = .5;
+
+				pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_BLUE;  //When set to half speed, changes colour to red
+				displayPattern();
 
 				/*if (gamepad1.a || speedSetting == 1) {      // Do the following if the "a" button has been pressed or the double "speedSetting" is equal to 1
 					speedSetting = 1;                       // Tells the code that we are on full speed
@@ -216,6 +260,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				foundationMoverL.setPosition(1);    // Sets the left foundation mover to point down
 				foundationMoverPos = true;          // Tells the telemetry that the foundation movers are down
 
+				pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_BLUE;  //When foundation movers goes down, blue
+				displayPattern();
 			}
 			// End of Lowering Foundation Movers
 
@@ -224,6 +270,9 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				foundationMoverR.setPosition(0);    // Sets the right foundation mover to point up
 				foundationMoverL.setPosition(0);    // Sets the left foundation mover to point up
 				foundationMoverPos = false;         // Tells the telemetry that the foundation movers are up
+
+				pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_WHITE;  //When foundation movers goes up, turns white
+				displayPattern();
 			}
 
 			// End of Raising Foundation Movers
@@ -238,6 +287,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			/** Automatic lift controls **/
 			// Moving The Lift Downward
 			if (gamepad2.left_bumper && (currentHeight > 0)) { // Do the following if the left bumper is pressed and the current height os greater than 0
+				pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+				displayPattern();								//When Lift Goes Up, colour becomes violet
 				height--;                                      // Sets "height" to -currentHeight
 				sleep(150);                        // Tells the code to wait 150 milliseconds
 				currentHeight--;                               // sets "currentHeight" to height
@@ -247,6 +298,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			// Zeroing the Lift
 			if (!gamepad2.left_bumper && !gamepad2.right_bumper && gamepad2.left_trigger < .3 && gamepad2.right_trigger < .3) {  // Do the following if neither bumper is pressed
 				lift.setPower(.001);                                // Tells the lift to hold in place by setting the motor power to .001
+
 			}
 			// End of Zeroing the lift
 
@@ -254,6 +306,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			if (gamepad2.right_bumper && (currentHeight < 7)) {     // Do the following if the right bumper has been pressed and the current height is greater than 7
 				if (currentHeight < 1) {                           // Do the following if the current height is 0
 					needFoundation = true;                          // Sets "needFoundation" to true
+					pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
+					displayPattern();								//When Lift Goes Up, colour becomes violet
 				}
 				height++;                                           // Adds 1 to "height"
 				currentHeight++;                                    // Adds 1 to "currentHeight"
@@ -347,10 +401,15 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			// Grabber Controls
 			if ((gamepad2.b || stoneButton.getState()) && !gamepad2.a) { // Do the following if the "b" button is pressed
 				grabStone.setPosition(0);               // Close the grabber
+
+				pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_FOREST_PALETTE;
+				displayPattern();
 			}
 
 			if ((gamepad2.a) && !gamepad2.b) {              // Do the following if the "a" button is pressed
 				grabStone.setPosition(.5); // Open the grabber
+				pattern = RevBlinkinLedDriver.BlinkinPattern.BLACK;
+				displayPattern();
 			}
 
 			// End of Grabber Controls
@@ -716,5 +775,25 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			lift.setPower(0); // Stop lift once it reaches target position
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder*/
 		}
+	}
+	protected void setDisplayKind(SampleRevBlinkinLedDriver.DisplayKind displayKind)
+	{
+		this.displayKind = displayKind;
+		display.setValue(displayKind.toString());
+	}
+
+	protected void doAutoDisplay()
+	{
+		if (ledCycleDeadline.hasExpired()) {
+			pattern = pattern.next();
+			displayPattern();
+			ledCycleDeadline.reset();
+		}
+	}
+
+	protected void displayPattern()
+	{
+		blinkinLedDriver.setPattern(pattern);
+		patternName.setValue(pattern.toString());
 	}
 }
