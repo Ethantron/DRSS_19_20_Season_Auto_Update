@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -89,5 +90,86 @@ public class AutoHardwareGalileo {
 
 	//Initialization Void
 	public void init(HardwareMap ahwMap) {
+		//Save Reference to Hardware Map
+
+		hwMap = ahwMap;
+
+		//Drive Train Initialization
+		motorFrontLeft = hwMap.dcMotor.get("FL");
+		motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+		motorFrontRight = hwMap.dcMotor.get("FR");
+		motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
+		motorBackLeft = hwMap.dcMotor.get("BL");
+		motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+		motorBackRight = hwMap.dcMotor.get("BR");
+		motorBackRight.setDirection(DcMotor.Direction.FORWARD);
+
+		//Encoder Initialization
+
+		//Stop and Reset Encoders
+		motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+		motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+		motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+		motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+		//Run Using Encoders
+		motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+		motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+		motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+		motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+		//Lift Initialization
+		lift = hwMap.dcMotor.get("LT");
+		lift.setDirection(DcMotor.Direction.FORWARD);
+
+		//Hand Initialization
+		grabStone = hwMap.servo.get("GS");
+		wrist = hwMap.servo.get("W");
+		wrist.setPosition(.57); // Center the wrist
+
+		//Slide Initialization
+		slide = hwMap.dcMotor.get("SL");
+		slide.setDirection(DcMotor.Direction.FORWARD);
+
+		//Foundation Mover Initialization
+
+		foundationMoverR = hwMap.servo.get("GR");     // Initializes the right foundation movers name for configuration
+		foundationMoverL = hwMap.servo.get("GL");     // Initializes the left foundation movers name for configuration
+		foundationMoverR.setPosition(0);                    // Sets the right foundation mover to point up
+		foundationMoverL.setPosition(0);                    // Sets the left foundation mover to point up
+
+		//Capstone Mover Initialization
+		capstone = hwMap.servo.get("CS"); // Initializes the Capstone Servo name for configuration
+		capstone.setPosition(.9);         // Sets the capstone mover out to give more clearance
+
+		//Stone Button Sensor Initialization
+		stoneButton = hwMap.get(DigitalChannel.class, "stone_button"); // Initializes the stone button name for configuration
+		stoneButton.setMode(DigitalChannel.Mode.INPUT);                           // Initializes the mode of the button
+
+		//Foundation Bumpers Initialization
+		foundationBumperLeft = hwMap.touchSensor.get("bumper_left");   // Initializes the stone button name for configuration
+
+		foundationBumperRight = hwMap.touchSensor.get("bumper_right"); // Initializes the stone button name for configuration
+
+		//Gyro Initialization
+
+		BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+		parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+
+		parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+
+		parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+
+		parameters.loggingEnabled = true;
+
+		parameters.loggingTag = "IMU";
+
+		parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+		imu = hwMap.get(BNO055IMU.class, "imu");
+
+		imu.initialize(parameters);
 	}
 }
