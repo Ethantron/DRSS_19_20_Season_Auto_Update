@@ -71,7 +71,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	boolean capout = false;		// Defines a boolean which will be used to define whether the capstone pusher is out or not
 	double liftEncoderReading;
 	double slideStartCount;     // Defines a double which will keep a reference for our starting point for the encoder
-
+	boolean endgame = false;
 
 	//Lift positioning definitions
 	double liftPower = 1;                           // Sets the double "liftPower" to one           | Defines how fast the lift moves
@@ -190,6 +190,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 		while (opModeIsActive()) {      // Do the following after the start button has been pressed and until the stop button is pressed
 
+			if (opModeIsActive()){
+				sleep(90000);
+				endgame = true;
+				pattern = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;  //When set to half speed, changes colour to red
+				displayPattern();
+			}
 			/** Gamepad 1 controls (drive train) ==> **/
 
 			/**Mechanum drive controls**/
@@ -214,6 +220,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			//speed Controls
 			if (gamepad1.left_trigger > .3) {   // Do the following while the left trigger is being held down
 				speed = .25;                    // Sets the speed to quarter speed
+				pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_BLUE;  //When set to half speed, changes colour to red
+				displayPattern();
 			}
 			if (gamepad1.right_trigger < .3 && gamepad1.left_trigger < .3){   // Do the following  while the right trigger is held down and the left trigger is not
 				speed = 1;                     // Sets the speed to half speed
@@ -222,7 +230,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			if (gamepad1.right_trigger > .3){    // Do the following while the left trigger is not being held down
 				speed = .5;
 
-				pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_BLUE;  //When set to half speed, changes colour to red
+				pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;  //When set to half speed, changes colour to red
 				displayPattern();
 
 				/*if (gamepad1.a || speedSetting == 1) {      // Do the following if the "a" button has been pressed or the double "speedSetting" is equal to 1
@@ -260,8 +268,10 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				foundationMoverL.setPosition(1);    // Sets the left foundation mover to point down
 				foundationMoverPos = true;          // Tells the telemetry that the foundation movers are down
 
-				pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_BLUE;  //When foundation movers goes down, blue
-				displayPattern();
+				if (!endgame){
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_BLUE;  //When foundation movers goes down, blue
+					displayPattern();
+				}
 			}
 			// End of Lowering Foundation Movers
 
@@ -271,8 +281,10 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				foundationMoverL.setPosition(0);    // Sets the left foundation mover to point up
 				foundationMoverPos = false;         // Tells the telemetry that the foundation movers are up
 
-				pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_WHITE;  //When foundation movers goes up, turns white
-				displayPattern();
+				if (!endgame){
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_WHITE;  //When foundation movers goes up, turns white
+					displayPattern();
+				}
 			}
 
 			// End of Raising Foundation Movers
@@ -306,8 +318,11 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			if (gamepad2.right_bumper && (currentHeight < 7)) {     // Do the following if the right bumper has been pressed and the current height is greater than 7
 				if (currentHeight < 1) {                           // Do the following if the current height is 0
 					needFoundation = true;                          // Sets "needFoundation" to true
-					pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
-					displayPattern();								//When Lift Goes Up, colour becomes violet
+
+					if (!endgame){
+						pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
+						displayPattern();                                //When Lift Goes Up, colour becomes violet
+					}
 				}
 				height++;                                           // Adds 1 to "height"
 				currentHeight++;                                    // Adds 1 to "currentHeight"
@@ -402,14 +417,19 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			if ((gamepad2.b || stoneButton.getState()) && !gamepad2.a) { // Do the following if the "b" button is pressed
 				grabStone.setPosition(0);               // Close the grabber
 
-				pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_FOREST_PALETTE;
-				displayPattern();
+				if (!endgame){
+					pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_FOREST_PALETTE;
+					displayPattern();
+				}
 			}
 
 			if ((gamepad2.a) && !gamepad2.b) {              // Do the following if the "a" button is pressed
 				grabStone.setPosition(.5); // Open the grabber
-				pattern = RevBlinkinLedDriver.BlinkinPattern.BLACK;
-				displayPattern();
+
+				if (!endgame){
+					pattern = RevBlinkinLedDriver.BlinkinPattern.BLACK;
+					displayPattern();
+				}
 			}
 
 			// End of Grabber Controls
