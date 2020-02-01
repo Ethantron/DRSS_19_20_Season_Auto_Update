@@ -412,7 +412,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			if ((gamepad2.b || stoneButton.getState()) && !gamepad2.a) { // Do the following if the "b" button is pressed
 				grabStone.setPosition(0);               // Close the grabber
 
-				
+
 					pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_FOREST_PALETTE;
 					displayPattern();
 
@@ -681,6 +681,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			slide.setTargetPosition(newSlideTarget); // Gives the slide motor its target position
 
 			lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Tells the lift to start running to the count
+
+			cap.setPosition(.9); // Sets the capstone to the full outward position to avoid collision
 
 			lift.setPower(1); // Set power to the lift
 
