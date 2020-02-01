@@ -384,7 +384,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			}
 
 			if (gamepad2.dpad_up) {     // Do the following if the "up" button on the dpad is pressed
-				wrist.setPosition(0.5); // Centers the wrist
+				wrist.setPosition(0.49); // Centers the wrist
 			}
 
 			if (gamepad2.dpad_left) {
@@ -701,7 +701,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
 
 			grabStone.setPosition(.3); // Open the Hand a little
-			wrist.setPosition(0.15); // Set the wrist so we are facing the capstone
+			wrist.setPosition(0.06); // Set the wrist so we are facing the capstone
 
 			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Start running the slide to target positon
 			slide.setPower(1); // Set power to the slide
@@ -749,7 +749,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			lift.setPower(0); // Stop lift once it reaches target position
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
 
-			wrist.setPosition(.57); // Set the wrist so we are facing forward
+			wrist.setPosition(.49); // Set the wrist so we are facing forward
 
 			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Start running the slide to target positon
 			slide.setPower(1); // Set power to the slide
