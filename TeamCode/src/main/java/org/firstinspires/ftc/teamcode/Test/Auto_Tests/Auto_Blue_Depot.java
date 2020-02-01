@@ -57,8 +57,8 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Move the slide forward, and drop lift
-				encoderSlide(1, 4); // Move the slide forward 4 inches
-				encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
+				encoderSlide(1, 4);  // Move the slide forward 4 inches
+				encoderLift(1, -1.4); // Drop the lift downward 1.4 inches
 
 				//Open the grabber
 				robot.grabStone.setPosition(.6); //Set the grabber to open position
@@ -70,7 +70,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 					robot.tfod.activate();
 				}
 
-				sleep(2000);
+				sleep(1000);
 
 				//Start Scanning
 				robot.pos++; //Tells code that it is checking position 1
@@ -85,12 +85,12 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				//Setting skystone position for later
 				robot.pos++; //If we didn't see the skystone in position 1, move to next position
 
-				//Strafe Right to next block
+				//Strafe Left to next block
 				robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
 				robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
 				robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
 				robot.motorBackRight.setPower(.6); //Set the motors to strafe right
-				sleep(600); //Wait 600 milliseconds
+				sleep(500); //Wait 500 milliseconds
 				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
 				robot.motorFrontRight.setPower(0); //Stop all power to the motors
 				robot.motorBackLeft.setPower(0); //Stop all power to the motors
@@ -109,12 +109,12 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				//Setting skystone position for later
 				robot.pos++; //If we didn't see the skystone, move to next position
 
-				//Strafe Right to next block
+				//Strafe Left to next block
 				robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
 				robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
 				robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
 				robot.motorBackRight.setPower(.6); //Set the motors to strafe right
-				sleep(600); //Wait for 600 milliseconds
+				sleep(500); //Wait for 500 milliseconds
 				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
 				robot.motorFrontRight.setPower(0); //Stop all power to the motors
 				robot.motorBackLeft.setPower(0); //Stop all power to the motors
@@ -150,7 +150,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				stepTelemetry(); //Display Telemetry
 
 				//Move backwards
-				encoderDrive(.6, -8, 10); //Move backwards 12 inches
+				encoderDrive(.6, -15, 10); //Move backwards 15 inches
 
 				step++; //Move to the next step
 			}
@@ -159,7 +159,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				stepTelemetry(); //Display Telemetry
 
 				//Turn Clockwise
-				encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
+				encoderTurn(.25, 100, 10); //Turn CCW 100 Degrees
 
 				step++; //Move to the next step
 			}
@@ -169,17 +169,17 @@ public class Auto_Blue_Depot extends LinearOpMode {
 
 				//Set distances needed to be moved by each position
 				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(1, 35, 10); //Run forward 35 inches at speed of 1
+					encoderDrive(1, 40, 10); //Run forward 40 inches at speed of 1
 					step++; //Move to the next step
 				}
 
 				if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(1, 39, 10); //Run forward 39 inches at speed of 1
+					encoderDrive(1, 44, 10); //Run forward 44 inches at speed of 1
 					step++; //Move to the next step
 				}
 
 				if (robot.pos == 3) { //If the skystone was in position 3
-					encoderDrive(1, 51, 10); //Run forward 51 inches at speed of 1
+					encoderDrive(1, 56, 10); //Run forward 56 inches at speed of 1
 					step++; //Move to the next step
 				}
 			}
@@ -196,11 +196,11 @@ public class Auto_Blue_Depot extends LinearOpMode {
 			if (step == 9) { //Run back to the second skystone
 				stepTelemetry(); //Display telemetry
 				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(.6,-62,10); //Move backwards 62 inches to second skystone
+					encoderDrive(.6,-65,10); //Move backwards 65 inches to second skystone
 					step++;
 				}
 				if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(.6,-64,10); //Move backwards 58 inches to second skystone
+					encoderDrive(.6,-69,10); //Move backwards 69 inches to second skystone
 					step++;
 				}
 				if (robot.pos == 3) { //If the skystone was in position 3
@@ -213,12 +213,12 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Drive the lift up
-				encoderLift(1, -1); //Drop the lift 1"
+				encoderLift(1, -1.15); //Drop the lift 1.15"
 
 				//Turn 90 degrees counterclockwise
-				encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
-				gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
-				gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
+				encoderTurn(.25, -100, 10); //Turn CW 100 Degrees
+				// gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
+				// gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
 
 				step++; //Move to next step
 			}
@@ -227,9 +227,9 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Move backwards
-				encoderDrive(1, -8, 10); //Move Backwards 12 inches
+				encoderDrive(1, -16, 10); //Move Backwards 16 inches
 
-				//Strafe Right to get out of the way
+				//Strafe Left to get out of the way
 				robot.motorFrontLeft.setPower(.4); //Set power to strafe right
 				robot.motorFrontRight.setPower(-.4); //Set power to strafe right
 				robot.motorBackLeft.setPower(-.4); //Set power to strafe right
@@ -252,7 +252,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Drive forward
-				encoderDrive(.2, 12, 10); //Moves forward 18 inches to the block
+				encoderDrive(.2, 22, 10); //Moves forward 22 inches to the block
 
 				//Grab the skystone
 				robot.grabStone.setPosition(0.0); //Grab the Skystone
@@ -269,27 +269,25 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Move backward
-				encoderDrive(.6, -12, 10); //Move backwards 18 inches
+				encoderDrive(.6, -22, 10); //Move backwards 22 inches
 
 				step++; //Move to next step
 			}
 
 			if (step == 13) { //Turn 90 degrees
 				stepTelemetry(); //Display telemetry
-				encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
-				gyroTurn(.1,90);
-				gyroHold(.1,90,0.25);
+				encoderTurn(.25, 100, 10); //Turn CCW 100 Degrees
 				step++; //Move to next step
 			}
 
 			if (step == 14) { //Start moving back across the line
 				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(1, 62, 10); //Move forward across the line
+					encoderDrive(1, 65, 10); //Move forward across the line
 					step++; // Move to next step
 				}
 
 				else if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(1, 65, 10); //Move forward across the line
+					encoderDrive(1, 70, 10); //Move forward across the line
 					step++; //Move to next step
 				}
 			}
@@ -307,14 +305,14 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				stepTelemetry(); //Display Telemetry
 
 				//Move backward
-				encoderDrive(1,-8,10); //Move backward 12 inches
+				encoderDrive(1,-16,10); //Move backward 16 inches
 
 				step++; //Move to next step
 			}
 
-			if (step == 17) { //Strafe left
+			if (step == 17) { //Strafe right
 
-				//Strafe Right to get out of the way
+				//Strafe Left to get out of the way
 				robot.motorFrontLeft.setPower(.4); //Set power to strafe right
 				robot.motorFrontRight.setPower(-.4); //Set power to strafe right
 				robot.motorBackLeft.setPower(-.4); //Set power to strafe right
