@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode.Unused_Codes.Scan;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-//@Disabled
+@Disabled
 @Autonomous (name = "DriveByEncoder", group = "Auto_Test")
 public class DriveByEncoder extends LinearOpMode {
 	// Robot definitions

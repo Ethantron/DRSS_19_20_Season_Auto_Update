@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 import java.util.Locale;
 
-@Autonomous (name = "Auto_Red_Foundation", group = "Autonomous")
-public class Auto_Red_Foundation extends LinearOpMode {
+@Autonomous(name = "Auto_Red_Foundation_NOPARK", group = "Autonomous")
+public class Auto_Red_Foundation_NOPARK extends LinearOpMode{
 
 	AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
 
@@ -141,7 +141,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 
 			step++;
 		}
-
+/*
 		if (step == 12) {                                   //Park on line
 			stepTelemetry();                                //Display Telemetry
 
@@ -158,8 +158,8 @@ public class Auto_Red_Foundation extends LinearOpMode {
 			robot.motorBackLeft.setPower(0);                //Set motor power to stop
 			robot.motorBackRight.setPower(0);               //Set motor power to stop
 			/** End of autonomous **/
+		//}
 		}
-	}
 	//Telemetry
 	private void stepTelemetry() {
 		telemetry.addData("Current step: ", step);

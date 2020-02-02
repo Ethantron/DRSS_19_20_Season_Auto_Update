@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.Test.TelyOp_Tests;
 
 // Imports codes that the robot uses
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;        // Imports Linear Operation mode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;              // Imports Driver Controlled mode
 import com.qualcomm.robotcore.hardware.DcMotor;                     // Imports motor definitions
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;                     // Imports t
 import com.qualcomm.robotcore.util.Range;                           // Imports motor ranges definitions
 
 // Defines robot display name
+@Disabled
 @TeleOp (name = "19-20 TeleOp", group= "TeleOp")                    // Sets codes mode to TelyOp and sets the display name for the code
 public class TeleOp_19_20_Linear extends LinearOpMode {             // Sets the codes name and sets it to Linear OpMode
 

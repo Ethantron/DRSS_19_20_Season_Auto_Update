@@ -384,7 +384,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			}
 
 			if (gamepad2.dpad_up) {     // Do the following if the "up" button on the dpad is pressed
-				wrist.setPosition(0.49); // Centers the wrist
+				wrist.setPosition(0.65); // Centers the wrist
 			}
 
 			if (gamepad2.dpad_left) {
@@ -475,26 +475,13 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public void encoderLift(double liftSpeed, double levels) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
 		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
 
-		/**Mechanum drive controls**/
-		// left stick controls direction
-		// right stick X controls rotation
-		float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
-		float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
-		float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
-
-		// Mechanum formulas
-		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-
-		// sets speed
-		frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
-		frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
-		backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
-		backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
-
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+
+			/** Stopping the motors **/
+			motorFrontRight.setPower(0); // Stop power to the motors
+			motorFrontLeft.setPower(0); // Stop power to the motors
+			motorBackRight.setPower(0); // Stop power to the motors
+			motorBackLeft.setPower(0); // Stop power to the motors
 
 			newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL));
 
@@ -530,26 +517,13 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public void encoderPlace(double DropSpeed, double distance) {
 		int newDropTarget;
 
-		/**Mechanum drive controls**/
-		// left stick controls direction
-		// right stick X controls rotation
-		float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
-		float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
-		float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
-
-		// Mechanum formulas
-		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-
-		// sets speed
-		frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
-		frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
-		backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
-		backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
-
 		if (opModeIsActive()) {
+
+			/** Stopping the motors **/
+			motorFrontRight.setPower(0); // Stop power to the motors
+			motorFrontLeft.setPower(0); // Stop power to the motors
+			motorBackRight.setPower(0); // Stop power to the motors
+			motorBackLeft.setPower(0); // Stop power to the motors
 
 			newDropTarget = lift.getCurrentPosition() - (int) (distance);
 
@@ -599,26 +573,13 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public void encoderTransport(double liftSpeed, double Inches) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
 		int newLiftTarget;                                           // Creates the integer "newLiftTarget"
 
-		/**Mechanum drive controls**/
-		// left stick controls direction
-		// right stick X controls rotation
-		float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
-		float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
-		float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
-
-		// Mechanum formulas
-		double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-		double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-		double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-
-		// sets speed
-		frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
-		frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
-		backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
-		backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
-
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+
+			/** Stopping the motors **/
+			motorFrontRight.setPower(0); // Stop power to the motors
+			motorFrontLeft.setPower(0); // Stop power to the motors
+			motorBackRight.setPower(0); // Stop power to the motors
+			motorBackLeft.setPower(0); // Stop power to the motors
 
 			newLiftTarget = (lift.getCurrentPosition() + (int) (Inches * COUNTS_PER_LIFT_INCH));
 
@@ -650,25 +611,11 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		int startDistance;  // Creates the integer "startDistance"
 
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
-
-			/**Mechanum drive controls**/
-			// left stick controls direction
-			// right stick X controls rotation
-			float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
-			float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
-			float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
-
-			// Mechanum formulas
-			double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-			double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-			double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-			double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-
-			// sets speed
-			frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
-			frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
-			backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
-			backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
+			/** Stopping the motors **/
+			motorFrontRight.setPower(0); // Stop power to the motors
+			motorFrontLeft.setPower(0); // Stop power to the motors
+			motorBackRight.setPower(0); // Stop power to the motors
+			motorBackLeft.setPower(0); // Stop power to the motors
 
 			/** Grabbing the capstone **/
 
@@ -701,7 +648,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
 
 			grabStone.setPosition(.3); // Open the Hand a little
-			wrist.setPosition(0.06); // Set the wrist so we are facing the capstone
+			wrist.setPosition(0.2); // Set the wrist so we are facing the capstone
 
 			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Start running the slide to target positon
 			slide.setPower(1); // Set power to the slide
@@ -749,7 +696,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			lift.setPower(0); // Stop lift once it reaches target position
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
 
-			wrist.setPosition(.49); // Set the wrist so we are facing forward
+			wrist.setPosition(.65); // Set the wrist so we are facing forward
 
 			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Start running the slide to target positon
 			slide.setPower(1); // Set power to the slide

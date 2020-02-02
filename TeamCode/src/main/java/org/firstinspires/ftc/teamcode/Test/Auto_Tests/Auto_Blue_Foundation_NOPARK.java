@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 import java.util.Locale;
 
-@Autonomous (name = "Auto_Red_Foundation", group = "Autonomous")
-public class Auto_Red_Foundation extends LinearOpMode {
+@Autonomous(name = "Auto_Blue_Foundation_NOPARK", group = "Autonomous")
+public class Auto_Blue_Foundation_NOPARK extends LinearOpMode{
 
 	AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
 
@@ -23,7 +23,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 	double step = 1; //Sets the steps for the autonomous
 
 	@Override
-	public void runOpMode(){
+	public void runOpMode() {
 		robot.init(hardwareMap); //Calls Upon Robot Initialization File
 
 		composeTelemetry(); //Gyro Telemetry Initialization
@@ -47,12 +47,12 @@ public class Auto_Red_Foundation extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 2) {                                     //Turn clockwise 90 degrees
+		if (step == 2) {                                     //Turn counterclockwise 90 degrees
 			stepTelemetry();                                 //Display Telemetry
 
-			encoderTurn(.35, -90, 10); //Turn CW 90 Degrees
-			gyroTurn(.1, -90);                   //Make Sure We are perfectly 90 degrees
-			gyroHold(.1,-90,.25);       //Hold Angle for .25 seconds
+			encoderTurn(.35, 90, 10); //Turn CCW 90 Degrees
+			gyroTurn(.1, 90);                   //Make Sure We are perfectly 90 degrees
+			gyroHold(.1,90,.25);       //Hold Angle for .25 seconds
 
 			step++;
 		}
@@ -60,7 +60,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 3) {                                    //Lift to clear foundation
 			stepTelemetry();                                //Display Telemetry
 
-			encoderLift(1, .75);           //Move the lift up 2.5 inches to clear the foundation
+			encoderLift(1, 2.5);           //Move the lift up 2.5 inches to clear the foundation
 
 			step++;
 		}
@@ -85,10 +85,10 @@ public class Auto_Red_Foundation extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 6) {                                      //Turn Clockwise 60 degrees
+		if (step == 6) {                                      //Turn CounterClockwise 60 degrees
 			stepTelemetry();                                  //Display Telemetry
 
-			encoderTurn(.35, -75, 10); //Turn CW 60 degrees
+			encoderTurn(.35, 75, 10); //Turn CCW 60 degrees
 
 			step++;
 		}
@@ -121,7 +121,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 10) {                                   //Turn to 90 degrees from starting position
 			stepTelemetry();                                //Display Telemetry
 
-			encoderTurn(.35, 75, 10);
+			encoderTurn(.35, -75, 10);
 
 			step++;
 		}
@@ -129,11 +129,11 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 11) { //Strafe right
 			stepTelemetry();
 
-			robot.motorFrontRight.setPower(-.7);
-			robot.motorFrontLeft.setPower(.7);
-			robot.motorBackLeft.setPower(-.7);
-			robot.motorBackRight.setPower(.7);
-			sleep(1350);
+			robot.motorFrontRight.setPower(.7);
+			robot.motorFrontLeft.setPower(-.7);
+			robot.motorBackLeft.setPower(.7);
+			robot.motorBackRight.setPower(-.7);
+			sleep(1500);
 			robot.motorFrontRight.setPower(0);
 			robot.motorFrontLeft.setPower(0);
 			robot.motorBackLeft.setPower(0);
@@ -141,11 +141,13 @@ public class Auto_Red_Foundation extends LinearOpMode {
 
 			step++;
 		}
-
+/*
 		if (step == 12) {                                   //Park on line
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.6, -20, 10); //Move backwards 20 inches
+			encoderLift(1, -2.5);           //Move the lift 2.5 inches
+
+			encoderDrive(1, -28, 10); //Move backwards 28 inches
 
 			step++;
 		}
@@ -158,7 +160,8 @@ public class Auto_Red_Foundation extends LinearOpMode {
 			robot.motorBackLeft.setPower(0);                //Set motor power to stop
 			robot.motorBackRight.setPower(0);               //Set motor power to stop
 			/** End of autonomous **/
-		}
+		//}
+
 	}
 	//Telemetry
 	private void stepTelemetry() {
