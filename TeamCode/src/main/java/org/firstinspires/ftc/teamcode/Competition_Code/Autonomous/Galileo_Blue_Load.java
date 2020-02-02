@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Competition_Code.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 import java.util.Locale;
 
+@Disabled
 @Autonomous(name = "Galileo_Blue_Load", group = "Autonomous")
 public class Galileo_Blue_Load extends LinearOpMode {
 
