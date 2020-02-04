@@ -27,7 +27,6 @@ public class Galileo_Hardware {
 	public Servo grabStone;
 	public Servo wrist;
 
-
 	//Foundation Mover Definitions
 	public Servo foundationMoverL;      // Defines the left foundation servo
 	public Servo foundationMoverR;      // Defines the right foundation servo
@@ -39,6 +38,9 @@ public class Galileo_Hardware {
 	public TouchSensor foundationBumperLeft;  //Defines the left foundation bumper button
 	public TouchSensor foundationBumperRight; //Defines the right foundation bumper button
 
+	//Capstone Mover Definitions
+	public Servo capstone; //Defines the capstone mover servo
+
 	//Gyro Definitions
 	// Defines the gyro
 	BNO055IMU imu;
@@ -49,16 +51,18 @@ public class Galileo_Hardware {
 
 	//Generic Auto Definitions
 	//Drive Train Encoder Definitions
-	public static final double COUNTS_PER_MOTOR_REV = 560;    // eg: REV 20:1 Motor Encoder
-	public static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
-	public static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
+	public static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: REV 20:1 Motor Encoder
+	public static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+	public static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
 	//Lift Encoder Definitions
 	static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
+	//Slide Encoder Definitions
+	static final double COUNTS_PER_SLIDE_INCH = 49.23;
 	//Gyro Turning Definitions
-	static final double HEADING_THRESHOLD = 1;      // As tight as we can make it with an integer gyro
-	static final double P_TURN_COEFF = 0.15;     // Larger is more responsive, but also less stable
+	static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
+	static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
 
 	//Vuforia Definitions
 	//Scanning Timing and Position Definitions
@@ -76,32 +80,31 @@ public class Galileo_Hardware {
 	public TFObjectDetector tfod;
 
 	//Local OpMode Members
-	HardwareMap hwMap = null;
+	HardwareMap hwMap =  null;
 
 	//Constructor
-	public Galileo_Hardware() {
+	public Galileo_Hardware () {
 		//Purposefully Left Empty
 	}
 
 	//Initialization Void
 	public void init(HardwareMap ahwMap) {
 		//Save Reference to Hardware Map
+
 		hwMap = ahwMap;
 
 		//Drive Train Initialization
 		motorFrontLeft = hwMap.dcMotor.get("FL");
 		motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-
 		motorFrontRight = hwMap.dcMotor.get("FR");
 		motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
-
 		motorBackLeft = hwMap.dcMotor.get("BL");
 		motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-
 		motorBackRight = hwMap.dcMotor.get("BR");
 		motorBackRight.setDirection(DcMotor.Direction.FORWARD);
 
 		//Encoder Initialization
+
 		//Stop and Reset Encoders
 		motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 		motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -111,6 +114,7 @@ public class Galileo_Hardware {
 		//Run Using Encoders
 		motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 		motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -120,19 +124,23 @@ public class Galileo_Hardware {
 
 		//Hand Initialization
 		grabStone = hwMap.servo.get("GS");
-
 		wrist = hwMap.servo.get("W");
-		wrist.setPosition(.4); // Center the wrist
+		wrist.setPosition(.495); // Center the wrist
 
 		//Slide Initialization
 		slide = hwMap.dcMotor.get("SL");
 		slide.setDirection(DcMotor.Direction.FORWARD);
 
 		//Foundation Mover Initialization
+
 		foundationMoverR = hwMap.servo.get("GR");     // Initializes the right foundation movers name for configuration
 		foundationMoverL = hwMap.servo.get("GL");     // Initializes the left foundation movers name for configuration
 		foundationMoverR.setPosition(0);                    // Sets the right foundation mover to point up
 		foundationMoverL.setPosition(0);                    // Sets the left foundation mover to point up
+
+		//Capstone Mover Initialization
+		capstone = hwMap.servo.get("CS"); // Initializes the Capstone Servo name for configuration
+		capstone.setPosition(.9);         // Sets the capstone mover out to give more clearance
 
 		//Stone Button Sensor Initialization
 		stoneButton = hwMap.get(DigitalChannel.class, "stone_button"); // Initializes the stone button name for configuration
@@ -140,19 +148,27 @@ public class Galileo_Hardware {
 
 		//Foundation Bumpers Initialization
 		foundationBumperLeft = hwMap.touchSensor.get("bumper_left");   // Initializes the stone button name for configuration
+
 		foundationBumperRight = hwMap.touchSensor.get("bumper_right"); // Initializes the stone button name for configuration
 
 		//Gyro Initialization
+
 		BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
 		parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+
 		parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+
 		parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+
 		parameters.loggingEnabled = true;
+
 		parameters.loggingTag = "IMU";
+
 		parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
 		imu = hwMap.get(BNO055IMU.class, "imu");
+
 		imu.initialize(parameters);
-
-
 	}
 }

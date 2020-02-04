@@ -1,26 +1,30 @@
 package org.firstinspires.ftc.teamcode.Competition_Code.Autonomous;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SampleRevBlinkinLedDriver;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.Func;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +40,20 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 @Autonomous(name = "Galileo_Master", group = "Autonomous")
 public class Galileo_Master extends LinearOpMode {
 
+	private final static int LED_PERIOD = 10;
+	RevBlinkinLedDriver blinkinLedDriver;
+	RevBlinkinLedDriver.BlinkinPattern pattern;
+
+	Telemetry.Item patternName;
+	Telemetry.Item display;
+	Deadline ledCycleDeadline;
+	Deadline gamepadRateLimit;
+	SampleRevBlinkinLedDriver.DisplayKind displayKind;
+
 	Galileo_Hardware robot = new Galileo_Hardware();   //Calls Upon Robot Definitions File
+
+	public DigitalChannel color;
+	public DigitalChannel side;
 
 	private ElapsedTime runtime = new ElapsedTime(); //Sets timer for encoders
 
@@ -102,6 +119,26 @@ public class Galileo_Master extends LinearOpMode {
 		 * Retrieve the camera we are to use.
 		 */
 		webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+
+		//Colored Lights Initialization
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);
+
+		displayKind = SampleRevBlinkinLedDriver.DisplayKind.MANUAL;
+		display = telemetry.addData("Display Kind: ", displayKind.toString());
+		patternName = telemetry.addData("Pattern: ", pattern.toString());
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);            	//
+		/*End of Drive Train Initialization **/
+
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);
+
+		pattern = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_RAINBOW_PALETTE;
+		displayPattern();
 
 		/*
 		 * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
@@ -274,6 +311,28 @@ public class Galileo_Master extends LinearOpMode {
 		}
 		composeTelemetry(); //Gyro Telemetry Initialization
 
+		if (side.getState() && color.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+			displayPattern();
+		}
+		else if (side.getState() && !color.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+			displayPattern();
+		}
+		else if (!side.getState() && color.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
+			displayPattern();
+		}
+		else if (!side.getState() && !color.getState()){
+			pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
+			displayPattern();
+		}
+
+		color = hardwareMap.get(DigitalChannel.class, "color_button"); // Initializes the stone button name for configuration
+		color.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
+		side = hardwareMap.get(DigitalChannel.class, "side_button"); // Initializes the stone button name for configuration
+		side.setMode(DigitalChannel.Mode.INPUT);                                 // Initializes the mode of the button
+
 		telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
 		telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
 		telemetry.addData("Status: ", "Ready");                 // Adds telemetry to the screen to show that the robot is ready
@@ -288,6 +347,28 @@ public class Galileo_Master extends LinearOpMode {
 		}
 
 		if (largeStep == 2) {
+
+			if (side.getState() && color.getState()){
+				pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+				displayPattern();
+				RedLoad();
+			}
+			else if (side.getState() && !color.getState()){
+				pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+				displayPattern();
+				BlueLoad();
+			}
+			else if (!side.getState() && color.getState()){
+				pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
+				displayPattern();
+				RedBuild();
+			}
+			else if (!side.getState() && !color.getState()){
+				pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
+				displayPattern();
+				BlueBuild();
+			}
+			/*
 			targetsSkyStone.activate();
 			while (!isStopRequested()) {
 
@@ -338,13 +419,25 @@ public class Galileo_Master extends LinearOpMode {
 
 			// Disable Tracking when we are done;
 			targetsSkyStone.deactivate();
+			*/
 		}
 	}
 
 
 	public void RedBuild(){
+		if (step == 1) {                                    //Move forward
+			stepTelemetry();                                //Display Telemetry
 
-		if (step == 1) {                                     //Turn clockwise 90 degrees
+			//Move the slide forward, and drop lift
+			encoderSlide(1, 4); // Move the slide forward 4 inches
+			encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
+
+			encoderDrive(.4, 46, 10); //Move forward 46 inches just before the foundation
+
+			step++;
+		}
+
+		if (step == 2) {                                     //Turn clockwise 90 degrees
 			stepTelemetry();                                 //Display Telemetry
 
 			encoderTurn(.35, -90, 10); //Turn CW 90 Degrees
@@ -354,7 +447,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 2) {                                    //Lift to clear foundation
+		if (step == 3) {                                    //Lift to clear foundation
 			stepTelemetry();                                //Display Telemetry
 
 			encoderLift(1, .75);           //Move the lift up 2.5 inches to clear the foundation
@@ -362,7 +455,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 3) {                                    //Start moving against the foundation
+		if (step == 4) {                                    //Start moving against the foundation
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(.3,12, 10);  //Move forward 12 inches
@@ -371,7 +464,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 4) {                                    //Clamp down on the foundation
+		if (step == 5) {                                    //Clamp down on the foundation
 			stepTelemetry();                                //Display Telemetry
 
 			robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
@@ -382,7 +475,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 5) {                                      //Turn Clockwise 60 degrees
+		if (step == 6) {                                      //Turn Clockwise 60 degrees
 			stepTelemetry();                                  //Display Telemetry
 
 			encoderTurn(.35, -75, 10); //Turn CW 60 degrees
@@ -390,7 +483,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 6) {                                    //Move the foundation forward 25 inches
+		if (step == 7) {                                    //Move the foundation forward 25 inches
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(.5, 14, 10); //Move forward 14 inches to place foundation into zone
@@ -398,7 +491,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 7) {                                    //Release the foundation
+		if (step == 8) {                                    //Release the foundation
 			stepTelemetry();                                //Display Telemetry
 
 			robot.foundationMoverL.setPosition(0);          //Set Foundation movers to release the foundation
@@ -407,7 +500,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 8) {                                   //Move backwards
+		if (step == 9) {                                   //Move backwards
 			stepTelemetry();                                //Display Telemetry
 
 			encoderDrive(.5,-22,10);  //Move backwards 18 inches
@@ -415,7 +508,7 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 9) {                                   //Turn to 90 degrees from starting position
+		if (step == 10) {                                   //Turn to 90 degrees from starting position
 			stepTelemetry();                                //Display Telemetry
 
 			encoderTurn(.35, 75, 10);
@@ -423,13 +516,423 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 10) { //Strafe right
+		if (step == 11) { //Strafe right
 			stepTelemetry();
 
 			robot.motorFrontRight.setPower(-.7);
 			robot.motorFrontLeft.setPower(.7);
 			robot.motorBackLeft.setPower(-.7);
 			robot.motorBackRight.setPower(.7);
+			sleep(1350);
+			robot.motorFrontRight.setPower(0);
+			robot.motorFrontLeft.setPower(0);
+			robot.motorBackLeft.setPower(0);
+			robot.motorBackRight.setPower(0);
+
+			step++;
+		}
+
+		if (step == 12) {                                   //Park on line
+			stepTelemetry();                                //Display Telemetry
+
+			encoderDrive(.6, -20, 10); //Move backwards 20 inches
+
+			step++;
+		}
+
+		if (step == 13) {                                   //Make sure motors are stopped, and end autonomous
+			stepTelemetry();                                //Display Telemetry
+
+			robot.motorFrontRight.setPower(0);              //Set motor power to stop
+			robot.motorFrontLeft.setPower(0);               //Set motor power to stop
+			robot.motorBackLeft.setPower(0);                //Set motor power to stop
+			robot.motorBackRight.setPower(0);               //Set motor power to stop
+			/** End of autonomous **/
+		}
+
+	}
+
+	public void RedLoad(){
+		if (step == 1) { //Move forward and scan the first block
+			stepTelemetry(); //Display telemetry
+
+			//Move the slide forward, and drop lift
+			encoderSlide(1, 4);  // Move the slide forward 4 inches
+			encoderLift(1, -1.4); // Drop the lift downward 1.4 inches
+
+			//Open the grabber
+			robot.grabStone.setPosition(.6); //Set the grabber to open position
+
+			//Move Forward
+			encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
+
+			if (robot.tfod != null) {
+				robot.tfod.activate();
+			}
+
+			sleep(1000);
+
+			//Start Scanning
+			robot.pos++; //Tells code that it is checking position 1
+			scan(); //Scan for skystone
+
+			step++; //Next Step
+		}
+
+		if (step == 2 && !robot.Skystone) { //If the first block wasn't the skystone, move to the second block and scan it
+			stepTelemetry(); //Display Telemetry
+
+			//Setting skystone position for later
+			robot.pos++; //If we didn't see the skystone in position 1, move to next position
+
+			//Strafe Left to next block
+			robot.motorFrontLeft.setPower(-.6); //Set the motors to strafe left
+			robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
+			robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
+			robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
+			sleep(500); //Wait 500 milliseconds
+			robot.motorFrontLeft.setPower(0); //Stop all power to the motors
+			robot.motorFrontRight.setPower(0); //Stop all power to the motors
+			robot.motorBackLeft.setPower(0); //Stop all power to the motors
+			robot.motorBackRight.setPower(0); //Stop all power to the motors
+
+			//Scan for second skystone
+			sleep(robot.scanTime); //Wait 2 seconds to give vuforia time to identify the skystone
+			scan(); //Scan for Skystone
+
+			step++; //Next Step
+		}
+
+		if (step == 3 && !robot.Skystone) { //If the first two blocks weren't the skystone, it must be the third. Move and grab it
+			stepTelemetry(); //Display Telemetry
+
+			//Setting skystone position for later
+			robot.pos++; //If we didn't see the skystone, move to next position
+
+			//Strafe Left to next block
+			robot.motorFrontLeft.setPower(-.6); //Set the motors to strafe left
+			robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
+			robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
+			robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
+			sleep(500); //Wait for 500 milliseconds
+			robot.motorFrontLeft.setPower(0); //Stop all power to the motors
+			robot.motorFrontRight.setPower(0); //Stop all power to the motors
+			robot.motorBackLeft.setPower(0); //Stop all power to the motors
+			robot.motorBackRight.setPower(0); //Stop all power to the motors
+
+			//Set skystone as true, which also moves us on to the next step
+			robot.Skystone = true; //If position 1 and 2 are not skystone, then it must be position 3
+
+		}
+
+		if (step > 1 && step < 4 && robot.Skystone) { //If skystone is true
+			step = 4; //If the skystone is found, move on to grabbing
+		}
+
+		if (step == 4) { //Grabbing the first skystone
+			stepTelemetry(); //Display Telemetry
+
+			//Move forward to grab skystone
+			encoderDrive(.2, 18, 10); //Moves forward 18 inches to the block
+
+			//Grab skystone
+			robot.grabStone.setPosition(0.0); //Grab the Skystone
+			sleep(300); //Wait 300 milliseconds
+
+			//Move the lift up
+			encoderLift(1, 1.25); //Lift up the lift 1.25"
+			sleep(300); //Wait 300 milliseconds
+
+			step++; //Move to the next step
+		}
+
+		if (step == 5) { //Move backwards with the skystone
+			stepTelemetry(); //Display Telemetry
+
+			//Move backwards
+			encoderDrive(.6, -15, 10); //Move backwards 15 inches
+
+			step++; //Move to the next step
+		}
+
+		if (step == 6) { //Turn 90 degrees clockwise
+			stepTelemetry(); //Display Telemetry
+
+			//Turn Clockwise
+			encoderTurn(.25, -100, 10); //Turn CW 100 Degrees
+
+			step++; //Move to the next step
+		}
+
+		if (step == 7) { //Run across the line
+			stepTelemetry(); //Display Telemetry
+
+			//Set distances needed to be moved by each position
+			if (robot.pos == 1) { //If the skystone was in position 1
+				encoderDrive(1, 40, 10); //Run forward 40 inches at speed of 1
+				step++; //Move to the next step
+			}
+
+			if (robot.pos == 2) { //If the skystone was in position 2
+				encoderDrive(1, 44, 10); //Run forward 44 inches at speed of 1
+				step++; //Move to the next step
+			}
+
+			if (robot.pos == 3) { //If the skystone was in position 3
+				encoderDrive(1, 56, 10); //Run forward 56 inches at speed of 1
+				step++; //Move to the next step
+			}
+		}
+
+		if (step == 8) { //Drop off the first skystone
+			stepTelemetry(); //Display telemetry
+
+			//Place the skystone
+			robot.grabStone.setPosition(0.6); //Release the skystone
+
+			step++; //Move to next step
+		}
+
+		if (step == 9) { //Run back to the second skystone
+			stepTelemetry(); //Display telemetry
+			if (robot.pos == 1) { //If the skystone was in position 1
+				encoderDrive(.6,-67,10); //Move backwards 67 inches to second skystone
+				step++;
+			}
+			if (robot.pos == 2) { //If the skystone was in position 2
+				encoderDrive(.6,-69,10); //Move backwards 69 inches to second skystone
+				step++;
+			}
+			if (robot.pos == 3) { //If the skystone was in position 3
+				//encoderDrive(.6,-75,10); //Use in case we want second skystone on pos 3
+				step++; //Move to next step
+			}
+		}
+
+		if (step == 10 && (robot.pos == 1 || robot.pos == 2)) { //Turn toward the second skystone
+			stepTelemetry(); //Display telemetry
+
+			//Drive the lift up
+			encoderLift(1, -1.15); //Drop the lift 1.15"
+
+			//Turn 90 degrees counterclockwise
+			encoderTurn(.25, 100, 10); //Turn CCW 100 Degrees
+			// gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
+			// gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
+
+			step++; //Move to next step
+		}
+
+		if (step == 10 && robot.pos == 3) { //Move backwards to park
+			stepTelemetry(); //Display telemetry
+
+			//Move backwards
+			encoderDrive(1, -16, 10); //Move Backwards 16 inches
+
+			//Strafe Left to get out of the way
+			robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
+			robot.motorFrontRight.setPower(.4); //Set power to strafe left
+			robot.motorBackLeft.setPower(.4); //Set power to strafe left
+			robot.motorBackRight.setPower(-.4); //Set power to strafe left
+			sleep(500); //Wait 500 milliseconds
+
+			step++; //Move to next step
+		}
+
+		if (step == 11 && robot.pos==3) { //Stop strafing and end position 3
+			//Stop Strafing
+			robot.motorFrontLeft.setPower(0); //Stop all power to the motors
+			robot.motorFrontRight.setPower(0); //Stop all power to the motors
+			robot.motorBackLeft.setPower(0); //Stop all power to the motors
+			robot.motorBackRight.setPower(0); //Stop all power to the motors
+			//End of position 3
+		}
+
+		if (step == 11 && (robot.pos == 1 || robot.pos == 2)) { //Grab the second skystone
+			stepTelemetry(); //Display telemetry
+
+			//Drive forward
+			encoderDrive(.2, 22, 10); //Moves forward 22 inches to the block
+
+			//Grab the skystone
+			robot.grabStone.setPosition(0.0); //Grab the Skystone
+			sleep(300); //Wait 300 milliseconds
+
+			//Drive the lift up
+			encoderLift(1, 1.25); //Lift up the lift 1.25"
+			sleep(300); //Wait 300 milliseconds
+
+			step++; //Move to next step
+		}
+
+		if (step == 12) { //Move backwards with skystone
+			stepTelemetry(); //Display telemetry
+
+			//Move backward
+			encoderDrive(.6, -22, 10); //Move backwards 22 inches
+
+			step++; //Move to next step
+		}
+
+		if (step == 13) { //Turn 90 degrees
+			stepTelemetry(); //Display telemetry
+			encoderTurn(.25, -100, 10); //Turn CW 100 Degrees
+			step++; //Move to next step
+		}
+
+		if (step == 14) { //Start moving back across the line
+			if (robot.pos == 1) { //If the skystone was in position 1
+				encoderDrive(1, 67, 10); //Move forward across the line
+				step++; // Move to next step
+			}
+
+			else if (robot.pos == 2) { //If the skystone was in position 2
+				encoderDrive(1, 70, 10); //Move forward across the line
+				step++; //Move to next step
+			}
+		}
+
+		if (step == 15) { //Release the skystone
+			stepTelemetry(); //Display Telemetry
+
+			//Release the skystone
+			robot.grabStone.setPosition(0.6); //release the grabber
+
+			step++; //Move to next step
+		}
+
+		if (step == 16) { //Move backward to the line
+			stepTelemetry(); //Display Telemetry
+
+			//Move backward
+			encoderDrive(1,-16,10); //Move backward 16 inches
+
+			step++; //Move to next step
+		}
+
+		if (step == 17) { //Strafe left
+
+			//Strafe Left to get out of the way
+			robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
+			robot.motorFrontRight.setPower(.4); //Set power to strafe left
+			robot.motorBackLeft.setPower(.4); //Set power to strafe left
+			robot.motorBackRight.setPower(-.4); //Set power to strafe left
+			sleep(750); //Wait 750 milliseconds
+
+			step++; //move to next step
+		}
+
+		if (step == 18) { //Stop motors and end of position 1 and 2
+			//Stop all motors
+			robot.motorFrontLeft.setPower(0); //Stop all power to the motors
+			robot.motorFrontRight.setPower(0); //Stop all power to the motors
+			robot.motorBackLeft.setPower(0); //Stop all power to the motors
+			robot.motorBackRight.setPower(0); //Stop all power to the motors
+			//End of position 1 & 2
+		}
+
+	}
+
+	public void BlueBuild(){
+
+		if (step == 1) {                                    //Move forward
+			stepTelemetry();                                //Display Telemetry
+
+			//Move the slide forward, and drop lift
+			encoderSlide(1,4); // Move the slide forward 4 inches
+			encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
+
+			encoderDrive(.4, 46, 10); //Move forward 46 inches just before the foundation
+
+			step++;
+		}
+
+		if (step == 2) {                                     //Turn counterclockwise 90 degrees
+			stepTelemetry();                                 //Display Telemetry
+
+			encoderTurn(.35, 90, 10); //Turn CCW 90 Degrees
+			gyroTurn(.1, 90);                   //Make Sure We are perfectly 90 degrees
+			gyroHold(.1,90,.25);       //Hold Angle for .25 seconds
+
+			step++;
+		}
+
+		if (step == 3) {                                    //Lift to clear foundation
+			stepTelemetry();                                //Display Telemetry
+
+			encoderLift(1, 2.5);           //Move the lift up 2.5 inches to clear the foundation
+
+			step++;
+		}
+
+		if (step == 4) {                                    //Start moving against the foundation
+			stepTelemetry();                                //Display Telemetry
+
+			encoderDrive(.3,12, 10);  //Move forward 12 inches
+			sleep(1000);                         //Wait 1 second
+
+			step++;
+		}
+
+		if (step == 5) {                                    //Clamp down on the foundation
+			stepTelemetry();                                //Display Telemetry
+
+			robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
+			robot.foundationMoverR.setPosition(1);          //Set Foundation movers to clamp down on the foundation
+
+			sleep(1000);                        //Wait 1 second
+
+			step++;
+		}
+
+		if (step == 6) {                                      //Turn CounterClockwise 60 degrees
+			stepTelemetry();                                  //Display Telemetry
+
+			encoderTurn(.35, 75, 10); //Turn CCW 60 degrees
+
+			step++;
+		}
+
+		if (step == 7) {                                    //Move the foundation forward 25 inches
+			stepTelemetry();                                //Display Telemetry
+
+			encoderDrive(.5, 14, 10); //Move forward 14 inches to place foundation into zone
+
+			step++;
+		}
+
+		if (step == 8) {                                    //Release the foundation
+			stepTelemetry();                                //Display Telemetry
+
+			robot.foundationMoverL.setPosition(0);          //Set Foundation movers to release the foundation
+			robot.foundationMoverR.setPosition(0);          //Set Foundation movers to release the foundation
+
+			step++;
+		}
+
+		if (step == 9) {                                   //Move backwards
+			stepTelemetry();                                //Display Telemetry
+
+			encoderDrive(.5,-22,10);  //Move backwards 18 inches
+
+			step++;
+		}
+
+		if (step == 10) {                                   //Turn to 90 degrees from starting position
+			stepTelemetry();                                //Display Telemetry
+
+			encoderTurn(.35, -75, 10);
+
+			step++;
+		}
+
+		if (step == 11) { //Strafe right
+			stepTelemetry();
+
+			robot.motorFrontRight.setPower(.7);
+			robot.motorFrontLeft.setPower(-.7);
+			robot.motorBackLeft.setPower(.7);
+			robot.motorBackRight.setPower(-.7);
 			sleep(1500);
 			robot.motorFrontRight.setPower(0);
 			robot.motorFrontLeft.setPower(0);
@@ -439,15 +942,17 @@ public class Galileo_Master extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 11) {                                   //Park on line
+		if (step == 12) {                                   //Park on line
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.6, -20, 10); //Move backwards 20 inches
+			encoderLift(1, -2.5);           //Move the lift 2.5 inches
+
+			encoderDrive(1, -28, 10); //Move backwards 28 inches
 
 			step++;
 		}
 
-		if (step == 12) {                                   //Make sure motors are stopped, and end autonomous
+		if (step == 13) {                                   //Make sure motors are stopped, and end autonomous
 			stepTelemetry();                                //Display Telemetry
 
 			robot.motorFrontRight.setPower(0);              //Set motor power to stop
@@ -458,19 +963,21 @@ public class Galileo_Master extends LinearOpMode {
 		}
 	}
 
-	public void RedLoad(){
+	public void BlueLoad(){
 		while (opModeIsActive()) {
 
 			if (step == 1) { //Move forward and scan the first block
 				stepTelemetry(); //Display telemetry
 
+				//Move the slide forward, and drop lift
+				encoderSlide(1, 4);  // Move the slide forward 4 inches
+				encoderLift(1, -1.4); // Drop the lift downward 1.4 inches
+
 				//Open the grabber
 				robot.grabStone.setPosition(.6); //Set the grabber to open position
 
-				//Move Slide Forward
-				robot.slide.setPower(1); //Move Slide Forward
-				sleep(200); //Wait 200 Milliseconds
-				robot.slide.setPower(0); //Stop Moving Slide Forward
+				//Move Forward
+				encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
 
 				if (robot.tfod != null) {
 					robot.tfod.activate();
@@ -492,10 +999,10 @@ public class Galileo_Master extends LinearOpMode {
 				robot.pos++; //If we didn't see the skystone in position 1, move to next position
 
 				//Strafe Left to next block
-				robot.motorFrontLeft.setPower(-.6); //Set the motors to strafe left
-				robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
-				robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
-				robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
+				robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
+				robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
+				robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
+				robot.motorBackRight.setPower(.6); //Set the motors to strafe right
 				sleep(500); //Wait 500 milliseconds
 				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
 				robot.motorFrontRight.setPower(0); //Stop all power to the motors
@@ -516,11 +1023,11 @@ public class Galileo_Master extends LinearOpMode {
 				robot.pos++; //If we didn't see the skystone, move to next position
 
 				//Strafe Left to next block
-				robot.motorFrontLeft.setPower(-.6); //Set the motors to strafe left
-				robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
-				robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
-				robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
-				sleep(600); //Wait for 600 milliseconds
+				robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
+				robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
+				robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
+				robot.motorBackRight.setPower(.6); //Set the motors to strafe right
+				sleep(500); //Wait for 500 milliseconds
 				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
 				robot.motorFrontRight.setPower(0); //Stop all power to the motors
 				robot.motorBackLeft.setPower(0); //Stop all power to the motors
@@ -556,7 +1063,7 @@ public class Galileo_Master extends LinearOpMode {
 				stepTelemetry(); //Display Telemetry
 
 				//Move backwards
-				encoderDrive(.6, -18, 10); //Move backwards 18 inches
+				encoderDrive(.6, -15, 10); //Move backwards 15 inches
 
 				step++; //Move to the next step
 			}
@@ -565,7 +1072,7 @@ public class Galileo_Master extends LinearOpMode {
 				stepTelemetry(); //Display Telemetry
 
 				//Turn Clockwise
-				encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
+				encoderTurn(.25, 100, 10); //Turn CCW 100 Degrees
 
 				step++; //Move to the next step
 			}
@@ -575,17 +1082,17 @@ public class Galileo_Master extends LinearOpMode {
 
 				//Set distances needed to be moved by each position
 				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(1, 35, 10); //Run forward 35 inches at speed of 1
+					encoderDrive(1, 40, 10); //Run forward 40 inches at speed of 1
 					step++; //Move to the next step
 				}
 
 				if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(1, 39, 10); //Run forward 39 inches at speed of 1
+					encoderDrive(1, 44, 10); //Run forward 44 inches at speed of 1
 					step++; //Move to the next step
 				}
 
 				if (robot.pos == 3) { //If the skystone was in position 3
-					encoderDrive(1, 51, 10); //Run forward 51 inches at speed of 1
+					encoderDrive(1, 56, 10); //Run forward 56 inches at speed of 1
 					step++; //Move to the next step
 				}
 			}
@@ -602,11 +1109,11 @@ public class Galileo_Master extends LinearOpMode {
 			if (step == 9) { //Run back to the second skystone
 				stepTelemetry(); //Display telemetry
 				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(.6,-62,10); //Move backwards 62 inches to second skystone
+					encoderDrive(.6,-65,10); //Move backwards 65 inches to second skystone
 					step++;
 				}
 				if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(.6,-64,10); //Move backwards 58 inches to second skystone
+					encoderDrive(.6,-69,10); //Move backwards 69 inches to second skystone
 					step++;
 				}
 				if (robot.pos == 3) { //If the skystone was in position 3
@@ -619,12 +1126,12 @@ public class Galileo_Master extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Drive the lift up
-				encoderLift(1, -1); //Drop the lift 1"
+				encoderLift(1, -1.15); //Drop the lift 1.15"
 
 				//Turn 90 degrees counterclockwise
-				encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
-				gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
-				gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
+				encoderTurn(.25, -100, 10); //Turn CW 100 Degrees
+				// gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
+				// gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
 
 				step++; //Move to next step
 			}
@@ -636,404 +1143,6 @@ public class Galileo_Master extends LinearOpMode {
 				encoderDrive(1, -16, 10); //Move Backwards 16 inches
 
 				//Strafe Left to get out of the way
-				robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
-				robot.motorFrontRight.setPower(.4); //Set power to strafe left
-				robot.motorBackLeft.setPower(.4); //Set power to strafe left
-				robot.motorBackRight.setPower(-.4); //Set power to strafe left
-				sleep(500); //Wait 500 milliseconds
-
-				step++; //Move to next step
-			}
-
-			if (step == 11 && robot.pos==3) { //Stop strafing and end position 3
-				//Stop Strafing
-				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
-				robot.motorFrontRight.setPower(0); //Stop all power to the motors
-				robot.motorBackLeft.setPower(0); //Stop all power to the motors
-				robot.motorBackRight.setPower(0); //Stop all power to the motors
-				//End of position 3
-			}
-
-			if (step == 11 && (robot.pos == 1 || robot.pos == 2)) { //Grab the second skystone
-				stepTelemetry(); //Display telemetry
-
-				//Drive forward
-				encoderDrive(.2, 22, 10); //Moves forward 22 inches to the block
-
-				//Grab the skystone
-				robot.grabStone.setPosition(0.0); //Grab the Skystone
-				sleep(300); //Wait 300 milliseconds
-
-				//Drive the lift up
-				encoderLift(1, 1.25); //Lift up the lift 1.25"
-				sleep(300); //Wait 300 milliseconds
-
-				step++; //Move to next step
-			}
-
-			if (step == 12) { //Move backwards with skystone
-				stepTelemetry(); //Display telemetry
-
-				//Move backward
-				encoderDrive(.6, -22, 10); //Move backwards 22 inches
-
-				step++; //Move to next step
-			}
-
-			if (step == 13) { //Turn 90 degrees
-				stepTelemetry(); //Display telemetry
-				encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
-				step++; //Move to next step
-			}
-
-			if (step == 14) { //Start moving back across the line
-				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(1, 62, 10); //Move forward across the line
-					step++; // Move to next step
-				}
-
-				else if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(1, 65, 10); //Move forward across the line
-					step++; //Move to next step
-				}
-			}
-
-			if (step == 15) { //Release the skystone
-				stepTelemetry(); //Display Telemetry
-
-				//Release the skystone
-				robot.grabStone.setPosition(0.6); //release the grabber
-
-				step++; //Move to next step
-			}
-
-			if (step == 16) { //Move backward to the line
-				stepTelemetry(); //Display Telemetry
-
-				//Move backward
-				encoderDrive(1,-16,10); //Move backward 16 inches
-
-				step++; //Move to next step
-			}
-
-			if (step == 17) { //Strafe left
-
-				//Strafe Left to get out of the way
-				robot.motorFrontLeft.setPower(-.4); //Set power to strafe left
-				robot.motorFrontRight.setPower(.4); //Set power to strafe left
-				robot.motorBackLeft.setPower(.4); //Set power to strafe left
-				robot.motorBackRight.setPower(-.4); //Set power to strafe left
-				sleep(750); //Wait 750 milliseconds
-
-				step++; //move to next step
-			}
-
-			if (step == 18) { //Stop motors and end of position 1 and 2
-				//Stop all motors
-				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
-				robot.motorFrontRight.setPower(0); //Stop all power to the motors
-				robot.motorBackLeft.setPower(0); //Stop all power to the motors
-				robot.motorBackRight.setPower(0); //Stop all power to the motors
-				//End of position 1 & 2
-			}
-		}
-
-	}
-
-	public void BlueBuild(){
-
-		if (step == 1) {                                     //Turn counterclockwise 90 degrees
-			stepTelemetry();                                 //Display Telemetry
-
-			encoderTurn(.35, 90, 10); //Turn CCW 90 Degrees
-			gyroTurn(.1, 90);                   //Make Sure We are perfectly 90 degrees
-			gyroHold(.1,90,.25);       //Hold Angle for .25 seconds
-
-			step++;
-		}
-
-		if (step == 2) {                                    //Lift to clear foundation
-			stepTelemetry();                                //Display Telemetry
-
-			encoderLift(1, 1);           //Move the lift up 2.5 inches to clear the foundation
-
-			step++;
-		}
-
-		if (step == 3) {                                    //Start moving against the foundation
-			stepTelemetry();                                //Display Telemetry
-
-			encoderDrive(.3,12, 10);  //Move forward 12 inches
-			sleep(1000);                         //Wait 1 second
-
-			step++;
-		}
-
-		if (step == 4) {                                    //Clamp down on the foundation
-			stepTelemetry();                                //Display Telemetry
-
-			robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
-			robot.foundationMoverR.setPosition(1);          //Set Foundation movers to clamp down on the foundation
-
-			sleep(1000);                        //Wait 1 second
-
-			step++;
-		}
-
-		if (step == 5) {                                      //Turn CounterClockwise 60 degrees
-			stepTelemetry();                                  //Display Telemetry
-
-			encoderTurn(.35, 75, 10); //Turn CCW 60 degrees
-
-			step++;
-		}
-
-		if (step == 6) {                                    //Move the foundation forward 25 inches
-			stepTelemetry();                                //Display Telemetry
-
-			encoderDrive(.5, 14, 10); //Move forward 14 inches to place foundation into zone
-
-			step++;
-		}
-
-		if (step == 7) {                                    //Release the foundation
-			stepTelemetry();                                //Display Telemetry
-
-			robot.foundationMoverL.setPosition(0);          //Set Foundation movers to release the foundation
-			robot.foundationMoverR.setPosition(0);          //Set Foundation movers to release the foundation
-
-			step++;
-		}
-
-		if (step == 8) {                                   //Move backwards
-			stepTelemetry();                                //Display Telemetry
-
-			encoderDrive(.5,-22,10);  //Move backwards 18 inches
-
-			step++;
-		}
-
-		if (step == 9) {                                   //Turn to 90 degrees from starting position
-			stepTelemetry();                                //Display Telemetry
-
-			encoderTurn(.35, -75, 10);
-
-			step++;
-		}
-
-		if (step == 10) { //Strafe right
-			stepTelemetry();
-
-			robot.motorFrontRight.setPower(.7);
-			robot.motorFrontLeft.setPower(-.7);
-			robot.motorBackLeft.setPower(.7);
-			robot.motorBackRight.setPower(-.7);
-			sleep(1500);
-			robot.motorFrontRight.setPower(0);
-			robot.motorFrontLeft.setPower(0);
-			robot.motorBackLeft.setPower(0);
-			robot.motorBackRight.setPower(0);
-
-			step++;
-		}
-
-		if (step == 11) {                                   //Park on line
-			stepTelemetry();                                //Display Telemetry
-
-			encoderDrive(1, -28, 10); //Move backwards 28 inches
-
-			step++;
-		}
-
-		if (step == 12) {                                   //Make sure motors are stopped, and end autonomous
-			stepTelemetry();                                //Display Telemetry
-
-			robot.motorFrontRight.setPower(0);              //Set motor power to stop
-			robot.motorFrontLeft.setPower(0);               //Set motor power to stop
-			robot.motorBackLeft.setPower(0);                //Set motor power to stop
-			robot.motorBackRight.setPower(0);               //Set motor power to stop
-			/** End of autonomous **/
-		}
-	}
-
-	public void BlueLoad(){
-		while (opModeIsActive()) {
-
-			if (step == 1) { //Move forward and scan the first block
-				stepTelemetry(); //Display telemetry
-
-				//Open the grabber
-				robot.grabStone.setPosition(.6); //Set the grabber to open position
-
-				//Move Slide Forward
-				robot.slide.setPower(1); //Move Slide Forward
-				sleep(200); //Wait 200 Milliseconds
-				robot.slide.setPower(0); //Stop Moving Slide Forward
-
-				if (robot.tfod != null) {
-					robot.tfod.activate();
-				}
-
-				sleep(2000);
-
-				//Start Scanning
-				robot.pos++; //Tells code that it is checking position 1
-				scan(); //Scan for skystone
-
-				step++; //Next Step
-			}
-
-			if (step == 2 && !robot.Skystone) { //If the first block wasn't the skystone, move to the second block and scan it
-				stepTelemetry(); //Display Telemetry
-
-				//Setting skystone position for later
-				robot.pos++; //If we didn't see the skystone in position 1, move to next position
-
-				//Strafe Right to next block
-				robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
-				robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
-				robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
-				robot.motorBackRight.setPower(.6); //Set the motors to strafe right
-				sleep(500); //Wait 500 milliseconds
-				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
-				robot.motorFrontRight.setPower(0); //Stop all power to the motors
-				robot.motorBackLeft.setPower(0); //Stop all power to the motors
-				robot.motorBackRight.setPower(0); //Stop all power to the motors
-
-				//Scan for second skystone
-				sleep(robot.scanTime); //Wait 2 seconds to give vuforia time to identify the skystone
-				scan(); //Scan for Skystone
-
-				step++; //Next Step
-			}
-
-			if (step == 3 && !robot.Skystone) { //If the first two blocks weren't the skystone, it must be the third. Move and grab it
-				stepTelemetry(); //Display Telemetry
-
-				//Setting skystone position for later
-				robot.pos++; //If we didn't see the skystone, move to next position
-
-				//Strafe Right to next block
-				robot.motorFrontLeft.setPower(.6); //Set the motors to strafe right
-				robot.motorFrontRight.setPower(-.6); //Set the motors to strafe right
-				robot.motorBackLeft.setPower(-.6); //Set the motors to strafe right
-				robot.motorBackRight.setPower(.6); //Set the motors to strafe right
-				sleep(600); //Wait for 600 milliseconds
-				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
-				robot.motorFrontRight.setPower(0); //Stop all power to the motors
-				robot.motorBackLeft.setPower(0); //Stop all power to the motors
-				robot.motorBackRight.setPower(0); //Stop all power to the motors
-
-				//Set skystone as true, which also moves us on to the next step
-				robot.Skystone = true; //If position 1 and 2 are not skystone, then it must be position 3
-
-			}
-
-			if (step > 1 && step < 4 && robot.Skystone) { //If skystone is true
-				step = 4; //If the skystone is found, move on to grabbing
-			}
-
-			if (step == 4) { //Grabbing the first skystone
-				stepTelemetry(); //Display Telemetry
-
-				//Move forward to grab skystone
-				encoderDrive(.2, 18, 10); //Moves forward 18 inches to the block
-
-				//Grab skystone
-				robot.grabStone.setPosition(0.0); //Grab the Skystone
-				sleep(300); //Wait 300 milliseconds
-
-				//Move the lift up
-				encoderLift(1, 1.25); //Lift up the lift 1.25"
-				sleep(300); //Wait 300 milliseconds
-
-				step++; //Move to the next step
-			}
-
-			if (step == 5) { //Move backwards with the skystone
-				stepTelemetry(); //Display Telemetry
-
-				//Move backwards
-				encoderDrive(.6, -18, 10); //Move backwards 18 inches
-
-				step++; //Move to the next step
-			}
-
-			if (step == 6) { //Turn 90 degrees clockwise
-				stepTelemetry(); //Display Telemetry
-
-				//Turn Clockwise
-				encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
-
-				step++; //Move to the next step
-			}
-
-			if (step == 7) { //Run across the line
-				stepTelemetry(); //Display Telemetry
-
-				//Set distances needed to be moved by each position
-				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(1, 35, 10); //Run forward 35 inches at speed of 1
-					step++; //Move to the next step
-				}
-
-				if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(1, 39, 10); //Run forward 39 inches at speed of 1
-					step++; //Move to the next step
-				}
-
-				if (robot.pos == 3) { //If the skystone was in position 3
-					encoderDrive(1, 51, 10); //Run forward 51 inches at speed of 1
-					step++; //Move to the next step
-				}
-			}
-
-			if (step == 8) { //Drop off the first skystone
-				stepTelemetry(); //Display telemetry
-
-				//Place the skystone
-				robot.grabStone.setPosition(0.6); //Release the skystone
-
-				step++; //Move to next step
-			}
-
-			if (step == 9) { //Run back to the second skystone
-				stepTelemetry(); //Display telemetry
-				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(.6,-62,10); //Move backwards 62 inches to second skystone
-					step++;
-				}
-				if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(.6,-64,10); //Move backwards 58 inches to second skystone
-					step++;
-				}
-				if (robot.pos == 3) { //If the skystone was in position 3
-					//encoderDrive(.6,-75,10); //Use in case we want second skystone on pos 3
-					step++; //Move to next step
-				}
-			}
-
-			if (step == 10 && (robot.pos == 1 || robot.pos == 2)) { //Turn toward the second skystone
-				stepTelemetry(); //Display telemetry
-
-				//Drive the lift up
-				encoderLift(1, -1); //Drop the lift 1"
-
-				//Turn 90 degrees counterclockwise
-				encoderTurn(.25, -90, 10); //Turn CW 90 Degrees
-				gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
-				gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
-
-				step++; //Move to next step
-			}
-
-			if (step == 10 && robot.pos == 3) { //Move backwards to park
-				stepTelemetry(); //Display telemetry
-
-				//Move backwards
-				encoderDrive(1, -16, 10); //Move Backwards 16 inches
-
-				//Strafe Right to get out of the way
 				robot.motorFrontLeft.setPower(.4); //Set power to strafe right
 				robot.motorFrontRight.setPower(-.4); //Set power to strafe right
 				robot.motorBackLeft.setPower(-.4); //Set power to strafe right
@@ -1080,18 +1189,18 @@ public class Galileo_Master extends LinearOpMode {
 
 			if (step == 13) { //Turn 90 degrees
 				stepTelemetry(); //Display telemetry
-				encoderTurn(.25, 90, 10); //Turn CCW 90 Degrees
+				encoderTurn(.25, 100, 10); //Turn CCW 100 Degrees
 				step++; //Move to next step
 			}
 
 			if (step == 14) { //Start moving back across the line
 				if (robot.pos == 1) { //If the skystone was in position 1
-					encoderDrive(1, 62, 10); //Move forward across the line
+					encoderDrive(1, 65, 10); //Move forward across the line
 					step++; // Move to next step
 				}
 
 				else if (robot.pos == 2) { //If the skystone was in position 2
-					encoderDrive(1, 65, 10); //Move forward across the line
+					encoderDrive(1, 70, 10); //Move forward across the line
 					step++; //Move to next step
 				}
 			}
@@ -1114,9 +1223,9 @@ public class Galileo_Master extends LinearOpMode {
 				step++; //Move to next step
 			}
 
-			if (step == 17) { //Strafe left
+			if (step == 17) { //Strafe right
 
-				//Strafe Right to get out of the way
+				//Strafe Left to get out of the way
 				robot.motorFrontLeft.setPower(.4); //Set power to strafe right
 				robot.motorFrontRight.setPower(-.4); //Set power to strafe right
 				robot.motorBackLeft.setPower(-.4); //Set power to strafe right
@@ -1487,5 +1596,45 @@ public class Galileo_Master extends LinearOpMode {
 
 	String formatDegrees(double degrees) {
 		return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+	}
+
+	protected void setDisplayKind(SampleRevBlinkinLedDriver.DisplayKind displayKind){
+		this.displayKind = displayKind;
+		display.setValue(displayKind.toString());
+	}
+
+	protected void doAutoDisplay(){
+		if (ledCycleDeadline.hasExpired()) {
+			pattern = pattern.next();
+			displayPattern();
+			ledCycleDeadline.reset();
+		}
+	}
+
+	protected void displayPattern(){
+		blinkinLedDriver.setPattern(pattern);
+		patternName.setValue(pattern.toString());
+	}
+
+	public void encoderSlide (double slideSpeed, double Inches){
+		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+
+		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+			newLiftTarget = (robot.slide.getCurrentPosition() + (int) (Inches * robot.COUNTS_PER_SLIDE_INCH));
+
+			robot.slide.setTargetPosition(newLiftTarget);
+
+			robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+			robot.slide.setPower(slideSpeed);
+
+			while (opModeIsActive() && robot.slide.isBusy()) {
+				telemetry.addData("lift position", robot.slide.getCurrentPosition());
+				telemetry.update();
+			}
+
+			robot.slide.setPower(0);
+			robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+		}
 	}
 }
