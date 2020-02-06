@@ -42,7 +42,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 			encoderSlide(1, 4); // Move the slide forward 4 inches
 			encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
 
-			encoderDrive(.4, 46, 10); //Move forward 46 inches just before the foundation
+			encoderDrive(.4, 46, 10, false); //Move forward 46 inches just before the foundation
 
 			step++;
 		}
@@ -68,7 +68,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 4) {                                    //Start moving against the foundation
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.3,12, 10);  //Move forward 12 inches
+			encoderDrive(.3,12, 10, true);  //Move forward 12 inches
 			sleep(1000);                         //Wait 1 second
 
 			step++;
@@ -96,7 +96,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 7) {                                    //Move the foundation forward 25 inches
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.5, 14, 10); //Move forward 14 inches to place foundation into zone
+			encoderDrive(.5, 14, 10, false); //Move forward 14 inches to place foundation into zone
 
 			step++;
 		}
@@ -113,7 +113,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 9) {                                   //Move backwards
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.5,-22,10);  //Move backwards 18 inches
+			encoderDrive(.5,-22,10, false);  //Move backwards 18 inches
 
 			step++;
 		}
@@ -145,7 +145,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 12) {                                   //Park on line
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.6, -20, 10); //Move backwards 20 inches
+			encoderDrive(.6, -20, 10, false); //Move backwards 20 inches
 
 			step++;
 		}
@@ -168,7 +168,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 	}
 
 	//Encoder Voids
-	public void encoderDrive(double speed, double Inches, double timeoutS) {
+	public void encoderDrive(double speed, double Inches, double timeoutS, boolean needFoundation) {
 
 		//Create our target variables
 		int newFrontLeftTarget;
@@ -213,6 +213,12 @@ public class Auto_Red_Foundation extends LinearOpMode {
 			while (opModeIsActive() &&
 					(runtime.seconds() < timeoutS) &&
 					(robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy() && robot.motorBackLeft.isBusy() && robot.motorBackRight.isBusy())) {
+
+				if (needFoundation) {
+					sleep(1500);                         //Wait 1.5 seconds
+					robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
+					robot.foundationMoverR.setPosition(1);          //Set Foundation movers to clamp down on the foundation
+				}
 
 				// Display it for the driver.
 				telemetry.addData("Motor Paths", "Running at %7d : %7d : %7d : %7d", //Tells us where we are
