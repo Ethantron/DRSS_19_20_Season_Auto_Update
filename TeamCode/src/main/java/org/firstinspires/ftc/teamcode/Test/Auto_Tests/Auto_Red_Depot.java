@@ -150,7 +150,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 				stepTelemetry(); //Display Telemetry
 
 				//Move backwards
-				encoderDrive(.6, -7, 10); //Move backwards 7 inches
+				encoderDrive(.6, -5, 10); //Move backwards 5 inches
 
 				step++; //Move to the next step
 			}
