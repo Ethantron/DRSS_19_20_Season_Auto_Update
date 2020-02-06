@@ -150,7 +150,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 				stepTelemetry(); //Display Telemetry
 
 				//Move backwards
-				encoderDrive(.6, -15, 10); //Move backwards 15 inches
+				encoderDrive(.6, -7, 10); //Move backwards 7 inches
 
 				step++; //Move to the next step
 			}
@@ -252,7 +252,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Drive forward
-				encoderDrive(.2, 22, 10); //Moves forward 22 inches to the block
+				encoderDrive(.2, 16, 10); //Moves forward 16 inches to the block
 
 				//Grab the skystone
 				robot.grabStone.setPosition(0.0); //Grab the Skystone
