@@ -1,0 +1,10 @@
+Put this into the begenning of galileo.
+It should, *should*, ovveride the colors at the last thirty seconds of the game.
+
+    if (!endgame){
+        ResetTime.reset();
+        while (ResetTime.seconds() < 90){
+            endgame = false;
+        }
+        endgame = true;
+    }

@@ -314,7 +314,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				if (currentHeight < 1) {                           // Do the following if the current height is 0
 					needFoundation = true;                          // Sets "needFoundation" to true
 
-					
 						pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
 						displayPattern();                                //When Lift Goes Up, colour becomes violet
 
@@ -421,7 +420,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			if ((gamepad2.a) && !gamepad2.b) {              // Do the following if the "a" button is pressed
 				grabStone.setPosition(.5); // Open the grabber
 				pattern = RevBlinkinLedDriver.BlinkinPattern.CP1_HEARTBEAT_MEDIUM;
-					displayPattern();
+				displayPattern();
 
 			}
 

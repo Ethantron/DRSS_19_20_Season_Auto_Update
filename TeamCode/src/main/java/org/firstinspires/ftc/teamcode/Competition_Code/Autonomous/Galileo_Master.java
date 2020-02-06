@@ -341,12 +341,7 @@ public class Galileo_Master extends LinearOpMode {
 		waitForStart();
 
 
-		if (largeStep == 1){
-			encoderDrive(.5,-24,10);
-			largeStep++;
-		}
-
-		if (largeStep == 2) {
+		if (largeStep == 1) {
 
 			if (side.getState() && color.getState()){
 				pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
@@ -1452,7 +1447,6 @@ public class Galileo_Master extends LinearOpMode {
 		}
 	}
 
-
 	//Gyro Turning and initialization
 	public void gyroTurn(double speed, double angle) {
 
@@ -1565,7 +1559,6 @@ public class Galileo_Master extends LinearOpMode {
 	public double getSteer(double error, double PCoeff) {
 		return Range.clip(error * PCoeff, -1, 1);
 	}
-
 
 	void composeTelemetry() {
 
