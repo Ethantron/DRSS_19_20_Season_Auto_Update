@@ -216,7 +216,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 				encoderLift(1, -1.15); //Drop the lift 1.15"
 
 				//Turn 90 degrees counterclockwise
-				encoderTurn(.25, 100, 10); //Turn CCW 100 Degrees
+				encoderTurn(.25, 95, 10); //Turn CCW 95 Degrees
 				// gyroTurn(0.1, 0); //Use gyro to make sure we are at the right angle
 				// gyroHold(0.1, 0, 0.5); //Hold the angle for .5 seconds
 
@@ -269,7 +269,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Move backward
-				encoderDrive(.6, -22, 10); //Move backwards 22 inches
+				encoderDrive(.6, -16, 10); //Move backwards 16 inches
 
 				step++; //Move to next step
 			}
