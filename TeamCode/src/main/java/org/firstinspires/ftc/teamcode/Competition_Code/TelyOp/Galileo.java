@@ -618,7 +618,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			startDistance = (int) (slideStartCount - slide.getCurrentPosition()); // Finds the distance needed to go from the current slide position to the starting positon
 
-			newLiftTarget = (lift.getCurrentPosition() + (int) (4.35 * COUNTS_PER_LIFT_INCH)); // Sets the target for the lift
+			newLiftTarget = (lift.getCurrentPosition() + (int) (4.15 * COUNTS_PER_LIFT_INCH)); // Sets the target for the lift
 			newSlideTarget = (slide.getCurrentPosition() + (int) (startDistance + (-4.5 * COUNTS_PER_SLIDE_INCH))); // Sets the target for the slide
 
 			lift.setTargetPosition(newLiftTarget); // Gives the lift motor its target position
@@ -665,6 +665,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder for slide
 
 			cap.setPosition(.5); // Move capstone into place
+			sleep(250);
 			grabStone.setPosition(0); // Close the grabber
 
 			/** Deploying the Capstone **/
