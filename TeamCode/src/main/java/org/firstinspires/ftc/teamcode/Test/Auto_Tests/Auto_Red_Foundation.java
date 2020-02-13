@@ -68,7 +68,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 4) {                                    //Start moving against the foundation
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.3,12, 10, true);  //Move forward 12 inches
+			encoderDrive(.3,12, 4, true);  //Move forward 12 inches
 			sleep(1000);                         //Wait 1 second
 
 			step++;
