@@ -133,7 +133,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 			robot.motorFrontLeft.setPower(.7);
 			robot.motorBackLeft.setPower(-.7);
 			robot.motorBackRight.setPower(.7);
-			sleep(1350);
+			sleep(1450);
 			robot.motorFrontRight.setPower(0);
 			robot.motorFrontLeft.setPower(0);
 			robot.motorBackLeft.setPower(0);

@@ -667,6 +667,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			cap.setPosition(.5); // Move capstone into place
 			sleep(250);
 			grabStone.setPosition(0); // Close the grabber
+			sleep(250);
 
 			/** Deploying the Capstone **/
 

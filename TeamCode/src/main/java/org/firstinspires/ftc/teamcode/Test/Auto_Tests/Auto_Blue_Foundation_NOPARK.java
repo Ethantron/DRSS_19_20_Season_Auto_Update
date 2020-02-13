@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 import java.util.Locale;
 
-@Autonomous(name = "Auto_Blue_Foundation_NOPARK", group = "Autonomous")
-public class Auto_Blue_Foundation_NOPARK extends LinearOpMode{
+@Autonomous (name = "Auto_Blue_Foundation_No_Park", group = "Autonomous")
+public class Auto_Blue_Foundation_NOPARK extends LinearOpMode {
 
 	AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
 
@@ -42,7 +42,7 @@ public class Auto_Blue_Foundation_NOPARK extends LinearOpMode{
 			encoderSlide(1, 4); // Move the slide forward 4 inches
 			encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
 
-			encoderDrive(.4, 46, 10); //Move forward 46 inches just before the foundation
+			encoderDrive(.4, 46, 10, false); //Move forward 46 inches just before the foundation
 
 			step++;
 		}
@@ -68,7 +68,7 @@ public class Auto_Blue_Foundation_NOPARK extends LinearOpMode{
 		if (step == 4) {                                    //Start moving against the foundation
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.3,12, 10);  //Move forward 12 inches
+			encoderDrive(.3,12, 10, true);  //Move forward 12 inches
 			sleep(1000);                         //Wait 1 second
 
 			step++;
@@ -77,10 +77,8 @@ public class Auto_Blue_Foundation_NOPARK extends LinearOpMode{
 		if (step == 5) {                                    //Clamp down on the foundation
 			stepTelemetry();                                //Display Telemetry
 
-			robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
-			robot.foundationMoverR.setPosition(1);          //Set Foundation movers to clamp down on the foundation
-
-			sleep(1000);                        //Wait 1 second
+			//robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
+			//robot.foundationMoverR.setPosition(1);          //Set Foundation movers to clamp down on the foundation
 
 			step++;
 		}
@@ -96,7 +94,7 @@ public class Auto_Blue_Foundation_NOPARK extends LinearOpMode{
 		if (step == 7) {                                    //Move the foundation forward 25 inches
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.5, 14, 10); //Move forward 14 inches to place foundation into zone
+			encoderDrive(.5, 14, 10, false); //Move forward 14 inches to place foundation into zone
 
 			step++;
 		}
@@ -113,46 +111,12 @@ public class Auto_Blue_Foundation_NOPARK extends LinearOpMode{
 		if (step == 9) {                                   //Move backwards
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.5,-22,10);  //Move backwards 18 inches
+			encoderDrive(.5,-22,10, false);  //Move backwards 18 inches
 
 			step++;
 		}
 
-		if (step == 10) {                                   //Turn to 90 degrees from starting position
-			stepTelemetry();                                //Display Telemetry
-
-			encoderTurn(.35, -75, 10);
-
-			step++;
-		}
-
-		if (step == 11) { //Strafe right
-			stepTelemetry();
-
-			robot.motorFrontRight.setPower(.7);
-			robot.motorFrontLeft.setPower(-.7);
-			robot.motorBackLeft.setPower(.7);
-			robot.motorBackRight.setPower(-.7);
-			sleep(1500);
-			robot.motorFrontRight.setPower(0);
-			robot.motorFrontLeft.setPower(0);
-			robot.motorBackLeft.setPower(0);
-			robot.motorBackRight.setPower(0);
-
-			step++;
-		}
-/*
-		if (step == 12) {                                   //Park on line
-			stepTelemetry();                                //Display Telemetry
-
-			encoderLift(1, -2.5);           //Move the lift 2.5 inches
-
-			encoderDrive(1, -28, 10); //Move backwards 28 inches
-
-			step++;
-		}
-
-		if (step == 13) {                                   //Make sure motors are stopped, and end autonomous
+		if (step == 10) {                                   //Make sure motors are stopped, and end autonomous
 			stepTelemetry();                                //Display Telemetry
 
 			robot.motorFrontRight.setPower(0);              //Set motor power to stop
@@ -160,8 +124,7 @@ public class Auto_Blue_Foundation_NOPARK extends LinearOpMode{
 			robot.motorBackLeft.setPower(0);                //Set motor power to stop
 			robot.motorBackRight.setPower(0);               //Set motor power to stop
 			/** End of autonomous **/
-		//}
-
+		}
 	}
 	//Telemetry
 	private void stepTelemetry() {
@@ -171,7 +134,7 @@ public class Auto_Blue_Foundation_NOPARK extends LinearOpMode{
 	}
 
 	//Encoder Voids
-	public void encoderDrive(double speed, double Inches, double timeoutS) {
+	public void encoderDrive(double speed, double Inches, double timeoutS, boolean needFoundation) {
 
 		//Create our target variables
 		int newFrontLeftTarget;
@@ -217,6 +180,11 @@ public class Auto_Blue_Foundation_NOPARK extends LinearOpMode{
 					(runtime.seconds() < timeoutS) &&
 					(robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy() && robot.motorBackLeft.isBusy() && robot.motorBackRight.isBusy())) {
 
+				if (needFoundation) {
+					sleep(1500);                         //Wait 1.5 seconds
+					robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
+					robot.foundationMoverR.setPosition(1);          //Set Foundation movers to clamp down on the foundation
+				}
 				// Display it for the driver.
 				telemetry.addData("Motor Paths", "Running at %7d : %7d : %7d : %7d", //Tells us where we are
 						robot.motorFrontLeft.getCurrentPosition(), //Front Left Position
