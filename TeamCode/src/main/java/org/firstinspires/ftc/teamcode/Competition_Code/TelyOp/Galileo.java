@@ -641,7 +641,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				}
 			}
 
-			lift.setPower(0.02); // Stop lift once it reaches target position
+			lift.setPower(0.1); // Stop lift once it reaches target position
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
 
 			grabStone.setPosition(.3); // Open the Hand a little
