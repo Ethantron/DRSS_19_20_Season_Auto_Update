@@ -36,7 +36,13 @@ public class Go_a_foot_and_stop_program extends LinearOpMode{
 		telemetry.update();                                                   // Tells the telemetry to display on the phone
 		waitForStart();
 
-		if (step == 1){
+		if (step == 1) {
+			//Move the slide forward, and drop lift
+			encoderSlide(1, 4); // Move the slide forward 4 inches
+			encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
+		}
+
+		if (step == 2){
 			stepTelemetry();
 			encoderDrive(.5,12,10);
 			telemetry.addData("Done","!");
@@ -142,6 +148,28 @@ public class Go_a_foot_and_stop_program extends LinearOpMode{
 
 			robot.lift.setPower(0);
 			robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+		}
+	}
+
+	public void encoderSlide (double slideSpeed, double Inches){
+		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+
+		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+			newLiftTarget = (robot.slide.getCurrentPosition() + (int) (Inches * robot.COUNTS_PER_SLIDE_INCH));
+
+			robot.slide.setTargetPosition(newLiftTarget);
+
+			robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+			robot.slide.setPower(slideSpeed);
+
+			while (opModeIsActive() && robot.slide.isBusy()) {
+				telemetry.addData("lift position", robot.slide.getCurrentPosition());
+				telemetry.update();
+			}
+
+			robot.slide.setPower(0);
+			robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		}
 	}
 
