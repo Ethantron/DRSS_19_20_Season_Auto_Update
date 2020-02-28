@@ -79,7 +79,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	double currentHeight = 0;                       // Sets the double "currentHeight" to zero      | Counts what level the lift is on
 	boolean needFoundation = false;                 // Sets the boolean "needFoundation" to false   | Defines whether the lift needs to account for the foundations
 	static final double COUNTS_PER_LEVEL = 300;     // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
-	static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
+	static final double COUNTS_PER_LIFT_INCH = 23;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
 	//Slide Positioning Definitions
 	static final double COUNTS_PER_SLIDE_INCH = 49.23;

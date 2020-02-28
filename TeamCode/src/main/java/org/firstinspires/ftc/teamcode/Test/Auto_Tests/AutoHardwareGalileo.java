@@ -21,6 +21,9 @@ public class AutoHardwareGalileo {
 	public DcMotor motorBackRight;
 	public DcMotor motorBackLeft;
 
+	//Headlight definitions
+	public DcMotor headlight;
+
 	//Lift Definitions
 	public DcMotor lift;
 	public DcMotor slide;
@@ -57,7 +60,7 @@ public class AutoHardwareGalileo {
 	public static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
 	//Lift Encoder Definitions
-	static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
+	static final double COUNTS_PER_LIFT_INCH = 23;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
 	//Slide Encoder Definitions
 	static final double COUNTS_PER_SLIDE_INCH = 49.23;
@@ -103,6 +106,11 @@ public class AutoHardwareGalileo {
 		motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 		motorBackRight = hwMap.dcMotor.get("BR");
 		motorBackRight.setDirection(DcMotor.Direction.FORWARD);
+
+		//Headlight Initialization
+		headlight = hwMap.dcMotor.get("headlight");
+		headlight.setDirection(DcMotor.Direction.FORWARD);
+		headlight.setPower(1);
 
 		//Encoder Initialization
 

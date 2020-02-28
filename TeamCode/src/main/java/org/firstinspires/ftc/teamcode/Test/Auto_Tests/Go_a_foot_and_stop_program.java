@@ -40,6 +40,8 @@ public class Go_a_foot_and_stop_program extends LinearOpMode{
 			//Move the slide forward, and drop lift
 			encoderSlide(1, 4); // Move the slide forward 4 inches
 			encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
+
+			step++;
 		}
 
 		if (step == 2){
