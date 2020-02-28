@@ -79,7 +79,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	double currentHeight = 0;                       // Sets the double "currentHeight" to zero      | Counts what level the lift is on
 	boolean needFoundation = false;                 // Sets the boolean "needFoundation" to false   | Defines whether the lift needs to account for the foundations
 	static final double COUNTS_PER_LEVEL = 300;     // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
-	static final double COUNTS_PER_LIFT_INCH = 29.5;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
+	static final double COUNTS_PER_LIFT_INCH = 31;  // Sets the double "COUNTS_LIFT_INCH" to 29.5    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
 	//Slide Positioning Definitions
 	static final double COUNTS_PER_SLIDE_INCH = 49.23;
@@ -350,7 +350,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			}
 
 			else if (gamepad2.right_trigger < 0.3 && gamepad2.left_trigger < 0.3){ // Do the following if neither trigger is held down
-				lift.setPower(.001);                                               // Tells the lift to hold in place by setting the motor power to .001
+				lift.setPower(.05);                                               // Tells the lift to hold in place by setting the motor power to .001
 			}
 			/** End of manual lift controls **/
 
@@ -644,7 +644,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			lift.setPower(0); // Stop lift once it reaches target position
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
 
-			grabStone.setPosition(.3); // Open the Hand a little
+			grabStone.setPosition(.5); // Open the Hand a little
 			wrist.setPosition(0); // Set the wrist so we are facing the capstone
 
 			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Start running the slide to target positon

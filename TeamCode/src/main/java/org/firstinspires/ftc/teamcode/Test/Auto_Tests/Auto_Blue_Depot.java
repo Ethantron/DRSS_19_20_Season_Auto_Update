@@ -58,7 +58,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 
 				//Move the slide forward, and drop lift
 				encoderSlide(1, 4);  // Move the slide forward 4 inches
-				encoderLift(1, -1.4); // Drop the lift downward 1.4 inches
+				encoderLift(1, -1.7); // Drop the lift downward 1.4 inches
 
 				//Open the grabber
 				robot.grabStone.setPosition(.6); //Set the grabber to open position
