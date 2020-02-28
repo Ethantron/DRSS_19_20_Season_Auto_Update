@@ -40,7 +40,7 @@ public class Auto_Blue_Foundation_NOPARK extends LinearOpMode {
 
 			//Move the slide forward, and drop lift
 			encoderSlide(1, 4); // Move the slide forward 4 inches
-			encoderLift(1, -1.7); // Drop the lift downward 1.375 inches
+			encoderLift(1, -1.4); // Drop the lift downward 1.375 inches
 
 			encoderDrive(.4, 46, 10, false); //Move forward 46 inches just before the foundation
 
