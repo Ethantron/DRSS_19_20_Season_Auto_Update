@@ -77,8 +77,9 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	double liftPower = 1;                           // Sets the double "liftPower" to one           | Defines how fast the lift moves
 	double height = 0;                              // Sets the double "height" to zero             | Defines the level the lift should move to
 	double currentHeight = 0;                       // Sets the double "currentHeight" to zero      | Counts what level the lift is on
-	boolean needFoundation = false;                 // Sets the boolean "needFoundation" to false   | Defines whether the lift needs to account for the foundations
-	static final double COUNTS_PER_LEVEL = 300;     // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
+	double step = 1;
+	boolean needFoundation = true;                 // Sets the boolean "needFoundation" to false   | Defines whether the lift needs to account for the foundations
+	static final double COUNTS_PER_LEVEL = 141;     // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
 	static final double COUNTS_PER_LIFT_INCH = 31;  // Sets the double "COUNTS_LIFT_INCH" to 29.5    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
 	//Slide Positioning Definitions
@@ -298,34 +299,19 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				displayPattern();								//When Lift Goes Up, colour becomes violet
 				height--;                                      // Sets "height" to -currentHeight
 				sleep(150);                        // Tells the code to wait 150 milliseconds
-				currentHeight--;                               // sets "currentHeight" to height
 			}
 			// End of Moving the Lift Upward
 
-			// Zeroing the Lift
-			if (!gamepad2.left_bumper && !gamepad2.right_bumper && gamepad2.left_trigger < .3 && gamepad2.right_trigger < .3) {  // Do the following if neither bumper is pressed
-				lift.setPower(.001);                                // Tells the lift to hold in place by setting the motor power to .001
-
-			}
-			// End of Zeroing the lift
-
 			// Moving the Lift Upward
 			if (gamepad2.right_bumper && (currentHeight < 7)) {     // Do the following if the right bumper has been pressed and the current height is greater than 7
-				if (currentHeight < 1) {                           // Do the following if the current height is 0
-					needFoundation = true;                          // Sets "needFoundation" to true
-
-						pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
-						displayPattern();                                //When Lift Goes Up, colour becomes violet
-
-				}
 				height++;                                           // Adds 1 to "height"
-				currentHeight++;                                    // Adds 1 to "currentHeight"
 				sleep(200);                             // Tells the code to wait 200 milliseconds
 			}
 
 			//Start lift
 			if (gamepad2.x) {                     // Do the following if the "x" button is pressed
-				encoderLift(1, height);  // Tells the lift to move up to set height
+				step = 1;
+				encoderLift(1, height-1);  // Tells the lift to move up to set height
 			}
 
 			//Foundation Override
@@ -347,6 +333,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			else if (gamepad2.left_trigger > 0.3) {     // Do the following if the left trigger is held down
 				lift.setPower(-gamepad2.left_trigger);  // Sets the lift motor speed to -1
+				needFoundation = true;
 			}
 
 			else if (gamepad2.right_trigger < 0.3 && gamepad2.left_trigger < 0.3){ // Do the following if neither trigger is held down
@@ -470,25 +457,36 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	}
 
 	public void encoderLift(double liftSpeed, double levels) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
-		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+		int newLiftTarget = 0;                                      // Creates the integer "newLiftTarget"
 
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
 
-			/** Stopping the motors **/
-			motorFrontRight.setPower(0); // Stop power to the motors
-			motorFrontLeft.setPower(0); // Stop power to the motors
-			motorBackRight.setPower(0); // Stop power to the motors
-			motorBackLeft.setPower(0); // Stop power to the motors
+			if (step == 1){
+				/** Stopping the motors **/
+				motorFrontRight.setPower(0); // Stop power to the motors
+				motorFrontLeft.setPower(0); // Stop power to the motors
+				motorBackRight.setPower(0); // Stop power to the motors
+				motorBackLeft.setPower(0); // Stop power to the motors
 
-			newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL));
+				if (!needFoundation){
+					newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL));
 
-			lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+					lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-			if (needFoundation) {
-				newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 150;
-				needFoundation = false;
+					step++;
+				}
+
+
+				if (needFoundation){
+					newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 61;
+
+					lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+					step++;
+				}
 			}
 
+			if (step == 2) {
 			lift.setTargetPosition(newLiftTarget);
 			lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 			lift.setPower(liftSpeed);
@@ -507,7 +505,9 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			lift.setPower(0);
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+			needFoundation = false;
 			height = 0;
+		}
 		}
 	}
 
