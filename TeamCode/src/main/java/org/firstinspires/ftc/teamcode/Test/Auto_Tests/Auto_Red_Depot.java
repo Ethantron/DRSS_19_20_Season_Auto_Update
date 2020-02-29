@@ -1,13 +1,16 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SampleRevBlinkinLedDriver;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -15,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.List;
 import java.util.Locale;
@@ -28,8 +32,38 @@ public class Auto_Red_Depot extends LinearOpMode {
 
 	double step = 1; //Sets the steps for the autonomous
 
+	private final static int LED_PERIOD = 10;
+	RevBlinkinLedDriver blinkinLedDriver;
+	RevBlinkinLedDriver.BlinkinPattern pattern;
+
+	Telemetry.Item patternName;
+	Telemetry.Item display;
+	Deadline ledCycleDeadline;
+	Deadline gamepadRateLimit;
+	SampleRevBlinkinLedDriver.DisplayKind displayKind;
+
 	@Override
 	public void runOpMode() {
+
+		//Colored Lights Initialization
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);
+
+		displayKind = SampleRevBlinkinLedDriver.DisplayKind.MANUAL;
+		display = telemetry.addData("Display Kind: ", displayKind.toString());
+		patternName = telemetry.addData("Pattern: ", pattern.toString());
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);            	//
+		/*End of Drive Train Initialization **/
+
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);
+
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;
+		displayPattern();
 
 		robot.init(hardwareMap); //Calls Upon Robot Initialization File
 
@@ -731,4 +765,26 @@ public class Auto_Red_Depot extends LinearOpMode {
 	String formatDegrees(double degrees){
 		return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
 	}
+
+	protected void setDisplayKind(SampleRevBlinkinLedDriver.DisplayKind displayKind)
+	{
+		this.displayKind = displayKind;
+		display.setValue(displayKind.toString());
+	}
+
+	protected void doAutoDisplay()
+	{
+		if (ledCycleDeadline.hasExpired()) {
+			pattern = pattern.next();
+			displayPattern();
+			ledCycleDeadline.reset();
+		}
+	}
+
+	protected void displayPattern()
+	{
+		blinkinLedDriver.setPattern(pattern);
+		patternName.setValue(pattern.toString());
+	}
+
 }

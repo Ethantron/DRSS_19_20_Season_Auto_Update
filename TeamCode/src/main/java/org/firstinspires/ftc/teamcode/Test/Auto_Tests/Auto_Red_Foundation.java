@@ -96,7 +96,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 7) {                                    //Move the foundation forward 25 inches
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.5, 14, 10, false); //Move forward 14 inches to place foundation into zone
+			encoderDrive(.5, 15, 10, false); //Move forward 14 inches to place foundation into zone
 
 			step++;
 		}
@@ -113,8 +113,8 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 9) {                                   //Move backwards
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.5,-22,10, false);  //Move backwards 18 inches
-
+			encoderDrive(.5,-23,10, false);  //Move backwards 18 inches
+//Goes back abit much, change if we have time
 			step++;
 		}
 
