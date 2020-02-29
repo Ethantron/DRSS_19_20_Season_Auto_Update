@@ -2,16 +2,19 @@ package org.firstinspires.ftc.teamcode.Competition_Code.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SampleRevBlinkinLedDriver;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 public class Galileo_Hardware {
 	//Drive train definitions
@@ -26,6 +29,15 @@ public class Galileo_Hardware {
 
 	public Servo grabStone;
 	public Servo wrist;
+
+	//Light Definitions
+	private final static int LED_PERIOD = 10;
+	RevBlinkinLedDriver blinkinLedDriver;
+	RevBlinkinLedDriver.BlinkinPattern pattern;
+
+	Deadline ledCycleDeadline;
+	Deadline gamepadRateLimit;
+	SampleRevBlinkinLedDriver.DisplayKind displayKind;
 
 	//Foundation Mover Definitions
 	public Servo foundationMoverL;      // Defines the left foundation servo
@@ -121,7 +133,6 @@ public class Galileo_Hardware {
 		//Lift Initialization
 		lift = hwMap.dcMotor.get("LT");
 		lift.setDirection(DcMotor.Direction.FORWARD);
-
 		//Hand Initialization
 		grabStone = hwMap.servo.get("GS");
 		wrist = hwMap.servo.get("W");
