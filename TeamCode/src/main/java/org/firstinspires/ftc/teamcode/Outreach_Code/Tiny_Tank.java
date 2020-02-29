@@ -7,7 +7,7 @@ X Button, B Button, Y Button, Back Button, Start Button, Left Trigger, Right Bum
 
 package org.firstinspires.ftc.teamcode.Outreach_Code;
 
-		import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
