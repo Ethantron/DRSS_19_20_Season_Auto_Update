@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Outreach_Code;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "Trackporter_Code", group = "Outreach_Code")
@@ -48,5 +47,10 @@ public class Trackporter_Code extends OpMode {
         telemetry.addData("Left Motor: ", "Initialized");
         telemetry.addData("Left Motor: ", "Initialized");
         telemetry.addData("Left Motor: ", "Initialized");
+    }
+
+    @Override
+    public void loop(){
+
     }
 }

@@ -22,6 +22,7 @@ import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 @TeleOp (name = "Galileo", group= "TeleOp")     // Sets codes mode to TelyOp and sets the display name for the code
 public class Galileo extends LinearOpMode {     // Sets the codes name and sets it to Linear OpMode
 
+
 	/**Robot definitions **/
 
 	// Drivetrain definitions
