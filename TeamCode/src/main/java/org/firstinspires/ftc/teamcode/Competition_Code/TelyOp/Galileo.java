@@ -31,6 +31,9 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public DcMotor motorBackRight;      // Defines the back right motor
 	public DcMotor motorBackLeft;       // Defines the back left motor
 
+	//Headlight definitions
+	public DcMotor headlight;
+
 	private final static int LED_PERIOD = 10;
 	RevBlinkinLedDriver blinkinLedDriver;
 	RevBlinkinLedDriver.BlinkinPattern pattern;
@@ -75,10 +78,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 	//Lift positioning definitions
 	double liftPower = 1;                           // Sets the double "liftPower" to one           | Defines how fast the lift moves
-	double height = 0;                              // Sets the double "height" to zero             | Defines the level the lift should move to
-	double currentHeight = 0;                       // Sets the double "currentHeight" to zero      | Counts what level the lift is on
-	double step = 1;
-	boolean needFoundation = true;                 // Sets the boolean "needFoundation" to false   | Defines whether the lift needs to account for the foundations
+	double height = 1;                              // Sets the double "height" to zero             | Defines the level the lift should move to
 	static final double COUNTS_PER_LEVEL = 141;     // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
 	static final double COUNTS_PER_LIFT_INCH = 31;  // Sets the double "COUNTS_LIFT_INCH" to 29.5    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
@@ -118,7 +118,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		foundationMoverL = hardwareMap.servo.get("GL");     // Initializes the left foundation movers name for configuration
 		foundationMoverR.setPosition(0);                    // Sets the right foundation mover to point down
 		foundationMoverL.setPosition(0);                    // Sets the left foundation mover to point down
-		
+
+		//Headlight Initialization
+		headlight = hardwareMap.dcMotor.get("headlight");
+		headlight.setDirection(DcMotor.Direction.FORWARD);
+		headlight.setPower(0);
+
 		displayKind = SampleRevBlinkinLedDriver.DisplayKind.MANUAL;
 		display = telemetry.addData("Display Kind: ", displayKind.toString());
 		patternName = telemetry.addData("Pattern: ", pattern.toString());
@@ -289,33 +294,28 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			/** Automatic lift controls **/
 			// Moving The Lift Downward
-			if (gamepad2.left_bumper && (currentHeight > 0)) { // Do the following if the left bumper is pressed and the current height os greater than 0
-				pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
-				displayPattern();								//When Lift Goes Up, colour becomes violet
+			if (gamepad2.left_bumper && (height > 1)) { // Do the following if the left bumper is pressed and the current height os greater than 0
 				height--;                                      // Sets "height" to -currentHeight
 				sleep(150);                        // Tells the code to wait 150 milliseconds
 			}
 			// End of Moving the Lift Upward
 
 			// Moving the Lift Upward
-			if (gamepad2.right_bumper && (currentHeight < 7)) {     // Do the following if the right bumper has been pressed and the current height is greater than 7
+			if (gamepad2.right_bumper && (height < 7)) {     // Do the following if the right bumper has been pressed and the current height is greater than 7
 				height++;                                           // Adds 1 to "height"
 				sleep(200);                             // Tells the code to wait 200 milliseconds
 			}
 
 			//Start lift
 			if (gamepad2.x) {                     // Do the following if the "x" button is pressed
-				step = 1;
+				pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
+				displayPattern();								//When Lift Goes Up, colour becomes violet
+
 				encoderLift(1, height-1);  // Tells the lift to move up to set height
 			}
 
-			//Foundation Override
-			if (gamepad2.dpad_down) {           // Do the following if the "down" button is pressed
-				needFoundation = false;         // Overrides need foundation to false
-			}
-
 			//Block Transportation Lift setting
-			if (gamepad2.y && currentHeight == 0) {
+			if (gamepad2.y) {
 				encoderTransport(1, 1.25); //Lift up the lift 1.25" for transporting blocks
 			}
 
@@ -328,7 +328,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			else if (gamepad2.left_trigger > 0.3) {     // Do the following if the left trigger is held down
 				lift.setPower(-gamepad2.left_trigger);  // Sets the lift motor speed to -1
-				needFoundation = true;
 			}
 
 			else if (gamepad2.right_trigger < 0.3 && gamepad2.left_trigger < 0.3){ // Do the following if neither trigger is held down
@@ -369,8 +368,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			}
 
 			if (gamepad2.dpad_left) {
-				//wrist.setPosition(1);
-				liftEncoderReading = lift.getCurrentPosition();
+				wrist.setPosition(1);
 			}
 
 			if (gamepad2.dpad_right) {
@@ -417,10 +415,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			// Lift telemetry
 			telemetry.addData("Encoder Reading", lift.getCurrentPosition() - liftEncoderReading);
-			telemetry.addData("Need Foundation: ", needFoundation);
 
-			telemetry.addData("Desired Height:", height); // Adds telemetry to the screen to show the desired height of the lift
-			telemetry.addData("Current Height: ", currentHeight);   // Adds telemetry to the screen to show the current height of the lift
+			telemetry.addData("Height:", height); // Adds telemetry to the screen to show the desired height of the lift
 
 			//Wrist telemetry
 			telemetry.addData("Wrist", wrist.getPosition());        // Adds telemetry to the screen to show the current position of the wrist
@@ -452,41 +448,26 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	}
 
 	public void encoderLift(double liftSpeed, double levels) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
-		int newLiftTarget = 0;                                      // Creates the integer "newLiftTarget"
+		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
 
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
 
-			if (step == 1){
-				/** Stopping the motors **/
-				motorFrontRight.setPower(0); // Stop power to the motors
-				motorFrontLeft.setPower(0); // Stop power to the motors
-				motorBackRight.setPower(0); // Stop power to the motors
-				motorBackLeft.setPower(0); // Stop power to the motors
+			/** Stopping the motors **/
+			motorFrontRight.setPower(0); // Stop power to the motors
+			motorFrontLeft.setPower(0); // Stop power to the motors
+			motorBackRight.setPower(0); // Stop power to the motors
+			motorBackLeft.setPower(0); // Stop power to the motors
 
-				if (!needFoundation){
-					newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL));
+			newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 61;
 
-					lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+			lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-					step++;
-				}
-
-
-				if (needFoundation){
-					newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 61;
-
-					lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-					step++;
-				}
-			}
-
-			if (step == 2) {
 			lift.setTargetPosition(newLiftTarget);
 			lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 			lift.setPower(liftSpeed);
 
 			while (opModeIsActive() && lift.isBusy()) {
+				headlight.setPower(1);
 				telemetry.addData("lift position", lift.getCurrentPosition());
 				telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
 				telemetry.update();
@@ -498,11 +479,12 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				}
 			}
 
+			headlight.setPower(0);
+
 			lift.setPower(0);
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-			needFoundation = false;
-			height = 0;
-		}
+
+			height++;
 		}
 	}
 
@@ -734,6 +716,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder*/
 		}
 	}
+
 	protected void setDisplayKind(SampleRevBlinkinLedDriver.DisplayKind displayKind)
 	{
 		this.displayKind = displayKind;
