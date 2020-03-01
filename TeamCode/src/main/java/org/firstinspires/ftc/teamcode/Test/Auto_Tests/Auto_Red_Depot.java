@@ -62,8 +62,8 @@ public class Auto_Red_Depot extends LinearOpMode {
 		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
 		blinkinLedDriver.setPattern(pattern);
 
-		pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;
-		displayPattern();
+		//pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;
+		//displayPattern();
 
 		robot.init(hardwareMap); //Calls Upon Robot Initialization File
 

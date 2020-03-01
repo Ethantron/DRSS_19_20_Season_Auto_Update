@@ -118,12 +118,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		foundationMoverL = hardwareMap.servo.get("GL");     // Initializes the left foundation movers name for configuration
 		foundationMoverR.setPosition(0);                    // Sets the right foundation mover to point down
 		foundationMoverL.setPosition(0);                    // Sets the left foundation mover to point down
-
-		//Colored Lights Initialization
-		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
-		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
-		blinkinLedDriver.setPattern(pattern);
-
+		
 		displayKind = SampleRevBlinkinLedDriver.DisplayKind.MANUAL;
 		display = telemetry.addData("Display Kind: ", displayKind.toString());
 		patternName = telemetry.addData("Pattern: ", pattern.toString());

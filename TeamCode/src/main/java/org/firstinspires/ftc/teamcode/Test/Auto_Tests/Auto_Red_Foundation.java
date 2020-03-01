@@ -1,15 +1,19 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SampleRevBlinkinLedDriver;
 import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.Locale;
 
@@ -22,8 +26,38 @@ public class Auto_Red_Foundation extends LinearOpMode {
 
 	double step = 1; //Sets the steps for the autonomous
 
+	private final static int LED_PERIOD = 10;
+	RevBlinkinLedDriver blinkinLedDriver;
+	RevBlinkinLedDriver.BlinkinPattern pattern;
+
+	Telemetry.Item patternName;
+	Telemetry.Item display;
+	Deadline ledCycleDeadline;
+	Deadline gamepadRateLimit;
+	SampleRevBlinkinLedDriver.DisplayKind displayKind;
+
 	@Override
 	public void runOpMode(){
+		//Colored Lights Initialization
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);
+
+		displayKind = SampleRevBlinkinLedDriver.DisplayKind.MANUAL;
+		display = telemetry.addData("Display Kind: ", displayKind.toString());
+		patternName = telemetry.addData("Pattern: ", pattern.toString());
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);            	//
+		/*End of Drive Train Initialization **/
+
+		blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
+		blinkinLedDriver.setPattern(pattern);
+
+		pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;
+		displayPattern();
+
 		robot.init(hardwareMap); //Calls Upon Robot Initialization File
 
 		composeTelemetry(); //Gyro Telemetry Initialization
@@ -41,7 +75,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 			//Move the slide forward, and drop lift
 			encoderSlide(1, 4); // Move the slide forward 4 inches
 			encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
-
+			robot.grabStone.setPosition(.6); //Set the grabber to open position
 			encoderDrive(.4, 46, 10, false); //Move forward 46 inches just before the foundation
 
 			step++;
@@ -77,6 +111,8 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 5) {                                    //Clamp down on the foundation
 			stepTelemetry();                                //Display Telemetry
 
+			pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN; //Changes Lights to green
+			displayPattern();
 			robot.foundationMoverL.setPosition(1);          //Set Foundation movers to clamp down on the foundation
 			robot.foundationMoverR.setPosition(1);          //Set Foundation movers to clamp down on the foundation
 
@@ -93,17 +129,18 @@ public class Auto_Red_Foundation extends LinearOpMode {
 			step++;
 		}
 
-		if (step == 7) {                                    //Move the foundation forward 25 inches
+		if (step == 7) {                                    //Move the foundation forward 21 inches
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.5, 15, 10, false); //Move forward 14 inches to place foundation into zone
+			encoderDrive(.5, 15, 10, false); //Move forward 15 inches to place foundation into zone
 
 			step++;
 		}
 
 		if (step == 8) {                                    //Release the foundation
 			stepTelemetry();                                //Display Telemetry
-
+			pattern = RevBlinkinLedDriver.BlinkinPattern.BLACK;
+			displayPattern();
 			robot.foundationMoverL.setPosition(0);          //Set Foundation movers to release the foundation
 			robot.foundationMoverR.setPosition(0);          //Set Foundation movers to release the foundation
 
@@ -113,7 +150,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 9) {                                   //Move backwards
 			stepTelemetry();                                //Display Telemetry
 
-			encoderDrive(.5,-23,10, false);  //Move backwards 18 inches
+			encoderDrive(.5,-17,10, false);  //Move backwards 23 inches
 //Goes back abit much, change if we have time
 			step++;
 		}
@@ -129,6 +166,8 @@ public class Auto_Red_Foundation extends LinearOpMode {
 		if (step == 11) { //Strafe right
 			stepTelemetry();
 
+			pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+			displayPattern();
 			robot.motorFrontRight.setPower(-.7);
 			robot.motorFrontLeft.setPower(.7);
 			robot.motorBackLeft.setPower(-.7);
@@ -511,5 +550,26 @@ public class Auto_Red_Foundation extends LinearOpMode {
 
 	String formatDegrees(double degrees) {
 		return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+	}
+
+	protected void setDisplayKind(SampleRevBlinkinLedDriver.DisplayKind displayKind)
+	{
+		this.displayKind = displayKind;
+		display.setValue(displayKind.toString());
+	}
+
+	protected void doAutoDisplay()
+	{
+		if (ledCycleDeadline.hasExpired()) {
+			pattern = pattern.next();
+			displayPattern();
+			ledCycleDeadline.reset();
+		}
+	}
+
+	protected void displayPattern()
+	{
+		blinkinLedDriver.setPattern(pattern);
+		patternName.setValue(pattern.toString());
 	}
 }

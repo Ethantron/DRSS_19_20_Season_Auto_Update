@@ -107,11 +107,11 @@ public class AutoHardwareGalileo {
 		motorBackRight = hwMap.dcMotor.get("BR");
 		motorBackRight.setDirection(DcMotor.Direction.FORWARD);
 
-		//Headlight Initialization
+		/*//Headlight Initialization
 		headlight = hwMap.dcMotor.get("headlight");
 		headlight.setDirection(DcMotor.Direction.FORWARD);
 		headlight.setPower(1);
-
+*/
 		//Encoder Initialization
 
 		//Stop and Reset Encoders
