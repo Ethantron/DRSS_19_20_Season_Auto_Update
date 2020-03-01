@@ -332,6 +332,9 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			else if (gamepad2.right_trigger < 0.3 && gamepad2.left_trigger < 0.3){ // Do the following if neither trigger is held down
 				lift.setPower(.05);                                               // Tells the lift to hold in place by setting the motor power to .001
+
+				pattern = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;  //When nothing is going on with the lift, then show confetti
+				displayPattern();
 			}
 			/** End of manual lift controls **/
 
@@ -595,7 +598,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 			startDistance = (int) (slideStartCount - slide.getCurrentPosition()); // Finds the distance needed to go from the current slide position to the starting positon
 
-			newLiftTarget = (lift.getCurrentPosition() + (int) (4.15 * COUNTS_PER_LIFT_INCH)); // Sets the target for the lift
+			newLiftTarget = (lift.getCurrentPosition() + (int) (4.25 * COUNTS_PER_LIFT_INCH)); // Sets the target for the lift
 			newSlideTarget = (slide.getCurrentPosition() + (int) (startDistance + (-4.5 * COUNTS_PER_SLIDE_INCH))); // Sets the target for the slide
 
 			lift.setTargetPosition(newLiftTarget); // Gives the lift motor its target position
@@ -621,7 +624,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			lift.setPower(0); // Stop lift once it reaches target position
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
 
-			grabStone.setPosition(.5); // Open the Hand a little
+			grabStone.setPosition(.65); // Open the Hand a little
 			wrist.setPosition(0); // Set the wrist so we are facing the capstone
 
 			slide.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Start running the slide to target positon
@@ -720,7 +723,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	protected void setDisplayKind(SampleRevBlinkinLedDriver.DisplayKind displayKind)
 	{
 		this.displayKind = displayKind;
-		display.setValue(displayKind.toString());
+		//display.setValue(displayKind.toString());
 	}
 
 	protected void doAutoDisplay()
@@ -735,6 +738,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	protected void displayPattern()
 	{
 		blinkinLedDriver.setPattern(pattern);
-		patternName.setValue(pattern.toString());
+		//patternName.setValue(pattern.toString());
 	}
 }
