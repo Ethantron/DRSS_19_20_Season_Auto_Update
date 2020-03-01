@@ -80,7 +80,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	//Lift positioning definitions
 	double liftPower = 1;                           // Sets the double "liftPower" to one           | Defines how fast the lift moves
 	double height = 1;                              // Sets the double "height" to zero             | Defines the level the lift should move to
-	static final double COUNTS_PER_LEVEL = 141;     // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
+	static final double COUNTS_PER_LEVEL = 125;     // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55 counts per inch
 	static final double COUNTS_PER_LIFT_INCH = 31;  // Sets the double "COUNTS_LIFT_INCH" to 29.5    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
 	//Slide Positioning Definitions
@@ -125,8 +125,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 		headlight.setDirection(DcMotor.Direction.FORWARD);
 		headlight.setPower(0);
 
-		//displayKind = SampleRevBlinkinLedDriver.DisplayKind.MANUAL;
-		//display = telemetry.addData("Display Kind: ", displayKind.toString());
+		displayKind = SampleRevBlinkinLedDriver.DisplayKind.MANUAL;
+		display = telemetry.addData("Display Kind: ", displayKind.toString());
 		//patternName = telemetry.addData("Pattern: ", pattern.toString());
 		//blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 		//pattern = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE;
@@ -456,7 +456,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			motorBackRight.setPower(0); // Stop power to the motors
 			motorBackLeft.setPower(0); // Stop power to the motors
 
-			newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 61;
+			newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 85;
 
 			lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
