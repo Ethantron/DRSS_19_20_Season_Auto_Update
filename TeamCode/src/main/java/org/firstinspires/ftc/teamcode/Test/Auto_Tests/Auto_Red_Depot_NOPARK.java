@@ -188,7 +188,7 @@ public class Auto_Red_Depot_NOPARK extends LinearOpMode{
 				stepTelemetry(); //Display telemetry
 
 				//Place the skystone
-				robot.grabStone.setPosition(0.6); //Release the skystone
+				robot.grabStone.setPosition(1); //Release the skystone
 
 				step++; //Move to next step
 			}
@@ -296,7 +296,7 @@ public class Auto_Red_Depot_NOPARK extends LinearOpMode{
 				stepTelemetry(); //Display Telemetry
 
 				//Release the skystone
-				robot.grabStone.setPosition(0.6); //release the grabber
+				robot.grabStone.setPosition(1); //release the grabber
 
 				step++; //Move to next step
 			}

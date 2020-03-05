@@ -75,7 +75,7 @@ public class Auto_Red_Foundation extends LinearOpMode {
 			//Move the slide forward, and drop lift
 			encoderSlide(1, 4); // Move the slide forward 4 inches
 			encoderLift(1, -1.375); // Drop the lift downward 1.375 inches
-			robot.grabStone.setPosition(.6); //Set the grabber to open position
+			robot.grabStone.setPosition(1); //Set the grabber to open position
 			encoderDrive(.4, 46, 10, false); //Move forward 46 inches just before the foundation
 
 			step++;

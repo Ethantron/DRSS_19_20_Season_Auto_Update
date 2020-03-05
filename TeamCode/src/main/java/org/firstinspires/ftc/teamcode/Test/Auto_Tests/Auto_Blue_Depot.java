@@ -61,7 +61,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				encoderLift(1, -1.4); // Drop the lift downward 1.4 inches
 
 				//Open the grabber
-				robot.grabStone.setPosition(.6); //Set the grabber to open position
+				robot.grabStone.setPosition(1); //Set the grabber to open position
 
 				//Move Forward
 				encoderDrive(0.2, 12, 10);  // Forward 12 Inches with 10 Sec timeout
@@ -188,7 +188,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				stepTelemetry(); //Display telemetry
 
 				//Place the skystone
-				robot.grabStone.setPosition(0.6); //Release the skystone
+				robot.grabStone.setPosition(1); //Release the skystone
 
 				step++; //Move to next step
 			}
@@ -296,7 +296,7 @@ public class Auto_Blue_Depot extends LinearOpMode {
 				stepTelemetry(); //Display Telemetry
 
 				//Release the skystone
-				robot.grabStone.setPosition(0.6); //release the grabber
+				robot.grabStone.setPosition(1); //release the grabber
 
 				step++; //Move to next step
 			}
