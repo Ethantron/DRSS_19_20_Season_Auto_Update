@@ -453,7 +453,8 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 	public void encoderLift(double liftSpeed, double levels) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
 		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
 
-		while (opModeIsActive()) {
+		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+
 			/**Mechanum drive controls**/
 			// left stick controls direction
 			// right stick X controls rotation
@@ -496,15 +497,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			motorBackLeft.setPower(backLeft);       // Sets the back left motors speed to the previous double
 			//End of speed Controls
 			/** End of mechanum drive controls **/
-		}
-
-		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
-
-			/** Stopping the motors **/
-			motorFrontRight.setPower(0); // Stop power to the motors
-			motorFrontLeft.setPower(0); // Stop power to the motors
-			motorBackRight.setPower(0); // Stop power to the motors
-			motorBackLeft.setPower(0); // Stop power to the motors
 
 			newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 85;
 
