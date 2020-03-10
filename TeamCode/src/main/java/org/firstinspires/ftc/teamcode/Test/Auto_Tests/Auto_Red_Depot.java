@@ -92,7 +92,7 @@ public class Auto_Red_Depot extends LinearOpMode {
 
 				//Move the slide forward, and drop lift
 				encoderSlide(1, 4);  // Move the slide forward 4 inches
-				encoderLift(1, -1.4); // Drop the lift downward 1.4 inches
+				encoderLift(1, -2.4); // Drop the lift downward 1.4 inches
 
 				//Open the grabber
 				robot.grabStone.setPosition(1); //Set the grabber to open position
@@ -124,11 +124,14 @@ public class Auto_Red_Depot extends LinearOpMode {
 				robot.motorFrontRight.setPower(.6); //Set the motors to strafe left
 				robot.motorBackLeft.setPower(.6); //Set the motors to strafe left
 				robot.motorBackRight.setPower(-.6); //Set the motors to strafe left
-				sleep(500); //Wait 500 milliseconds
+				sleep(650); //Wait 600 milliseconds
 				robot.motorFrontLeft.setPower(0); //Stop all power to the motors
 				robot.motorFrontRight.setPower(0); //Stop all power to the motors
 				robot.motorBackLeft.setPower(0); //Stop all power to the motors
 				robot.motorBackRight.setPower(0); //Stop all power to the motors
+
+				gyroTurn(.1,0);
+				gyroHold(.1,0,0.1);
 
 				//Scan for second skystone
 				sleep(robot.scanTime); //Wait 2 seconds to give vuforia time to identify the skystone
@@ -153,6 +156,9 @@ public class Auto_Red_Depot extends LinearOpMode {
 				robot.motorFrontRight.setPower(0); //Stop all power to the motors
 				robot.motorBackLeft.setPower(0); //Stop all power to the motors
 				robot.motorBackRight.setPower(0); //Stop all power to the motors
+
+				gyroTurn(.1,0);
+				gyroHold(.1,0,0.1);
 
 				//Set skystone as true, which also moves us on to the next step
 				robot.Skystone = true; //If position 1 and 2 are not skystone, then it must be position 3

@@ -645,7 +645,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			slide.setPower(0); // Stop Slide
 			slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder for slide
 
-			cap.setPosition(.5); // Move capstone into place
+			cap.setPosition(0); // Move capstone into place
 			sleep(250);
 			grabStone.setPosition(0); // Close the grabber
 			sleep(250);
@@ -674,7 +674,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			}
 
 			lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Turn off encoder
-			lift.setPower(0); // Stop lift once it reaches target position
+			lift.setPower(0.05); // Stop lift once it reaches target position
 
 			wrist.setPosition(.495); // Set the wrist so we are facing forward
 
