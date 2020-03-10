@@ -455,49 +455,6 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 
 		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
 
-			/**Mechanum drive controls**/
-			// left stick controls direction
-			// right stick X controls rotation
-			float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
-			float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
-			float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
-
-			// Mechanum formulas
-			double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-			double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-			double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-			double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
-
-			// sets speed
-			frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
-			frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
-			backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
-			backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
-
-			//speed Controls
-			if (gamepad1.left_trigger > .3) {   // Do the following while the left trigger is being held down
-				speed = .25;                    // Sets the speed to quarter speed
-				pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_BLUE;  //When set to half speed, changes colour to red
-				displayPattern();
-			}
-			if (gamepad1.right_trigger < .3 && gamepad1.left_trigger < .3){   // Do the following  while the right trigger is held down and the left trigger is not
-				speed = 1;                     // Sets the speed to half speed
-
-			}
-			if (gamepad1.right_trigger > .3){    // Do the following while the left trigger is not being held down
-				speed = .5;
-
-				pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;  //When set to half speed, changes colour to red
-				displayPattern();
-			}
-
-			motorFrontRight.setPower(frontRight);   // Sets the front right motors speed to the previous double
-			motorFrontLeft.setPower(frontLeft);     // Sets the front left motors speed to the previous double
-			motorBackRight.setPower(backRight);     // Sets the back right motors speed to the previous double
-			motorBackLeft.setPower(backLeft);       // Sets the back left motors speed to the previous double
-			//End of speed Controls
-			/** End of mechanum drive controls **/
-
 			newLiftTarget = (lift.getCurrentPosition() + (int) (levels * COUNTS_PER_LEVEL)) + 85;
 
 			lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -511,6 +468,49 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				telemetry.addData("lift position", lift.getCurrentPosition());
 				telemetry.addData("IF YOU ARE STUCK ", "PRESS BACK BUTTON!");
 				telemetry.update();
+
+				/**Mechanum drive controls**/
+				// left stick controls direction
+				// right stick X controls rotation
+				float gamepad1LeftY = gamepad1.left_stick_y;        // Sets the gamepads left sticks y position to a float so that we can easily track the stick
+				float gamepad1LeftX = -gamepad1.left_stick_x;       // Sets the gamepads left sticks x position to a float so that we can easily track the stick
+				float gamepad1RightX = -gamepad1.right_stick_x;     // Sets the gamepads right sticks x position to a float so that we can easily track the stick
+
+				// Mechanum formulas
+				double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+				double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;     // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+				double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+				double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;      // Combines the inputs of the sticks to clip their output to a value between 1 and -1
+
+				// sets speed
+				frontRight = Range.clip(Math.pow(FrontRight, 3), -speed, speed);    // Slows down the motor and sets its max/min speed to the double "speed"
+				frontLeft = Range.clip(Math.pow(FrontLeft, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+				backRight = Range.clip(Math.pow(BackRight, 3), -speed, speed);      // Slows down the motor and sets its max/min speed to the double "speed"
+				backLeft = Range.clip(Math.pow(BackLeft, 3), -speed, speed);        // Slows down the motor and sets its max/min speed to the double "speed"
+
+				//speed Controls
+				if (gamepad1.left_trigger > .3) {   // Do the following while the left trigger is being held down
+					speed = .25;                    // Sets the speed to quarter speed
+					pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_BLUE;  //When set to half speed, changes colour to red
+					displayPattern();
+				}
+				if (gamepad1.right_trigger < .3 && gamepad1.left_trigger < .3){   // Do the following  while the right trigger is held down and the left trigger is not
+					speed = 1;                     // Sets the speed to half speed
+
+				}
+				if (gamepad1.right_trigger > .3){    // Do the following while the left trigger is not being held down
+					speed = .5;
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;  //When set to half speed, changes colour to red
+					displayPattern();
+				}
+
+				motorFrontRight.setPower(frontRight);   // Sets the front right motors speed to the previous double
+				motorFrontLeft.setPower(frontLeft);     // Sets the front left motors speed to the previous double
+				motorBackRight.setPower(backRight);     // Sets the back right motors speed to the previous double
+				motorBackLeft.setPower(backLeft);       // Sets the back left motors speed to the previous double
+				//End of speed Controls
+				/** End of mechanum drive controls **/
 
 				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
 					height = 0; //Sets height to level 0 so that the lift can continue normal operation after jumping out of loop
