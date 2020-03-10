@@ -147,6 +147,10 @@ public class Trackporter_Code extends OpMode {
 			pan.setPosition(0.33);
 		}
 
+		telemetry.addData("Controls: ", "Left Stick Controls Robot, Right Stick Controls Camera");
+		telemetry.addData("Controls: ", "Back Button Switches Smooth Controls, Right Trigger is Emergency Stop");
+		telemetry.addData("Controls: ", "'X' Switches Speed, 'A' Centers Camera Forward, 'B' Centers Camera Backwards");
+
 		if (fast){
 			telemetry.addData("Speed: ", "Fast");
 		} else if (!fast){
