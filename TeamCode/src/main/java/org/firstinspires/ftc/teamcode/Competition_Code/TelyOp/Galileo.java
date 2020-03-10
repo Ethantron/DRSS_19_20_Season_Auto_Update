@@ -512,6 +512,35 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				//End of speed Controls
 				/** End of mechanum drive controls **/
 
+				/** Foundation mover controls **/
+				// Lowering Foundation Movers
+				if (gamepad1.dpad_down) {               // Do the following if the "down" button has been pressed
+					foundationMoverR.setPosition(1);    // Sets the right foundation mover to point down
+					foundationMoverL.setPosition(1);    // Sets the left foundation mover to point down
+					foundationMoverPos = true;          // Tells the telemetry that the foundation movers are down
+
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_BLUE;  //When foundation movers goes down, blue
+					displayPattern();
+
+				}
+				// End of Lowering Foundation Movers
+
+				// Raising Foundation Movers
+				if (gamepad1.dpad_up) {                 // Do the following if the "up" button has been pressed
+					foundationMoverR.setPosition(0);    // Sets the right foundation mover to point up
+					foundationMoverL.setPosition(0);    // Sets the left foundation mover to point up
+					foundationMoverPos = false;         // Tells the telemetry that the foundation movers are up
+
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_WHITE;  //When foundation movers goes up, turns white
+					displayPattern();
+
+				}
+
+				// End of Raising Foundation Movers
+				/** End of foundation mover controls **/
+
 				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
 					height = 0; //Sets height to level 0 so that the lift can continue normal operation after jumping out of loop
 					lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -695,6 +724,35 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				//End of speed Controls
 				/** End of mechanum drive controls **/
 
+				/** Foundation mover controls **/
+				// Lowering Foundation Movers
+				if (gamepad1.dpad_down) {               // Do the following if the "down" button has been pressed
+					foundationMoverR.setPosition(1);    // Sets the right foundation mover to point down
+					foundationMoverL.setPosition(1);    // Sets the left foundation mover to point down
+					foundationMoverPos = true;          // Tells the telemetry that the foundation movers are down
+
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_BLUE;  //When foundation movers goes down, blue
+					displayPattern();
+
+				}
+				// End of Lowering Foundation Movers
+
+				// Raising Foundation Movers
+				if (gamepad1.dpad_up) {                 // Do the following if the "up" button has been pressed
+					foundationMoverR.setPosition(0);    // Sets the right foundation mover to point up
+					foundationMoverL.setPosition(0);    // Sets the left foundation mover to point up
+					foundationMoverPos = false;         // Tells the telemetry that the foundation movers are up
+
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_WHITE;  //When foundation movers goes up, turns white
+					displayPattern();
+
+				}
+
+				// End of Raising Foundation Movers
+				/** End of foundation mover controls **/
+
 				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
 					lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 					return; //Jumps out of Private Void
@@ -758,6 +816,35 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				motorBackLeft.setPower(backLeft);       // Sets the back left motors speed to the previous double
 				//End of speed Controls
 				/** End of mechanum drive controls **/
+
+				/** Foundation mover controls **/
+				// Lowering Foundation Movers
+				if (gamepad1.dpad_down) {               // Do the following if the "down" button has been pressed
+					foundationMoverR.setPosition(1);    // Sets the right foundation mover to point down
+					foundationMoverL.setPosition(1);    // Sets the left foundation mover to point down
+					foundationMoverPos = true;          // Tells the telemetry that the foundation movers are down
+
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_BLUE;  //When foundation movers goes down, blue
+					displayPattern();
+
+				}
+				// End of Lowering Foundation Movers
+
+				// Raising Foundation Movers
+				if (gamepad1.dpad_up) {                 // Do the following if the "up" button has been pressed
+					foundationMoverR.setPosition(0);    // Sets the right foundation mover to point up
+					foundationMoverL.setPosition(0);    // Sets the left foundation mover to point up
+					foundationMoverPos = false;         // Tells the telemetry that the foundation movers are up
+
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_WHITE;  //When foundation movers goes up, turns white
+					displayPattern();
+
+				}
+
+				// End of Raising Foundation Movers
+				/** End of foundation mover controls **/
 
 				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
 					lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -833,6 +920,35 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				//End of speed Controls
 				/** End of mechanum drive controls **/
 
+				/** Foundation mover controls **/
+				// Lowering Foundation Movers
+				if (gamepad1.dpad_down) {               // Do the following if the "down" button has been pressed
+					foundationMoverR.setPosition(1);    // Sets the right foundation mover to point down
+					foundationMoverL.setPosition(1);    // Sets the left foundation mover to point down
+					foundationMoverPos = true;          // Tells the telemetry that the foundation movers are down
+
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_BLUE;  //When foundation movers goes down, blue
+					displayPattern();
+
+				}
+				// End of Lowering Foundation Movers
+
+				// Raising Foundation Movers
+				if (gamepad1.dpad_up) {                 // Do the following if the "up" button has been pressed
+					foundationMoverR.setPosition(0);    // Sets the right foundation mover to point up
+					foundationMoverL.setPosition(0);    // Sets the left foundation mover to point up
+					foundationMoverPos = false;         // Tells the telemetry that the foundation movers are up
+
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_WHITE;  //When foundation movers goes up, turns white
+					displayPattern();
+
+				}
+
+				// End of Raising Foundation Movers
+				/** End of foundation mover controls **/
+
 				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
 					lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 					return; //Jumps out of Private Void
@@ -894,6 +1010,35 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 				motorBackLeft.setPower(backLeft);       // Sets the back left motors speed to the previous double
 				//End of speed Controls
 				/** End of mechanum drive controls **/
+
+				/** Foundation mover controls **/
+				// Lowering Foundation Movers
+				if (gamepad1.dpad_down) {               // Do the following if the "down" button has been pressed
+					foundationMoverR.setPosition(1);    // Sets the right foundation mover to point down
+					foundationMoverL.setPosition(1);    // Sets the left foundation mover to point down
+					foundationMoverPos = true;          // Tells the telemetry that the foundation movers are down
+
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_BLUE;  //When foundation movers goes down, blue
+					displayPattern();
+
+				}
+				// End of Lowering Foundation Movers
+
+				// Raising Foundation Movers
+				if (gamepad1.dpad_up) {                 // Do the following if the "up" button has been pressed
+					foundationMoverR.setPosition(0);    // Sets the right foundation mover to point up
+					foundationMoverL.setPosition(0);    // Sets the left foundation mover to point up
+					foundationMoverPos = false;         // Tells the telemetry that the foundation movers are up
+
+
+					pattern = RevBlinkinLedDriver.BlinkinPattern.SHOT_WHITE;  //When foundation movers goes up, turns white
+					displayPattern();
+
+				}
+
+				// End of Raising Foundation Movers
+				/** End of foundation mover controls **/
 
 				if (gamepad2.back) { //To jump out of void in case it gets stuck at the bottom
 					lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
