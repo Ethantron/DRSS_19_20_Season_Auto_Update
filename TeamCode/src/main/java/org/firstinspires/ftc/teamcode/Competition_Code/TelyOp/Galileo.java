@@ -863,7 +863,7 @@ public class Galileo extends LinearOpMode {     // Sets the codes name and sets 
 			/** Deploying the Capstone **/
 
 			newLiftTarget = (lift.getCurrentPosition() + (int) (4 * COUNTS_PER_LIFT_INCH)); // Sets the target for the lift
-			newSlideTarget = (slide.getCurrentPosition() + (int) (4.5 * COUNTS_PER_SLIDE_INCH)); // Sets the target for the slide
+			newSlideTarget = (slide.getCurrentPosition() + (int) (4.3 * COUNTS_PER_SLIDE_INCH)); // Sets the target for the slide
 
 			lift.setTargetPosition(newLiftTarget); // Gives the lift motor its target position
 			slide.setTargetPosition(newSlideTarget); // Gives the slide motor its target position
