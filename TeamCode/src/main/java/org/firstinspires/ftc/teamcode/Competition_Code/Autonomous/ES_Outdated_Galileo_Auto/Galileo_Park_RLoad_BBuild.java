@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Competition_Code.Autonomous;
+package org.firstinspires.ftc.teamcode.Competition_Code.Autonomous.ES_Outdated_Galileo_Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -15,8 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import java.util.Locale;
 
 @Disabled
-@Autonomous(name = "Galileo_Park_RBuild_BLoad", group= "Galileo")
-public class Galileo_Park_RBuild_BLoad extends LinearOpMode{
+@Autonomous(name = "Galileo_Park_RPark_BBuild", group= "Autonomous")
+public class Galileo_Park_RLoad_BBuild extends LinearOpMode{
 
 	Galileo_Hardware robot = new Galileo_Hardware();   //Calls Upon Robot Definitions File
 

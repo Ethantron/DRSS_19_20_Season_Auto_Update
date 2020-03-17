@@ -2,26 +2,27 @@ package org.firstinspires.ftc.teamcode.Competition_Code.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.SampleRevBlinkinLedDriver;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
-public class Galileo_Hardware {
+
+public class AutoHardwareGalileo {
 	//Drive train definitions
 	public DcMotor motorFrontRight;
 	public DcMotor motorFrontLeft;
 	public DcMotor motorBackRight;
 	public DcMotor motorBackLeft;
+
+	//Headlight definitions
+	public DcMotor headlight;
 
 	//Lift Definitions
 	public DcMotor lift;
@@ -29,15 +30,6 @@ public class Galileo_Hardware {
 
 	public Servo grabStone;
 	public Servo wrist;
-
-	//Light Definitions
-	private final static int LED_PERIOD = 10;
-	RevBlinkinLedDriver blinkinLedDriver;
-	RevBlinkinLedDriver.BlinkinPattern pattern;
-
-	Deadline ledCycleDeadline;
-	Deadline gamepadRateLimit;
-	SampleRevBlinkinLedDriver.DisplayKind displayKind;
 
 	//Foundation Mover Definitions
 	public Servo foundationMoverL;      // Defines the left foundation servo
@@ -68,7 +60,7 @@ public class Galileo_Hardware {
 	public static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
 	//Lift Encoder Definitions
-	static final double COUNTS_PER_LIFT_INCH = 55;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
+	static final double COUNTS_PER_LIFT_INCH = 23;  // Sets the double "COUNTS_PER_LEVEL" to 300    | Defines how long the lift needs to run to go up one level | About 55  counts per inch
 
 	//Slide Encoder Definitions
 	static final double COUNTS_PER_SLIDE_INCH = 49.23;
@@ -95,7 +87,7 @@ public class Galileo_Hardware {
 	HardwareMap hwMap =  null;
 
 	//Constructor
-	public Galileo_Hardware () {
+	public AutoHardwareGalileo () {
 		//Purposefully Left Empty
 	}
 
@@ -115,6 +107,11 @@ public class Galileo_Hardware {
 		motorBackRight = hwMap.dcMotor.get("BR");
 		motorBackRight.setDirection(DcMotor.Direction.FORWARD);
 
+		//Headlight Initialization
+		headlight = hwMap.dcMotor.get("headlight");
+		headlight.setDirection(DcMotor.Direction.FORWARD);
+		headlight.setPower(1);
+
 		//Encoder Initialization
 
 		//Stop and Reset Encoders
@@ -133,6 +130,7 @@ public class Galileo_Hardware {
 		//Lift Initialization
 		lift = hwMap.dcMotor.get("LT");
 		lift.setDirection(DcMotor.Direction.FORWARD);
+
 		//Hand Initialization
 		grabStone = hwMap.servo.get("GS");
 		wrist = hwMap.servo.get("W");
