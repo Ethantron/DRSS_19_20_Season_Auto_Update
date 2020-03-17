@@ -5,10 +5,9 @@ import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvWebcam;
+import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.Locale;
 
@@ -35,7 +34,9 @@ public class SkystoneDetectorExample extends LinearOpMode {
 		 * single-parameter constructor instead (commented out below)
 		 */
 		int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-		phoneCam = new OpenCvWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+		//phoneCam = new OpenCvWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+		phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
 
 		// OR...  Do Not Activate the Camera Monitor View
@@ -54,6 +55,7 @@ public class SkystoneDetectorExample extends LinearOpMode {
 		skyStoneDetector = new SkystoneDetector();
 		phoneCam.setPipeline(skyStoneDetector);
 
+
 		/*
 		 * Tell the camera to start streaming images to us! Note that you must make sure
 		 * the resolution you specify is supported by the camera. If it is not, an exception
@@ -66,6 +68,8 @@ public class SkystoneDetectorExample extends LinearOpMode {
 		 * away from the user.
 		 */
 		phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+
+
 
 		/*
 		 * Wait for the user to press start on the Driver Station
