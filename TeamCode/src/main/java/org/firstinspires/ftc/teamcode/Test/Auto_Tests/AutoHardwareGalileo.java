@@ -47,11 +47,11 @@ public class AutoHardwareGalileo {
 
 	//Gyro Definitions
 	// Defines the gyro
-	BNO055IMU imu;
+	public BNO055IMU imu;
 
 	// State used for updating telemetry
-	Orientation angles;
-	Acceleration gravity;
+	public Orientation angles;
+	public Acceleration gravity;
 
 	//Generic Auto Definitions
 	//Drive Train Encoder Definitions
@@ -65,8 +65,8 @@ public class AutoHardwareGalileo {
 	//Slide Encoder Definitions
 	static final double COUNTS_PER_SLIDE_INCH = 49.23;
 	//Gyro Turning Definitions
-	static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
-	static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
+	public static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
+	public static final double     P_TURN_COEFF            = 0.15;     // Larger is more responsive, but also less stable
 
 	//Vuforia Definitions
 	//Scanning Timing and Position Definitions
@@ -123,7 +123,6 @@ public class AutoHardwareGalileo {
 		//Run Using Encoders
 		motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
 		motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
