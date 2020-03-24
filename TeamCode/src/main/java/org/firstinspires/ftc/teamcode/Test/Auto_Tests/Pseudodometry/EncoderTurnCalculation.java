@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests.Pseudodometry;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -14,8 +14,10 @@ import org.firstinspires.ftc.teamcode.Test.Auto_Tests.AutoHardwareGalileo;
 
 import java.util.Locale;
 
-@TeleOp (name = "EncoderTurnCalculation", group = "Autonomous")
+@Autonomous(name = "EncoderTurnCalculation", group = "Autonomous")
 public class EncoderTurnCalculation extends LinearOpMode{
+
+	/** Recorded Value Was: (3-24-20)**/
 
 	AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
 
@@ -58,6 +60,8 @@ public class EncoderTurnCalculation extends LinearOpMode{
 			}
 
 			if (step == 2) { //Turn 10 Degrees
+				encTelemetry();
+
 				gyroTurn(.1,10);
 				gyroHold(.1,10,1);
 
@@ -75,6 +79,8 @@ public class EncoderTurnCalculation extends LinearOpMode{
 			}
 
 			if (step == 3) { //Turn 15 Degrees
+				encTelemetry();
+
 				gyroTurn(.1,25);
 				gyroHold(.1,25,1);
 
@@ -92,6 +98,8 @@ public class EncoderTurnCalculation extends LinearOpMode{
 			}
 
 			if (step == 4) { //Turn 30 Degrees
+				encTelemetry();
+
 				gyroTurn(.1,55);
 				gyroHold(.1,55,1);
 
@@ -108,7 +116,9 @@ public class EncoderTurnCalculation extends LinearOpMode{
 				step++;
 			}
 
-			if (step == 4) { //Turn 45 Degrees
+			if (step == 5) { //Turn 45 Degrees
+				encTelemetry();
+
 				gyroTurn(.1,100);
 				gyroHold(.1,100,1);
 
@@ -126,6 +136,8 @@ public class EncoderTurnCalculation extends LinearOpMode{
 			}
 
 			if (step == 6) { //Turn back to 0 Degrees
+				encTelemetry();
+
 				gyroTurn(.1,0);
 				gyroHold(.1,0,1);
 
@@ -134,7 +146,9 @@ public class EncoderTurnCalculation extends LinearOpMode{
 				step++;
 			}
 
-			if (step == 6) { //Turn 90 Degrees
+			if (step == 7) { //Turn 90 Degrees
+				encTelemetry();
+
 				gyroTurn(.1,90);
 				gyroHold(.1,90,1);
 
@@ -151,15 +165,10 @@ public class EncoderTurnCalculation extends LinearOpMode{
 				step++;
 			}
 
-			if (step == 7) { //Calculate Average Encoder Value
+			if (step == 8) { //Calculate Average Encoder Value
 				encReading90Avg = (encReading10 + encReading15 + encReading30 + encReading45 + encReading90) / 5;
 				calculatedEncReading = encReading90Avg / 90;
 
-				telemetry.addData("10 Degrees", encReading10);
-				telemetry.addData("15 Degrees", encReading15);
-				telemetry.addData("30 Degrees", encReading30);
-				telemetry.addData("45 Degrees", encReading45);
-				telemetry.addData("90 Degrees", encReading90);
 				telemetry.addData("90 Degree Avg Enc Value", encReading90Avg);
 				telemetry.addData("1 Degree Avg Enc Value", calculatedEncReading);
 				telemetry.update();
@@ -291,11 +300,23 @@ public class EncoderTurnCalculation extends LinearOpMode{
 		robot.motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 		robot.motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+		telemetry.addData("Reseting", " Encoders");
+		telemetry.update();
+
 		//Run Using Encoders
 		robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+	}
+
+	public void encTelemetry() {
+		telemetry.addData("10 Degrees", encReading10);
+		telemetry.addData("15 Degrees", encReading15);
+		telemetry.addData("30 Degrees", encReading30);
+		telemetry.addData("45 Degrees", encReading45);
+		telemetry.addData("90 Degrees", encReading90);
+		telemetry.update();
 	}
 
 
