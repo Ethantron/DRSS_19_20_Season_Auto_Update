@@ -17,7 +17,10 @@ import java.util.Locale;
 @Autonomous(name = "EncoderTurnCalculation", group = "Autonomous")
 public class EncoderTurnCalculation extends LinearOpMode{
 
-	/** Recorded Value Was: (3-24-20)**/
+	/** Recorded Value Was:
+	 * 90 Degree Avg Enc Value: 936.45
+	 * 1 Degree Avg Enc Value: 10.405
+	 * Recorded on: (3-24-20)**/
 
 	AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
 
@@ -70,7 +73,7 @@ public class EncoderTurnCalculation extends LinearOpMode{
 				motorBackLeftEncValue = robot.motorBackLeft.getCurrentPosition();
 				motorBackRightEncValue = robot.motorBackRight.getCurrentPosition();
 
-				motorEncValuesAvg = (motorBackLeftEncValue + motorBackRightEncValue + motorFrontLeftEncValue + motorFrontRightEncValue) / 4;
+				motorEncValuesAvg = (Math.abs(motorBackLeftEncValue) + Math.abs(motorBackRightEncValue) + Math.abs(motorFrontLeftEncValue) + Math.abs(motorFrontRightEncValue)) / 4;
 				encReading10 = motorEncValuesAvg * 9;
 
 				stopAndResetEncoder();
@@ -89,7 +92,7 @@ public class EncoderTurnCalculation extends LinearOpMode{
 				motorBackLeftEncValue = robot.motorBackLeft.getCurrentPosition();
 				motorBackRightEncValue = robot.motorBackRight.getCurrentPosition();
 
-				motorEncValuesAvg = (motorBackLeftEncValue + motorBackRightEncValue + motorFrontLeftEncValue + motorFrontRightEncValue) / 4;
+				motorEncValuesAvg = (Math.abs(motorBackLeftEncValue) + Math.abs(motorBackRightEncValue) + Math.abs(motorFrontLeftEncValue) + Math.abs(motorFrontRightEncValue)) / 4;
 				encReading15 = motorEncValuesAvg * 6;
 
 				stopAndResetEncoder();
@@ -108,7 +111,7 @@ public class EncoderTurnCalculation extends LinearOpMode{
 				motorBackLeftEncValue = robot.motorBackLeft.getCurrentPosition();
 				motorBackRightEncValue = robot.motorBackRight.getCurrentPosition();
 
-				motorEncValuesAvg = (motorBackLeftEncValue + motorBackRightEncValue + motorFrontLeftEncValue + motorFrontRightEncValue) / 4;
+				motorEncValuesAvg = (Math.abs(motorBackLeftEncValue) + Math.abs(motorBackRightEncValue) + Math.abs(motorFrontLeftEncValue) + Math.abs(motorFrontRightEncValue)) / 4;
 				encReading30 = motorEncValuesAvg * 3;
 
 				stopAndResetEncoder();
@@ -127,7 +130,7 @@ public class EncoderTurnCalculation extends LinearOpMode{
 				motorBackLeftEncValue = robot.motorBackLeft.getCurrentPosition();
 				motorBackRightEncValue = robot.motorBackRight.getCurrentPosition();
 
-				motorEncValuesAvg = (motorBackLeftEncValue + motorBackRightEncValue + motorFrontLeftEncValue + motorFrontRightEncValue) / 4;
+				motorEncValuesAvg = (Math.abs(motorBackLeftEncValue) + Math.abs(motorBackRightEncValue) + Math.abs(motorFrontLeftEncValue) + Math.abs(motorFrontRightEncValue)) / 4;
 				encReading45 = motorEncValuesAvg * 2;
 
 				stopAndResetEncoder();
@@ -157,7 +160,7 @@ public class EncoderTurnCalculation extends LinearOpMode{
 				motorBackLeftEncValue = robot.motorBackLeft.getCurrentPosition();
 				motorBackRightEncValue = robot.motorBackRight.getCurrentPosition();
 
-				motorEncValuesAvg = (motorBackLeftEncValue + motorBackRightEncValue + motorFrontLeftEncValue + motorFrontRightEncValue) / 4;
+				motorEncValuesAvg = (Math.abs(motorBackLeftEncValue) + Math.abs(motorBackRightEncValue) + Math.abs(motorFrontLeftEncValue) + Math.abs(motorFrontRightEncValue)) / 4;
 				encReading90 = motorEncValuesAvg;
 
 				stopAndResetEncoder();
@@ -169,6 +172,11 @@ public class EncoderTurnCalculation extends LinearOpMode{
 				encReading90Avg = (encReading10 + encReading15 + encReading30 + encReading45 + encReading90) / 5;
 				calculatedEncReading = encReading90Avg / 90;
 
+				telemetry.addData("10 Degrees", encReading10);
+				telemetry.addData("15 Degrees", encReading15);
+				telemetry.addData("30 Degrees", encReading30);
+				telemetry.addData("45 Degrees", encReading45);
+				telemetry.addData("90 Degrees", encReading90);
 				telemetry.addData("90 Degree Avg Enc Value", encReading90Avg);
 				telemetry.addData("1 Degree Avg Enc Value", calculatedEncReading);
 				telemetry.update();
