@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Test.Auto_Tests.Pseudodometry;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Test.Auto_Tests.AutoHardwareGalileo;
 
 import java.util.Locale;
 
+@Disabled
 @Autonomous(name = "EncoderTurnCalculation", group = "Autonomous")
 public class EncoderTurnCalculation extends LinearOpMode{
 
@@ -57,7 +59,7 @@ public class EncoderTurnCalculation extends LinearOpMode{
 		waitForStart();
 
 		while (opModeIsActive()) {
-			if (step == 1) { //Stop and Reset Encoders
+			/*if (step == 1) { //Stop and Reset Encoders
 				stopAndResetEncoder();
 				step++;
 			}
@@ -180,7 +182,100 @@ public class EncoderTurnCalculation extends LinearOpMode{
 				telemetry.addData("90 Degree Avg Enc Value", encReading90Avg);
 				telemetry.addData("1 Degree Avg Enc Value", calculatedEncReading);
 				telemetry.update();
+			} */
+
+			if (step == 1) {
+				encoderTurn(1, 90, 10);
+				step++;
 			}
+		}
+	}
+
+
+
+
+
+	/** Encoder Turn **/
+	public void encoderTurn(double speed, double angle, double timeoutS) {
+		//Create our target variables
+		int newFrontLeftTarget;
+		int newFrontRightTarget;
+		int newBackLeftTarget;
+		int newBackRightTarget;
+
+		int COUNTS_PER_ANGLE = (int) 10.405;
+		int COUNTS_PER_DISTANCE = (int) (angle * COUNTS_PER_ANGLE);
+
+		// Ensure that the opmode is still active
+		if (opModeIsActive()) {
+
+			// Math to calculate each target position for the motors
+			newFrontLeftTarget = robot.motorFrontLeft.getCurrentPosition() - COUNTS_PER_DISTANCE;
+			newFrontRightTarget = robot.motorFrontRight.getCurrentPosition() + COUNTS_PER_DISTANCE;
+			newBackLeftTarget = robot.motorBackLeft.getCurrentPosition() - COUNTS_PER_DISTANCE;
+			newBackRightTarget = robot.motorBackRight.getCurrentPosition() + COUNTS_PER_DISTANCE;
+
+			//Set Target Positions to respective motors
+			robot.motorFrontLeft.setTargetPosition(newFrontLeftTarget);
+			robot.motorFrontRight.setTargetPosition(newFrontRightTarget);
+			robot.motorBackLeft.setTargetPosition(newBackLeftTarget);
+			robot.motorBackRight.setTargetPosition(newBackRightTarget);
+
+			// Turn On RUN_TO_POSITION
+			robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+			robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+			robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+			robot.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+			// reset the timeout time and start motion.
+			runtime.reset();
+			robot.motorFrontLeft.setPower(speed);
+			robot.motorFrontRight.setPower(speed);
+			robot.motorBackLeft.setPower(speed);
+			robot.motorBackRight.setPower(speed);
+
+			// keep looping while we are still active, and there is time left, and both motors are running.
+			// Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+			// its target position, the motion will stop.  This is "safer" in the event that the robot will
+			// always end the motion as soon as possible.
+			// However, if you require that BOTH motors have finished their moves before the robot continues
+			// onto the next step, use (isBusy() || isBusy()) in the loop test.
+			while (opModeIsActive() &&
+					(runtime.seconds() < timeoutS) &&
+					(robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy() && robot.motorBackLeft.isBusy() && robot.motorBackRight.isBusy())) {
+
+				// Display it for the driver.
+				telemetry.addData("FLM: Path2", "Running at %7d", //Tells us where we are
+						robot.motorFrontLeft.getCurrentPosition()); //Front Left Position
+				telemetry.addData("FRM: Path2", "Running at %7d", //Tells us where we are
+						robot.motorFrontRight.getCurrentPosition()); //Front Right Position
+				telemetry.addData("BLM: Path2", "Running at %7d", //Tells us where we are
+						robot.motorBackLeft.getCurrentPosition()); //Back Left Position
+				telemetry.addData("BRM: Path2", "Running at %7d", //Tells us where we are
+						robot.motorBackRight.getCurrentPosition()); //Back Right Position
+				telemetry.update();
+			}
+
+			// Stop all motion
+			robot.motorFrontLeft.setPower(-speed);
+			robot.motorFrontRight.setPower(-speed);
+			robot.motorBackLeft.setPower(-speed);
+			robot.motorBackRight.setPower(-speed);
+
+			sleep(10);
+
+			robot.motorFrontLeft.setPower(0);
+			robot.motorFrontRight.setPower(0);
+			robot.motorBackLeft.setPower(0);
+			robot.motorBackRight.setPower(0);
+
+			// Turn off RUN_TO_POSITION
+			robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+			robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+			robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+			robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+			//  sleep(250);   // optional pause after each move
 		}
 	}
 
