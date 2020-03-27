@@ -288,7 +288,7 @@ public class EncoderTurnCalculation extends LinearOpMode{
 	public void gyroTurn (  double speed, double angle) {
 
 		// keep looping while we are still active, and not on heading.
-		while (opModeIsActive() && !onHeading(speed, angle, org.firstinspires.ftc.teamcode.Test.Auto_Tests.AutoHardwareGalileo.P_TURN_COEFF)) {
+		while (opModeIsActive() && !onHeading(speed, angle, robot.P_TURN_COEFF)) {
 			// Update telemetry & Allow time for other processes to run.
 			telemetry.update();
 		}
@@ -343,7 +343,7 @@ public class EncoderTurnCalculation extends LinearOpMode{
 		// determine turn power based on +/- error
 		error = getError(angle);
 
-		if (Math.abs(error) <= org.firstinspires.ftc.teamcode.Test.Auto_Tests.AutoHardwareGalileo.HEADING_THRESHOLD) {
+		if (Math.abs(error) <= robot.HEADING_THRESHOLD) {
 			steer = 0.0;
 			leftSpeed  = 0.0;
 			rightSpeed = 0.0;
