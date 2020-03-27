@@ -39,6 +39,9 @@ public class coordinateSystemTest extends LinearOpMode{
 				//Open the grabber
 				robot.grabStone.setPosition(1); //Set the grabber to open position
 
+				//move forward a bit
+				encoderDrive(1,1);
+
 				step++;
 			}
 
