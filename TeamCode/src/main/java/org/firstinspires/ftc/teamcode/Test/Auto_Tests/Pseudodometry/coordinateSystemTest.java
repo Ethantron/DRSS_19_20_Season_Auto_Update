@@ -32,13 +32,53 @@ public class coordinateSystemTest extends LinearOpMode{
 		while (opModeIsActive()){
 
 			if (step == 1) {
-				runToCoordinate(-16.5,28,1,0,1);
+				//Move the slide forward, and drop lift
+				encoderSlide(1, 4);  // Move the slide forward 4 inches
+				encoderLift(1, -1.4); // Drop the lift downward 1.4 inches
+
+				//Open the grabber
+				robot.grabStone.setPosition(1); //Set the grabber to open position
+
 				step++;
 			}
 
 			if (step == 2) {
-				telemetry.addData("We ran to", "Position!");
-				telemetry.update();
+				//Run to position 3
+				runToCoordinate(-15.5,18,1,0,1);
+				step++;
+			}
+
+			if (step == 3) {
+				//Move Forward
+				encoderDrive(.3,8);
+
+				//Grab the Skystone
+				robot.grabStone.setPosition(0);
+				sleep(500);
+
+				//Move lift up
+				encoderLift(1, 1);
+
+				step++;
+			}
+
+			if (step == 4) {
+				//Move Back with skystone
+				encoderDrive(1, -10);
+
+				//Turn 90 Degrees
+				encoderTurn(1,-90);
+
+				step++;
+			}
+
+			if (step == 5) {
+				//Stop the motors
+				robot.motorFrontLeft.setPower(0);
+				robot.motorFrontRight.setPower(0);
+				robot.motorBackLeft.setPower(0);
+				robot.motorBackRight.setPower(0);
+
 			}
 		}
 
@@ -86,13 +126,12 @@ public class coordinateSystemTest extends LinearOpMode{
 
 		public double getAngleError(double baseA,double baseB,double baseC) {
 			//Get angle
-			double tanTheta = baseB / baseA; //Get the tangent of theta
+			double tanTheta = baseA / baseB; //Get the tangent of theta
 			double theta = Math.atan(tanTheta); //Get the arc tangent of cosTheta
 			double target = Math.toDegrees(theta); //Convert theta from Radians to Degrees
 
 			double setCurrentAngle = 0;
 
-			/**
 			if (baseB < 0 && baseA < 0) { //quad 3 relative
 				double finalTarget = (-target)-90;
 
@@ -113,12 +152,12 @@ public class coordinateSystemTest extends LinearOpMode{
 				double angleError = -(finalTarget)-currentAngle;
 
 				return angleError;
-			} **/
-
-			setCurrentAngle = setCurrentAngle(target);
+			}
 
 			//Find angle error
 			double angleError = -(target)-currentAngle;
+
+			setCurrentAngle = setCurrentAngle(target);
 
 			return angleError;
 		}
@@ -306,4 +345,55 @@ public class coordinateSystemTest extends LinearOpMode{
 				//  sleep(250);   // optional pause after each move
 			}
 		}
+
+
+
+
+
+
+		/** Other Autonomous Voids **/
+
+		public void encoderLift(double liftSpeed, double Inches) {  // Creates a void that the code can run at any time, and creates two doubles: "liftSpeed" and "levels"
+			int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+
+			if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+				newLiftTarget = (robot.lift.getCurrentPosition() + (int) (Inches * robot.COUNTS_PER_LIFT_INCH));
+
+				robot.lift.setTargetPosition(newLiftTarget);
+
+				robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+				robot.lift.setPower(liftSpeed);
+
+				while (opModeIsActive() && robot.lift.isBusy()) {
+					telemetry.addData("lift position", robot.lift.getCurrentPosition());
+					telemetry.update();
+				}
+
+				robot.lift.setPower(0);
+				robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+			}
+		}
+
+	public void encoderSlide (double slideSpeed, double Inches){
+		int newLiftTarget;                                      // Creates the integer "newLiftTarget"
+
+		if (opModeIsActive()) {     // Do the following after the start button has been pressed and until the stop button is pressed
+			newLiftTarget = (robot.slide.getCurrentPosition() + (int) (Inches * robot.COUNTS_PER_SLIDE_INCH));
+
+			robot.slide.setTargetPosition(newLiftTarget);
+
+			robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+			robot.slide.setPower(slideSpeed);
+
+			while (opModeIsActive() && robot.slide.isBusy()) {
+				telemetry.addData("lift position", robot.slide.getCurrentPosition());
+				telemetry.update();
+			}
+
+			robot.slide.setPower(0);
+			robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+		}
+	}
 }
