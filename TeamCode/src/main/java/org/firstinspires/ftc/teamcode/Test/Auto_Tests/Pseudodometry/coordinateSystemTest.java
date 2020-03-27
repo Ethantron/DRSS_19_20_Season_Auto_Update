@@ -86,12 +86,13 @@ public class coordinateSystemTest extends LinearOpMode{
 
 		public double getAngleError(double baseA,double baseB,double baseC) {
 			//Get angle
-			double cosTheta = baseA / baseC; //Get the cosine of theta
-			double theta = Math.acos(cosTheta); //Get the arc cosine of cosTheta
+			double tanTheta = baseB / baseA; //Get the tangent of theta
+			double theta = Math.atan(tanTheta); //Get the arc tangent of cosTheta
 			double target = Math.toDegrees(theta); //Convert theta from Radians to Degrees
 
 			double setCurrentAngle = 0;
 
+			/**
 			if (baseB < 0 && baseA < 0) { //quad 3 relative
 				double finalTarget = (-target)-90;
 
@@ -112,7 +113,7 @@ public class coordinateSystemTest extends LinearOpMode{
 				double angleError = -(finalTarget)-currentAngle;
 
 				return angleError;
-			}
+			} **/
 
 			setCurrentAngle = setCurrentAngle(target);
 
