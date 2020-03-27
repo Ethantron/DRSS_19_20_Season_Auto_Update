@@ -32,7 +32,7 @@ public class coordinateSystemTest extends LinearOpMode{
 		while (opModeIsActive()){
 
 			if (step == 1) {
-				runToCoordinate(-20,10,1,0,1);
+				runToCoordinate(-16.5,28,1,0,1);
 				step++;
 			}
 
