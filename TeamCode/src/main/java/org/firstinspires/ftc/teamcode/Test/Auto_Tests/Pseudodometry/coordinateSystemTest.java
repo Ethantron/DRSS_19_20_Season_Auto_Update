@@ -86,8 +86,8 @@ public class coordinateSystemTest extends LinearOpMode{
 
 		public double getAngleError(double baseA,double baseB,double baseC) {
 			//Get angle
-			double sinTheta = baseB / baseC; //Get the sin of theta
-			double theta = Math.asin(sinTheta); //Get the arc sin of sinTheta
+			double cosTheta = baseA / baseC; //Get the cosine of theta
+			double theta = Math.acos(cosTheta); //Get the arc cosine of cosTheta
 			double target = Math.toDegrees(theta); //Convert theta from Radians to Degrees
 
 			double setCurrentAngle = 0;
