@@ -33,27 +33,33 @@ public class coordinateSystemTest extends LinearOpMode{
 
 			if (step == 1) {
 				//Move the slide forward, and drop lift
-				encoderSlide(1, 4);  // Move the slide forward 4 inches
-				encoderLift(1, -1.4); // Drop the lift downward 1.4 inches
+				//encoderSlide(1, 4);  // Move the slide forward 4 inches
+				//encoderLift(1, -1.4); // Drop the lift downward 1.4 inches
 
 				//Open the grabber
 				robot.grabStone.setPosition(1); //Set the grabber to open position
 
 				//move forward a bit
-				encoderDrive(1,1);
+				encoderDrive(1,2);
+
+				//Set our new position
+				currentPositionY += 2;
 
 				step++;
 			}
 
 			if (step == 2) {
 				//Run to position 3
-				runToCoordinate(-15.5,18,1,0,1);
+				runToCoordinate(-13,22,1,0,1);
 				step++;
 			}
 
 			if (step == 3) {
 				//Move Forward
-				encoderDrive(.3,8);
+				encoderDrive(.3,6);
+
+				//Set position
+				currentPositionY += 6;
 
 				//Grab the Skystone
 				robot.grabStone.setPosition(0);
@@ -62,27 +68,94 @@ public class coordinateSystemTest extends LinearOpMode{
 				//Move lift up
 				encoderLift(1, 1);
 
+				//Move back with the skystone
+				encoderDrive(1,-10);
+				currentPositionY -= 10;
+
 				step++;
 			}
 
 			if (step == 4) {
-				//Move Back with skystone
-				encoderDrive(1, -10);
+				telemetry.addData("current Position X: ", currentPositionX);
+				telemetry.addData("current Position Y: ", currentPositionY);
+				telemetry.addData("Current Angle: ", currentAngle);
+				telemetry.update();
 
-				//Turn 90 Degrees
-				encoderTurn(1,-90);
+				if (gamepad1.a) {
+					step++;
+				}
+			}
+
+			if (step == 5) {
+				runToCoordinate(68,15,1,0,.1);
+
+				step++;
+			}
+
+			/*if (step == 4) {
+				//Move Back with skystone
+				encoderDrive(1, -4);
+
+				//set position
+				currentPositionY -= 4;
 
 				step++;
 			}
 
 			if (step == 5) {
-				//Stop the motors
-				robot.motorFrontLeft.setPower(0);
-				robot.motorFrontRight.setPower(0);
-				robot.motorBackLeft.setPower(0);
-				robot.motorBackRight.setPower(0);
+				//turn -90 degrees
+				encoderTurn(1,-90);
+				currentAngle = -90;
+
+				//Move forward to the foundation
+				encoderDrive(1,70);
+				currentPositionX += 70;
+
+				//Lift up the skystone
+				encoderLift(1,1);
+
+				//turn to face the foundation
+				encoderTurn(1,90);
+				currentAngle = 0;
+
+				step++;
 
 			}
+
+			if (step == 6) {
+				//Move forward toward the foundation
+				encoderDrive(1,10);
+				currentPositionY += 10;
+
+				//Drop down foundation movers
+				robot.foundationMoverR.setPosition(1);
+				robot.foundationMoverL.setPosition(1);
+				sleep(250);
+
+				//Backup with the foundation
+				encoderDrive(1,-10);
+				currentPositionY -= 10;
+
+				step++;
+			}
+
+			if (step == 7) {
+				//Turn the foundation
+				encoderTurn(1,-90);
+				currentAngle = -90;
+
+				//move the foundation into the buildzone
+				encoderDrive(1,5);
+				currentPositionX += 5;
+
+				//release the foundation
+				robot.foundationMoverR.setPosition(0);
+				robot.foundationMoverL.setPosition(0);
+
+				//release the skystone
+				robot.grabStone.setPosition(1);
+				sleep(250);
+			}*/
 		}
 
 	}
@@ -113,6 +186,7 @@ public class coordinateSystemTest extends LinearOpMode{
 			//Turn to wanted angle
 			double turnWantedAngle = getWantedAngleError(wantedAngle);
 			encoderTurn(turnSpeed,turnWantedAngle);
+			currentAngle = wantedAngle;
 
 			//Set our current position
 			currentPositionX = wantedPositionX;
@@ -132,60 +206,60 @@ public class coordinateSystemTest extends LinearOpMode{
 			double tanTheta = baseA / baseB; //Get the tangent of theta
 			double theta = Math.atan(tanTheta); //Get the arc tangent of cosTheta
 			double target = Math.toDegrees(theta); //Convert theta from Radians to Degrees
+			double angleError = 0;
 
-			double setCurrentAngle = 0;
+			double ZeroError = findZeroError();
 
 			if (baseB < 0 && baseA < 0) { //quad 3 relative
-				double finalTarget = (-target)-90;
-
-				setCurrentAngle = setCurrentAngle(finalTarget);
+				double finalTarget = 90-(target-90);
 
 				//Find angle error
-				double angleError = -(finalTarget)-currentAngle;
+				angleError = finalTarget-currentAngle;
+
+				currentAngle = -finalTarget;
 
 				return -(angleError);
 			}
 
-			if (baseB < 0 && baseA > 1) { //quad 4 relative
-				double finalTarget = (-target)+90;
-
-				setCurrentAngle = setCurrentAngle(finalTarget);
+			if (baseB < 0 && baseA > 0) { //quad 4 relative
+				double finalTarget = -90-(target+90);
 
 				//Find angle error
-				double angleError = -(finalTarget)-currentAngle;
+				angleError = finalTarget-currentAngle;
+
+				currentAngle = finalTarget;
 
 				return angleError;
 			}
 
-			//Find angle error
-			double angleError = -(target)-currentAngle;
+			if (baseB >= 0){
+				//Find angle error
+				angleError = -(target) + ZeroError;
 
-			setCurrentAngle = setCurrentAngle(target);
+				currentAngle = -target;
+
+				return angleError;
+			}
 
 			return angleError;
 		}
 
 		public double getWantedAngleError (double wantedAngle) {
-			double wantedAngleError = currentAngle - wantedAngle;
-			double setCurrentAngle = 0;
+			double wantedAngleError = -(currentAngle - wantedAngle);
 
-			if (wantedAngle <= 0) {
-				wantedAngleError = -(currentAngle - wantedAngle);
+			if (wantedAngle == 0) {
+				wantedAngleError = -(wantedAngle + currentAngle);
 
-				setCurrentAngle = setCurrentAngle(wantedAngle);
+				return wantedAngleError;
 			}
-
-			setCurrentAngle = setCurrentAngle(wantedAngle);
 
 			return wantedAngleError;
 		}
 
-		public double setCurrentAngle (double targetAngle) {
-			currentAngle = targetAngle;
+		public double findZeroError () {
+			double ZeroError = -(currentAngle);
 
-			double complete = 1;
-
-			return complete;
+			return ZeroError;
 		}
 
 		/** Encoder Turn **/
@@ -236,14 +310,7 @@ public class coordinateSystemTest extends LinearOpMode{
 						(robot.motorFrontLeft.isBusy() && robot.motorFrontRight.isBusy() && robot.motorBackLeft.isBusy() && robot.motorBackRight.isBusy())) {
 
 					// Display it for the driver.
-					telemetry.addData("FLM: Path2", "Running at %7d", //Tells us where we are
-							robot.motorFrontLeft.getCurrentPosition()); //Front Left Position
-					telemetry.addData("FRM: Path2", "Running at %7d", //Tells us where we are
-							robot.motorFrontRight.getCurrentPosition()); //Front Right Position
-					telemetry.addData("BLM: Path2", "Running at %7d", //Tells us where we are
-							robot.motorBackLeft.getCurrentPosition()); //Back Left Position
-					telemetry.addData("BRM: Path2", "Running at %7d", //Tells us where we are
-							robot.motorBackRight.getCurrentPosition()); //Back Right Position
+					telemetry.addData("Going to angle: ", angle);
 					telemetry.update();
 				}
 
@@ -332,7 +399,7 @@ public class coordinateSystemTest extends LinearOpMode{
 				robot.motorBackLeft.setPower(-speed);
 				robot.motorBackRight.setPower(-speed);
 
-				sleep(10);
+				sleep(20);
 
 				robot.motorFrontLeft.setPower(0);
 				robot.motorFrontRight.setPower(0);
