@@ -50,23 +50,23 @@ public class coordinateSystemTest extends LinearOpMode{
 
 			if (step == 2) {
 				//Run to position 3
-				runToCoordinate(-13,22,1,0,1);
+				runToCoordinate(-13,18,1,0,1);
 				step++;
 			}
 
 			if (step == 3) {
 				//Move Forward
-				encoderDrive(.3,6);
+				encoderDrive(.3,8);
 
 				//Set position
-				currentPositionY += 6;
+				currentPositionY += 8;
 
 				//Grab the Skystone
 				robot.grabStone.setPosition(0);
 				sleep(500);
 
 				//Move lift up
-				encoderLift(1, 1);
+				encoderLift(1.25, 1);
 
 				//Move back with the skystone
 				encoderDrive(1,-10);
@@ -87,7 +87,7 @@ public class coordinateSystemTest extends LinearOpMode{
 			}
 
 			if (step == 5) {
-				runToCoordinate(68,15,1,0,.1);
+				runToCoordinate(68,26,1,0,1);
 
 				step++;
 			}
