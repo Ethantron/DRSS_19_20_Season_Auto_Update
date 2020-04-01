@@ -56,7 +56,7 @@ public class coordinateSystemTest extends LinearOpMode{
 
 			if (step == 3) {
 				//Move Forward
-				encoderDrive(.3,8);
+				encoderDrive(.1,8);
 
 				//Set position
 				currentPositionY += 8;
@@ -66,7 +66,7 @@ public class coordinateSystemTest extends LinearOpMode{
 				sleep(500);
 
 				//Move lift up
-				encoderLift(1.25, 1);
+				encoderLift(2, 1);
 
 				//Move back with the skystone
 				encoderDrive(1,-10);
@@ -87,75 +87,40 @@ public class coordinateSystemTest extends LinearOpMode{
 			}
 
 			if (step == 5) {
-				runToCoordinate(68,26,1,0,1);
+				//Go to the foundation
+				runToCoordinate(75,22,1,0,1);
 
 				step++;
-			}
-
-			/*if (step == 4) {
-				//Move Back with skystone
-				encoderDrive(1, -4);
-
-				//set position
-				currentPositionY -= 4;
-
-				step++;
-			}
-
-			if (step == 5) {
-				//turn -90 degrees
-				encoderTurn(1,-90);
-				currentAngle = -90;
-
-				//Move forward to the foundation
-				encoderDrive(1,70);
-				currentPositionX += 70;
-
-				//Lift up the skystone
-				encoderLift(1,1);
-
-				//turn to face the foundation
-				encoderTurn(1,90);
-				currentAngle = 0;
-
-				step++;
-
 			}
 
 			if (step == 6) {
-				//Move forward toward the foundation
-				encoderDrive(1,10);
-				currentPositionY += 10;
+				//Lift up the skystone to avoid the foundation
+				encoderLift(1,5);
 
-				//Drop down foundation movers
-				robot.foundationMoverR.setPosition(1);
+				//Move forward to the foundation
+				encoderDrive(.5,7);
+				encoderDrive(.1,8);
+
+				//Close the foundation movers
 				robot.foundationMoverL.setPosition(1);
-				sleep(250);
-
-				//Backup with the foundation
-				encoderDrive(1,-10);
-				currentPositionY -= 10;
+				robot.foundationMoverR.setPosition(1);
 
 				step++;
 			}
 
 			if (step == 7) {
-				//Turn the foundation
-				encoderTurn(1,-90);
-				currentAngle = -90;
+				//Move the slide forward and drop the skystone
+				encoderSlide(1,3.5);
 
-				//move the foundation into the buildzone
-				encoderDrive(1,5);
-				currentPositionX += 5;
-
-				//release the foundation
-				robot.foundationMoverR.setPosition(0);
-				robot.foundationMoverL.setPosition(0);
-
-				//release the skystone
+				//Drop the skystone
 				robot.grabStone.setPosition(1);
 				sleep(250);
-			}*/
+
+				//Move the slide back
+				encoderSlide(1,-3.5);
+
+				step++;
+			}
 		}
 
 	}
