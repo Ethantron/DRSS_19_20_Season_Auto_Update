@@ -6,12 +6,20 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Test.Auto_Tests.AutoHardwareGalileo;
+
+import java.util.Locale;
 
 @Autonomous (name = "coordinateSystemTest", group = "Autonomous")
 public class coordinateSystemTest extends LinearOpMode{
 
 	AutoHardwareGalileo robot = new AutoHardwareGalileo();   //Calls Upon Robot Definitions File
+
+	private ElapsedTime runtime = new ElapsedTime(); //Sets timer for encoders
 
 	double step = 1; //Sets the steps for the autonomous
 
@@ -23,6 +31,8 @@ public class coordinateSystemTest extends LinearOpMode{
 	@Override
 	public void runOpMode() throws InterruptedException{
 		robot.init(hardwareMap); //Calls Upon Robot Initialization File
+
+		composeTelemetry(); //Gyro Telemetry Initialization
 
 		telemetry.addData("Drive Train: ", "Initialized");      // Adds telemetry to the screen to show that the drive train is initialized
 		telemetry.addData("Payload: ", "Initialized");          // Adds telemetry to the screen to show that the payload is initialized
@@ -55,8 +65,8 @@ public class coordinateSystemTest extends LinearOpMode{
 				runToCoordinate(-13,18,1,0,1);
 
 				//Adjust with gyro
-				gyroTurn(.1,0);
-				gyroHold(.1,0,.1);
+				gyroTurn(.15,0);
+				gyroHold(.15,0,.1);
 
 				step++;
 			}
@@ -84,11 +94,11 @@ public class coordinateSystemTest extends LinearOpMode{
 
 			if (step == 4) {
 				//Go to the foundation
-				runToCoordinate(75,22,1,0,1);
+				runToCoordinate(68,20,1,0,1);
 
 				//Adjust with gyro
-				gyroTurn(.1,0);
-				gyroHold(.1,0,.1);
+				gyroTurn(.2,-1);
+				gyroHold(.2,-1,.1);
 
 				step++;
 			}
@@ -99,7 +109,7 @@ public class coordinateSystemTest extends LinearOpMode{
 
 				//Move forward to the foundation
 				encoderDrive(.5,7);
-				encoderDrive(.1,8);
+				encoderDrive(.1,4);
 
 				//Close the foundation movers
 				robot.foundationMoverL.setPosition(1);
@@ -118,6 +128,20 @@ public class coordinateSystemTest extends LinearOpMode{
 
 				//Move the slide back
 				encoderSlide(1,-3.5);
+
+				step++;
+			}
+
+			if (step == 7) {
+				//Move back with the foundation
+				encoderDrive(1,-15);
+
+				//Turn the foundation into the buildzone
+				encoderTurn(1,-180);
+				currentAngle = -90;
+
+				//Move foundation into the build zone
+				encoderDrive(1,10);
 
 				step++;
 			}
@@ -547,5 +571,40 @@ public class coordinateSystemTest extends LinearOpMode{
 	 */
 	public double getSteer(double error, double PCoeff) {
 		return Range.clip(error * PCoeff, -1, 1);
+	}
+
+
+
+
+
+	/**Gyro Telemetry**/
+
+	void composeTelemetry() {
+
+		// At the beginning of each telemetry update, grab a bunch of data
+		// from the IMU that we will then display in separate lines.
+		telemetry.addAction(new Runnable() { @Override public void run()
+		{
+			// Acquiring the angles is relatively expensive; we don't want
+			// to do that in each of the three items that need that info, as that's
+			// three times the necessary expense.
+			robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+			robot.gravity  = robot.imu.getGravity();
+		}
+		});
+		telemetry.addLine()
+				.addData("heading", new Func<String>() {
+					@Override public String value() {
+						return formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
+					}
+				});
+	}
+
+	String formatAngle(AngleUnit angleUnit, double angle) {
+		return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+	}
+
+	String formatDegrees(double degrees){
+		return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
 	}
 }
