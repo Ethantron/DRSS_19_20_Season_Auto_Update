@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.Test.Auto_Tests.Pseudodometry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Test.Auto_Tests.AutoHardwareGalileo;
 
@@ -51,6 +53,11 @@ public class coordinateSystemTest extends LinearOpMode{
 			if (step == 2) {
 				//Run to position 3
 				runToCoordinate(-13,18,1,0,1);
+
+				//Adjust with gyro
+				gyroTurn(.1,0);
+				gyroHold(.1,0,.1);
+
 				step++;
 			}
 
@@ -76,24 +83,17 @@ public class coordinateSystemTest extends LinearOpMode{
 			}
 
 			if (step == 4) {
-				telemetry.addData("current Position X: ", currentPositionX);
-				telemetry.addData("current Position Y: ", currentPositionY);
-				telemetry.addData("Current Angle: ", currentAngle);
-				telemetry.update();
-
-				if (gamepad1.a) {
-					step++;
-				}
-			}
-
-			if (step == 5) {
 				//Go to the foundation
 				runToCoordinate(75,22,1,0,1);
+
+				//Adjust with gyro
+				gyroTurn(.1,0);
+				gyroHold(.1,0,.1);
 
 				step++;
 			}
 
-			if (step == 6) {
+			if (step == 5) {
 				//Lift up the skystone to avoid the foundation
 				encoderLift(1,5);
 
@@ -108,7 +108,7 @@ public class coordinateSystemTest extends LinearOpMode{
 				step++;
 			}
 
-			if (step == 7) {
+			if (step == 6) {
 				//Move the slide forward and drop the skystone
 				encoderSlide(1,3.5);
 
@@ -430,5 +430,122 @@ public class coordinateSystemTest extends LinearOpMode{
 			robot.slide.setPower(0);
 			robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 		}
+	}
+
+
+
+
+
+	/** Gyro Turning Voids **/
+
+	public void gyroTurn (  double speed, double angle) {
+
+		// keep looping while we are still active, and not on heading.
+		while (opModeIsActive() && !onHeading(speed, angle, robot.P_TURN_COEFF)) {
+			// Update telemetry & Allow time for other processes to run.
+			telemetry.update();
+		}
+	}
+
+	/**
+	 *  Method to obtain & hold a heading for a finite amount of time
+	 *  Move will stop once the requested time has elapsed
+	 *
+	 * @param speed      Desired speed of turn.
+	 * @param angle      Absolute Angle (in Degrees) relative to last gyro reset.
+	 *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+	 *                   If a relative angle is required, add/subtract from current heading.
+	 * @param holdTime   Length of time (in seconds) to hold the specified heading.
+	 */
+	public void gyroHold( double speed, double angle, double holdTime) {
+
+		ElapsedTime holdTimer = new ElapsedTime();
+
+		// keep looping while we have time remaining.
+		holdTimer.reset();
+		while (opModeIsActive() && (holdTimer.time() < holdTime)) {
+			// Update telemetry & Allow time for other processes to run.
+			onHeading(speed, angle, org.firstinspires.ftc.teamcode.Test.Auto_Tests.AutoHardwareGalileo.P_TURN_COEFF);
+			telemetry.update();
+		}
+
+		// Stop all motion;
+		robot.motorFrontLeft.setPower(0);
+		robot.motorBackLeft.setPower(0);
+		robot.motorFrontRight.setPower(0);
+		robot.motorBackRight.setPower(0);
+	}
+
+	/**
+	 * Perform one cycle of closed loop heading control.
+	 *
+	 * @param speed     Desired speed of turn.
+	 * @param angle     Absolute Angle (in Degrees) relative to last gyro reset.
+	 *                  0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+	 *                  If a relative angle is required, add/subtract from current heading.
+	 * @param PCoeff    Proportional Gain coefficient
+	 * @return
+	 */
+	boolean onHeading(double speed, double angle, double PCoeff) {
+		double   error ;
+		double   steer ;
+		boolean  onTarget = false ;
+		double leftSpeed;
+		double rightSpeed;
+
+		// determine turn power based on +/- error
+		error = getError(angle);
+
+		if (Math.abs(error) <= robot.HEADING_THRESHOLD) {
+			steer = 0.0;
+			leftSpeed  = 0.0;
+			rightSpeed = 0.0;
+			onTarget = true;
+		}
+		else {
+			steer = getSteer(error, PCoeff);
+			rightSpeed  = speed * steer;
+			leftSpeed   = -rightSpeed;
+		}
+
+		// Send desired speeds to motors.
+		robot.motorFrontLeft.setPower(leftSpeed);
+		robot.motorBackLeft.setPower(leftSpeed);
+		robot.motorFrontRight.setPower(rightSpeed);
+		robot.motorBackRight.setPower(rightSpeed);
+
+		// Display it for the driver.
+		telemetry.addData("Target", "%5.2f", angle);
+		telemetry.addData("Err/St", "%5.2f/%5.2f", error, steer);
+		telemetry.addData("Speed.", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+
+		return onTarget;
+	}
+
+	/**
+	 * getError determines the error between the target angle and the robot's current heading
+	 * @param   targetAngle  Desired angle (relative to global reference established at last Gyro Reset).
+	 * @return  error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
+	 *          +ve error means the robot should turn LEFT (CCW) to reduce error.
+	 */
+	public double getError(double targetAngle) {
+
+		double robotError;
+
+		// calculate error in -179 to +180 range  (
+		robotError = targetAngle - robot.angles.firstAngle;
+		while (robotError > 180)  robotError -= 360;
+		while (robotError <= -180) robotError += 360;
+		return robotError;
+	}
+
+	/**
+	 * returns desired steering force.  +/- 1 range.  +ve = steer left
+	 * @param error   Error angle in robot relative degrees
+	 * @param PCoeff  Proportional Gain Coefficient
+	 * @return
+	 */
+	public double getSteer(double error, double PCoeff) {
+		return Range.clip(error * PCoeff, -1, 1);
 	}
 }
