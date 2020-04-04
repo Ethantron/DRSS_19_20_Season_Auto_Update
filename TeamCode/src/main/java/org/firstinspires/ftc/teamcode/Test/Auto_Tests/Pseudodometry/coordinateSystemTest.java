@@ -143,6 +143,26 @@ public class coordinateSystemTest extends LinearOpMode{
 				//Move foundation into the build zone
 				encoderDrive(1,10);
 
+				currentPositionX = 70;
+				currentPositionY = 22;
+
+				step++;
+			}
+
+			if (step == 8) {
+				//Unhook the foundation
+				robot.foundationMoverL.setPosition(0);
+				robot.foundationMoverR.setPosition(0);
+
+				//Move Back
+				encoderDrive(1,-3);
+
+				//Drop the lift
+				encoderLift(1,-5);
+
+				//Move back
+				encoderDrive(1,-40);
+
 				step++;
 			}
 		}
