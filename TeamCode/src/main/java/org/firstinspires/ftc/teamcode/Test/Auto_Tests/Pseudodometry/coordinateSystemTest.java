@@ -155,13 +155,20 @@ public class coordinateSystemTest extends LinearOpMode{
 				robot.foundationMoverR.setPosition(0);
 
 				//Move Back
-				encoderDrive(1,-3);
+				encoderDrive(1,-10);
+
+				currentPositionX -= 10;
 
 				//Drop the lift
-				encoderLift(1,-5);
+				encoderLift(1,-3);
 
 				//Move back
-				encoderDrive(1,-40);
+				encoderTurn(1,180);
+
+				currentAngle = 90;
+
+				//Move to the block to the left of the first skystone
+				runToCoordinate(-22,24,1,0,1);
 
 				step++;
 			}
@@ -257,7 +264,7 @@ public class coordinateSystemTest extends LinearOpMode{
 			double wantedAngleError = -(currentAngle - wantedAngle);
 
 			if (wantedAngle == 0) {
-				wantedAngleError = -(wantedAngle + currentAngle);
+				wantedAngleError = -(currentAngle);
 
 				return wantedAngleError;
 			}
