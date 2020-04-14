@@ -162,13 +162,21 @@ public class coordinateSystemTest extends LinearOpMode{
 				//Drop the lift
 				encoderLift(1,-3);
 
+				step++;
+			}
+
+			if (step == 9) {
 				//Move back
 				encoderTurn(1,180);
 
 				currentAngle = 90;
 
 				//Move to the block to the left of the first skystone
-				runToCoordinate(-22,24,1,0,1);
+				runToCoordinate(-15,24,1,0,1);
+
+				//Turn to face the block
+				encoderTurn(1,-90);
+				currentAngle = 0;
 
 				step++;
 			}
